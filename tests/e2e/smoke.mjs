@@ -2,9 +2,9 @@ import { _electron as electron } from 'playwright'
 import { existsSync, mkdirSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 
-const dataDir = resolve(process.env.AFCCS_E2E_PROFILE ?? 'tests/.tmp/profile')
+const dataDir = resolve(process.env.OMNIS_E2E_PROFILE ?? 'tests/.tmp/profile')
 mkdirSync(dataDir, { recursive: true })
-const launch = () => electron.launch({ executablePath: resolve(process.env.AFCCS_E2E_EXE ?? 'node_modules/electron/dist/electron.exe'), args: process.env.AFCCS_E2E_EXE ? [] : [resolve('out/main/index.js')], env: { ...process.env, AFCCS_E2E_DATA: dataDir } })
+const launch = () => electron.launch({ executablePath: resolve(process.env.OMNIS_E2E_EXE ?? 'node_modules/electron/dist/electron.exe'), args: process.env.OMNIS_E2E_EXE ? [] : [resolve('out/main/index.js')], env: { ...process.env, OMNIS_E2E_DATA: dataDir } })
 
 let app = await launch()
 const actualData = await app.evaluate(({ app }) => app.getPath('userData'))
@@ -70,7 +70,7 @@ const secondPosition = `E2E 보조 담당 ${Date.now()}`
 await page.getByRole('textbox', { name: '직책 2' }).fill(secondPosition)
 await page.getByRole('button', { name: '저장' }).click()
 await page.getByText('운용 담당').first().waitFor()
-await page.waitForFunction(async position => { const r = await window.afccs.invoke('duty:list'); return r.ok && r.data.some(d => d.position === position) }, secondPosition)
+await page.waitForFunction(async position => { const r = await window.omnis.invoke('duty:list'); return r.ok && r.data.some(d => d.position === position) }, secondPosition)
 await page.getByRole('tab', { name: '지시사항' }).click()
 await page.getByRole('button', { name: '지시사항 등록' }).click()
 const notice = `E2E 가상 공지 ${Date.now()}`

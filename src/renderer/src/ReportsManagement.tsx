@@ -10,7 +10,7 @@ import type { Channel, Result } from '../../shared/contracts'
 import { Card, EmptyState, PageHeader, type Tone } from './ui'
 
 type Row = Record<string, any>
-async function call<T>(channel: Channel, payload: Record<string, unknown> = {}): Promise<T> { const r = await window.afccs.invoke(channel,payload) as Result<T>; if (!r.ok) throw new Error(r.error.message); return r.data }
+async function call<T>(channel: Channel, payload: Record<string, unknown> = {}): Promise<T> { const r = await window.omnis.invoke(channel,payload) as Result<T>; if (!r.ok) throw new Error(r.error.message); return r.data }
 const statusMeta: Record<string, [string, Tone]> = { RECEIVED:['접수','sky'],TRIAGED:['분류','lavender'],ASSIGNED:['배정','sky'],PLANNED:['계획','sky'],IN_PROGRESS:['진행','orange'],RESOLVED:['조치완료','green'],CLOSED:['종결','gray'],CANCELED:['취소','red'],BLOCKED:['보류','red'],COMPLETED:['완료','green'] }
 
 // 상태별 건수를 가로 막대로 — 막대 길이는 해당 목록의 최댓값 기준

@@ -83,9 +83,20 @@ export function Paged<T>({ rows, rowHeight, reserved = 0, unit = '건', children
     <Box ref={ref} className="ui-paged-body">{size > 0 && children(rows.slice(start, start + size))}</Box>
     <Box className="ui-pager">
       <span>{rows.length ? `${start + 1}–${Math.min(start + size, rows.length)}` : 0} / {rows.length}{unit}</span>
-      <Pagination size="small" count={pages} page={cur} onChange={(_, p) => setPage(p)} siblingCount={0} boundaryCount={1} disabled={pages < 2} />
+      <Pagination size="small" count={pages} page={cur} onChange={(_, p) => setPage(p)} siblingCount={0} boundaryCount={1} disabled={pages < 2} showFirstButton showLastButton />
     </Box>
   </Box>
+}
+
+// 앱 대표 로고: 날개 + 별의 단색 라인 엠블럼 (공식 휘장이 아닌 자체 도안). 색은 CSS color를 따른다
+export function BrandEmblem({ width = 34 }: { width?: number }) {
+  const wing = <path d="M15.5 11 4 7.5M15.5 14 6 13M16 17 9 18.5" />
+  return <svg viewBox="0 0 48 28" width={width} height={width * 28 / 48} aria-hidden fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round">
+    {wing}
+    <g transform="translate(48 0) scale(-1 1)">{wing}</g>
+    <circle cx="24" cy="14" r="6.3" strokeWidth="1.8" />
+    <path d="M24 10.4 24.85 12.83 27.42 12.89 25.38 14.45 26.12 16.91 24 15.45 21.88 16.91 22.62 14.45 20.58 12.89 23.15 12.83Z" fill="currentColor" stroke="none" />
+  </svg>
 }
 
 // 표 안의 작은 진행 막대

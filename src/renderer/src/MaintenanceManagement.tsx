@@ -11,7 +11,7 @@ import StatusChip, { statusTone } from './StatusChip'
 import { Card, Meter, PageHeader, RowActions, SearchField, StatusFilter, countBy, fmtDateTime, weekday, type Tone } from './ui'
 
 type Row = Record<string, any>
-async function call<T>(channel: Channel, payload: Record<string, unknown> = {}): Promise<T> { const r = await window.afccs.invoke(channel,payload) as Result<T>; if (!r.ok) throw new Error(r.error.message); return r.data }
+async function call<T>(channel: Channel, payload: Record<string, unknown> = {}): Promise<T> { const r = await window.omnis.invoke(channel,payload) as Result<T>; if (!r.ok) throw new Error(r.error.message); return r.data }
 const statusLabel: Record<string,string> = { PLANNED:'계획',IN_PROGRESS:'진행',BLOCKED:'보류',COMPLETED:'완료',CANCELED:'취소' }
 const statusTones: [string, Tone][] = [['PLANNED','sky'],['IN_PROGRESS','orange'],['BLOCKED','red'],['COMPLETED','green'],['CANCELED','gray']]
 const toneOf = (s: string): Tone => statusTones.find(x => x[0] === s)?.[1] ?? 'gray'

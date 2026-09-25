@@ -1,8 +1,8 @@
 import { contextBridge, ipcRenderer } from 'electron'
-import type { AfccsApi, Channel } from '../shared/contracts'
+import type { OmnisApi, Channel } from '../shared/contracts'
 
 const invoke = (channel: Channel, payload?: Record<string, unknown>) => ipcRenderer.invoke(channel, payload ?? {})
-const api: AfccsApi = {
+const api: OmnisApi = {
   invoke,
   auth: { login: p => invoke('auth:login', p), logout: () => invoke('auth:logout'), me: () => invoke('auth:me') },
   dashboard: { getSummary: () => invoke('dashboard:getSummary') },
@@ -12,4 +12,4 @@ const api: AfccsApi = {
   ai: { triageIncident: p => invoke('ai:triageIncident', p), dailySummary: () => invoke('ai:dailySummary'), similarIncidents: p => invoke('ai:similarIncidents', p), maintenanceRecommendations: () => invoke('ai:maintenanceRecommendations') },
   system: { getInfo: () => invoke('system:getInfo'), backup: () => invoke('system:backup'), resetDemo: p => invoke('system:resetDemo', p) }
 }
-contextBridge.exposeInMainWorld('afccs', api)
+contextBridge.exposeInMainWorld('omnis', api)

@@ -1,3 +1,3 @@
-import type { AfccsApi } from '../shared/contracts'
-declare global { interface Window { afccs: AfccsApi } }
+import type { OmnisApi } from '../shared/contracts'
+declare global { interface Window { omnis: OmnisApi } }
 export {}

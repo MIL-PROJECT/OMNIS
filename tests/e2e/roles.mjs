@@ -4,13 +4,13 @@ import { resolve } from 'node:path'
 
 const dataDir = resolve('tests/.tmp/roles-profile')
 mkdirSync(dataDir, { recursive:true })
-const app = await electron.launch({ executablePath:resolve('node_modules/electron/dist/electron.exe'),args:[resolve('out/main/index.js')],env:{ ...process.env,AFCCS_E2E_DATA:dataDir } })
+const app = await electron.launch({ executablePath:resolve('node_modules/electron/dist/electron.exe'),args:[resolve('out/main/index.js')],env:{ ...process.env,OMNIS_E2E_DATA:dataDir } })
 try {
   const actual = await app.evaluate(({app}) => app.getPath('userData'))
   if (resolve(actual).toLowerCase() !== dataDir.toLowerCase()) throw new Error(`Data isolation failed: ${actual}`)
   const page = await app.firstWindow()
   const login = async username => { await page.getByRole('textbox',{name:'아이디'}).fill(username); await page.getByRole('textbox',{name:'비밀번호'}).fill('Demo!2026'); await page.getByRole('button',{name:'로그인'}).click(); await page.getByRole('link',{name:'고장관리'}).waitFor() }
-  const denied = async (channel,payload) => { const result = await page.evaluate(([c,p]) => window.afccs.invoke(c,p),[channel,payload]); if (result.ok || result.error?.message !== '권한이 없습니다.') throw new Error(`Expected RBAC rejection for ${channel}: ${JSON.stringify(result)}`) }
+  const denied = async (channel,payload) => { const result = await page.evaluate(([c,p]) => window.omnis.invoke(c,p),[channel,payload]); if (result.ok || result.error?.message !== '권한이 없습니다.') throw new Error(`Expected RBAC rejection for ${channel}: ${JSON.stringify(result)}`) }
   await login('demo_8')
   await denied('incidents:create',{title:'가상 테스트 접수',category:'기반통신',severity:'NORMAL',description:'가상 접수 내용'})
   await denied('operations:updateStatus',{id:'does-not-matter',status:'WATCH'})
@@ -22,7 +22,7 @@ try {
   await denied('directives:create',{title:'가상 지시사항',content:'가상 내용입니다.',level:'GENERAL'})
   await page.getByRole('button',{name:'로그아웃'}).click()
   await login('demo_user')
-  const allowed = async (channel,payload) => { const result = await page.evaluate(([c,p]) => window.afccs.invoke(c,p),[channel,payload]); if (!result.ok) throw new Error(`Expected USER to be allowed ${channel}: ${JSON.stringify(result)}`) }
+  const allowed = async (channel,payload) => { const result = await page.evaluate(([c,p]) => window.omnis.invoke(c,p),[channel,payload]); if (!result.ok) throw new Error(`Expected USER to be allowed ${channel}: ${JSON.stringify(result)}`) }
   await allowed('incidents:create',{title:'가상 사용자 접수',category:'기반통신',severity:'NORMAL',description:'가상 접수 내용'})
   await allowed('maintenance:create',{title:'가상 사용자 정비',maintenanceType:'정기점검',priority:'NORMAL',department:'가상 정비반',scheduledDate:'2026-09-17'})
   await allowed('directives:create',{title:'가상 사용자 지시',content:'가상 내용입니다.',level:'GENERAL'})

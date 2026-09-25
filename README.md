@@ -1,4 +1,6 @@
-# AFCCS 정보통신 운용·정비 통합체계
+# OMNIS 정보통신 운용·정비 통합체계
+
+**OMNIS** — Operations & Maintenance Network Integrated System
 
 Windows용 오프라인 시연 앱입니다. 모든 기본 데이터는 가상 데이터입니다. 실제 군 운용 자료를 입력하지 마십시오.
 
@@ -17,7 +19,7 @@ React 19 Renderer → sandboxed preload contextBridge → validated IPC → Elec
 
 ## 데이터
 
-실제 DB: `%APPDATA%/AFCCS/data/afccs.db`. 최초 실행 시 `resources/db/afccs-seed.db`를 복사합니다. seed가 없으면 migration과 seed 코드가 DB를 생성합니다. 업데이트 시 이 경로의 DB를 유지합니다. E2E는 `AFCCS_E2E_DATA`로 격리된 경로를 사용하고 경로를 검증합니다.
+실제 DB: `%APPDATA%/OMNIS/data/omnis.db`. 최초 실행 시 `resources/db/omnis-seed.db`를 복사합니다. seed가 없으면 migration과 seed 코드가 DB를 생성합니다. 업데이트 시 이 경로의 DB를 유지합니다. E2E는 `OMNIS_E2E_DATA`로 격리된 경로를 사용하고 경로를 검증합니다.
 
 ## 검사 및 배포
 

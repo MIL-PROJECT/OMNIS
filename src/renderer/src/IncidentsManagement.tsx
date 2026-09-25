@@ -9,7 +9,7 @@ import StatusChip from './StatusChip'
 import { Avatar, Card, PageHeader, RowActions, SearchField, StatusFilter, countBy, fmtDateTime, fmtShort, type Tone } from './ui'
 
 type Row = Record<string, any>
-async function call<T>(channel: Channel, payload: Record<string, unknown> = {}): Promise<T> { const r = await window.afccs.invoke(channel,payload) as Result<T>; if (!r.ok) throw new Error(r.error.message); return r.data }
+async function call<T>(channel: Channel, payload: Record<string, unknown> = {}): Promise<T> { const r = await window.omnis.invoke(channel,payload) as Result<T>; if (!r.ok) throw new Error(r.error.message); return r.data }
 const labels: Record<string,string> = { RECEIVED:'접수',TRIAGED:'분류',ASSIGNED:'배정',PLANNED:'계획',IN_PROGRESS:'진행',RESOLVED:'조치완료',CLOSED:'종결',CANCELED:'취소',URGENT:'긴급',NORMAL:'일반' }
 const flow: [string, Tone][] = [['RECEIVED','sky'],['TRIAGED','lavender'],['ASSIGNED','sky'],['PLANNED','sky'],['IN_PROGRESS','orange'],['RESOLVED','green'],['CLOSED','gray'],['CANCELED','red']]
 const next: Record<string,string[]> = { RECEIVED:['TRIAGED','CANCELED'], TRIAGED:['ASSIGNED','CANCELED'], ASSIGNED:['PLANNED','IN_PROGRESS','CANCELED'], PLANNED:['IN_PROGRESS','CANCELED'], IN_PROGRESS:['RESOLVED','CANCELED'], RESOLVED:['CLOSED','IN_PROGRESS'] }

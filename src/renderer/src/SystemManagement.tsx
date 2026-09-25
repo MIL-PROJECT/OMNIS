@@ -14,7 +14,7 @@ import StatusChip from './StatusChip'
 import { Card, EmptyState, PageHeader, fmtDateTime, type Tone } from './ui'
 
 type Row = Record<string, any>
-async function call<T>(channel: Channel, payload: Record<string, unknown> = {}): Promise<T> { const r = await window.afccs.invoke(channel,payload) as Result<T>; if (!r.ok) throw new Error(r.error.message); return r.data }
+async function call<T>(channel: Channel, payload: Record<string, unknown> = {}): Promise<T> { const r = await window.omnis.invoke(channel,payload) as Result<T>; if (!r.ok) throw new Error(r.error.message); return r.data }
 const actionTone: Record<string, Tone> = { CREATE:'green', UPDATE:'sky', UPDATE_STATUS:'sky', ASSIGN:'lavender', DELETE:'red', RESET:'red', BACKUP:'gray', SEED:'gray' }
 const columns: GridColDef[] = [
   { field:'created_at',headerName:'시간',width:170,renderCell:({row}) => <span className="cell-muted">{fmtDateTime(row.created_at)}</span> },
@@ -83,7 +83,7 @@ export default function SystemManagement({ user }: { user: PublicUser }) {
     <Dialog open={step > 0} onClose={() => setStep(0)}>
       <DialogTitle>Demo 데이터 초기화 · {step}/2</DialogTitle>
       <DialogContent><Typography>{step === 1 ? '현재 데이터가 백업되고 가상 데이터 초기 상태로 돌아갑니다.' : '최종 확인: 사용자가 입력한 데이터가 초기화됩니다.'}</Typography></DialogContent>
-      <DialogActions><Button onClick={() => setStep(0)}>취소</Button><Button color="error" variant={step === 2 ? 'contained' : 'text'} onClick={() => step === 1 ? setStep(2) : call('system:resetDemo',{ confirm:'RESET DEMO' }).then(() => { setStep(0); window.dispatchEvent(new Event('afccs:reset')) }).catch(e => alert(e.message))}>{step === 1 ? '다음':'초기화 실행'}</Button></DialogActions>
+      <DialogActions><Button onClick={() => setStep(0)}>취소</Button><Button color="error" variant={step === 2 ? 'contained' : 'text'} onClick={() => step === 1 ? setStep(2) : call('system:resetDemo',{ confirm:'RESET DEMO' }).then(() => { setStep(0); window.dispatchEvent(new Event('omnis:reset')) }).catch(e => alert(e.message))}>{step === 1 ? '다음':'초기화 실행'}</Button></DialogActions>
     </Dialog>
   </>
 }

@@ -8,6 +8,9 @@ coverage/
 playwright-report/
 test-results/
 tests/.tmp/
+omnis.db
+omnis-*.db
+# 이름 변경 전(AFCCS) 파일
 afccs.db
 afccs-*.db
 .pnpm-store/

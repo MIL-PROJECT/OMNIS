@@ -56,7 +56,7 @@ export const schemas = {
 export type Channel = keyof typeof schemas
 
 export type PublicUser = { id: string; username: string; display_name: string; role: Role; rank_name: string | null; unit_name: string | null }
-export type AfccsApi = {
+export type OmnisApi = {
   invoke: (channel: Channel, payload?: Record<string, unknown>) => Promise<Result<unknown>>
   auth: { login: (payload: { username: string; password: string }) => Promise<Result<unknown>>; logout: () => Promise<Result<unknown>>; me: () => Promise<Result<unknown>> }
   dashboard: { getSummary: () => Promise<Result<unknown>> }

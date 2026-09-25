@@ -1,6 +1,12 @@
 import { useEffect, useState } from 'react'
 import { HashRouter, Navigate, NavLink, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
-import { Box, Button, IconButton, Paper, Stack, TextField, Tooltip, Typography } from '@mui/material'
+import { Box, Button, IconButton, InputAdornment, Paper, Stack, TextField, Tooltip, Typography } from '@mui/material'
+import PersonOutlineRounded from '@mui/icons-material/PersonOutlineRounded'
+import LockOutlined from '@mui/icons-material/LockOutlined'
+import VisibilityOutlined from '@mui/icons-material/VisibilityOutlined'
+import VisibilityOffOutlined from '@mui/icons-material/VisibilityOffOutlined'
+import ShieldOutlined from '@mui/icons-material/ShieldOutlined'
+import AdminPanelSettingsOutlined from '@mui/icons-material/AdminPanelSettingsOutlined'
 import { DataGrid, type GridColDef } from '@mui/x-data-grid'
 import { koKR as gridKoKR } from '@mui/x-data-grid/locales'
 import type {} from '@mui/x-data-grid/themeAugmentation'
@@ -18,7 +24,6 @@ import SettingsRounded from '@mui/icons-material/SettingsRounded'
 import HubRounded from '@mui/icons-material/HubRounded'
 import CheckCircleRounded from '@mui/icons-material/CheckCircleRounded'
 import ReportRounded from '@mui/icons-material/ReportRounded'
-import ShieldRounded from '@mui/icons-material/ShieldRounded'
 import AccessTimeRounded from '@mui/icons-material/AccessTimeRounded'
 import LogoutRounded from '@mui/icons-material/LogoutRounded'
 import ChevronRightRounded from '@mui/icons-material/ChevronRightRounded'
@@ -37,7 +42,7 @@ import SystemManagement from './SystemManagement'
 import AiManagement from './AiManagement'
 import MaintenanceProgress from './MaintenanceProgress'
 import ReportsManagement from './ReportsManagement'
-import { Avatar, Card, Meter, PageHeader, Paged, countBy, type Tone } from './ui'
+import { Avatar, BrandEmblem, Card, Meter, PageHeader, Paged, countBy, type Tone } from './ui'
 import DashboardDetail, { MetricListDialog, type DetailTarget, type ListTarget } from './DashboardDetail'
 
 type Row = Record<string, any>
@@ -111,10 +116,10 @@ const theme = createTheme({
   }
 }, koKR, gridKoKR, {
   // 한국어 로케일도 'of'로 표시하므로 로케일 뒤에 덮어쓴다
-  components: { MuiDataGrid: { defaultProps: { localeText: { noRowsLabel: '표시할 항목이 없습니다', noResultsOverlayLabel: '검색 결과가 없습니다', paginationDisplayedRows: ({ from, to, count }: { from: number; to: number; count: number }) => `${from}–${to} / 전체 ${count}` } } } }
+  components: { MuiDataGrid: { defaultProps: { slotProps: { basePagination: { showFirstButton: true, showLastButton: true } } as object, localeText: { noRowsLabel: '표시할 항목이 없습니다', noResultsOverlayLabel: '검색 결과가 없습니다', paginationDisplayedRows: ({ from, to, count }: { from: number; to: number; count: number }) => `${from}–${to} / 전체 ${count}` } } } }
 })
 
-async function call<T>(channel: Channel, payload: Record<string, unknown> = {}): Promise<T> { const r = await window.afccs.invoke(channel, payload) as Result<T>; if (!r.ok) throw new Error(r.error.message); return r.data }
+async function call<T>(channel: Channel, payload: Record<string, unknown> = {}): Promise<T> { const r = await window.omnis.invoke(channel, payload) as Result<T>; if (!r.ok) throw new Error(r.error.message); return r.data }
 const statusText: Record<string, string> = { NORMAL: '정상', WATCH: '주의', INSPECTION: '점검', FAULT: '장애', OFFLINE: '중단', RECEIVED: '접수', TRIAGED: '분류', ASSIGNED: '배정', PLANNED: '계획', IN_PROGRESS: '진행', RESOLVED: '조치완료', CLOSED: '종결', CANCELED: '취소', BLOCKED: '보류', COMPLETED: '완료', URGENT: '긴급', GENERAL: '일반', NOTICE: '공지', HIGH: '높음' }
 const label = (v: unknown) => statusText[String(v)] ?? String(v ?? '')
 const roleText: Record<string, string> = { ADMIN: '관리자', OPERATOR: '운용요원', MAINTAINER: '정비요원', VIEWER: '조회전용', USER: '일반 사용자' }
@@ -132,38 +137,70 @@ const commonCols = (names: [string, string, number?][]): GridColDef[] => names.m
 
 function Login({ onLogin }: { onLogin: (u: PublicUser) => void }) {
   const [username, setUsername] = useState('demo_admin'), [password, setPassword] = useState('Demo!2026'), [error, setError] = useState('')
-  const submit = () => call<PublicUser>('auth:login', { username, password }).then(onLogin).catch(x => setError(x.message))
+  const [showPw, setShowPw] = useState(false), [busy, setBusy] = useState(false)
+  // 접속 구분: 선택한 구분과 계정 권한이 다르면 로그인을 되돌린다 (관리자 = ADMIN, 사용자 = 그 외)
+  const [mode, setMode] = useState<'admin' | 'user'>('admin')
+  const modes: { value: 'admin' | 'user'; label: string; icon: SvgIconComponent; demoId: string }[] = [
+    { value: 'admin', label: '관리자', icon: AdminPanelSettingsOutlined, demoId: 'demo_admin' },
+    { value: 'user', label: '사용자', icon: PersonOutlineRounded, demoId: 'demo_user' }
+  ]
+  const pickMode = (m: typeof modes[number]) => { setMode(m.value); setUsername(m.demoId); setError('') }
+  const submit = () => {
+    setBusy(true); setError('')
+    call<PublicUser>('auth:login', { username, password })
+      .then(u => (u.role === 'ADMIN') === (mode === 'admin') ? onLogin(u)
+        : call('auth:logout').finally(() => setError(mode === 'admin' ? '관리자 권한이 없는 계정입니다. 사용자로 로그인하십시오.' : '관리자 계정입니다. 관리자로 로그인하십시오.')))
+      .catch(x => setError(x.message)).finally(() => setBusy(false))
+  }
+  const features: [SvgIconComponent, string, string][] = [
+    [HubRounded, '통합 관제', '체계별 운용 상태와 고장 접수를 한 화면에서'],
+    [BuildRounded, '정비 일정 관리', '작업 진행률과 이력을 캘린더로 추적'],
+    [SmartToyRounded, 'AI 분석 지원', '로컬 규칙 기반 분류와 유사 고장 조회']
+  ]
   return <Box className="login">
     <Box className="login-hero">
-      <Box className="login-hero-mark"><ShieldRounded sx={{ fontSize: 30 }} /></Box>
-      <Box>
-        <Typography variant="h4">AFCCS</Typography>
-        <Typography className="sub">정보통신 운용·정비 통합체계</Typography>
+      {/* 장식: 레이더 동심원 + 스윕 (정보통신·공군 모티프) */}
+      <svg className="login-radar" viewBox="0 0 600 600" aria-hidden>
+        <defs><linearGradient id="sweep" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stopColor="#8fa0ff" stopOpacity="0" /><stop offset="1" stopColor="#8fa0ff" stopOpacity=".35" /></linearGradient></defs>
+        {[80, 150, 220, 290].map(r => <circle key={r} cx="300" cy="300" r={r} />)}
+        <path d="M300 300 10 300M300 10 300 590" />
+        <path className="login-radar-sweep" d="M300 300 L590 300 A290 290 0 0 0 505 95 Z" fill="url(#sweep)" stroke="none" />
+      </svg>
+      <Box className="login-brand"><span className="login-hero-mark"><BrandEmblem width={44} /></span><strong>OMNIS</strong></Box>
+      <Box className="login-copy">
+        <span className="login-eyebrow">Operations &amp; Maintenance Network Integrated System</span>
+        <h1><span className="thin">정보통신 운용·정비를</span><br /><span className="strong">하나의 흐름으로.</span></h1>
+        <p>체계 상태 감시부터 고장 접수, 정비 일정, 보고까지 — 부대 정보통신 업무를 하나의 화면에서 관리합니다.</p>
       </Box>
-      <Stack className="login-points">
-        <Box className="pt"><span><HubRounded /></span><Box><strong>통합 관제</strong><small>체계별 운용 상태와 고장 접수를 한 화면에서</small></Box></Box>
-        <Box className="pt"><span><BuildRounded /></span><Box><strong>정비 일정 관리</strong><small>작업 진행률과 이력을 캘린더로 추적</small></Box></Box>
-        <Box className="pt"><span><SmartToyRounded /></span><Box><strong>AI 분석 지원</strong><small>로컬 규칙 기반 분류와 유사 고장 조회</small></Box></Box>
-      </Stack>
+      <Box className="login-points">
+        {features.map(([Icon, title, desc]) => <Box className="pt" key={title}><span><Icon /></span><Box><strong>{title}</strong><small>{desc}</small></Box></Box>)}
+      </Box>
       <span className="login-foot">가상 시연 데이터 · 오프라인 환경 · v1.0.0</span>
     </Box>
     <Box className="login-panel">
-      <Paper className="login-card" elevation={0}>
-        <Typography variant="h5">로그인</Typography>
-        <Typography color="text.secondary" sx={{ mt: .5, mb: 3 }}>부여받은 계정으로 로그인하십시오.</Typography>
-        <Stack spacing={2}>
-          <TextField size="medium" label="아이디" value={username} onChange={e => setUsername(e.target.value)} />
-          <TextField size="medium" label="비밀번호" type="password" value={password} onChange={e => setPassword(e.target.value)} onKeyDown={e => { if (e.key === 'Enter') submit() }} />
-          {error && <Typography className="login-error" role="alert">{error}</Typography>}
-          <Button variant="contained" size="large" fullWidth onClick={submit}>로그인</Button>
-        </Stack>
-        <Box className="login-demo">
-          <strong>데모 계정</strong>
-          <span><code>demo_admin</code> 관리자</span>
-          <span><code>demo_user</code> 일반 사용자</span>
-          <small>비밀번호는 동일합니다.</small>
+      <Box className="login-form" component="form" onSubmit={e => { e.preventDefault(); submit() }}>
+        <span className="login-form-mark"><BrandEmblem width={40} /></span>
+        <h2>로그인</h2>
+        <p className="login-lead">정보통신 운용·정비 통합체계에 접속합니다.</p>
+        <Box className="login-mode" role="radiogroup" aria-label="접속 구분">
+          <span className="login-mode-thumb" style={{ transform: `translateX(${mode === 'admin' ? 0 : 100}%)` }} aria-hidden />
+          {modes.map(m => <button type="button" role="radio" aria-checked={mode === m.value} key={m.value} className={mode === m.value ? 'on' : ''} onClick={() => pickMode(m)}>
+            <m.icon />{m.label}
+          </button>)}
         </Box>
-      </Paper>
+        <label className="login-label" htmlFor="login-id">아이디</label>
+        <TextField id="login-id" fullWidth size="medium" placeholder="아이디 입력" value={username} onChange={e => setUsername(e.target.value)} autoComplete="username"
+          slotProps={{ input: { startAdornment: <InputAdornment position="start"><PersonOutlineRounded /></InputAdornment> } }} />
+        <label className="login-label" htmlFor="login-pw">비밀번호</label>
+        <TextField id="login-pw" fullWidth size="medium" placeholder="비밀번호 입력" type={showPw ? 'text' : 'password'} value={password} onChange={e => setPassword(e.target.value)} autoComplete="current-password"
+          slotProps={{ input: {
+            startAdornment: <InputAdornment position="start"><LockOutlined /></InputAdornment>,
+            endAdornment: <InputAdornment position="end"><IconButton size="small" aria-label={showPw ? '비밀번호 숨기기' : '비밀번호 보기'} onClick={() => setShowPw(v => !v)}>{showPw ? <VisibilityOffOutlined /> : <VisibilityOutlined />}</IconButton></InputAdornment>
+          } }} />
+        {error && <Typography className="login-error" role="alert">{error}</Typography>}
+        <Button type="submit" variant="contained" size="large" fullWidth disabled={busy || !username || !password} endIcon={<ArrowForwardRounded />} className="login-submit">{busy ? '확인 중…' : `${mode === 'admin' ? '관리자' : '사용자'} 로그인`}</Button>
+        <p className="login-legal"><ShieldOutlined />인가된 사용자만 접속할 수 있으며, 접속 기록은 보안 감사를 위해 저장됩니다.</p>
+      </Box>
     </Box>
   </Box>
 }
@@ -188,8 +225,8 @@ function Shell({ user, onLogout }: { user: PublicUser; onLogout: () => void }) {
   return <Box className="app">
     <aside className="sidebar">
       <Box className="sb-brand">
-        <span className="brand-mark"><ShieldRounded /></span>
-        <Box><strong>AFCCS</strong><span>정보통신 운용·정비 통합체계</span></Box>
+        <span className="brand-mark"><BrandEmblem /></span>
+        <Box><strong>OMNIS</strong><span>정보통신 운용·정비 통합체계</span></Box>
       </Box>
       <nav className="sb-nav" aria-label="주 메뉴">
         {groups.map(g => <Box key={g.title} className="sb-group">
@@ -210,7 +247,7 @@ function Shell({ user, onLogout }: { user: PublicUser; onLogout: () => void }) {
     </aside>
     <Box className="workspace">
       <header className="topbar">
-        <Box className="crumbs"><span>{current?.group ?? 'AFCCS'}</span><ChevronRightRounded /><strong>{current?.text ?? ''}</strong></Box>
+        <Box className="crumbs"><span>{current?.group ?? 'OMNIS'}</span><ChevronRightRounded /><strong>{current?.text ?? ''}</strong></Box>
         <Box className="topbar-right">
           <span className="pill-offline"><CloudOffRounded />오프라인 · 가상 시연 데이터</span>
           <span className="clock"><AccessTimeRounded />{now.toLocaleDateString('ko-KR', { month: 'long', day: 'numeric', weekday: 'short' })} {now.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false })}</span>
@@ -311,4 +348,4 @@ function Duty({ user }: { user: PublicUser }) { return <DutyManagement user={use
 function Ai() { return <AiManagement /> }
 function Reports() { return <ReportsManagement /> }
 function Settings({ user }: { user: PublicUser }) { return <SystemManagement user={user} /> }
-export default function App() { const [user,setUser] = useState<PublicUser | null>(null),[ready,setReady] = useState(false); useEffect(() => { call<PublicUser | null>('auth:me').then(setUser).finally(() => setReady(true)); const reset = () => setUser(null); window.addEventListener('afccs:reset',reset); return () => window.removeEventListener('afccs:reset',reset) }, []); return <ThemeProvider theme={theme}><HashRouter>{ready && (user ? <Shell user={user} onLogout={() => setUser(null)}/> : <Login onLogin={setUser}/>)}</HashRouter></ThemeProvider> }
+export default function App() { const [user,setUser] = useState<PublicUser | null>(null),[ready,setReady] = useState(false); useEffect(() => { call<PublicUser | null>('auth:me').then(setUser).finally(() => setReady(true)); const reset = () => setUser(null); window.addEventListener('omnis:reset',reset); return () => window.removeEventListener('omnis:reset',reset) }, []); return <ThemeProvider theme={theme}><HashRouter>{ready && (user ? <Shell user={user} onLogout={() => setUser(null)}/> : <Login onLogin={setUser}/>)}</HashRouter></ThemeProvider> }

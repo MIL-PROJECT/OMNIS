@@ -9,7 +9,7 @@ import StatusChip from './StatusChip'
 import { Card, Meter, PageHeader, RowActions, SearchField, StatusFilter, countBy, fmtDateTime, type Tone } from './ui'
 
 type Row = Record<string, any>
-async function call<T>(channel: Channel, payload: Record<string, unknown> = {}): Promise<T> { const r = await window.afccs.invoke(channel,payload) as Result<T>; if (!r.ok) throw new Error(r.error.message); return r.data }
+async function call<T>(channel: Channel, payload: Record<string, unknown> = {}): Promise<T> { const r = await window.omnis.invoke(channel,payload) as Result<T>; if (!r.ok) throw new Error(r.error.message); return r.data }
 const statuses: [string, string, Tone][] = [['NORMAL','정상','green'],['WATCH','주의','orange'],['INSPECTION','점검','sky'],['FAULT','장애','red'],['OFFLINE','중단','gray']]
 const statusText = (v: string) => statuses.find(x => x[0] === v)?.[1] ?? v
 const empty = { code: '', name: '', category: '기반통신', status: 'NORMAL', uptimePct: 100, remarks: '' }

@@ -6,8 +6,8 @@ import { migrate } from './migrate'
 import { seed } from './seed'
 
 let db: Database.Database | undefined
-export const dbPath = (): string => join(app.getPath('userData'), 'data', 'afccs.db')
-export const seedPath = (): string => app.isPackaged ? join(process.resourcesPath, 'db', 'afccs-seed.db') : join(process.cwd(), 'resources', 'db', 'afccs-seed.db')
+export const dbPath = (): string => join(app.getPath('userData'), 'data', 'omnis.db')
+export const seedPath = (): string => app.isPackaged ? join(process.resourcesPath, 'db', 'omnis-seed.db') : join(process.cwd(), 'resources', 'db', 'omnis-seed.db')
 export function openDb(): Database.Database {
   if (db) return db
   const path = dbPath()

@@ -1,6 +1,6 @@
 # IPC API
 
-All channels are defined and validated in `src/shared/contracts.ts`. The preload exposes named methods such as `window.afccs.incidents.create(payload)` and the typed `window.afccs.invoke(channel, payload)` dispatcher. Handlers return `{ok:true,data}` or `{ok:false,error}`.
+All channels are defined and validated in `src/shared/contracts.ts`. The preload exposes named methods such as `window.omnis.incidents.create(payload)` and the typed `window.omnis.invoke(channel, payload)` dispatcher. Handlers return `{ok:true,data}` or `{ok:false,error}`.
 
 | Group | Channels |
 |---|---|

@@ -11,7 +11,7 @@ import StatusChip from './StatusChip'
 import { Card, EmptyState, Meter, PageHeader, Paged } from './ui'
 
 type Row = Record<string, any>
-async function call<T>(channel: Channel, payload: Record<string, unknown> = {}): Promise<T> { const r = await window.afccs.invoke(channel,payload) as Result<T>; if (!r.ok) throw new Error(r.error.message); return r.data }
+async function call<T>(channel: Channel, payload: Record<string, unknown> = {}): Promise<T> { const r = await window.omnis.invoke(channel,payload) as Result<T>; if (!r.ok) throw new Error(r.error.message); return r.data }
 const statusText: Record<string,string> = { RECEIVED:'접수',TRIAGED:'분류',ASSIGNED:'배정',PLANNED:'계획',IN_PROGRESS:'진행',RESOLVED:'조치완료',CLOSED:'종결',CANCELED:'취소',BLOCKED:'보류',COMPLETED:'완료' }
 const similarColumns: GridColDef[] = [
   { field:'ticket_no',headerName:'접수번호',width:160,renderCell:({row}) => <span className="cell-code">{row.ticket_no}</span> },

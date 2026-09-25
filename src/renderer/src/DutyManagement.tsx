@@ -12,7 +12,7 @@ import StatusChip from './StatusChip'
 import { Avatar, Card, EmptyState, PageHeader, RowActions, fmtDateTime, weekday, type Tone } from './ui'
 
 type Row = Record<string, any>
-async function call<T>(channel: Channel, payload: Record<string, unknown> = {}): Promise<T> { const r = await window.afccs.invoke(channel, payload) as Result<T>; if (!r.ok) throw new Error(r.error.message); return r.data }
+async function call<T>(channel: Channel, payload: Record<string, unknown> = {}): Promise<T> { const r = await window.omnis.invoke(channel, payload) as Result<T>; if (!r.ok) throw new Error(r.error.message); return r.data }
 const blankDuty = { dutyDate: new Date().toISOString().slice(0,10), shiftType: 'DAY' }
 const defaultPosition = '운용 담당'
 const blankDirective = { title: '', content: '', level: 'GENERAL' }

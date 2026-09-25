@@ -4,7 +4,7 @@ import { resolve, dirname } from 'node:path'
 import { migrate } from '../src/main/database/migrate'
 import { seed } from '../src/main/database/seed'
 
-const target = resolve('resources/db/afccs-seed.db')
+const target = resolve('resources/db/omnis-seed.db')
 mkdirSync(dirname(target), { recursive: true })
 if (existsSync(target)) unlinkSync(target)
 const db = new Database(target)

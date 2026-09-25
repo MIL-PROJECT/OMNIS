@@ -1,8 +1,8 @@
 {
-  "name": "afccs-desktop",
+  "name": "omnis-desktop",
   "version": "1.0.0",
-  "description": "Offline AFCCS communications operations and maintenance demo desktop application",
-  "author": "AFCCS Demo Team",
+  "description": "OMNIS (Operations & Maintenance Network Integrated System) offline demo desktop application",
+  "author": "OMNIS Demo Team",
   "private": true,
   "type": "module",
   "engines": {

@@ -41,3 +41,7 @@
 - Feature coverage is partial against the original 45-section specification; remaining items above are not claimed complete.
 - Fresh-machine installer behavior still needs manual verification.
 - Early smoke tests created a demo DB under `%APPDATA%/Electron/data/afccs.db` before the app data path was corrected. It has not been deleted or reset. Normal runs now use `%APPDATA%/AFCCS/data/afccs.db`; E2E runs use `tests/.tmp`.
+
+## 2026-09-26 이름 변경
+- 프로그램 이름을 AFCCS → **OMNIS**(Operations & Maintenance Network Integrated System)로 변경. 데이터 폴더 `%APPDATA%/OMNIS`, DB `omnis.db`.
+- 첫 실행 시 기존 `%APPDATA%/AFCCS` 폴더를 복사해 이전(원본 보존). 위의 AFCCS 표기는 변경 전 기록.

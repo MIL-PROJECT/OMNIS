@@ -1,13 +1,13 @@
-appId: com.demo.afccs.desktop
-productName: 정보통신 운용·정비 통합체계
+appId: com.demo.omnis.desktop
+productName: OMNIS
 directories:
   output: release
 files:
   - out/**/*
   - package.json
 extraResources:
-  - from: resources/db/afccs-seed.db
-    to: db/afccs-seed.db
+  - from: resources/db/omnis-seed.db
+    to: db/omnis-seed.db
 asarUnpack:
   - node_modules/better-sqlite3/**/*
 win:

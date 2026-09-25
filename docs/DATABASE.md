@@ -1,6 +1,6 @@
 # Database
 
-SQLite DB는 설치 폴더 밖의 `%APPDATA%/AFCCS/data/afccs.db`에 있습니다. `PRAGMA user_version` 기반 마이그레이션과 최초 seed 복사를 사용합니다. 백업은 `%APPDATA%/AFCCS/backups`에 최근 10개를 유지합니다.
+SQLite DB는 설치 폴더 밖의 `%APPDATA%/OMNIS/data/omnis.db`에 있습니다. `PRAGMA user_version` 기반 마이그레이션과 최초 seed 복사를 사용합니다. 백업은 `%APPDATA%/OMNIS/backups`에 최근 10개를 유지합니다.
 
 ```mermaid
 erDiagram

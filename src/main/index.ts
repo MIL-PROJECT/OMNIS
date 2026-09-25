@@ -1,12 +1,29 @@
 import { app, BrowserWindow } from 'electron'
 import { join } from 'node:path'
-import { mkdirSync } from 'node:fs'
+import { cpSync, existsSync, mkdirSync, renameSync, rmSync } from 'node:fs'
 import log from 'electron-log/main'
 import { openDb, closeDb } from './database/connection'
 import { backup } from './services/AppService'
 import { registerIpc } from './ipc/registerIpc'
 
-const userDataPath = process.env.AFCCS_E2E_DATA ?? join(app.getPath('appData'), 'AFCCS')
+// 이름 변경(AFCCS → OMNIS): 새 데이터 폴더가 없으면 기존 DB·백업을 복사해 온다. 원본은 지우지 않는다.
+// 임시 폴더에 모두 복사한 뒤에만 이름을 바꿔, 중간에 실패해도 반쪽짜리 OMNIS 폴더가 남지 않게 한다.
+function migrateLegacyData(from: string, to: string): void {
+  if (existsSync(to) || !existsSync(join(from, 'data'))) return
+  const tmp = `${to}.migrating`
+  try {
+    rmSync(tmp, { recursive: true, force: true })
+    for (const dir of ['data', 'backups']) if (existsSync(join(from, dir))) cpSync(join(from, dir), join(tmp, dir), { recursive: true })
+    for (const suffix of ['', '-wal', '-shm']) { const old = join(tmp, 'data', `afccs.db${suffix}`); if (existsSync(old)) renameSync(old, join(tmp, 'data', `omnis.db${suffix}`)) }
+    renameSync(tmp, to)
+  } catch (error) {
+    rmSync(tmp, { recursive: true, force: true })
+    console.error('Legacy data migration failed', error)
+  }
+}
+const appData = app.getPath('appData')
+const userDataPath = process.env.OMNIS_E2E_DATA ?? join(appData, 'OMNIS')
+if (!process.env.OMNIS_E2E_DATA) migrateLegacyData(join(appData, 'AFCCS'), userDataPath)
 mkdirSync(userDataPath, { recursive: true })
 app.setPath('userData', userDataPath)
 
