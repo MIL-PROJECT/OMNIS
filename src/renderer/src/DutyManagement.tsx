@@ -15,7 +15,7 @@ const blankDirective = { title: '', content: '', level: 'GENERAL' }
 export default function DutyManagement({ user }: { user: PublicUser }) {
   const [tab,setTab] = useState(0), [duty,setDuty] = useState<Row[]>([]), [directives,setDirectives] = useState<Row[]>([]), [users,setUsers] = useState<Row[]>([])
   const [dutyForm,setDutyForm] = useState<Row | null>(null), [directiveForm,setDirectiveForm] = useState<Row | null>(null)
-  const editable = ['ADMIN','OPERATOR'].includes(user.role)
+  const editable = ['ADMIN','OPERATOR','USER'].includes(user.role)
   const refresh = () => { call<Row[]>('duty:list').then(setDuty); call<Row[]>('directives:list').then(setDirectives) }
   useEffect(() => { refresh(); call<Row[]>('users:list').then(setUsers) }, [])
   const saveDuty = () => { if (!dutyForm) return; const { id, ...fields } = dutyForm; call(id ? 'duty:update' : 'duty:create', id ? { id, ...fields } : fields).then(() => { setDutyForm(null); refresh() }).catch(e => alert(e.message)) }

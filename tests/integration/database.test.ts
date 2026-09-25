@@ -12,7 +12,8 @@ describe('offline database', () => {
     db.pragma('foreign_keys = ON')
     migrate(db); seed(db); seed(db)
     const count = (table: string) => (db.prepare(`SELECT count(*) n FROM ${table}`).get() as { n: number }).n
-    expect(count('users')).toBe(10)
+    expect(count('users')).toBe(11)
+    expect(db.prepare("SELECT role FROM users WHERE username='demo_user'").get()).toEqual({ role: 'USER' })
     expect(count('communication_systems')).toBe(38)
     expect(count('incidents')).toBe(52)
     expect(count('maintenance_tasks')).toBe(42)
@@ -23,6 +24,14 @@ describe('offline database', () => {
     expect(dashboard.normalCount).toBe(35)
     expect(dashboard.urgentCount).toBe(5)
     expect(db.pragma('integrity_check', { simple: true })).toBe('ok')
+    db.close()
+  })
+  it('adds the USER demo account to a database seeded before it existed', () => {
+    const db = new Database(':memory:')
+    migrate(db); seed(db)
+    db.prepare("DELETE FROM users WHERE username='demo_user'").run()
+    seed(db)
+    expect(db.prepare("SELECT count(*) n FROM users WHERE username='demo_user' AND role='USER' AND active=1").get()).toEqual({ n: 1 })
     db.close()
   })
   it('rejects invalid workflow changes', () => {

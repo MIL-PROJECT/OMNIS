@@ -3,7 +3,7 @@ import { z } from 'zod'
 export const statusSchema = z.enum(['NORMAL', 'WATCH', 'INSPECTION', 'FAULT', 'OFFLINE'])
 export const incidentStatusSchema = z.enum(['RECEIVED', 'TRIAGED', 'ASSIGNED', 'PLANNED', 'IN_PROGRESS', 'RESOLVED', 'CLOSED', 'CANCELED'])
 export const maintenanceStatusSchema = z.enum(['PLANNED', 'IN_PROGRESS', 'BLOCKED', 'COMPLETED', 'CANCELED'])
-export const roleSchema = z.enum(['ADMIN', 'OPERATOR', 'MAINTAINER', 'VIEWER'])
+export const roleSchema = z.enum(['ADMIN', 'OPERATOR', 'MAINTAINER', 'VIEWER', 'USER'])
 export type Role = z.infer<typeof roleSchema>
 export type Result<T> = { ok: true; data: T } | { ok: false; error: { code: string; message: string } }
 

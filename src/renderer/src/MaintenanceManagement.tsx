@@ -14,7 +14,7 @@ const empty = { title:'',maintenanceType:'정기점검',priority:'NORMAL',depart
 
 export default function MaintenanceManagement({ user }: { user: PublicUser }) {
   const [rows,setRows] = useState<Row[]>([]), [tab,setTab] = useState(0), [search,setSearch] = useState(''), [form,setForm] = useState<Row | null>(null), [selected,setSelected] = useState<Row | null>(null), [events,setEvents] = useState<Row[]>([]), [result,setResult] = useState('')
-  const editable = ['ADMIN','MAINTAINER'].includes(user.role)
+  const editable = ['ADMIN','MAINTAINER','USER'].includes(user.role)
   const refresh = () => call<Row[]>('maintenance:list',{ search }).then(setRows)
   useEffect(() => { refresh() }, [search])
   const save = () => { if (!form) return; const { id, ...fields } = form; call(id ? 'maintenance:update' : 'maintenance:create',id ? { id, ...fields } : fields).then(() => { setForm(null); refresh() }).catch(e => alert(e.message)) }

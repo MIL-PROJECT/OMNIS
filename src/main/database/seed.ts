@@ -3,9 +3,17 @@ import { randomUUID, randomBytes, scryptSync } from 'node:crypto'
 
 const day = (offset = 0): string => new Date(Date.now() + offset * 86400000).toISOString()
 export const demoCredentials = { username: 'demo_admin', password: 'Demo!2026' }
+export const demoUserCredentials = { username: 'demo_user', password: 'Demo!2026' }
+
+// 일반 사용자(USER) 데모 계정: 이미 만들어진 DB에도 없으면 추가
+function ensureDemoUser(db: Database.Database): void {
+  if (db.prepare('SELECT id FROM users WHERE username=?').get(demoUserCredentials.username)) return
+  const salt = randomBytes(16).toString('hex')
+  db.prepare('INSERT INTO users VALUES (?,?,?,?,?,?,?,?,?,?,?)').run(randomUUID(), demoUserCredentials.username, '문사용', '중사', '가상 정보통신대', 'USER', scryptSync(demoUserCredentials.password, salt, 64).toString('hex'), salt, 1, day(), day())
+}
 
 export function seed(db: Database.Database): void {
-  if ((db.prepare('SELECT count(*) n FROM users').get() as { n: number }).n) return
+  if ((db.prepare('SELECT count(*) n FROM users').get() as { n: number }).n) { ensureDemoUser(db); return }
   db.transaction(() => {
     const insertUser = db.prepare('INSERT INTO users VALUES (?,?,?,?,?,?,?,?,?,?,?)')
     const names = ['김정보', '이통신', '박운용', '최정비', '정지원', '한관제', '서네트', '오보안', '유장비', '강당직']
@@ -40,6 +48,7 @@ export function seed(db: Database.Database): void {
     const directive = db.prepare('INSERT INTO directives VALUES (?,?,?,?,?,?,?,?)')
     for (let i = 0; i < 8; i++) directive.run(randomUUID(), i === 0 ? 'URGENT' : i % 3 === 0 ? 'NOTICE' : 'GENERAL', `가상 운용 공지 ${i + 1}`, '정기 점검 결과를 확인하고 필요한 내용을 기록하십시오.', names[0], day(-i), null, i === 0 ? 1 : 0)
     db.prepare('INSERT INTO audit_logs VALUES (?,?,?,?,?,?,?,?)').run(randomUUID(), ids[0], 'SEED', 'database', 'demo', null, JSON.stringify({ mock: true }), day())
+    ensureDemoUser(db)
   })()
 }
 

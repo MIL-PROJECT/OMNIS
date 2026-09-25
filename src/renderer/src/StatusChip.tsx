@@ -1,28 +1,23 @@
 import { Chip } from '@mui/material'
 
+// Notion 태그 스타일: card-tint 배경 + 같은 계열의 진한 글자
+const green = { bg: '#d9f3e1', fg: '#1c6b33' }
+const gray = { bg: '#f0eeec', fg: '#5d5b54' }
+const orange = { bg: '#ffe8d4', fg: '#793400' }
+const sky = { bg: '#dcecfa', fg: '#005bab' }
+const lavender = { bg: '#e6e0f5', fg: '#391c57' }
+const red = { bg: '#fde4e4', fg: '#b42323' }
 const tones: Record<string, { bg: string; fg: string }> = {
-  NORMAL: { bg: '#DCFCE7', fg: '#15803D' },
-  RESOLVED: { bg: '#DCFCE7', fg: '#15803D' },
-  COMPLETED: { bg: '#DCFCE7', fg: '#15803D' },
-  GENERAL: { bg: '#F1F5F9', fg: '#475569' },
-  CLOSED: { bg: '#F1F5F9', fg: '#475569' },
-  OFFLINE: { bg: '#F1F5F9', fg: '#475569' },
-  WATCH: { bg: '#FEF3C7', fg: '#B45309' },
-  IN_PROGRESS: { bg: '#FEF3C7', fg: '#B45309' },
-  INSPECTION: { bg: '#DBEAFE', fg: '#1D4ED8' },
-  RECEIVED: { bg: '#DBEAFE', fg: '#1D4ED8' },
-  NOTICE: { bg: '#DBEAFE', fg: '#1D4ED8' },
-  TRIAGED: { bg: '#EDE9FE', fg: '#6D28D9' },
-  ASSIGNED: { bg: '#E0F2FE', fg: '#0369A1' },
-  PLANNED: { bg: '#E0F2FE', fg: '#0369A1' },
-  FAULT: { bg: '#FEE2E2', fg: '#B91C1C' },
-  URGENT: { bg: '#FEE2E2', fg: '#B91C1C' },
-  CANCELED: { bg: '#FEE2E2', fg: '#B91C1C' },
-  BLOCKED: { bg: '#FEE2E2', fg: '#B91C1C' }
+  NORMAL: green, RESOLVED: green, COMPLETED: green,
+  GENERAL: gray, CLOSED: gray, OFFLINE: gray,
+  WATCH: orange, IN_PROGRESS: orange,
+  INSPECTION: sky, RECEIVED: sky, NOTICE: sky, ASSIGNED: sky, PLANNED: sky,
+  TRIAGED: lavender,
+  FAULT: red, URGENT: red, CANCELED: red, BLOCKED: red
 }
 
 export const statusTone = (code: unknown): { bg: string; fg: string } =>
-  tones[String(code)] ?? { bg: '#F1F5F9', fg: '#475569' }
+  tones[String(code)] ?? gray
 
 export default function StatusChip({ code, label }: { code: unknown; label: string }) {
   const tone = statusTone(code)
@@ -33,7 +28,7 @@ export default function StatusChip({ code, label }: { code: unknown; label: stri
       sx={{
         bgcolor: tone.bg,
         color: tone.fg,
-        fontWeight: 700,
+        fontWeight: 600,
         height: 24,
         fontSize: 12,
         '& .MuiChip-label': { px: 1.1 }

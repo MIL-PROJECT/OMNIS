@@ -13,7 +13,7 @@ React 19 Renderer → sandboxed preload contextBridge → validated IPC → Elec
 - `pnpm db:build-seed`
 - `pnpm dev`
 
-데모 계정: `demo_admin` / `Demo!2026`. 설치 후 반드시 변경하는 프로덕션 계정이 아닙니다.
+데모 계정: 관리자 `demo_admin`, 일반 사용자 `demo_user` (비밀번호 모두 `Demo!2026`). 일반 사용자는 시스템관리 메뉴와 관리자 전용 기능(백업·초기화·AI 설정·감사 로그·체계 삭제)을 사용할 수 없습니다. 설치 후 반드시 변경하는 프로덕션 계정이 아닙니다.
 
 ## 데이터
 
