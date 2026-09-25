@@ -1,0 +1,20 @@
+appId: com.demo.afccs.desktop
+productName: 정보통신 운용·정비 통합체계
+directories:
+  output: release
+files:
+  - out/**/*
+  - package.json
+extraResources:
+  - from: resources/db/afccs-seed.db
+    to: db/afccs-seed.db
+asarUnpack:
+  - node_modules/better-sqlite3/**/*
+win:
+  icon: build/icon.svg
+  target:
+    - target: nsis
+      arch: [x64]
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true

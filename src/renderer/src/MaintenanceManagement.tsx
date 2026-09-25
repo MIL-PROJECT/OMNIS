@@ -1,0 +1,31 @@
+import { useEffect, useState } from 'react'
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, MenuItem, Stack, Tab, Tabs, TextField, Typography } from '@mui/material'
+import { DataGrid, type GridColDef } from '@mui/x-data-grid'
+import FullCalendar from '@fullcalendar/react'
+import dayGridPlugin from '@fullcalendar/daygrid'
+import type { Channel, PublicUser, Result } from '../../shared/contracts'
+import StatusChip, { statusTone } from './StatusChip'
+
+type Row = Record<string, any>
+async function call<T>(channel: Channel, payload: Record<string, unknown> = {}): Promise<T> { const r = await window.afccs.invoke(channel,payload) as Result<T>; if (!r.ok) throw new Error(r.error.message); return r.data }
+const statusLabel: Record<string,string> = { PLANNED:'계획',IN_PROGRESS:'진행',BLOCKED:'보류',COMPLETED:'완료',CANCELED:'취소' }
+const next: Record<string,string[]> = { PLANNED:['IN_PROGRESS','CANCELED'], IN_PROGRESS:['BLOCKED','COMPLETED','CANCELED'], BLOCKED:['IN_PROGRESS','CANCELED'] }
+const empty = { title:'',maintenanceType:'정기점검',priority:'NORMAL',department:'가상 정비반',scheduledDate:new Date().toISOString().slice(0,10),description:'' }
+
+export default function MaintenanceManagement({ user }: { user: PublicUser }) {
+  const [rows,setRows] = useState<Row[]>([]), [tab,setTab] = useState(0), [search,setSearch] = useState(''), [form,setForm] = useState<Row | null>(null), [selected,setSelected] = useState<Row | null>(null), [events,setEvents] = useState<Row[]>([]), [result,setResult] = useState('')
+  const editable = ['ADMIN','MAINTAINER'].includes(user.role)
+  const refresh = () => call<Row[]>('maintenance:list',{ search }).then(setRows)
+  useEffect(() => { refresh() }, [search])
+  const save = () => { if (!form) return; const { id, ...fields } = form; call(id ? 'maintenance:update' : 'maintenance:create',id ? { id, ...fields } : fields).then(() => { setForm(null); refresh() }).catch(e => alert(e.message)) }
+  const show = (row: Row) => { setSelected(row); setResult(row.result ?? ''); call<Row[]>('maintenance:getEvents',{ id:row.id }).then(setEvents) }
+  const columns: GridColDef[] = [
+    { field:'task_no',headerName:'작업번호',width:175 },{ field:'title',headerName:'제목',flex:1 },{ field:'status',headerName:'상태',width:95,renderCell:({row}) => <StatusChip code={row.status} label={statusLabel[row.status] ?? row.status}/> },
+    { field:'priority',headerName:'우선순위',width:100 },{ field:'department',headerName:'부서',width:135 },{ field:'scheduled_date',headerName:'예정일',width:120 },{ field:'progress',headerName:'진행률',width:90,valueFormatter:v => `${v}%` },
+    { field:'actions',headerName:'관리',width:200,renderCell:({row}) => <Box sx={{ display:'flex',alignItems:'center',height:'100%',gap:.5 }}><Button size="small" sx={{ minWidth:50 }} onClick={() => show(row)}>상세</Button>{editable && <Button size="small" sx={{ minWidth:50 }} onClick={() => setForm({ id:row.id,title:row.title,maintenanceType:row.maintenance_type,priority:row.priority,department:row.department,scheduledDate:row.scheduled_date,description:row.description ?? '' })}>수정</Button>}</Box> }
+  ]
+  return <><h1>정비관리</h1><div className="panel"><Box className="panel-head"><Typography sx={{ fontWeight:700 }}>정비 작업</Typography><Stack direction="row" spacing={1}><TextField size="small" label="검색" value={search} onChange={e => setSearch(e.target.value)}/>{editable && <Button variant="contained" onClick={() => setForm({ ...empty })}>작업 등록</Button>}</Stack></Box><Tabs value={tab} onChange={(_,v) => setTab(v)}><Tab label="목록"/><Tab label="캘린더"/></Tabs>{tab === 0 ? <DataGrid rows={rows} columns={columns} density="compact" pageSizeOptions={[10,25,50]} initialState={{ pagination:{paginationModel:{pageSize:10,page:0}} }}/> : <Box sx={{ p:2 }}><FullCalendar plugins={[dayGridPlugin]} initialView="dayGridMonth" events={rows.map(r => ({ title:r.title,date:r.scheduled_date,color:statusTone(r.status).fg }))}/></Box>}</div>
+  <Dialog open={!!form} onClose={() => setForm(null)} fullWidth><DialogTitle>{form?.id ? '정비 작업 수정':'정비 작업 등록'}</DialogTitle><DialogContent>{form && <Stack spacing={2} sx={{ mt:1 }}><TextField label="작업명" value={form.title} onChange={e => setForm({...form,title:e.target.value})}/><TextField label="작업유형" value={form.maintenanceType} onChange={e => setForm({...form,maintenanceType:e.target.value})}/><TextField select label="우선순위" value={form.priority} onChange={e => setForm({...form,priority:e.target.value})}><MenuItem value="NORMAL">일반</MenuItem><MenuItem value="HIGH">높음</MenuItem></TextField><TextField label="담당부서" value={form.department} onChange={e => setForm({...form,department:e.target.value})}/><TextField label="예정일" type="date" slotProps={{ inputLabel:{shrink:true} }} value={form.scheduledDate} onChange={e => setForm({...form,scheduledDate:e.target.value})}/><TextField multiline rows={2} label="내용" value={form.description} onChange={e => setForm({...form,description:e.target.value})}/></Stack>}</DialogContent><DialogActions><Button onClick={() => setForm(null)}>취소</Button><Button variant="contained" onClick={save}>저장</Button></DialogActions></Dialog>
+  <Dialog open={!!selected} onClose={() => setSelected(null)} fullWidth><DialogTitle>{selected?.task_no} · {selected?.title}</DialogTitle><DialogContent><Stack spacing={1} sx={{ mt:1 }}><Typography>상태: {statusLabel[selected?.status ?? '']} / 진행률: {selected?.progress}%</Typography><Typography>{selected?.description}</Typography>{editable && selected?.status !== 'COMPLETED' && <TextField label="작업 결과" multiline rows={2} value={result} onChange={e => setResult(e.target.value)}/>}<Typography sx={{ fontWeight:700,pt:1 }}>작업 이력</Typography>{events.map(e => <Typography key={e.id} variant="body2">{String(e.created_at).slice(0,16)} · {e.note}</Typography>)}</Stack></DialogContent><DialogActions><Button onClick={() => setSelected(null)}>닫기</Button>{selected && editable && (next[selected.status] ?? []).map(v => <Button key={v} onClick={() => call('maintenance:updateStatus',{ id:selected.id,status:v,progress:v === 'COMPLETED' ? 100 : v === 'IN_PROGRESS' ? Math.max(50,selected.progress) : selected.progress,result }).then(() => { setSelected(null); refresh() }).catch(e => alert(e.message))}>{statusLabel[v]}</Button>)}</DialogActions></Dialog></>
+}
+

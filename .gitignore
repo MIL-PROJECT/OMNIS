@@ -1,0 +1,13 @@
+node_modules/
+out/
+dist/
+release/
+.env
+*.log
+coverage/
+playwright-report/
+test-results/
+tests/.tmp/
+afccs.db
+afccs-*.db
+.pnpm-store/
