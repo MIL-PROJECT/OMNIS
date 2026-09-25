@@ -77,7 +77,7 @@ export default function SystemManagement({ user }: { user: PublicUser }) {
     </Card>}
 
     {tab === 2 && admin && <Card icon={HistoryRounded} tone="gray" title="감사 로그" subtitle={`최근 ${audit.length}건 · 데이터 변경 이력`}>
-      <DataGrid rows={audit} columns={columns} density="compact" rowHeight={42} disableRowSelectionOnClick pageSizeOptions={[10,25,50]} initialState={{ pagination:{paginationModel:{pageSize:10,page:0}} }}/>
+      <DataGrid rows={audit} columns={columns} density="compact" rowHeight={48} columnHeaderHeight={44} disableRowSelectionOnClick pageSizeOptions={[10,25,50]} initialState={{ pagination:{paginationModel:{pageSize:10,page:0}} }}/>
     </Card>}
 
     <Dialog open={step > 0} onClose={() => setStep(0)}>

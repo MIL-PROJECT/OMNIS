@@ -34,7 +34,7 @@ export default function IncidentsManagement({ user }: { user: PublicUser }) {
     { field:'title',headerName:'제목',flex:1,minWidth:200,renderCell:({row}) => <span className="cell-strong">{row.title}</span> },
     { field:'system_name',headerName:'체계',width:120,renderCell:({row}) => <span className="cell-muted">{row.system_name ?? row.category}</span> },
     { field:'severity',headerName:'중요도',width:80,renderCell:({row}) => severityChip(row.severity) },
-    { field:'status',headerName:'상태',width:96,renderCell:({row}) => <StatusChip code={row.status} label={labels[row.status] ?? row.status}/> },
+    { field:'status',headerName:'상태',width:108,renderCell:({row}) => <StatusChip code={row.status} label={labels[row.status] ?? row.status}/> },
     { field:'assigned_to',headerName:'담당자',width:120,renderCell:({row}) => userName(row.assigned_to) ? <Box className="cell-person"><Avatar name={userName(row.assigned_to)!} size={22}/>{userName(row.assigned_to)}</Box> : <span className="cell-muted">미지정</span> },
     { field:'reported_at',headerName:'접수시간',width:120,renderCell:({row}) => <span className="cell-muted">{fmtShort(row.reported_at)}</span> },
     { field:'actions',headerName:'',width:92,sortable:false,renderCell:({row}) => <RowActions onView={() => show(row)} onEdit={editable ? () => setForm({ id:row.id,title:row.title,category:row.category,severity:row.severity,description:row.description,department:row.department ?? '' }) : undefined} /> }
@@ -51,7 +51,7 @@ export default function IncidentsManagement({ user }: { user: PublicUser }) {
         {filtered && <Button size="small" startIcon={<FilterAltOffRounded />} onClick={clearFilters}>필터 초기화</Button>}
       </Box>
       <Box className="ui-toolbar"><StatusFilter total={rows.length} value={statusFilter} onChange={setStatusFilter} items={flow.map(([value, tone]) => ({ value, tone, label: labels[value], count: counts[value] ?? 0 }))} /></Box>
-      <DataGrid rows={shown} columns={columns} density="compact" rowHeight={44} disableRowSelectionOnClick pageSizeOptions={[10,25,50]} initialState={{ pagination:{paginationModel:{pageSize:10,page:0}} }}/>
+      <DataGrid rows={shown} columns={columns} density="compact" rowHeight={48} columnHeaderHeight={44} disableRowSelectionOnClick pageSizeOptions={[10,25,50]} initialState={{ pagination:{paginationModel:{pageSize:10,page:0}} }}/>
     </Card>
 
     <Dialog open={!!form} onClose={() => setForm(null)} fullWidth>

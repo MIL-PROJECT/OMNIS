@@ -63,13 +63,13 @@ export default function ReportsManagement() {
         </Box>
         <ResponsiveContainer width="100%" height={320}>
           <BarChart data={weeklyChart} barGap={2}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#E1E0D9" vertical={false}/>
-            <XAxis dataKey="day" tick={{ fill:'#898781', fontSize:11 }} axisLine={{ stroke:'#C3C2B7' }} tickLine={false}/>
-            <YAxis allowDecimals={false} width={28} tick={{ fill:'#898781', fontSize:11 }} axisLine={false} tickLine={false}/>
-            <Tooltip cursor={{ fill:'rgba(55,53,47,.04)' }} contentStyle={{ borderRadius:8, border:'1px solid #e5e3df', fontSize:12 }}/>
-            <Legend iconType="circle" iconSize={8} wrapperStyle={{ fontSize:12 }}/>
-            <Bar dataKey="incidents" fill="#2A78D6" name="고장" radius={[4,4,0,0]} maxBarSize={28}/>
-            <Bar dataKey="maintenance" fill="#EB6834" name="정비" radius={[4,4,0,0]} maxBarSize={28}/>
+            <CartesianGrid strokeDasharray="3 3" stroke="#eef0f5" vertical={false}/>
+            <XAxis dataKey="day" tick={{ fill:'#a3a9b8', fontSize:11 }} axisLine={{ stroke:'#e6e9f0' }} tickLine={false}/>
+            <YAxis allowDecimals={false} width={28} tick={{ fill:'#a3a9b8', fontSize:11 }} axisLine={false} tickLine={false}/>
+            <Tooltip cursor={{ fill:'rgba(35,46,107,.04)' }} contentStyle={{ borderRadius:12, border:0, boxShadow:'0 10px 30px -10px rgba(35,46,107,.25)', fontSize:12 }}/>
+            <Legend iconType="circle" iconSize={8} wrapperStyle={{ fontSize:12 }} formatter={v => <span style={{ color:"#5c6275" }}>{v}</span>}/>
+            <Bar dataKey="incidents" fill="#232e6b" name="고장" radius={[6,6,0,0]} maxBarSize={28}/>
+            <Bar dataKey="maintenance" fill="#2fb872" name="정비" radius={[6,6,0,0]} maxBarSize={28}/>
           </BarChart>
         </ResponsiveContainer>
       </Box>}

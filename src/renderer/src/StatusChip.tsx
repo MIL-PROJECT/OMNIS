@@ -1,12 +1,12 @@
 import { Chip } from '@mui/material'
 
-// Notion 태그 스타일: card-tint 배경 + 같은 계열의 진한 글자
-const green = { bg: '#d9f3e1', fg: '#1c6b33' }
-const gray = { bg: '#f0eeec', fg: '#5d5b54' }
-const orange = { bg: '#ffe8d4', fg: '#793400' }
-const sky = { bg: '#dcecfa', fg: '#005bab' }
-const lavender = { bg: '#e6e0f5', fg: '#391c57' }
-const red = { bg: '#fde4e4', fg: '#b42323' }
+// 소프트 알약 태그: 옅은 배경 + 같은 계열의 진한 글자 (style.css .tone-* 와 같은 값)
+const green = { bg: '#e3f6ec', fg: '#1d8a52' }
+const gray = { bg: '#eef0f5', fg: '#5c6275' }
+const orange = { bg: '#fff0dd', fg: '#a8570b' }
+const sky = { bg: '#e6effd', fg: '#2f55c9' }
+const lavender = { bg: '#eceefb', fg: '#3f4bb0' }
+const red = { bg: '#fde6ea', fg: '#c4323a' }
 export const tonePalette = { green, gray, orange, sky, lavender, red }
 const tones: Record<string, { bg: string; fg: string }> = {
   NORMAL: green, RESOLVED: green, COMPLETED: green,
@@ -30,12 +30,11 @@ export default function StatusChip({ code, label, tone: override }: { code: unkn
       sx={{
         bgcolor: tone.bg,
         color: tone.fg,
-        boxShadow: `inset 0 0 0 1px ${tone.fg}1f`,
         fontWeight: 600,
         height: 22,
         fontSize: 11.5,
-        borderRadius: '6px',
-        '& .MuiChip-label': { px: 1.1 }
+        borderRadius: '999px',
+        '& .MuiChip-label': { px: 1.2 }
       }}
     />
   )

@@ -56,7 +56,7 @@ export default function DutyManagement({ user }: { user: PublicUser }) {
     <Card icon={tab === 0 ? EventNoteRounded : CampaignRounded} tone={tab === 0 ? 'sky' : 'lavender'} title={tab === 0 ? '근무 편성표' : '지시사항 / 공지'} subtitle={tab === 0 ? `전체 ${duty.length}건` : `전체 ${directives.length}건 · 고정 ${directives.filter(d => d.pinned).length}건`}>
       <Box className="ui-toolbar"><Tabs value={tab} onChange={(_,v) => setTab(v)} className="ui-seg-tabs"><Tab label="근무현황"/><Tab label="지시사항"/></Tabs></Box>
       {tab === 0
-        ? <DataGrid rows={duty} columns={columns} density="compact" rowHeight={44} disableRowSelectionOnClick pageSizeOptions={[10,25]} initialState={{ pagination: { paginationModel: { pageSize: 10, page: 0 } } }}/>
+        ? <DataGrid rows={duty} columns={columns} density="compact" rowHeight={48} columnHeaderHeight={44} disableRowSelectionOnClick pageSizeOptions={[10,25]} initialState={{ pagination: { paginationModel: { pageSize: 10, page: 0 } } }}/>
         : directives.length
           ? <Box className="directive-list">{directives.map(r => <Box className={`directive-card level-${r.level}`} key={r.id}>
               <Box className="directive-top"><StatusChip code={r.level} label={levelText(r.level)}/>{r.pinned ? <span className="pinned"><PushPinRounded />고정</span> : null}<span className="spacer" />{editable && <RowActions onEdit={() => setDirectiveForm({ id: r.id, title: r.title, content: r.content, level: r.level })} onDelete={() => remove('directives:delete', r.id)} />}</Box>

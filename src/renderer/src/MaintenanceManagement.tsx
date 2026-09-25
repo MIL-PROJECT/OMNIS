@@ -48,7 +48,7 @@ export default function MaintenanceManagement({ user }: { user: PublicUser }) {
         {tab === 0 && <StatusFilter total={rows.length} value={filter} onChange={setFilter} items={statusTones.map(([value, tone]) => ({ value, tone, label: statusLabel[value], count: counts[value] ?? 0 }))} />}
       </Box>
       {tab === 0
-        ? <DataGrid rows={shown} columns={columns} density="compact" rowHeight={44} disableRowSelectionOnClick pageSizeOptions={[10,25,50]} initialState={{ pagination:{paginationModel:{pageSize:10,page:0}} }}/>
+        ? <DataGrid rows={shown} columns={columns} density="compact" rowHeight={48} columnHeaderHeight={44} disableRowSelectionOnClick pageSizeOptions={[10,25,50]} initialState={{ pagination:{paginationModel:{pageSize:10,page:0}} }}/>
         : <Box className="calendar-wrap"><FullCalendar plugins={[dayGridPlugin]} initialView="dayGridMonth" locale={koLocale} height={640} dayMaxEvents={3} events={rows.map(r => ({ title:r.title,date:r.scheduled_date,backgroundColor:statusTone(r.status).bg,borderColor:statusTone(r.status).bg,textColor:statusTone(r.status).fg }))}/></Box>}
     </Card>
 

@@ -42,75 +42,76 @@ import DashboardDetail, { MetricListDialog, type DetailTarget, type ListTarget }
 
 type Row = Record<string, any>
 
-// Notion 디자인 토큰 (docs/design/DESIGN.md) — style.css의 CSS 변수와 같은 값
+// 소프트 대시보드 톤 — 차분한 회청색 바탕, 떠 있는 흰 카드, 인디고 네이비 포인트, 녹색은 긍정 수치
+// style.css :root 변수와 같은 값을 쓴다
 const theme = createTheme({
   palette: {
-    primary: { main: '#5645d4', dark: '#4534b3', light: '#7b6ce0', contrastText: '#ffffff' },
-    secondary: { main: '#0075de', dark: '#005bab' },
-    success: { main: '#1aae39' },
-    warning: { main: '#dd5b00' },
-    error: { main: '#e03131' },
-    info: { main: '#0075de' },
-    background: { default: '#fafaf9', paper: '#ffffff' },
-    text: { primary: '#1a1a1a', secondary: '#5d5b54', disabled: '#bbb8b1' },
-    divider: '#e5e3df'
+    primary: { main: '#232e6b', dark: '#171f4f', light: '#4a57a8', contrastText: '#ffffff' },
+    secondary: { main: '#2fb872', dark: '#23945b' },
+    success: { main: '#2fb872' },
+    warning: { main: '#e8912d' },
+    error: { main: '#e5484d' },
+    info: { main: '#4a6cf7' },
+    background: { default: '#eef1f6', paper: '#ffffff' },
+    text: { primary: '#1d2033', secondary: '#6b7185', disabled: '#b3b8c6' },
+    divider: '#e6e9f0'
   },
-  shape: { borderRadius: 8 },
+  shape: { borderRadius: 12 },
   typography: {
     fontFamily: "'Pretendard Variable', Pretendard, 'Segoe UI', 'Malgun Gothic', system-ui, sans-serif",
     fontSize: 13,
-    h4: { fontWeight: 600 }, h5: { fontWeight: 600 }, h6: { fontWeight: 600 },
-    button: { textTransform: 'none', fontWeight: 500 }
+    h4: { fontWeight: 700 }, h5: { fontWeight: 700 }, h6: { fontWeight: 700 },
+    button: { textTransform: 'none', fontWeight: 600 }
   },
   components: {
     MuiButton: {
       defaultProps: { disableElevation: true },
       styleOverrides: {
-        root: { borderRadius: 8, letterSpacing: '-.1px', transition: 'background-color .12s ease, box-shadow .12s ease, border-color .12s ease' },
-        // 주요 버튼: 은은한 그라데이션 + 윗면 하이라이트 (상용 앱의 입체감)
+        root: { borderRadius: 12, letterSpacing: '-.1px', transition: 'background-color .15s ease, box-shadow .15s ease, border-color .15s ease' },
         contained: ({ ownerState }) => ownerState.color === 'primary' ? {
-          background: 'linear-gradient(180deg, #6555e0 0%, #5645d4 100%)',
-          boxShadow: 'inset 0 1px 0 rgba(255,255,255,.16), 0 1px 2px rgba(40,26,140,.28), 0 0 0 1px #4a3bc4',
-          '&:hover': { background: 'linear-gradient(180deg, #5a4ad8 0%, #4a3ac6 100%)', boxShadow: 'inset 0 1px 0 rgba(255,255,255,.14), 0 2px 6px rgba(40,26,140,.28), 0 0 0 1px #4234b8' },
-          '&.Mui-disabled': { background: '#eceae6', boxShadow: 'none', color: '#a4a097' }
+          backgroundColor: '#232e6b', boxShadow: '0 6px 16px -6px rgba(35,46,107,.55)',
+          '&:hover': { backgroundColor: '#1b255c', boxShadow: '0 8px 20px -6px rgba(35,46,107,.6)' },
+          '&.Mui-disabled': { backgroundColor: '#e6e9f0', boxShadow: 'none', color: '#a3a9b8' }
         } : {},
-        // 보라색은 화면의 주요 버튼(contained)에만 — 보조 버튼은 흰 바탕 + 잉크색
+        // 보조 버튼: 테두리 없는 흰 알약 + 옅은 그림자
         outlined: ({ ownerState }) => ownerState.color === 'primary'
-          ? { backgroundColor: '#fff', borderColor: '#dcd9d4', color: '#1a1a1a', boxShadow: '0 1px 2px rgba(15,15,15,.05)', '&:hover': { borderColor: '#c8c4be', backgroundColor: '#fafaf9' } }
-          : { backgroundColor: '#fff', boxShadow: '0 1px 2px rgba(15,15,15,.05)' },
-        text: ({ ownerState }) => ({ '&:hover': { backgroundColor: 'rgba(55,53,47,.06)' }, ...(ownerState.color === 'primary' ? { color: '#37352f' } : {}) })
+          ? { backgroundColor: '#fff', borderColor: 'transparent', color: '#232e6b', boxShadow: '0 1px 2px rgba(35,46,107,.06), 0 0 0 1px #e6e9f0', '&:hover': { borderColor: 'transparent', backgroundColor: '#f5f7fb', boxShadow: '0 1px 2px rgba(35,46,107,.06), 0 0 0 1px #d8dde8' } }
+          : { backgroundColor: '#fff' },
+        text: ({ ownerState }) => ({ '&:hover': { backgroundColor: '#f0f2f8' }, ...(ownerState.color === 'primary' ? { color: '#232e6b' } : {}) })
       }
     },
-    MuiIconButton: { styleOverrides: { root: { borderRadius: 8 } } },
-    MuiChip: { styleOverrides: { root: { borderRadius: 6 } } },
+    MuiIconButton: { styleOverrides: { root: { borderRadius: 12 } } },
+    MuiChip: { styleOverrides: { root: { borderRadius: 999 } } },
     MuiPaper: { styleOverrides: { root: { backgroundImage: 'none' } } },
-    // 입력: 흰 바탕, 얇은 테두리, 포커스 시 보라색 링
+    // 입력: 옅은 회청색 바탕, 포커스 시 흰 바탕 + 인디고 링
     MuiOutlinedInput: {
       styleOverrides: {
         root: {
-          borderRadius: 8, backgroundColor: '#fff', transition: 'box-shadow .12s ease',
-          '& .MuiOutlinedInput-notchedOutline': { borderColor: '#dcd9d4' },
-          '&:hover .MuiOutlinedInput-notchedOutline': { borderColor: '#c8c4be' },
-          '&.Mui-focused': { boxShadow: '0 0 0 3px rgba(86,69,212,.14)' },
-          '&.Mui-focused .MuiOutlinedInput-notchedOutline': { borderColor: '#7b6ce0', borderWidth: 1 },
-          '&.Mui-disabled': { backgroundColor: '#f7f7f5' }
+          borderRadius: 12, backgroundColor: '#f5f7fb', transition: 'box-shadow .15s ease, background-color .15s ease',
+          '& .MuiOutlinedInput-notchedOutline': { borderColor: '#e6e9f0' },
+          '&:hover .MuiOutlinedInput-notchedOutline': { borderColor: '#d3d8e4' },
+          '&.Mui-focused': { backgroundColor: '#fff', boxShadow: '0 0 0 4px rgba(35,46,107,.08)' },
+          '&.Mui-focused .MuiOutlinedInput-notchedOutline': { borderColor: '#4a57a8', borderWidth: 1 },
+          '&.Mui-disabled': { backgroundColor: '#f0f2f6' }
         }
       }
     },
-    MuiInputLabel: { styleOverrides: { root: { color: '#787671', '&.Mui-focused': { color: '#5645d4' } } } },
-    MuiDialog: { styleOverrides: { paper: { borderRadius: 14, boxShadow: '0 24px 64px -12px rgba(15,15,30,.28), 0 0 0 1px rgba(15,15,15,.06)' } } },
-    MuiBackdrop: { styleOverrides: { root: { '&:not(.MuiBackdrop-invisible)': { backgroundColor: 'rgba(24,22,30,.32)', backdropFilter: 'blur(3px)' } } } },
-    MuiDialogTitle: { styleOverrides: { root: { fontWeight: 600 } } },
-    MuiMenu: { styleOverrides: { paper: { borderRadius: 10, boxShadow: '0 12px 32px -8px rgba(15,15,30,.2), 0 0 0 1px rgba(15,15,15,.06)' }, list: { padding: 4 } } },
-    MuiMenuItem: { styleOverrides: { root: { borderRadius: 6, fontSize: 13.5, minHeight: 34, '&.Mui-selected': { backgroundColor: '#f1effb' }, '&.Mui-selected:hover': { backgroundColor: '#e9e6fa' } } } },
-    MuiTabs: { styleOverrides: { indicator: { backgroundColor: '#1a1a1a', height: 2 } } },
-    MuiTab: { styleOverrides: { root: { color: '#787671', fontWeight: 500, '&.Mui-selected': { color: '#1a1a1a' } } } },
-    MuiTooltip: { styleOverrides: { tooltip: { backgroundColor: '#1f1e24', fontSize: 12, fontWeight: 500, borderRadius: 6, padding: '6px 10px' }, arrow: { color: '#1f1e24' } } },
+    MuiInputLabel: { styleOverrides: { root: { color: '#7c8295', '&.Mui-focused': { color: '#232e6b' } } } },
+    MuiDialog: { styleOverrides: { paper: { borderRadius: 22, boxShadow: '0 30px 70px -20px rgba(29,32,51,.35)' } } },
+    MuiBackdrop: { styleOverrides: { root: { '&:not(.MuiBackdrop-invisible)': { backgroundColor: 'rgba(29,36,71,.28)', backdropFilter: 'blur(4px)' } } } },
+    MuiDialogTitle: { styleOverrides: { root: { fontWeight: 700 } } },
+    MuiMenu: { styleOverrides: { paper: { borderRadius: 14, boxShadow: '0 16px 40px -12px rgba(29,32,51,.25)' }, list: { padding: 6 } } },
+    MuiMenuItem: { styleOverrides: { root: { borderRadius: 8, fontSize: 13.5, minHeight: 36, '&.Mui-selected': { backgroundColor: '#eef0fa' }, '&.Mui-selected:hover': { backgroundColor: '#e4e7f6' } } } },
+    MuiTabs: { styleOverrides: { indicator: { backgroundColor: '#232e6b', height: 2, borderRadius: 2 } } },
+    MuiTab: { styleOverrides: { root: { color: '#8a90a2', fontWeight: 500, '&.Mui-selected': { color: '#1d2033', fontWeight: 600 } } } },
+    MuiTooltip: { styleOverrides: { tooltip: { backgroundColor: '#1d2447', fontSize: 12, fontWeight: 500, borderRadius: 8, padding: '6px 10px' }, arrow: { color: '#1d2447' } } },
+    MuiPaginationItem: { styleOverrides: { root: { borderRadius: 8, '&.Mui-selected': { backgroundColor: '#232e6b', color: '#fff', '&:hover': { backgroundColor: '#1b255c' } } } } },
+    MuiLinearProgress: { styleOverrides: { root: { backgroundColor: '#eef0f5' } } },
     MuiTextField: { defaultProps: { size: 'small' } }
   }
 }, koKR, gridKoKR, {
   // 한국어 로케일도 'of'로 표시하므로 로케일 뒤에 덮어쓴다
-  components: { MuiDataGrid: { defaultProps: { localeText: { paginationDisplayedRows: ({ from, to, count }: { from: number; to: number; count: number }) => `${from}–${to} / 전체 ${count}` } } } }
+  components: { MuiDataGrid: { defaultProps: { localeText: { noRowsLabel: '표시할 항목이 없습니다', noResultsOverlayLabel: '검색 결과가 없습니다', paginationDisplayedRows: ({ from, to, count }: { from: number; to: number; count: number }) => `${from}–${to} / 전체 ${count}` } } } }
 })
 
 async function call<T>(channel: Channel, payload: Record<string, unknown> = {}): Promise<T> { const r = await window.afccs.invoke(channel, payload) as Result<T>; if (!r.ok) throw new Error(r.error.message); return r.data }

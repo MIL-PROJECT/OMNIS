@@ -6,12 +6,12 @@ type Row = Record<string, any>
 const TASK_ROW = 38 // style.css .dash .mp-task 높이와 맞춘다
 
 // 상태 색은 StatusChip 의미와 맞춤 (완료=녹색, 진행=주황, 보류=적색, 계획=청색).
-// validate_palette 통과: 녹↔주황 CVD ΔE 6.3 → 2px 간격 + 범례 수치로 보조 인코딩
+// 녹↔주황은 색각이상에서 가까울 수 있어 2px 간격 + 범례 수치로 보조 인코딩
 const segments = [
-  { code: 'COMPLETED', label: '완료', color: '#0ca30c' },
-  { code: 'IN_PROGRESS', label: '진행', color: '#eda100' },
-  { code: 'BLOCKED', label: '보류', color: '#d03b3b' },
-  { code: 'PLANNED', label: '계획', color: '#2a78d6' }
+  { code: 'COMPLETED', label: '완료', color: '#2fb872' },
+  { code: 'IN_PROGRESS', label: '진행', color: '#f0a93b' },
+  { code: 'BLOCKED', label: '보류', color: '#e5484d' },
+  { code: 'PLANNED', label: '계획', color: '#4a6cf7' }
 ]
 const colorOf = (code: string) => segments.find(s => s.code === code)?.color ?? '#94a3b8'
 

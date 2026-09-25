@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, MenuItem, Stack, TextField, Typography } from '@mui/material'
 import { DataGrid, type GridColDef } from '@mui/x-data-grid'
-import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
+import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 import AddRounded from '@mui/icons-material/AddRounded'
 import DnsRounded from '@mui/icons-material/DnsRounded'
 import type { Channel, PublicUser, Result } from '../../shared/contracts'
@@ -37,7 +37,7 @@ export default function OperationsManagement({ user }: { user: PublicUser }) {
       actions={editable && <Button variant="contained" startIcon={<AddRounded />} onClick={() => setForm({ ...empty })}>체계 등록</Button>} />
     <Card icon={DnsRounded} tone="sky" title="정보통신체계" subtitle={`전체 ${rows.length}개${filter ? ` · ${statusText(filter)} ${shown.length}개` : ''}`} action={<SearchField value={search} onChange={setSearch} placeholder="체계명 또는 코드 검색" />}>
       <Box className="ui-toolbar"><StatusFilter total={rows.length} value={filter} onChange={setFilter} items={statuses.map(([value, label, tone]) => ({ value, label, tone, count: counts[value] ?? 0 }))} /></Box>
-      <DataGrid rows={shown} columns={columns} density="compact" rowHeight={44} disableRowSelectionOnClick pageSizeOptions={[10,25,50]} initialState={{ pagination: { paginationModel: { pageSize: 10, page: 0 } } }}/>
+      <DataGrid rows={shown} columns={columns} density="compact" rowHeight={48} columnHeaderHeight={44} disableRowSelectionOnClick pageSizeOptions={[10,25,50]} initialState={{ pagination: { paginationModel: { pageSize: 10, page: 0 } } }}/>
     </Card>
 
     <Dialog open={!!form} onClose={() => setForm(null)} fullWidth>
@@ -66,13 +66,14 @@ export default function OperationsManagement({ user }: { user: PublicUser }) {
           <TextField select fullWidth label="상태 변경" value={status} onChange={e => setStatus(e.target.value)} disabled={!editable} sx={{ mt: 2.5 }}>{statuses.map(([v,t]) => <MenuItem key={v} value={v}>{t}</MenuItem>)}</TextField>
           <Typography className="dd-section">최근 30일 운용률</Typography>
           <ResponsiveContainer width="100%" height={170}>
-            <LineChart data={[...history].reverse().map(r => ({ date:String(r.recorded_at).slice(5,10), uptime:r.uptime_pct }))}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#E1E0D9" vertical={false}/>
-              <XAxis dataKey="date" tick={{ fill:'#898781', fontSize:11 }} axisLine={{ stroke:'#C3C2B7' }} tickLine={false}/>
-              <YAxis domain={[90,100]} width={32} tick={{ fill:'#898781', fontSize:11 }} axisLine={false} tickLine={false}/>
-              <Tooltip contentStyle={{ borderRadius:8, border:'1px solid #e5e3df', fontSize:12 }} formatter={v => [`${v}%`, '운용률']}/>
-              <Line dataKey="uptime" stroke="#2A78D6" strokeWidth={2} dot={false}/>
-            </LineChart>
+            <AreaChart data={[...history].reverse().map(r => ({ date:String(r.recorded_at).slice(5,10), uptime:r.uptime_pct }))}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#eef0f5" vertical={false}/>
+              <XAxis dataKey="date" tick={{ fill:'#a3a9b8', fontSize:11 }} axisLine={{ stroke:'#e6e9f0' }} tickLine={false}/>
+              <YAxis domain={[90,100]} width={32} tick={{ fill:'#a3a9b8', fontSize:11 }} axisLine={false} tickLine={false}/>
+              <Tooltip contentStyle={{ borderRadius:12, border:0, boxShadow:'0 10px 30px -10px rgba(35,46,107,.25)', fontSize:12 }} formatter={v => [`${v}%`, '운용률']}/>
+              <defs><linearGradient id="uptimeFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#2fb872" stopOpacity={.28}/><stop offset="100%" stopColor="#2fb872" stopOpacity={0}/></linearGradient></defs>
+            <Area type="monotone" dataKey="uptime" stroke="#2fb872" strokeWidth={2.5} fill="url(#uptimeFill)" dot={false} activeDot={{ r: 5, fill: "#2fb872", stroke: "#fff", strokeWidth: 2 }}/>
+            </AreaChart>
           </ResponsiveContainer>
           <Typography className="dd-section">상태 이력</Typography>
           <ul className="timeline">{history.slice(0,6).map(r => <li key={r.id}><StatusChip code={r.status} label={statusText(r.status)} /><span>운용률 {r.uptime_pct}%</span><time>{fmtDateTime(r.recorded_at)}</time></li>)}</ul>
