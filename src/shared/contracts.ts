@@ -5,11 +5,33 @@ export const incidentStatusSchema = z.enum(['RECEIVED', 'TRIAGED', 'ASSIGNED', '
 export const maintenanceStatusSchema = z.enum(['PLANNED', 'IN_PROGRESS', 'BLOCKED', 'COMPLETED', 'CANCELED'])
 export const roleSchema = z.enum(['ADMIN', 'OPERATOR', 'MAINTAINER', 'VIEWER', 'USER'])
 export type Role = z.infer<typeof roleSchema>
+// 사용자 등록 신청
+export const ranks = ['이병', '일병', '상병', '병장', '하사', '중사', '상사', '원사', '준위', '소위', '중위', '대위', '소령', '중령', '대령', '준장', '소장', '중장', '대장', '군무원'] as const
+export const signupRules = {
+  serviceNo: /^\d{2}-\d{5,8}$/,
+  username: /^[a-z][a-z0-9_]{3,19}$/,
+  password: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,64}$/,
+  phone: /^0\d{1,2}-?\d{3,4}-?\d{4}$/
+}
+export const signupSchema = z.object({
+  serviceNo: z.string().trim().regex(signupRules.serviceNo, '군번 형식이 올바르지 않습니다. (예: 22-12345678)'),
+  rankName: z.enum(ranks, { error: '계급을 선택하십시오.' }),
+  displayName: z.string().trim().min(2, '이름은 2자 이상 입력하십시오.').max(20, '이름은 20자 이하로 입력하십시오.'),
+  unitName: z.string().trim().min(2, '소속을 입력하십시오.').max(50, '소속은 50자 이하로 입력하십시오.'),
+  username: z.string().trim().regex(signupRules.username, '아이디는 영문 소문자로 시작하는 4~20자(소문자·숫자·_)여야 합니다.'),
+  password: z.string().regex(signupRules.password, '비밀번호는 영문·숫자·특수문자를 모두 포함해 8자 이상이어야 합니다.'),
+  phone: z.string().trim().regex(signupRules.phone, '연락처 형식이 올바르지 않습니다. (예: 010-1234-5678)').optional().or(z.literal('')),
+  reason: z.string().trim().max(300, '신청 사유는 300자 이하로 입력하십시오.').optional()
+})
 export type Result<T> = { ok: true; data: T } | { ok: false; error: { code: string; message: string } }
 
 export const schemas = {
   'auth:login': z.object({ username: z.string().min(1), password: z.string().min(1) }),
   'auth:logout': z.object({}), 'auth:me': z.object({}),
+  'auth:register': signupSchema,
+  'admin:signupRequests': z.object({}),
+  'admin:approveSignup': z.object({ id: z.string(), role: roleSchema }),
+  'admin:rejectSignup': z.object({ id: z.string(), reason: z.string().trim().min(2, '반려 사유를 2자 이상 입력하십시오.').max(300, '반려 사유는 300자 이하로 입력하십시오.') }),
   'dashboard:getSummary': z.object({}),
   'operations:list': z.object({ search: z.string().optional(), status: statusSchema.optional() }),
   'operations:create': z.object({ code: z.string().min(2).max(30), name: z.string().min(2), category: z.string().min(1), status: statusSchema, uptimePct: z.number().min(0).max(100), remarks: z.string().max(1000).optional() }),

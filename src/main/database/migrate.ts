@@ -1,10 +1,20 @@
 import type Database from 'better-sqlite3'
 
-export const SCHEMA_VERSION = 1
+export const SCHEMA_VERSION = 2
+
+// 버전별 스키마 변경을 순서대로 적용한다 (기존 DB는 부족한 단계만 실행)
 export function migrate(db: Database.Database): void {
   const current = db.pragma('user_version', { simple: true }) as number
   if (current > SCHEMA_VERSION) throw new Error('DB schema is newer than this application')
   if (current === SCHEMA_VERSION) return
+  db.transaction(() => {
+    if (current < 1) migrateV1(db)
+    if (current < 2) migrateV2(db)
+    db.pragma(`user_version = ${SCHEMA_VERSION}`)
+  })()
+}
+
+function migrateV1(db: Database.Database): void {
   db.exec(`
     CREATE TABLE IF NOT EXISTS users (id TEXT PRIMARY KEY, username TEXT UNIQUE NOT NULL, display_name TEXT NOT NULL, rank_name TEXT, unit_name TEXT, role TEXT NOT NULL, password_hash TEXT NOT NULL, password_salt TEXT NOT NULL, active INTEGER NOT NULL, created_at TEXT NOT NULL, updated_at TEXT NOT NULL);
     CREATE TABLE IF NOT EXISTS communication_systems (id TEXT PRIMARY KEY, code TEXT UNIQUE NOT NULL, name TEXT NOT NULL, category TEXT NOT NULL, status TEXT NOT NULL, uptime_pct REAL NOT NULL, today_incident_count INTEGER NOT NULL DEFAULT 0, remarks TEXT, display_order INTEGER NOT NULL, updated_at TEXT NOT NULL);
@@ -24,5 +34,14 @@ export function migrate(db: Database.Database): void {
     CREATE INDEX IF NOT EXISTS idx_history_system ON communication_status_history(system_id, recorded_at);
     CREATE INDEX IF NOT EXISTS idx_audit_entity ON audit_logs(entity_type, entity_id);
   `)
-  db.pragma(`user_version = ${SCHEMA_VERSION}`)
+}
+
+// v2: 사용자 등록 신청 — 군번 컬럼과 신청 테이블
+function migrateV2(db: Database.Database): void {
+  db.exec(`
+    ALTER TABLE users ADD COLUMN service_no TEXT;
+    CREATE UNIQUE INDEX IF NOT EXISTS idx_users_service_no ON users(service_no) WHERE service_no IS NOT NULL;
+    CREATE TABLE IF NOT EXISTS signup_requests (id TEXT PRIMARY KEY, service_no TEXT NOT NULL, username TEXT NOT NULL, display_name TEXT NOT NULL, rank_name TEXT NOT NULL, unit_name TEXT NOT NULL, phone TEXT, reason TEXT, password_hash TEXT NOT NULL, password_salt TEXT NOT NULL, status TEXT NOT NULL, approved_role TEXT, user_id TEXT REFERENCES users(id), reviewed_by TEXT REFERENCES users(id), reviewed_at TEXT, reject_reason TEXT, created_at TEXT NOT NULL);
+    CREATE INDEX IF NOT EXISTS idx_signup_status ON signup_requests(status, created_at);
+  `)
 }

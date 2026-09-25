@@ -20,6 +20,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "node tests/e2e/smoke.mjs",
+    "test:e2e:roles": "node tests/e2e/roles.mjs",
+    "test:e2e:signup": "node tests/e2e/signup.mjs",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "tsx scripts/migrate-db.ts",
     "db:seed": "tsx scripts/build-seed-db.ts",

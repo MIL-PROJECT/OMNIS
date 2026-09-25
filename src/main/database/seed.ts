@@ -9,19 +9,19 @@ export const demoUserCredentials = { username: 'demo_user', password: 'Demo!2026
 function ensureDemoUser(db: Database.Database): void {
   if (db.prepare('SELECT id FROM users WHERE username=?').get(demoUserCredentials.username)) return
   const salt = randomBytes(16).toString('hex')
-  db.prepare('INSERT INTO users VALUES (?,?,?,?,?,?,?,?,?,?,?)').run(randomUUID(), demoUserCredentials.username, '문사용', '중사', '가상 정보통신대', 'USER', scryptSync(demoUserCredentials.password, salt, 64).toString('hex'), salt, 1, day(), day())
+  db.prepare('INSERT INTO users (id,username,display_name,rank_name,unit_name,role,password_hash,password_salt,active,created_at,updated_at,service_no) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)').run(randomUUID(), demoUserCredentials.username, '문사용', '중사', '가상 정보통신대', 'USER', scryptSync(demoUserCredentials.password, salt, 64).toString('hex'), salt, 1, day(), day(), '18-70000010')
 }
 
 export function seed(db: Database.Database): void {
   if ((db.prepare('SELECT count(*) n FROM users').get() as { n: number }).n) { ensureDemoUser(db); return }
   db.transaction(() => {
-    const insertUser = db.prepare('INSERT INTO users VALUES (?,?,?,?,?,?,?,?,?,?,?)')
+    const insertUser = db.prepare('INSERT INTO users (id,username,display_name,rank_name,unit_name,role,password_hash,password_salt,active,created_at,updated_at,service_no) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)')
     const names = ['김정보', '이통신', '박운용', '최정비', '정지원', '한관제', '서네트', '오보안', '유장비', '강당직']
     const ids: string[] = []
     names.forEach((name, i) => {
       const id = randomUUID(), salt = randomBytes(16).toString('hex')
       ids.push(id)
-      insertUser.run(id, i === 0 ? demoCredentials.username : `demo_${i}`, name, i < 5 ? '대위' : '중위', '가상 정보통신대', i === 0 ? 'ADMIN' : i < 4 ? 'OPERATOR' : i < 8 ? 'MAINTAINER' : 'VIEWER', scryptSync(i === 0 ? demoCredentials.password : 'Demo!2026', salt, 64).toString('hex'), salt, 1, day(), day())
+      insertUser.run(id, i === 0 ? demoCredentials.username : `demo_${i}`, name, i < 5 ? '대위' : '중위', '가상 정보통신대', i === 0 ? 'ADMIN' : i < 4 ? 'OPERATOR' : i < 8 ? 'MAINTAINER' : 'VIEWER', scryptSync(i === 0 ? demoCredentials.password : 'Demo!2026', salt, 64).toString('hex'), salt, 1, day(), day(), `15-${70000000 + i}`)
     })
     const categories = ['기반통신', '작전통신', '사이버보호', '전송장비', '무선/위성', 'CCTV', '지원체계']
     const systems: string[] = []
@@ -49,6 +49,12 @@ export function seed(db: Database.Database): void {
     for (let i = 0; i < 8; i++) directive.run(randomUUID(), i === 0 ? 'URGENT' : i % 3 === 0 ? 'NOTICE' : 'GENERAL', `가상 운용 공지 ${i + 1}`, '정기 점검 결과를 확인하고 필요한 내용을 기록하십시오.', names[0], day(-i), null, i === 0 ? 1 : 0)
     db.prepare('INSERT INTO audit_logs VALUES (?,?,?,?,?,?,?,?)').run(randomUUID(), ids[0], 'SEED', 'database', 'demo', null, JSON.stringify({ mock: true }), day())
     ensureDemoUser(db)
+    // 사용자 등록 신청 예시 (관리자 승인 대기)
+    const request = db.prepare('INSERT INTO signup_requests (id,service_no,username,display_name,rank_name,unit_name,phone,reason,password_hash,password_salt,status,created_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)')
+    for (const [serviceNo, username, name, rank, unit, reason, offset] of [['21-70001234', 'req_yoon', '윤신청', '하사', '가상 통신중대', '통신 운용 업무 담당 배치', -1], ['19-70005678', 'req_jang', '장대기', '중위', '가상 정보보호반', '정비관리 업무 인수인계', 0]] as const) {
+      const salt = randomBytes(16).toString('hex')
+      request.run(randomUUID(), serviceNo, username, name, rank, unit, '010-0000-0000', reason, scryptSync('Demo!2026', salt, 64).toString('hex'), salt, 'PENDING', day(offset))
+    }
   })()
 }
 

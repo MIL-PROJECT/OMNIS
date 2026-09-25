@@ -1,4 +1,4 @@
-import { randomUUID, scryptSync, timingSafeEqual } from 'node:crypto'
+import { randomBytes, randomUUID, scryptSync, timingSafeEqual } from 'node:crypto'
 import { existsSync, mkdirSync, readdirSync, statSync, unlinkSync, copyFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { app, BrowserWindow, dialog, shell } from 'electron'
@@ -23,6 +23,7 @@ const requireUser = (): PublicUser => { const user = session.get(); if (!user) t
 const permit = (...roles: string[]): PublicUser => { const user = requireUser(); if (!roles.includes(user.role)) throw new Error('권한이 없습니다.'); return user }
 const ticket = (db: Database.Database, table: string, column: string, prefix: string): string => { const date = now().slice(0, 10).replaceAll('-', ''); const n = (one(db, `SELECT count(*) n FROM ${table} WHERE ${column} LIKE ?`, `${prefix}-${date}-%`)?.n as number ?? 0) + 1; return `${prefix}-${date}-${String(n).padStart(4, '0')}` }
 const setting = (db: Database.Database, key: string, fallback: string): string => String(one(db,'SELECT value FROM app_settings WHERE key=?',key)?.value ?? fallback)
+const passwordMatches = (password: unknown, hash: unknown, salt: unknown): boolean => { if (!hash || !salt) return false; const actual = scryptSync(String(password), String(salt), 64), expected = Buffer.from(String(hash), 'hex'); return actual.length === expected.length && timingSafeEqual(actual, expected) }
 const local = new LocalRuleProvider()
 const provider = (db: Database.Database): AIProvider => setting(db,'ai_provider','LOCAL') === 'OLLAMA' ? new OllamaProvider(setting(db,'ollama_endpoint','http://127.0.0.1:11434'),setting(db,'ollama_model','gemma3')) : local
 
@@ -30,16 +31,62 @@ export async function run(channel: Channel, p: Record<string, unknown>): Promise
   const db = openDb()
   if (channel === 'auth:login') {
     const row = one(db, 'SELECT * FROM users WHERE username=? AND active=1', p.username)
-    if (!row) throw new Error('아이디 또는 비밀번호가 올바르지 않습니다.')
-    const actual = scryptSync(String(p.password), String(row.password_salt), 64)
-    const expected = Buffer.from(String(row.password_hash), 'hex')
-    if (actual.length !== expected.length || !timingSafeEqual(actual, expected)) throw new Error('아이디 또는 비밀번호가 올바르지 않습니다.')
+    if (!row) {
+      // 등록 신청만 한 계정: 비밀번호가 맞을 때만 승인 대기·반려 상태를 알려준다
+      const request = one(db, "SELECT * FROM signup_requests WHERE username=? AND status IN ('PENDING','REJECTED') ORDER BY created_at DESC LIMIT 1", p.username)
+      if (request && passwordMatches(p.password, request.password_hash, request.password_salt)) {
+        if (request.status === 'PENDING') throw new Error('관리자 승인 대기 중인 계정입니다. 승인 후 로그인할 수 있습니다.')
+        throw new Error(`사용자 등록 신청이 반려되었습니다. 사유: ${request.reject_reason ?? '-'}`)
+      }
+      throw new Error('아이디 또는 비밀번호가 올바르지 않습니다.')
+    }
+    if (!passwordMatches(p.password, row.password_hash, row.password_salt)) throw new Error('아이디 또는 비밀번호가 올바르지 않습니다.')
     const user = { id: String(row.id), username: String(row.username), display_name: String(row.display_name), rank_name: row.rank_name as string | null, unit_name: row.unit_name as string | null, role: row.role as PublicUser['role'] }
     session.set(user); return user
   }
   if (channel === 'auth:logout') { session.set(null); return true }
   if (channel === 'auth:me') return session.get()
+  if (channel === 'auth:register') {
+    // 로그인 전 화면에서 호출 — 승인 전까지는 신청 테이블에만 저장
+    return db.transaction(() => {
+      if (one(db, "SELECT id FROM users WHERE username=? UNION SELECT id FROM signup_requests WHERE username=? AND status='PENDING'", p.username, p.username)) throw new Error('이미 사용 중이거나 신청 중인 아이디입니다.')
+      if (one(db, "SELECT id FROM users WHERE service_no=? UNION SELECT id FROM signup_requests WHERE service_no=? AND status='PENDING'", p.serviceNo, p.serviceNo)) throw new Error('이미 등록되었거나 신청 중인 군번입니다.')
+      const id = randomUUID(), salt = randomBytes(16).toString('hex'), date = now()
+      db.prepare('INSERT INTO signup_requests (id,service_no,username,display_name,rank_name,unit_name,phone,reason,password_hash,password_salt,status,created_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)').run(id, p.serviceNo, p.username, p.displayName, p.rankName, p.unitName, p.phone || null, p.reason || null, scryptSync(String(p.password), salt, 64).toString('hex'), salt, 'PENDING', date)
+      db.prepare('INSERT INTO notifications VALUES (?,?,?,?,?,?)').run(randomUUID(), 'SIGNUP', '사용자 등록 신청', `${p.rankName} ${p.displayName} · ${p.unitName} (${p.username})`, null, date)
+      audit(db, 'SIGNUP_REQUEST', 'signup_requests', id, null, { username: p.username, service_no: p.serviceNo })
+      return { id }
+    })()
+  }
   requireUser()
+  if (channel === 'admin:signupRequests') { permit('ADMIN'); return all(db, "SELECT r.id,r.service_no,r.username,r.display_name,r.rank_name,r.unit_name,r.phone,r.reason,r.status,r.approved_role,r.reviewed_at,r.reject_reason,r.created_at,u.display_name reviewer_name FROM signup_requests r LEFT JOIN users u ON u.id=r.reviewed_by ORDER BY CASE r.status WHEN 'PENDING' THEN 0 ELSE 1 END, r.created_at DESC") }
+  if (channel === 'admin:approveSignup') {
+    const admin = permit('ADMIN')
+    return db.transaction(() => {
+      const request = one(db, 'SELECT * FROM signup_requests WHERE id=?', p.id)
+      if (!request) throw new Error('신청을 찾을 수 없습니다.')
+      if (request.status !== 'PENDING') throw new Error('이미 처리된 신청입니다.')
+      if (one(db, 'SELECT id FROM users WHERE username=?', request.username)) throw new Error('같은 아이디의 사용자가 이미 있습니다.')
+      if (one(db, 'SELECT id FROM users WHERE service_no=?', request.service_no)) throw new Error('같은 군번의 사용자가 이미 있습니다.')
+      const userId = randomUUID(), date = now()
+      db.prepare('INSERT INTO users (id,username,display_name,rank_name,unit_name,role,password_hash,password_salt,active,created_at,updated_at,service_no) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)').run(userId, request.username, request.display_name, request.rank_name, request.unit_name, p.role, request.password_hash, request.password_salt, 1, date, date, request.service_no)
+      // 비밀번호 해시는 사용자 계정으로 옮겼으므로 신청 기록에서는 지운다
+      db.prepare("UPDATE signup_requests SET status='APPROVED',approved_role=?,user_id=?,reviewed_by=?,reviewed_at=?,password_hash='',password_salt='' WHERE id=?").run(p.role, userId, admin.id, date, p.id)
+      audit(db, 'APPROVE', 'signup_requests', String(p.id), { status: 'PENDING' }, { status: 'APPROVED', role: p.role, user_id: userId })
+      return { userId }
+    })()
+  }
+  if (channel === 'admin:rejectSignup') {
+    const admin = permit('ADMIN')
+    return db.transaction(() => {
+      const request = one(db, 'SELECT status FROM signup_requests WHERE id=?', p.id)
+      if (!request) throw new Error('신청을 찾을 수 없습니다.')
+      if (request.status !== 'PENDING') throw new Error('이미 처리된 신청입니다.')
+      db.prepare("UPDATE signup_requests SET status='REJECTED',reject_reason=?,reviewed_by=?,reviewed_at=? WHERE id=?").run(p.reason, admin.id, now(), p.id)
+      audit(db, 'REJECT', 'signup_requests', String(p.id), { status: 'PENDING' }, { status: 'REJECTED', reason: p.reason })
+      return true
+    })()
+  }
   if (channel === 'dashboard:getSummary') return new DashboardRepository(db).summary()
   if (channel === 'operations:list') return all(db, 'SELECT * FROM communication_systems WHERE (? IS NULL OR name LIKE ? OR code LIKE ?) AND (? IS NULL OR status=?) ORDER BY display_order', p.search ? `%${p.search}%` : null, `%${p.search ?? ''}%`, `%${p.search ?? ''}%`, p.status ?? null, p.status ?? null)
   if (channel === 'operations:create') { permit('ADMIN','OPERATOR','USER'); return db.transaction(() => { const id = randomUUID(), date = now(); const order = Number(one(db,'SELECT COALESCE(max(display_order),0)+1 n FROM communication_systems')?.n ?? 1); db.prepare('INSERT INTO communication_systems VALUES (?,?,?,?,?,?,?,?,?,?)').run(id,p.code,p.name,p.category,p.status,p.uptimePct,0,p.remarks ?? null,order,date); db.prepare('INSERT INTO communication_status_history VALUES (?,?,?,?,?)').run(randomUUID(),id,p.status,p.uptimePct,date); audit(db,'CREATE','communication_systems',id,null,p); return { id } })() }

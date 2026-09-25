@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { HashRouter, Navigate, NavLink, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
-import { Box, Button, IconButton, InputAdornment, Paper, Stack, TextField, Tooltip, Typography } from '@mui/material'
+import { Box, Button, IconButton, InputAdornment, Paper, TextField, Tooltip, Typography } from '@mui/material'
 import PersonOutlineRounded from '@mui/icons-material/PersonOutlineRounded'
 import LockOutlined from '@mui/icons-material/LockOutlined'
 import VisibilityOutlined from '@mui/icons-material/VisibilityOutlined'
@@ -39,6 +39,9 @@ import OperationsManagement from './OperationsManagement'
 import IncidentsManagement from './IncidentsManagement'
 import MaintenanceManagement from './MaintenanceManagement'
 import SystemManagement from './SystemManagement'
+import SignupDialog from './SignupDialog'
+import SignupRequests from './SignupRequests'
+import HowToRegRounded from '@mui/icons-material/HowToRegRounded'
 import AiManagement from './AiManagement'
 import MaintenanceProgress from './MaintenanceProgress'
 import ReportsManagement from './ReportsManagement'
@@ -138,15 +141,18 @@ const commonCols = (names: [string, string, number?][]): GridColDef[] => names.m
 function Login({ onLogin }: { onLogin: (u: PublicUser) => void }) {
   const [username, setUsername] = useState('demo_admin'), [password, setPassword] = useState('Demo!2026'), [error, setError] = useState('')
   const [showPw, setShowPw] = useState(false), [busy, setBusy] = useState(false)
+  const [signupOpen, setSignupOpen] = useState(false), [notice, setNotice] = useState('')
   // 접속 구분: 선택한 구분과 계정 권한이 다르면 로그인을 되돌린다 (관리자 = ADMIN, 사용자 = 그 외)
   const [mode, setMode] = useState<'admin' | 'user'>('admin')
   const modes: { value: 'admin' | 'user'; label: string; icon: SvgIconComponent; demoId: string }[] = [
     { value: 'admin', label: '관리자', icon: AdminPanelSettingsOutlined, demoId: 'demo_admin' },
     { value: 'user', label: '사용자', icon: PersonOutlineRounded, demoId: 'demo_user' }
   ]
-  const pickMode = (m: typeof modes[number]) => { setMode(m.value); setUsername(m.demoId); setError('') }
+  const pickMode = (m: typeof modes[number]) => { setMode(m.value); setUsername(m.demoId); setError(''); setNotice('') }
+  // 등록 신청을 마치면 사용자 모드로 바꾸고 신청한 아이디를 채워 둔다
+  const signupClosed = (id?: string) => { setSignupOpen(false); if (id) { setMode('user'); setUsername(id); setPassword(''); setError(''); setNotice('등록 신청이 접수되었습니다. 관리자 승인 후 로그인할 수 있습니다.') } }
   const submit = () => {
-    setBusy(true); setError('')
+    setBusy(true); setError(''); setNotice('')
     call<PublicUser>('auth:login', { username, password })
       .then(u => (u.role === 'ADMIN') === (mode === 'admin') ? onLogin(u)
         : call('auth:logout').finally(() => setError(mode === 'admin' ? '관리자 권한이 없는 계정입니다. 사용자로 로그인하십시오.' : '관리자 계정입니다. 관리자로 로그인하십시오.')))
@@ -198,10 +204,13 @@ function Login({ onLogin }: { onLogin: (u: PublicUser) => void }) {
             endAdornment: <InputAdornment position="end"><IconButton size="small" aria-label={showPw ? '비밀번호 숨기기' : '비밀번호 보기'} onClick={() => setShowPw(v => !v)}>{showPw ? <VisibilityOffOutlined /> : <VisibilityOutlined />}</IconButton></InputAdornment>
           } }} />
         {error && <Typography className="login-error" role="alert">{error}</Typography>}
+        {notice && !error && <Typography className="login-notice" role="status">{notice}</Typography>}
         <Button type="submit" variant="contained" size="large" fullWidth disabled={busy || !username || !password} endIcon={<ArrowForwardRounded />} className="login-submit">{busy ? '확인 중…' : `${mode === 'admin' ? '관리자' : '사용자'} 로그인`}</Button>
+        <Box className="login-signup">처음 이용하시나요?<button type="button" onClick={() => setSignupOpen(true)}>사용자 등록 신청</button></Box>
         <p className="login-legal"><ShieldOutlined />인가된 사용자만 접속할 수 있으며, 접속 기록은 보안 감사를 위해 저장됩니다.</p>
       </Box>
     </Box>
+    <SignupDialog open={signupOpen} onClose={signupClosed} />
   </Box>
 }
 
@@ -209,16 +218,19 @@ type NavItem = { to: string; text: string; icon: SvgIconComponent; adminOnly?: b
 const navGroups: { title: string; items: NavItem[] }[] = [
   { title: '운용 현황', items: [{ to: '/', text: '통합상황판', icon: DashboardRounded }, { to: '/operations', text: '운영현황', icon: DnsRounded }, { to: '/incidents', text: '고장관리', icon: ReportProblemRounded }, { to: '/maintenance', text: '정비관리', icon: BuildRounded }] },
   { title: '업무 지원', items: [{ to: '/duty', text: '근무/지시사항', icon: EventNoteRounded }, { to: '/ai', text: 'AI 지원', icon: SmartToyRounded }, { to: '/reports', text: '보고서/통계', icon: AssessmentRounded }] },
-  { title: '관리', items: [{ to: '/settings', text: '시스템관리', icon: SettingsRounded, adminOnly: true }] }
+  { title: '관리', items: [{ to: '/signups', text: '사용자 신청현황', icon: HowToRegRounded, adminOnly: true }, { to: '/settings', text: '시스템관리', icon: SettingsRounded, adminOnly: true }] }
 ]
 
 function Shell({ user, onLogout }: { user: PublicUser; onLogout: () => void }) {
   const [now, setNow] = useState(() => new Date())
-  const [urgent, setUrgent] = useState(0)
+  const [urgent, setUrgent] = useState(0), [pending, setPending] = useState(0)
   const location = useLocation()
   useEffect(() => { const t = setInterval(() => setNow(new Date()), 1000); return () => clearInterval(t) }, [])
   // 메뉴 뱃지: 미종결 긴급 고장 수 (화면 이동 때마다 갱신)
   useEffect(() => { call<Row>('dashboard:getSummary').then(d => setUrgent(Number(d.urgentCount) || 0)).catch(() => {}) }, [location.pathname])
+  // 관리자 메뉴 뱃지: 승인 대기 중인 사용자 등록 신청 수
+  const loadPending = () => { if (user.role === 'ADMIN') call<Row[]>('admin:signupRequests').then(r => setPending(r.filter(x => x.status === 'PENDING').length)).catch(() => {}) }
+  useEffect(loadPending, [location.pathname])
   const admin = user.role === 'ADMIN'
   const groups = navGroups.map(g => ({ ...g, items: g.items.filter(i => admin || !i.adminOnly) })).filter(g => g.items.length)
   const current = navGroups.flatMap(g => g.items.map(i => ({ ...i, group: g.title }))).find(i => i.to === location.pathname)
@@ -232,7 +244,7 @@ function Shell({ user, onLogout }: { user: PublicUser; onLogout: () => void }) {
         {groups.map(g => <Box key={g.title} className="sb-group">
           <span className="sb-group-title">{g.title}</span>
           {g.items.map(({ to, text, icon: Icon }) => <NavLink key={to} to={to} end={to === '/'}>
-            <Icon /><span>{text}</span>{to === '/incidents' && urgent > 0 && <b className="sb-badge" aria-hidden>{urgent}</b>}
+            <Icon /><span>{text}</span>{to === '/incidents' && urgent > 0 && <b className="sb-badge" aria-hidden>{urgent}</b>}{to === '/signups' && pending > 0 && <b className="sb-badge info" aria-hidden>{pending}</b>}
           </NavLink>)}
         </Box>)}
       </nav>
@@ -262,6 +274,7 @@ function Shell({ user, onLogout }: { user: PublicUser; onLogout: () => void }) {
           <Route path="/duty" element={<Duty user={user} />} />
           <Route path="/ai" element={<Ai />} />
           <Route path="/reports" element={<Reports />} />
+          <Route path="/signups" element={admin ? <SignupRequests onChange={loadPending} /> : <Navigate to="/" replace />} />
           <Route path="/settings" element={admin ? <Settings user={user} /> : <Navigate to="/" replace />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
