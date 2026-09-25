@@ -1,14 +1,70 @@
 import { useState } from 'react'
-import { Box, Button, Paper, Stack, TextField, Typography } from '@mui/material'
+import { Box, Button, Stack, TextField, Typography } from '@mui/material'
 import { DataGrid, type GridColDef } from '@mui/x-data-grid'
+import AutoAwesomeRounded from '@mui/icons-material/AutoAwesomeRounded'
+import InsightsRounded from '@mui/icons-material/InsightsRounded'
+import BuildRounded from '@mui/icons-material/BuildRounded'
+import TravelExploreRounded from '@mui/icons-material/TravelExploreRounded'
+import InfoOutlined from '@mui/icons-material/InfoOutlined'
 import type { Channel, Result } from '../../shared/contracts'
+import StatusChip from './StatusChip'
+import { Card, EmptyState, Meter, PageHeader, Paged } from './ui'
 
 type Row = Record<string, any>
 async function call<T>(channel: Channel, payload: Record<string, unknown> = {}): Promise<T> { const r = await window.afccs.invoke(channel,payload) as Result<T>; if (!r.ok) throw new Error(r.error.message); return r.data }
-const similarColumns: GridColDef[] = [{ field:'ticket_no',headerName:'접수번호',width:170 },{ field:'title',headerName:'유사 고장',flex:1 },{ field:'status',headerName:'상태',width:120 }]
-const recommendationColumns: GridColDef[] = [{ field:'task_no',headerName:'작업번호',width:170 },{ field:'title',headerName:'추천 정비 작업',flex:1 },{ field:'priority',headerName:'우선순위',width:110 },{ field:'scheduled_date',headerName:'예정일',width:130 }]
+const statusText: Record<string,string> = { RECEIVED:'접수',TRIAGED:'분류',ASSIGNED:'배정',PLANNED:'계획',IN_PROGRESS:'진행',RESOLVED:'조치완료',CLOSED:'종결',CANCELED:'취소',BLOCKED:'보류',COMPLETED:'완료' }
+const similarColumns: GridColDef[] = [
+  { field:'ticket_no',headerName:'접수번호',width:160,renderCell:({row}) => <span className="cell-code">{row.ticket_no}</span> },
+  { field:'title',headerName:'유사 고장',flex:1,renderCell:({row}) => <span className="cell-strong">{row.title}</span> },
+  { field:'action_summary',headerName:'조치 내용',flex:1,renderCell:({row}) => <span className="cell-muted">{row.action_summary || '-'}</span> },
+  { field:'status',headerName:'상태',width:100,renderCell:({row}) => <StatusChip code={row.status} label={statusText[row.status] ?? row.status}/> }
+]
+const recommendationColumns: GridColDef[] = [
+  { field:'task_no',headerName:'작업번호',width:150,renderCell:({row}) => <span className="cell-code">{row.task_no}</span> },
+  { field:'title',headerName:'추천 정비 작업',flex:1,renderCell:({row}) => <span className="cell-strong">{row.title}</span> },
+  { field:'priority',headerName:'우선순위',width:90,renderCell:({row}) => <StatusChip code={row.priority} label={row.priority === 'HIGH' ? '높음' : '일반'} tone={row.priority === 'HIGH' ? 'red' : 'gray'}/> },
+  { field:'scheduled_date',headerName:'예정일',width:110,renderCell:({row}) => <span className="cell-muted">{row.scheduled_date}</span> }
+]
+
 export default function AiManagement() {
-  const [title,setTitle] = useState(''),[description,setDescription] = useState(''),[result,setResult] = useState<Row | null>(null),[similar,setSimilar] = useState<Row[]>([]),[summary,setSummary] = useState(''),[recommendations,setRecommendations] = useState<Row[]>([])
+  const [title,setTitle] = useState(''),[description,setDescription] = useState(''),[result,setResult] = useState<Row | null>(null),[similar,setSimilar] = useState<Row[] | null>(null),[summary,setSummary] = useState(''),[recommendations,setRecommendations] = useState<Row[] | null>(null)
   const analyze = () => { call<Row>('ai:triageIncident',{ title,description }).then(setResult).catch(e => alert(e.message)); if (title.length >= 3) call<Row[]>('ai:similarIncidents',{ title }).then(setSimilar).catch(e => alert(e.message)) }
-  return <><h1>AI 지원</h1><div className="dashboard-grid"><div className="panel"><Box className="panel-head"><Typography sx={{ fontWeight:700 }}>고장 분석 · Local Rule</Typography></Box><Stack spacing={2} sx={{ p:2 }}><Typography color="text.secondary">AI 추천은 참고용입니다. 상태나 우선순위는 자동 변경되지 않습니다.</Typography><TextField label="제목" value={title} onChange={e => setTitle(e.target.value)}/><TextField label="내용" multiline rows={3} value={description} onChange={e => setDescription(e.target.value)}/><Button variant="contained" onClick={analyze}>분석 및 유사 고장 조회</Button>{result && <Paper variant="outlined" sx={{ p:2 }}><Typography sx={{ fontWeight:700 }}>AI 추천 · {result.provider}</Typography><Typography>분류: {result.category} / 우선순위: {result.priority} / 신뢰도: {Math.round(result.confidence*100)}%</Typography><Typography>{result.recommendation}</Typography></Paper>}</Stack></div><div className="panel"><Box className="panel-head"><Typography sx={{ fontWeight:700 }}>일일 요약 및 정비 추천</Typography></Box><Stack spacing={2} sx={{ p:2 }}><Button onClick={() => call<Row>('ai:dailySummary').then(r => setSummary(r.summary)).catch(e => alert(e.message))}>일일 요약 생성</Button>{summary && <Typography>AI 추천 · {summary}</Typography>}<Button onClick={() => call<Row[]>('ai:maintenanceRecommendations').then(setRecommendations).catch(e => alert(e.message))}>정비 우선순위 조회</Button>{recommendations.length > 0 && <DataGrid rows={recommendations} columns={recommendationColumns} density="compact" hideFooter autoHeight/>}</Stack></div><div className="panel"><Box className="panel-head"><Typography sx={{ fontWeight:700 }}>유사 고장</Typography></Box>{similar.length > 0 ? <DataGrid rows={similar.map((r,i) => ({...r,id:i}))} columns={similarColumns} density="compact" hideFooter autoHeight/> : <Typography sx={{ p:2 }} color="text.secondary">제목을 입력하고 분석하면 유사 접수 건을 표시합니다.</Typography>}</div></div></>
+  // 한 화면 배치: 2×2 카드가 창 높이를 나눠 갖고, 목록은 Paged, 긴 본문은 카드 안에서 스크롤
+  const grid = { rowHeight: 36, columnHeaderHeight: 36, hideFooter: true, autoHeight: true, disableColumnMenu: true, sx: { minHeight: 0 } } as const
+  return <div className="dash ai-dash">
+    <PageHeader section="업무 지원" title="AI 지원" description="로컬 규칙 기반으로 고장을 분류하고 유사 사례와 정비 우선순위를 제안합니다." />
+    <Box className="ai-notice"><InfoOutlined /><span>AI 추천은 참고용입니다. 고장 상태나 우선순위는 자동으로 변경되지 않으며, 최종 판단은 담당자가 합니다.</span></Box>
+    <div className="dashboard-grid">
+      <Card icon={AutoAwesomeRounded} tone="lavender" title="고장 분석" subtitle="제목과 내용으로 분류·우선순위 추천">
+        <Stack spacing={1.5} className="ui-card-scroll" sx={{ p: 2 }}>
+          <TextField label="제목" placeholder="예: 무선 통신 장애" value={title} onChange={e => setTitle(e.target.value)}/>
+          <TextField label="내용" multiline rows={3} placeholder="증상, 발생 위치, 영향 범위를 입력하십시오." value={description} onChange={e => setDescription(e.target.value)}/>
+          <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}><Button variant="contained" startIcon={<AutoAwesomeRounded />} disabled={!title.trim()} onClick={analyze}>분석 및 유사 고장 조회</Button></Box>
+          {result && <Box className="ai-result">
+            <Box className="ai-result-head"><span className="dd-label">AI 추천 · {result.provider}{result.fallbackUsed ? ' (대체 규칙)' : ''}</span></Box>
+            <Box className="stat-row">
+              <Box><span className="dd-label">분류</span><span className="dd-value">{result.category}</span></Box>
+              <Box><span className="dd-label">우선순위</span><StatusChip code={result.priority} label={result.priority === 'URGENT' ? '긴급' : '일반'} tone={result.priority === 'URGENT' ? 'red' : 'gray'}/></Box>
+              <Box sx={{ flex: 1.6 }}><span className="dd-label">신뢰도</span><Meter value={Math.round(result.confidence * 100)} tone="lavender" /></Box>
+            </Box>
+            <Typography className="dd-text" sx={{ mt: 1.5 }}>{result.recommendation}</Typography>
+          </Box>}
+        </Stack>
+      </Card>
+      <Card icon={InsightsRounded} tone="sky" title="일일 요약" subtitle="미처리 고장 현황 요약" action={<Button variant="outlined" size="small" onClick={() => call<Row>('ai:dailySummary').then(r => setSummary(r.summary)).catch(e => alert(e.message))}>일일 요약 생성</Button>}>
+        <Box className="ui-card-scroll">
+          {summary ? <Box className="ai-summary"><AutoAwesomeRounded /><Typography>{summary}</Typography></Box>
+            : <EmptyState icon={InsightsRounded} title="아직 생성된 요약이 없습니다" description="일일 요약 생성을 누르면 오늘의 미처리 현황을 요약합니다." />}
+        </Box>
+      </Card>
+      <Card icon={TravelExploreRounded} tone="gray" title="유사 고장" subtitle={similar ? `${similar.length}건 발견` : '고장 분석 시 함께 조회됩니다'}>
+        {similar?.length ? <Paged rows={similar.map((r,i) => ({...r,id:i}))} rowHeight={36} reserved={38}>{rows => <DataGrid {...grid} rows={rows} columns={similarColumns}/>}</Paged>
+          : <Box className="ui-card-scroll"><EmptyState icon={TravelExploreRounded} title={similar ? '유사한 과거 고장이 없습니다' : '분석 결과가 여기에 표시됩니다'} description="제목의 주요 단어가 겹치는 과거 접수 건과 조치 내용을 보여줍니다." /></Box>}
+      </Card>
+      <Card icon={BuildRounded} tone="orange" title="정비 우선순위 추천" subtitle="예정·진행·보류 작업 중 우선 처리 대상" action={<Button variant="outlined" size="small" onClick={() => call<Row[]>('ai:maintenanceRecommendations').then(setRecommendations).catch(e => alert(e.message))}>정비 우선순위 조회</Button>}>
+        {recommendations?.length ? <Paged rows={recommendations} rowHeight={36} reserved={38}>{rows => <DataGrid {...grid} rows={rows} columns={recommendationColumns}/>}</Paged>
+          : <Box className="ui-card-scroll"><EmptyState icon={BuildRounded} title={recommendations ? '추천할 작업이 없습니다' : '조회 전입니다'} description="우선순위와 예정일을 기준으로 먼저 처리할 작업을 제안합니다." /></Box>}
+      </Card>
+    </div>
+  </div>
 }

@@ -16,13 +16,13 @@ export class DashboardRepository {
       WHERE m.status IN ('IN_PROGRESS','BLOCKED','PLANNED') ORDER BY CASE m.status WHEN 'IN_PROGRESS' THEN 0 WHEN 'BLOCKED' THEN 1 ELSE 2 END, m.scheduled_date`
     const allSystems = this.db.prepare('SELECT * FROM communication_systems ORDER BY display_order').all() as Row[]
     const systems = allSystems.slice(0, 8)
-    const recentIncidents = this.db.prepare(`${incidentSql} ORDER BY i.reported_at DESC LIMIT 6`).all() as Row[]
+    const recentIncidents = this.db.prepare(`${incidentSql} ORDER BY i.reported_at DESC LIMIT 30`).all() as Row[]
     const urgentIncidents = this.db.prepare(`${incidentSql} WHERE i.severity = 'URGENT' AND i.status NOT IN ('CLOSED','CANCELED') ORDER BY i.reported_at DESC`).all() as Row[]
     const recentMaintenance = this.db.prepare('SELECT * FROM maintenance_tasks ORDER BY scheduled_date DESC LIMIT 6').all() as Row[]
     const maintenanceStatus = this.db.prepare('SELECT status, count(*) n FROM maintenance_tasks GROUP BY status').all() as Row[]
     const openMaintenance = this.db.prepare(maintenanceSql).all() as Row[]
     const activeMaintenance = openMaintenance.slice(0, 4)
-    const directives =this.db.prepare('SELECT * FROM directives ORDER BY pinned DESC,issued_at DESC LIMIT 5').all() as Row[]
+    const directives =this.db.prepare('SELECT * FROM directives ORDER BY pinned DESC,issued_at DESC LIMIT 30').all() as Row[]
     return {
       systems,allSystems,urgentIncidents,openMaintenance,
       systemCount: this.orm.select({ n:count() }).from(schema.communicationSystems).get()?.n ?? 0,

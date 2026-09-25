@@ -1,8 +1,12 @@
 import { useEffect, useState } from 'react'
-import { HashRouter, Navigate, NavLink, Route, Routes } from 'react-router-dom'
-import { AppBar, Box, Button, Chip, Paper, Stack, TextField, Toolbar, Typography } from '@mui/material'
+import { HashRouter, Navigate, NavLink, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
+import { Box, Button, IconButton, Paper, Stack, TextField, Tooltip, Typography } from '@mui/material'
 import { DataGrid, type GridColDef } from '@mui/x-data-grid'
+import { koKR as gridKoKR } from '@mui/x-data-grid/locales'
+import type {} from '@mui/x-data-grid/themeAugmentation'
+import { koKR } from '@mui/material/locale'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
+import type { SvgIconComponent } from '@mui/icons-material'
 import DashboardRounded from '@mui/icons-material/DashboardRounded'
 import DnsRounded from '@mui/icons-material/DnsRounded'
 import ReportProblemRounded from '@mui/icons-material/ReportProblemRounded'
@@ -17,6 +21,12 @@ import ReportRounded from '@mui/icons-material/ReportRounded'
 import ShieldRounded from '@mui/icons-material/ShieldRounded'
 import AccessTimeRounded from '@mui/icons-material/AccessTimeRounded'
 import LogoutRounded from '@mui/icons-material/LogoutRounded'
+import ChevronRightRounded from '@mui/icons-material/ChevronRightRounded'
+import CloudOffRounded from '@mui/icons-material/CloudOffRounded'
+import ArrowForwardRounded from '@mui/icons-material/ArrowForwardRounded'
+import RefreshRounded from '@mui/icons-material/RefreshRounded'
+import CampaignRounded from '@mui/icons-material/CampaignRounded'
+import PushPinRounded from '@mui/icons-material/PushPinRounded'
 import type { Channel, PublicUser, Result } from '../../shared/contracts'
 import StatusChip from './StatusChip'
 import DutyManagement from './DutyManagement'
@@ -27,6 +37,7 @@ import SystemManagement from './SystemManagement'
 import AiManagement from './AiManagement'
 import MaintenanceProgress from './MaintenanceProgress'
 import ReportsManagement from './ReportsManagement'
+import { Avatar, Card, Meter, PageHeader, Paged, countBy, type Tone } from './ui'
 import DashboardDetail, { MetricListDialog, type DetailTarget, type ListTarget } from './DashboardDetail'
 
 type Row = Record<string, any>
@@ -46,7 +57,7 @@ const theme = createTheme({
   },
   shape: { borderRadius: 8 },
   typography: {
-    fontFamily: "Inter, 'Segoe UI', 'Malgun Gothic', '맑은 고딕', system-ui, sans-serif",
+    fontFamily: "'Pretendard Variable', Pretendard, 'Segoe UI', 'Malgun Gothic', system-ui, sans-serif",
     fontSize: 13,
     h4: { fontWeight: 600 }, h5: { fontWeight: 600 }, h6: { fontWeight: 600 },
     button: { textTransform: 'none', fontWeight: 500 }
@@ -55,27 +66,55 @@ const theme = createTheme({
     MuiButton: {
       defaultProps: { disableElevation: true },
       styleOverrides: {
-        root: { borderRadius: 8 },
-        // 보라색은 화면의 주요 버튼(contained)에만 — 보조 버튼은 잉크색 (Notion button-ghost / secondary)
-        outlined: ({ ownerState }) => ownerState.color === 'primary' ? { borderColor: '#c8c4be', color: '#1a1a1a', '&:hover': { borderColor: '#a4a097', backgroundColor: '#f6f5f4' } } : {},
-        text: ({ ownerState }) => ({ '&:hover': { backgroundColor: '#f6f5f4' }, ...(ownerState.color === 'primary' ? { color: '#37352f' } : {}) })
+        root: { borderRadius: 8, letterSpacing: '-.1px', transition: 'background-color .12s ease, box-shadow .12s ease, border-color .12s ease' },
+        // 주요 버튼: 은은한 그라데이션 + 윗면 하이라이트 (상용 앱의 입체감)
+        contained: ({ ownerState }) => ownerState.color === 'primary' ? {
+          background: 'linear-gradient(180deg, #6555e0 0%, #5645d4 100%)',
+          boxShadow: 'inset 0 1px 0 rgba(255,255,255,.16), 0 1px 2px rgba(40,26,140,.28), 0 0 0 1px #4a3bc4',
+          '&:hover': { background: 'linear-gradient(180deg, #5a4ad8 0%, #4a3ac6 100%)', boxShadow: 'inset 0 1px 0 rgba(255,255,255,.14), 0 2px 6px rgba(40,26,140,.28), 0 0 0 1px #4234b8' },
+          '&.Mui-disabled': { background: '#eceae6', boxShadow: 'none', color: '#a4a097' }
+        } : {},
+        // 보라색은 화면의 주요 버튼(contained)에만 — 보조 버튼은 흰 바탕 + 잉크색
+        outlined: ({ ownerState }) => ownerState.color === 'primary'
+          ? { backgroundColor: '#fff', borderColor: '#dcd9d4', color: '#1a1a1a', boxShadow: '0 1px 2px rgba(15,15,15,.05)', '&:hover': { borderColor: '#c8c4be', backgroundColor: '#fafaf9' } }
+          : { backgroundColor: '#fff', boxShadow: '0 1px 2px rgba(15,15,15,.05)' },
+        text: ({ ownerState }) => ({ '&:hover': { backgroundColor: 'rgba(55,53,47,.06)' }, ...(ownerState.color === 'primary' ? { color: '#37352f' } : {}) })
       }
     },
+    MuiIconButton: { styleOverrides: { root: { borderRadius: 8 } } },
     MuiChip: { styleOverrides: { root: { borderRadius: 6 } } },
     MuiPaper: { styleOverrides: { root: { backgroundImage: 'none' } } },
-    MuiOutlinedInput: { styleOverrides: { root: { borderRadius: 8, '& .MuiOutlinedInput-notchedOutline': { borderColor: '#c8c4be' }, '&:hover .MuiOutlinedInput-notchedOutline': { borderColor: '#a4a097' } } } },
-    MuiDialog: { styleOverrides: { paper: { borderRadius: 12, boxShadow: 'rgba(15,15,15,.16) 0px 16px 48px -8px' } } },
+    // 입력: 흰 바탕, 얇은 테두리, 포커스 시 보라색 링
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: {
+          borderRadius: 8, backgroundColor: '#fff', transition: 'box-shadow .12s ease',
+          '& .MuiOutlinedInput-notchedOutline': { borderColor: '#dcd9d4' },
+          '&:hover .MuiOutlinedInput-notchedOutline': { borderColor: '#c8c4be' },
+          '&.Mui-focused': { boxShadow: '0 0 0 3px rgba(86,69,212,.14)' },
+          '&.Mui-focused .MuiOutlinedInput-notchedOutline': { borderColor: '#7b6ce0', borderWidth: 1 },
+          '&.Mui-disabled': { backgroundColor: '#f7f7f5' }
+        }
+      }
+    },
+    MuiInputLabel: { styleOverrides: { root: { color: '#787671', '&.Mui-focused': { color: '#5645d4' } } } },
+    MuiDialog: { styleOverrides: { paper: { borderRadius: 14, boxShadow: '0 24px 64px -12px rgba(15,15,30,.28), 0 0 0 1px rgba(15,15,15,.06)' } } },
+    MuiBackdrop: { styleOverrides: { root: { '&:not(.MuiBackdrop-invisible)': { backgroundColor: 'rgba(24,22,30,.32)', backdropFilter: 'blur(3px)' } } } },
     MuiDialogTitle: { styleOverrides: { root: { fontWeight: 600 } } },
-    MuiMenu: { styleOverrides: { paper: { boxShadow: 'rgba(15,15,15,.16) 0px 16px 48px -8px', border: '1px solid #e5e3df' } } },
+    MuiMenu: { styleOverrides: { paper: { borderRadius: 10, boxShadow: '0 12px 32px -8px rgba(15,15,30,.2), 0 0 0 1px rgba(15,15,15,.06)' }, list: { padding: 4 } } },
+    MuiMenuItem: { styleOverrides: { root: { borderRadius: 6, fontSize: 13.5, minHeight: 34, '&.Mui-selected': { backgroundColor: '#f1effb' }, '&.Mui-selected:hover': { backgroundColor: '#e9e6fa' } } } },
     MuiTabs: { styleOverrides: { indicator: { backgroundColor: '#1a1a1a', height: 2 } } },
     MuiTab: { styleOverrides: { root: { color: '#787671', fontWeight: 500, '&.Mui-selected': { color: '#1a1a1a' } } } },
-    MuiTooltip: { styleOverrides: { tooltip: { backgroundColor: '#1a1a1a', fontSize: 12, fontWeight: 500, borderRadius: 6 }, arrow: { color: '#1a1a1a' } } },
+    MuiTooltip: { styleOverrides: { tooltip: { backgroundColor: '#1f1e24', fontSize: 12, fontWeight: 500, borderRadius: 6, padding: '6px 10px' }, arrow: { color: '#1f1e24' } } },
     MuiTextField: { defaultProps: { size: 'small' } }
   }
+}, koKR, gridKoKR, {
+  // 한국어 로케일도 'of'로 표시하므로 로케일 뒤에 덮어쓴다
+  components: { MuiDataGrid: { defaultProps: { localeText: { paginationDisplayedRows: ({ from, to, count }: { from: number; to: number; count: number }) => `${from}–${to} / 전체 ${count}` } } } }
 })
 
 async function call<T>(channel: Channel, payload: Record<string, unknown> = {}): Promise<T> { const r = await window.afccs.invoke(channel, payload) as Result<T>; if (!r.ok) throw new Error(r.error.message); return r.data }
-const statusText: Record<string, string> = { NORMAL: '정상', WATCH: '주의', INSPECTION: '점검', FAULT: '장애', OFFLINE: '중단', RECEIVED: '접수', TRIAGED: '분류', ASSIGNED: '배정', PLANNED: '계획', IN_PROGRESS: '진행', RESOLVED: '조치완료', CLOSED: '종결', CANCELED: '취소', BLOCKED: '보류', COMPLETED: '완료', URGENT: '긴급', GENERAL: '일반', NOTICE: '공지' }
+const statusText: Record<string, string> = { NORMAL: '정상', WATCH: '주의', INSPECTION: '점검', FAULT: '장애', OFFLINE: '중단', RECEIVED: '접수', TRIAGED: '분류', ASSIGNED: '배정', PLANNED: '계획', IN_PROGRESS: '진행', RESOLVED: '조치완료', CLOSED: '종결', CANCELED: '취소', BLOCKED: '보류', COMPLETED: '완료', URGENT: '긴급', GENERAL: '일반', NOTICE: '공지', HIGH: '높음' }
 const label = (v: unknown) => statusText[String(v)] ?? String(v ?? '')
 const roleText: Record<string, string> = { ADMIN: '관리자', OPERATOR: '운용요원', MAINTAINER: '정비요원', VIEWER: '조회전용', USER: '일반 사용자' }
 const commonCols = (names: [string, string, number?][]): GridColDef[] => names.map(([field, headerName, width]) => {
@@ -101,105 +140,167 @@ function Login({ onLogin }: { onLogin: (u: PublicUser) => void }) {
         <Typography className="sub">정보통신 운용·정비 통합체계</Typography>
       </Box>
       <Stack className="login-points">
-        <Box className="pt"><HubRounded /> 실시간 운영 현황 통합 관제</Box>
-        <Box className="pt"><BuildRounded /> 정비 이력 및 일정 관리</Box>
-        <Box className="pt"><SmartToyRounded /> AI 기반 고장 분석 지원</Box>
+        <Box className="pt"><span><HubRounded /></span><Box><strong>통합 관제</strong><small>체계별 운용 상태와 고장 접수를 한 화면에서</small></Box></Box>
+        <Box className="pt"><span><BuildRounded /></span><Box><strong>정비 일정 관리</strong><small>작업 진행률과 이력을 캘린더로 추적</small></Box></Box>
+        <Box className="pt"><span><SmartToyRounded /></span><Box><strong>AI 분석 지원</strong><small>로컬 규칙 기반 분류와 유사 고장 조회</small></Box></Box>
       </Stack>
+      <span className="login-foot">가상 시연 데이터 · 오프라인 환경 · v1.0.0</span>
     </Box>
     <Box className="login-panel">
       <Paper className="login-card" elevation={0}>
-        <Typography variant="h5" sx={{ fontWeight: 800 }}>로그인</Typography>
-        <Typography color="text.secondary" sx={{ mt: .5, mb: 3 }}>가상 데이터 기반 오프라인 시연 환경</Typography>
+        <Typography variant="h5">로그인</Typography>
+        <Typography color="text.secondary" sx={{ mt: .5, mb: 3 }}>부여받은 계정으로 로그인하십시오.</Typography>
         <Stack spacing={2}>
           <TextField size="medium" label="아이디" value={username} onChange={e => setUsername(e.target.value)} />
           <TextField size="medium" label="비밀번호" type="password" value={password} onChange={e => setPassword(e.target.value)} onKeyDown={e => { if (e.key === 'Enter') submit() }} />
+          {error && <Typography className="login-error" role="alert">{error}</Typography>}
           <Button variant="contained" size="large" fullWidth onClick={submit}>로그인</Button>
-          {error && <Typography color="error" variant="body2">{error}</Typography>}
-          <Typography color="text.secondary" variant="body2">데모 계정 · 관리자 demo_admin / 일반 사용자 demo_user (비밀번호 동일)</Typography>
         </Stack>
+        <Box className="login-demo">
+          <strong>데모 계정</strong>
+          <span><code>demo_admin</code> 관리자</span>
+          <span><code>demo_user</code> 일반 사용자</span>
+          <small>비밀번호는 동일합니다.</small>
+        </Box>
       </Paper>
     </Box>
   </Box>
 }
 
+type NavItem = { to: string; text: string; icon: SvgIconComponent; adminOnly?: boolean }
+const navGroups: { title: string; items: NavItem[] }[] = [
+  { title: '운용 현황', items: [{ to: '/', text: '통합상황판', icon: DashboardRounded }, { to: '/operations', text: '운영현황', icon: DnsRounded }, { to: '/incidents', text: '고장관리', icon: ReportProblemRounded }, { to: '/maintenance', text: '정비관리', icon: BuildRounded }] },
+  { title: '업무 지원', items: [{ to: '/duty', text: '근무/지시사항', icon: EventNoteRounded }, { to: '/ai', text: 'AI 지원', icon: SmartToyRounded }, { to: '/reports', text: '보고서/통계', icon: AssessmentRounded }] },
+  { title: '관리', items: [{ to: '/settings', text: '시스템관리', icon: SettingsRounded, adminOnly: true }] }
+]
+
 function Shell({ user, onLogout }: { user: PublicUser; onLogout: () => void }) {
   const [now, setNow] = useState(() => new Date())
+  const [urgent, setUrgent] = useState(0)
+  const location = useLocation()
   useEffect(() => { const t = setInterval(() => setNow(new Date()), 1000); return () => clearInterval(t) }, [])
+  // 메뉴 뱃지: 미종결 긴급 고장 수 (화면 이동 때마다 갱신)
+  useEffect(() => { call<Row>('dashboard:getSummary').then(d => setUrgent(Number(d.urgentCount) || 0)).catch(() => {}) }, [location.pathname])
   const admin = user.role === 'ADMIN'
-  // 네 번째 값: 관리자 전용 메뉴 여부
-  const links: [string, string, typeof DashboardRounded, boolean?][] = [
-    ['/', '통합상황판', DashboardRounded], ['/operations', '운영현황', DnsRounded], ['/incidents', '고장관리', ReportProblemRounded],
-    ['/maintenance', '정비관리', BuildRounded], ['/duty', '근무/지시사항', EventNoteRounded], ['/ai', 'AI 지원', SmartToyRounded],
-    ['/reports', '보고서/통계', AssessmentRounded], ['/settings', '시스템관리', SettingsRounded, true]
-  ]
+  const groups = navGroups.map(g => ({ ...g, items: g.items.filter(i => admin || !i.adminOnly) })).filter(g => g.items.length)
+  const current = navGroups.flatMap(g => g.items.map(i => ({ ...i, group: g.title }))).find(i => i.to === location.pathname)
   return <Box className="app">
-    <AppBar position="static" elevation={0}>
-      <Toolbar className="top">
-        <Box className="brand">
-          <Box className="brand-mark"><ShieldRounded sx={{ fontSize: 20 }} /></Box>
-          <Box className="brand-text"><Typography variant="h6">AFCCS 정보통신 운용·정비 통합체계</Typography><span>가상 시연 데이터 · 오프라인 업무 시스템</span></Box>
+    <aside className="sidebar">
+      <Box className="sb-brand">
+        <span className="brand-mark"><ShieldRounded /></span>
+        <Box><strong>AFCCS</strong><span>정보통신 운용·정비 통합체계</span></Box>
+      </Box>
+      <nav className="sb-nav" aria-label="주 메뉴">
+        {groups.map(g => <Box key={g.title} className="sb-group">
+          <span className="sb-group-title">{g.title}</span>
+          {g.items.map(({ to, text, icon: Icon }) => <NavLink key={to} to={to} end={to === '/'}>
+            <Icon /><span>{text}</span>{to === '/incidents' && urgent > 0 && <b className="sb-badge" aria-hidden>{urgent}</b>}
+          </NavLink>)}
+        </Box>)}
+      </nav>
+      <Box className="sb-foot">
+        <Box className="sb-sys"><span><i className="dot tone-green" />로컬 DB 연결됨</span><span><i className="dot tone-sky" />AI · Local Rule</span></Box>
+        <Box className="sb-user">
+          <Avatar name={user.display_name} size={36} />
+          <Box sx={{ minWidth: 0, flex: 1 }}><strong>{user.display_name}</strong><span>{user.rank_name ? `${user.rank_name} · ` : ''}{roleText[user.role] ?? user.role}</span></Box>
+          <Tooltip title="로그아웃"><IconButton size="small" aria-label="로그아웃" onClick={() => call('auth:logout').then(onLogout)}><LogoutRounded fontSize="small" /></IconButton></Tooltip>
         </Box>
-        <Box sx={{ flexGrow: 1 }} />
-        <Stack direction="row" spacing={1.5} sx={{ alignItems: 'center' }}>
-          <Stack direction="row" spacing={.6} sx={{ alignItems: 'center' }} className="clock"><AccessTimeRounded /><span>{now.toLocaleString('ko-KR')}</span></Stack>
-          <Chip className="user-chip" size="small" label={`${user.display_name} · ${roleText[user.role] ?? user.role}`} />
-          <Button className="logout-btn" color="inherit" startIcon={<LogoutRounded sx={{ fontSize: 17 }} />} onClick={() => call('auth:logout').then(onLogout)}>로그아웃</Button>
-        </Stack>
-      </Toolbar>
-    </AppBar>
-    <nav>{links.filter(([, , , adminOnly]) => admin || !adminOnly).map(([to, text, Icon]) => <NavLink key={to} to={to} end={to === '/'}><Icon /><span>{text}</span></NavLink>)}</nav>
-    <main>
-      <Routes>
-        <Route path="/" element={<Dashboard />} />
-        <Route path="/operations" element={<Operations user={user} />} />
-        <Route path="/incidents" element={<Incidents user={user} />} />
-        <Route path="/maintenance" element={<Maintenance user={user} />} />
-        <Route path="/duty" element={<Duty user={user} />} />
-        <Route path="/ai" element={<Ai />} />
-        <Route path="/reports" element={<Reports />} />
-        <Route path="/settings" element={admin ? <Settings user={user} /> : <Navigate to="/" replace />} />
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
-    </main>
-    <footer className="status-bar">
-      <span className="status-item"><span className="status-dot" />사용자: {user.username}</span>
-      <span className="status-item"><span className="status-dot blue" />DB: 로컬 SQLite</span>
-      <span className="status-item"><span className="status-dot blue" />AI: Local Rule</span>
-      <span className="status-item push">Version 1.0.0</span>
-    </footer>
+      </Box>
+    </aside>
+    <Box className="workspace">
+      <header className="topbar">
+        <Box className="crumbs"><span>{current?.group ?? 'AFCCS'}</span><ChevronRightRounded /><strong>{current?.text ?? ''}</strong></Box>
+        <Box className="topbar-right">
+          <span className="pill-offline"><CloudOffRounded />오프라인 · 가상 시연 데이터</span>
+          <span className="clock"><AccessTimeRounded />{now.toLocaleDateString('ko-KR', { month: 'long', day: 'numeric', weekday: 'short' })} {now.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false })}</span>
+        </Box>
+      </header>
+      <main>
+        <Routes>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/operations" element={<Operations user={user} />} />
+          <Route path="/incidents" element={<Incidents user={user} />} />
+          <Route path="/maintenance" element={<Maintenance user={user} />} />
+          <Route path="/duty" element={<Duty user={user} />} />
+          <Route path="/ai" element={<Ai />} />
+          <Route path="/reports" element={<Reports />} />
+          <Route path="/settings" element={admin ? <Settings user={user} /> : <Navigate to="/" replace />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </main>
+    </Box>
   </Box>
 }
 
-function Panel({ title, children, action }: { title: string; children: React.ReactNode; action?: React.ReactNode }) { return <Paper className="panel"><Box className="panel-head"><Typography>{title}</Typography>{action}</Box>{children}</Paper> }
+const severityTone = (v: unknown) => v === 'URGENT' ? 'red' : 'gray'
+const severityText = (v: unknown) => v === 'URGENT' ? '긴급' : '일반'
+const chipCol = (field: string, headerName: string, width: number, tone?: (v: unknown) => Tone, text: (v: unknown) => string = label): GridColDef => ({ field, headerName, width, renderCell: ({ row }) => <StatusChip code={row[field]} label={text(row[field])} tone={tone?.(row[field])} /> })
+
+// 상황판 목록 행 높이(px) — style.css의 .dash 규칙과 맞춘다
+const GRID_ROW = 36, GRID_HEAD = 36, NOTICE_ROW = 42
 
 function Dashboard() {
+  const navigate = useNavigate()
   const [data, setData] = useState<Row | null>(null)
   const [detail, setDetail] = useState<DetailTarget | null>(null)
   const [list, setList] = useState<ListTarget | null>(null)
+  const [loadedAt, setLoadedAt] = useState('')
   const open = (kind: DetailTarget['kind']) => ({ row }: { row: Row }) => setDetail({ kind, row })
-  useEffect(() => { call<Row>('dashboard:getSummary').then(setData) }, [])
-  if (!data) return <Typography>불러오는 중...</Typography>
+  const load = () => call<Row>('dashboard:getSummary').then(d => { setData(d); setLoadedAt(new Date().toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit', hour12: false })) })
+  useEffect(() => { load() }, [])
+  if (!data) return <Typography color="text.secondary">불러오는 중...</Typography>
+  const sys = countBy(data.allSystems, 'status')
+  const ms: Record<string, number> = Object.fromEntries(data.maintenanceStatus.map((r: Row) => [r.status, r.n]))
+  const normalRate = data.systemCount ? Math.round(data.normalCount / data.systemCount * 100) : 0
   const systemCols = commonCols([['code', '체계코드', 110], ['name', '체계명'], ['category', '구분', 110], ['status', '상태', 90], ['uptime_pct', '운용률', 90], ['today_incident_count', '금일 고장', 90]])
-  const metrics: [string, unknown, typeof HubRounded, string, ListTarget][] = [
-    ['전체 체계', data.systemCount, HubRounded, 'blue', { title: '전체 체계', kind: 'system', rows: data.allSystems, columns: systemCols }],
-    ['정상 운용', data.normalCount, CheckCircleRounded, 'green', { title: '정상 운용 체계', kind: 'system', rows: data.allSystems.filter((r: Row) => r.status === 'NORMAL'), columns: systemCols }],
-    ['긴급 장애', data.urgentCount, ReportRounded, 'red', { title: '긴급 장애 (미종결)', kind: 'incident', rows: data.urgentIncidents, columns: commonCols([['ticket_no', '접수번호', 150], ['title', '제목'], ['system_name', '체계', 120], ['status', '상태', 90], ['reported_at', '접수일시', 150]]) }],
-    ['진행 중 정비', data.maintenanceCount, BuildRounded, 'amber', { title: '예정·진행 중 정비', kind: 'maintenance', rows: data.openMaintenance, columns: commonCols([['task_no', '작업번호', 150], ['title', '작업명'], ['status', '상태', 85], ['assignee_name', '담당자', 90], ['scheduled_date', '예정일', 105], ['progress', '진행률', 80]]) }]
+  const viewAll = (to: string) => <Button size="small" endIcon={<ArrowForwardRounded />} onClick={() => navigate(to)}>전체 보기</Button>
+  const metrics: { key: string; value: number; unit: string; icon: SvgIconComponent; tone: Tone; foot: React.ReactNode; list: ListTarget }[] = [
+    { key: '전체 체계', value: data.systemCount, unit: '개', icon: HubRounded, tone: 'sky', foot: <>정상 {sys.NORMAL ?? 0} · 주의 {sys.WATCH ?? 0} · 점검 {sys.INSPECTION ?? 0} · 장애 {sys.FAULT ?? 0}</>, list: { title: '전체 체계', kind: 'system', rows: data.allSystems, columns: systemCols } },
+    { key: '정상 운용', value: data.normalCount, unit: '개', icon: CheckCircleRounded, tone: 'green', foot: <Box className="metric-meter"><span>정상 운용률</span><Meter value={normalRate} tone="green" /></Box>, list: { title: '정상 운용 체계', kind: 'system', rows: data.allSystems.filter((r: Row) => r.status === 'NORMAL'), columns: systemCols } },
+    { key: '긴급 장애', value: data.urgentCount, unit: '건', icon: ReportRounded, tone: 'red', foot: <>미종결 고장 {data.incidentCount}건 중 긴급</>, list: { title: '긴급 장애 (미종결)', kind: 'incident', rows: data.urgentIncidents, columns: commonCols([['ticket_no', '접수번호', 150], ['title', '제목'], ['system_name', '체계', 120], ['status', '상태', 90], ['reported_at', '접수일시', 150]]) } },
+    { key: '진행 중 정비', value: data.maintenanceCount, unit: '건', icon: BuildRounded, tone: 'orange', foot: <>진행 {ms.IN_PROGRESS ?? 0} · 예정 {ms.PLANNED ?? 0} · 보류 {ms.BLOCKED ?? 0}</>, list: { title: '예정·진행 중 정비', kind: 'maintenance', rows: data.openMaintenance, columns: commonCols([['task_no', '작업번호', 150], ['title', '작업명'], ['status', '상태', 85], ['assignee_name', '담당자', 90], ['scheduled_date', '예정일', 105], ['progress', '진행률', 80]]) } }
   ]
-  return <>
-    <h1>통합상황판</h1>
-    <div className="metrics">{metrics.map(([k, v, Icon, tone, list]) => <Paper className={`metric metric-${tone} clickable`} key={k} role="button" tabIndex={0} aria-label={`${k} ${v}건 목록 보기`}
+  // 표 행 높이 고정 → Paged가 화면 높이에 맞춰 페이지 크기를 계산
+  const grid = { rowHeight: GRID_ROW, columnHeaderHeight: GRID_HEAD, hideFooter: true, autoHeight: true, disableColumnMenu: true } as const
+  return <div className="dash">
+    <PageHeader section="운용 현황" title="통합상황판" description={`${new Date().toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' })} 기준 정보통신 운용 현황입니다.`}
+      actions={<><span className="ui-updated">{loadedAt} 갱신</span><Button variant="outlined" startIcon={<RefreshRounded />} onClick={load}>새로고침</Button></>} />
+    <div className="metrics">{metrics.map(({ key, value, unit, icon: Icon, tone, foot, list }) => <Paper elevation={0} className={`metric clickable`} key={key} role="button" tabIndex={0} aria-label={`${key} ${value}${unit} 목록 보기`}
       onClick={() => setList(list)} onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setList(list) } }}>
-      <Box className="metric-icon"><Icon /></Box><Box><Typography className="metric-label">{k}</Typography><Typography className="metric-value">{v as any}</Typography></Box></Paper>)}</div>
+      <Box className="metric-top"><span className="metric-label">{key}</span><span className={`ui-icon-tile tone-${tone}`}><Icon /></span></Box>
+      <Box className="metric-value">{value}<small>{unit}</small></Box>
+      <Box className="metric-foot">{foot}</Box>
+    </Paper>)}</div>
     <div className="dashboard-grid">
-      <Panel title="정보통신 운영 현황"><DataGrid className="clickable-grid" rows={data.systems} columns={commonCols([['name', '체계명'], ['status', '상태', 90], ['uptime_pct', '운용률', 100]])} density="compact" hideFooter autoHeight onRowClick={open('system')} /></Panel>
-      <Panel title="정비작업 진행 현황" action={<span className="panel-meta">예정·진행 {data.maintenanceCount}건</span>}><MaintenanceProgress status={data.maintenanceStatus} active={data.activeMaintenance} onSelect={row => setDetail({ kind: 'maintenance', row })} /></Panel>
-      <Panel title="최근 고장 접수"><DataGrid className="clickable-grid" rows={data.recentIncidents} columns={commonCols([['ticket_no', '접수번호', 165], ['title', '제목'], ['severity', '중요도', 85], ['status', '상태', 95]])} density="compact" hideFooter autoHeight onRowClick={open('incident')} /></Panel>
-      <Panel title="지시사항 / 공지"><Stack spacing={0}>{data.directives.map((r: Row) => <Box component="button" type="button" className="notice clickable" key={r.id} onClick={() => setDetail({ kind: 'directive', row: r })}><StatusChip code={r.level} label={label(r.level)} /><span>{r.title}</span><small>{String(r.issued_at).slice(0, 10)}</small></Box>)}</Stack></Panel>
+      <Card icon={DnsRounded} tone="sky" title="정보통신 운영 현황" subtitle={`전체 ${data.systemCount}개 체계`} action={viewAll('/operations')}>
+        <Paged rows={data.allSystems as Row[]} rowHeight={GRID_ROW} reserved={GRID_HEAD + 2} unit="개">{rows =>
+          <DataGrid {...grid} className="clickable-grid" rows={rows} onRowClick={open('system')} columns={[
+            { field: 'name', headerName: '체계명', flex: 1, renderCell: ({ row }) => <span className="cell-strong">{row.name}</span> }, chipCol('status', '상태', 90),
+            { field: 'uptime_pct', headerName: '운용률', width: 150, renderCell: ({ row }) => <Meter value={row.uptime_pct} tone={row.uptime_pct >= 97 ? 'green' : 'sky'} /> }]} />}
+        </Paged>
+      </Card>
+      <Card icon={BuildRounded} tone="orange" title="정비작업 진행 현황" subtitle={`예정·진행 ${data.maintenanceCount}건`} action={viewAll('/maintenance')}>
+        <MaintenanceProgress status={data.maintenanceStatus} active={data.openMaintenance} onSelect={row => setDetail({ kind: 'maintenance', row })} />
+      </Card>
+      <Card icon={ReportProblemRounded} tone="red" title="최근 고장 접수" subtitle={`최근 ${data.recentIncidents.length}건`} action={viewAll('/incidents')}>
+        <Paged rows={data.recentIncidents as Row[]} rowHeight={GRID_ROW} reserved={GRID_HEAD + 2}>{rows =>
+          <DataGrid {...grid} className="clickable-grid" rows={rows} onRowClick={open('incident')} columns={[
+            { field: 'ticket_no', headerName: '접수번호', width: 150, renderCell: ({ row }) => <span className="cell-code">{row.ticket_no}</span> },
+            { field: 'title', headerName: '제목', flex: 1, renderCell: ({ row }) => <span className="cell-strong">{row.title}</span> },
+            chipCol('severity', '중요도', 80, severityTone, severityText), chipCol('status', '상태', 90)]} />}
+        </Paged>
+      </Card>
+      <Card icon={CampaignRounded} tone="lavender" title="지시사항 / 공지" subtitle={`고정 공지 우선 · 최근 ${data.directives.length}건`} action={viewAll('/duty')}>
+        <Paged rows={data.directives as Row[]} rowHeight={NOTICE_ROW}>{rows =>
+          rows.map(r => <Box component="button" type="button" className="notice clickable" key={r.id} onClick={() => setDetail({ kind: 'directive', row: r })}>
+            <StatusChip code={r.level} label={label(r.level)} /><span>{r.title}</span>{r.pinned ? <PushPinRounded className="notice-pin" aria-label="고정" /> : null}<small>{String(r.issued_at).slice(0, 10)}</small>
+          </Box>)}
+        </Paged>
+      </Card>
     </div>
     <MetricListDialog target={list} onSelect={setDetail} onClose={() => setList(null)} />
     <DashboardDetail target={detail} label={label} onClose={() => setDetail(null)} />
-  </>
+  </div>
 }
 
 function Operations({ user }: { user: PublicUser }) { return <OperationsManagement user={user} /> }

@@ -1,7 +1,9 @@
 import { Box, Tooltip, Typography } from '@mui/material'
 import StatusChip from './StatusChip'
+import { Paged } from './ui'
 
 type Row = Record<string, any>
+const TASK_ROW = 38 // style.css .dash .mp-task 높이와 맞춘다
 
 // 상태 색은 StatusChip 의미와 맞춤 (완료=녹색, 진행=주황, 보류=적색, 계획=청색).
 // validate_palette 통과: 녹↔주황 CVD ΔE 6.3 → 2px 간격 + 범례 수치로 보조 인코딩
@@ -41,8 +43,8 @@ export default function MaintenanceProgress({ status, active, onSelect }: { stat
       </Box>)}
     </Box>
 
-    <Typography className="mp-section">진행 중인 작업</Typography>
-    {active.length ? active.map(r => <Box key={r.id} className={onSelect ? 'mp-task clickable' : 'mp-task'} title={`${r.title} · 예정일 ${r.scheduled_date}`}
+    <Typography className="mp-section">예정·진행 작업</Typography>
+    {active.length ? <Paged rows={active} rowHeight={TASK_ROW}>{rows => rows.map(r => <Box key={r.id} className={onSelect ? 'mp-task clickable' : 'mp-task'} title={`${r.title} · 예정일 ${r.scheduled_date}`}
       role={onSelect ? 'button' : undefined} tabIndex={onSelect ? 0 : undefined} onClick={() => onSelect?.(r)}
       onKeyDown={e => { if (onSelect && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); onSelect(r) } }}>
       <Box className="mp-task-head">
@@ -55,6 +57,6 @@ export default function MaintenanceProgress({ status, active, onSelect }: { stat
         <Box className="mp-track"><Box className="mp-fill" sx={{ width: `${r.progress}%`, bgcolor: colorOf(r.status) }} /></Box>
         <span className="mp-task-pct">{r.progress}%</span>
       </Box>
-    </Box>) : <Typography color="text.secondary" variant="body2">진행 중인 작업이 없습니다.</Typography>}
+    </Box>)}</Paged> : <Typography color="text.secondary" variant="body2">진행 중인 작업이 없습니다.</Typography>}
   </Box>
 }
