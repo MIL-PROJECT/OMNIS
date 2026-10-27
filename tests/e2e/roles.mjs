@@ -1,10 +1,11 @@
 import { _electron as electron } from 'playwright'
 import { mkdirSync } from 'node:fs'
 import { resolve } from 'node:path'
+import { electronLaunchOptions } from './electron-launch.mjs'
 
 const dataDir = resolve('tests/.tmp/roles-profile')
 mkdirSync(dataDir, { recursive:true })
-const app = await electron.launch({ executablePath:resolve('node_modules/electron/dist/electron.exe'),args:[resolve('out/main/index.js')],env:{ ...process.env,OMNIS_E2E_DATA:dataDir } })
+const app = await electron.launch(electronLaunchOptions({ dataDir }))
 try {
   const actual = await app.evaluate(({app}) => app.getPath('userData'))
   if (resolve(actual).toLowerCase() !== dataDir.toLowerCase()) throw new Error(`Data isolation failed: ${actual}`)

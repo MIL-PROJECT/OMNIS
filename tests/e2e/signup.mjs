@@ -1,11 +1,12 @@
 import { _electron as electron } from 'playwright'
 import { mkdirSync, rmSync } from 'node:fs'
 import { resolve } from 'node:path'
+import { electronLaunchOptions } from './electron-launch.mjs'
 
 // 사용자 등록 신청 → 승인 대기 로그인 차단 → 관리자 승인/반려 → 신규 계정 로그인
 const dataDir = resolve('tests/.tmp/signup-profile')
 rmSync(dataDir, { recursive: true, force: true }); mkdirSync(dataDir, { recursive: true })
-const app = await electron.launch({ executablePath: resolve('node_modules/electron/dist/electron.exe'), args: [resolve('out/main/index.js')], env: { ...process.env, OMNIS_E2E_DATA: dataDir } })
+const app = await electron.launch(electronLaunchOptions({ dataDir }))
 const stamp = String(Date.now()).slice(-6)
 const applicants = [
   { serviceNo: `24-7${stamp}1`, name: '신규승인', rank: '하사', unit: '가상 통신중대', id: `e2e_ok_${stamp}`, pw: 'Signup!2026' },

@@ -1,11 +1,12 @@
 import { _electron as electron } from 'playwright'
 import { mkdirSync, rmSync } from 'node:fs'
 import { resolve } from 'node:path'
+import { electronLaunchOptions } from './electron-launch.mjs'
 
 const dataDir = resolve(process.env.OMNIS_E2E_PROFILE ?? 'tests/.tmp/operations-flow-profile')
 rmSync(dataDir,{recursive:true,force:true}); mkdirSync(dataDir,{recursive:true})
 const packaged = process.env.OMNIS_E2E_EXE
-const app = await electron.launch({ executablePath:resolve(packaged ?? 'node_modules/electron/dist/electron.exe'),args:packaged ? [] : [resolve('out/main/index.js')],env:{...process.env,OMNIS_E2E_DATA:dataDir} })
+const app = await electron.launch(electronLaunchOptions({ dataDir, packagedExecutable: packaged }))
 
 try {
   const page = await app.firstWindow()

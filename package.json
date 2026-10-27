@@ -24,6 +24,7 @@
     "test:e2e:signup": "node tests/e2e/signup.mjs",
     "test:e2e:operations": "node tests/e2e/operations-flow.mjs",
     "test:e2e:visual": "node tests/e2e/visual-check.mjs",
+    "icons:mac": "node scripts/generate-mac-icon.mjs",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "tsx scripts/migrate-db.ts",
     "db:seed": "tsx scripts/build-seed-db.ts",
@@ -31,6 +32,9 @@
     "rebuild:native": "electron-builder install-app-deps",
     "dist": "pnpm build && electron-builder",
     "dist:win": "pnpm build && electron-builder --win nsis --x64",
+    "dist:mac": "pnpm build && electron-builder --mac dmg zip",
+    "dist:mac:x64": "pnpm build && electron-builder --mac dmg zip --x64",
+    "dist:mac:arm64": "pnpm build && electron-builder --mac dmg zip --arm64",
     "postinstall": "electron-builder install-app-deps"
   },
   "dependencies": {

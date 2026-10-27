@@ -28,22 +28,31 @@ if (!process.env.OMNIS_E2E_DATA) migrateLegacyData(join(appData, 'AFCCS'), userD
 mkdirSync(userDataPath, { recursive: true })
 app.setPath('userData', userDataPath)
 
+let mainWindow: BrowserWindow | null = null
+function createWindow(): BrowserWindow {
+  const window = new BrowserWindow({ width: 1600, height: 950, minWidth: 1366, minHeight: 768, show: false, autoHideMenuBar: true, webPreferences: { preload: join(__dirname, '../preload/index.cjs'), contextIsolation: true, nodeIntegration: false, sandbox: true, webSecurity: true, devTools: !app.isPackaged } })
+  mainWindow = window
+  window.once('ready-to-show', () => window.show())
+  window.once('closed', () => { if (mainWindow === window) mainWindow = null })
+  window.webContents.setWindowOpenHandler(() => ({ action: 'deny' }))
+  window.webContents.on('will-navigate', event => event.preventDefault())
+  if (process.env.ELECTRON_RENDERER_URL) window.loadURL(process.env.ELECTRON_RENDERER_URL)
+  else window.loadFile(join(__dirname, '../renderer/index.html'))
+  return window
+}
+
 if (!app.requestSingleInstanceLock()) app.quit()
 else {
-  app.on('second-instance', () => { const win = BrowserWindow.getAllWindows()[0]; win?.show(); win?.focus() })
+  app.on('second-instance', () => { if (!app.isReady()) return; const win = mainWindow ?? createWindow(); win.show(); win.focus() })
   app.whenReady().then(() => {
     log.initialize()
     try { openDb(); registerIpc() } catch (error) { log.error('Startup failed', error); throw error }
-    const window = new BrowserWindow({ width: 1600, height: 950, minWidth: 1366, minHeight: 768, show: false, autoHideMenuBar: true, webPreferences: { preload: join(__dirname, '../preload/index.cjs'), contextIsolation: true, nodeIntegration: false, sandbox: true, webSecurity: true, devTools: !app.isPackaged } })
-    window.once('ready-to-show', () => window.show())
-    window.webContents.setWindowOpenHandler(() => ({ action: 'deny' }))
-    window.webContents.on('will-navigate', event => event.preventDefault())
-    if (process.env.ELECTRON_RENDERER_URL) window.loadURL(process.env.ELECTRON_RENDERER_URL)
-    else window.loadFile(join(__dirname, '../renderer/index.html'))
+    createWindow()
     const lastBackup = koreaDate()
     const marker = join(app.getPath('userData'), `backup-${lastBackup}.marker`)
     import('node:fs').then(async fs => { if (!fs.existsSync(marker)) { try { await backup(); fs.writeFileSync(marker, '') } catch (error) { log.error('Backup failed', error) } } })
   })
+  app.on('activate', () => { if (BrowserWindow.getAllWindows().length === 0) createWindow() })
   app.on('before-quit', closeDb)
-  app.on('window-all-closed', () => app.quit())
+  app.on('window-all-closed', () => { if (process.platform !== 'darwin') app.quit() })
 }

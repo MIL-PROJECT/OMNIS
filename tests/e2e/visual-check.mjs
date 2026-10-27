@@ -1,10 +1,11 @@
 import { _electron as electron } from 'playwright'
 import { mkdirSync, rmSync } from 'node:fs'
 import { resolve } from 'node:path'
+import { electronLaunchOptions } from './electron-launch.mjs'
 
 const dataDir=resolve('tests/.tmp/visual-profile'), output=resolve('tests/.tmp/visual')
 rmSync(dataDir,{recursive:true,force:true}); mkdirSync(dataDir,{recursive:true}); mkdirSync(output,{recursive:true})
-const app=await electron.launch({executablePath:resolve('node_modules/electron/dist/electron.exe'),args:[resolve('out/main/index.js')],env:{...process.env,OMNIS_E2E_DATA:dataDir}})
+const app=await electron.launch(electronLaunchOptions({ dataDir }))
 try {
   const page=await app.firstWindow(), errors=[]
   page.on('console',m=>{if(m.type()==='error') errors.push(m.text())})

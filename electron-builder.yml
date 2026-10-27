@@ -18,3 +18,26 @@ win:
 nsis:
   oneClick: false
   allowToChangeInstallationDirectory: true
+mac:
+  icon: build/icon.icns
+  category: public.app-category.business
+  minimumSystemVersion: "13.0"
+  hardenedRuntime: true
+  entitlements: build/entitlements.mac.plist
+  artifactName: "${productName}-${version}-${os}-${arch}.${ext}"
+  target:
+    - dmg
+    - zip
+dmg:
+  title: "${productName} ${version}"
+  iconSize: 96
+  window:
+    width: 540
+    height: 380
+  contents:
+    - x: 140
+      y: 190
+    - x: 400
+      y: 190
+      type: link
+      path: /Applications

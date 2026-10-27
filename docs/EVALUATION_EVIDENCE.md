@@ -60,7 +60,7 @@
 
 - 설치 파일: `release/OMNIS Setup 1.0.0.exe`
 - unpacked 실행본: `release/win-unpacked/OMNIS.exe`
-- SHA-256: `BCE89D9E77DEDDA45EA02E6409589B3285F23DBE33EBEC778FCEBB947A29CA20`
-- 생성 시각: 2026-10-28 07:11 KST
-- 설치 파일 크기: 124,581,232 bytes
+- SHA-256: `918F017A7ECC3BF62CD3FDD988592A45D47D78943B165B784EE4871C7C7B409A`
+- 생성 시각: 2026-10-28 07:24 KST
+- 설치 파일 크기: 124,581,731 bytes
 - unpacked 실행본 smoke와 operations workflow E2E 통과

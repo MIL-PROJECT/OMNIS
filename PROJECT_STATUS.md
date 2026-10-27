@@ -19,10 +19,11 @@
 - [x] 상황경보, 정비반 master/작업량, 지시사항 확인·기한·이행상태, 평가 시나리오 생성/선택 초기화.
 - [x] Asia/Seoul 업무일자·시간 표시와 집계, 1,000건 이상 인덱스 조회 회귀 테스트.
 - [x] 장애·정비 첨부자료: 다중 선택, 형식·25MB 제한, SHA-256, 역할/소유권, 열기·삭제, 감사 및 업무 이벤트, 백업 연계.
+- [x] macOS 13+ 경로 호환, Apple Silicon/Intel 전용 DMG·ZIP 설정, ICNS 아이콘, 플랫폼 독립 E2E launcher, Apple 서명·공증 연계 CI.
 
 ## In progress
 
-- [ ] Review remaining gaps in `Remaining` and validate the installer on a clean Windows machine.
+- [ ] Review remaining gaps in `Remaining` and validate installers on clean Windows and macOS machines.
 
 ## Remaining
 
@@ -31,6 +32,7 @@
 - [ ] Add monthly trend reports, editable AI report drafts and broader report print layout review.
 - [ ] Add external-system file adapter implementation; interface and safeguards are documented only.
 - [ ] Fresh machine installer test.
+- [ ] Apple Developer 인증서를 GitHub Secrets에 등록해 Developer ID 서명·Apple 공증·Gatekeeper 실기기 검증을 완료.
 
 ## Test Result
 
@@ -51,13 +53,13 @@
 - `pnpm build`, `pnpm dist:win` and `pnpm db:generate`: passed.
 - Production renderer/Main/preload build: passed on 2026-10-28.
 - NSIS `OMNIS Setup 1.0.0.exe`: regenerated on 2026-10-28.
-- Final NSIS SHA-256: `BCE89D9E77DEDDA45EA02E6409589B3285F23DBE33EBEC778FCEBB947A29CA20`.
+- Final NSIS SHA-256: `918F017A7ECC3BF62CD3FDD988592A45D47D78943B165B784EE4871C7C7B409A`.
 
 ## Known Issues
 
 - A live external-system adapter, embedding similarity, editable AI report drafts, and clean-machine installer behavior remain outside the verified scope.
 - Fresh-machine installer behavior still needs manual verification.
-- Early smoke tests created a demo DB under `%APPDATA%/Electron/data/afccs.db` before the app data path was corrected. It has not been deleted or reset. Normal runs now use `%APPDATA%/AFCCS/data/afccs.db`; E2E runs use `tests/.tmp`.
+- Early smoke tests created a demo DB under `%APPDATA%/Electron/data/afccs.db` before the app data path was corrected. It has not been deleted or reset. Normal runs now use `%APPDATA%/OMNIS/data/omnis.db` on Windows or `~/Library/Application Support/OMNIS/data/omnis.db` on macOS; E2E runs use `tests/.tmp`.
 
 ## 2026-09-26 이름 변경
 - 프로그램 이름을 AFCCS → **OMNIS**(Operations & Maintenance Network Integrated System)로 변경. 데이터 폴더 `%APPDATA%/OMNIS`, DB `omnis.db`.
