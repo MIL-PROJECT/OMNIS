@@ -56,11 +56,11 @@ GitHub 저장소에 다음 Actions Secrets를 등록하면 electron-builder가 D
 |---|---|
 | `MACOS_CSC_LINK` | Developer ID Application 인증서 `.p12` 파일 또는 base64 |
 | `MACOS_CSC_KEY_PASSWORD` | `.p12` 비밀번호 |
-| `APPLE_API_KEY` | App Store Connect API `.p8` 키 경로 또는 base64 내용 |
+| `APPLE_API_KEY` | App Store Connect API `.p8` 키의 PEM 원문 또는 base64 내용 |
 | `APPLE_API_KEY_ID` | API Key ID |
 | `APPLE_API_ISSUER` | Issuer ID |
 
-서명 인증서가 있으면 CI는 `codesign --verify`를 실행한다. 공증 자격 증명까지 있으면 stapled ticket과 `spctl --assess`도 검증한다. Apple Developer Program 인증 정보가 없으면 DMG·ZIP은 생성되지만 unsigned 상태이며 Gatekeeper 경고 없이 일반 배포할 수 없다.
+CI는 비어 있지 않은 인증 정보만 electron-builder에 전달한다. `APPLE_API_KEY`는 runner의 임시 `.p8` 파일로 복원되며 세 키 중 일부만 등록된 경우 빌드를 중단한다. 서명 인증서가 있으면 CI는 `codesign --verify`를 실행한다. 공증 자격 증명까지 있으면 stapled ticket과 `spctl --assess`도 검증한다. Apple Developer Program 인증 정보가 없으면 DMG·ZIP은 생성되지만 unsigned 상태이며 Gatekeeper 경고 없이 일반 배포할 수 없다.
 
 ## 설치
 
