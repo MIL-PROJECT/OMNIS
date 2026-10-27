@@ -54,5 +54,5 @@ else {
   })
   app.on('activate', () => { if (BrowserWindow.getAllWindows().length === 0) createWindow() })
   app.on('before-quit', closeDb)
-  app.on('window-all-closed', () => { if (process.platform !== 'darwin') app.quit() })
+  app.on('window-all-closed', () => { if (process.platform !== 'darwin' || process.env.OMNIS_E2E_DATA) app.quit() })
 }
