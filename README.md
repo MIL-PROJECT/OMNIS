@@ -15,7 +15,7 @@ React 19 Renderer → sandboxed preload contextBridge → validated IPC → Elec
 - `pnpm db:build-seed`
 - `pnpm dev`
 
-데모 계정: 관리자 `demo_admin`, 일반 사용자 `demo_user` (비밀번호 모두 `Demo!2026`). 일반 사용자는 시스템관리 메뉴와 관리자 전용 기능(백업·초기화·AI 설정·감사 로그·체계 삭제)을 사용할 수 없습니다. 설치 후 반드시 변경하는 프로덕션 계정이 아닙니다.
+데모 계정: 관리자 `demo_admin`, 일반 사용자 `demo_user` (비밀번호 모두 `Demo!2026`). 일반 사용자는 시스템관리 메뉴와 관리자 전용 기능(백업·초기화·AI 설정·감사 로그·체계 삭제)을 사용할 수 없습니다. 로그인 화면에서 사용자 등록을 신청할 수 있으며, 관리자가 신청현황에서 권한을 지정해 승인한 뒤 로그인할 수 있습니다. 설치 후 반드시 변경하는 프로덕션 계정이 아닙니다.
 
 ## 데이터
 
@@ -31,4 +31,4 @@ React 19 Renderer → sandboxed preload contextBridge → validated IPC → Elec
 
 ## 현재 범위
 
-대시보드, 운영 체계 CRUD, 고장·정비 등록/수정/상태 전이, 근무·지시사항 CRUD, Local Rule 및 선택적 로컬 Ollama, 일일·주간 보고서, CSV/PDF, 백업과 초기화를 구현했습니다. 남은 범위는 `PROJECT_STATUS.md`를 확인하십시오.
+인디고 기반 반응형 대시보드, 운영 체계 CRUD, 고장·정비 등록/수정/상태 전이, 근무·지시사항 CRUD, 사용자 등록 신청·승인·반려, 역할 기반 접근 제어, Local Rule 및 선택적 로컬 Ollama, 일일·주간 보고서, CSV/PDF, 백업과 초기화를 구현했습니다. 남은 범위는 `PROJECT_STATUS.md`를 확인하십시오.
