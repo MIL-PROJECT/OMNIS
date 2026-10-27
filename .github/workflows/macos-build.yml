@@ -22,8 +22,10 @@ jobs:
       matrix:
         include:
           - arch: arm64
+            binary_arch: arm64
             runner: macos-15
           - arch: x64
+            binary_arch: x86_64
             runner: macos-15-intel
     runs-on: ${{ matrix.runner }}
     timeout-minutes: 45
@@ -109,7 +111,7 @@ jobs:
           APP_BUNDLE="$(find release -type d -path '*/OMNIS.app' -print -quit)"
           APP_EXECUTABLE="$APP_BUNDLE/Contents/MacOS/OMNIS"
           test -x "$APP_EXECUTABLE"
-          lipo -archs "$APP_EXECUTABLE" | grep -qw "${{ matrix.arch }}"
+          lipo -archs "$APP_EXECUTABLE" | grep -qw "${{ matrix.binary_arch }}"
           OMNIS_E2E_EXE="$APP_EXECUTABLE" OMNIS_E2E_PROFILE="tests/.tmp/packaged-${{ matrix.arch }}" pnpm test:e2e
           if [[ -n "${CSC_LINK:-}" ]]; then
             codesign --verify --deep --strict --verbose=2 "$APP_BUNDLE"
