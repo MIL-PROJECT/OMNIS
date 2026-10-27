@@ -8,6 +8,7 @@ import ReportProblemRounded from '@mui/icons-material/ReportProblemRounded'
 import BuildRounded from '@mui/icons-material/BuildRounded'
 import type { Channel, Result } from '../../shared/contracts'
 import { Card, EmptyState, PageHeader, type Tone } from './ui'
+import { koreaDate } from '../../shared/date'
 
 type Row = Record<string, any>
 async function call<T>(channel: Channel, payload: Record<string, unknown> = {}): Promise<T> { const r = await window.omnis.invoke(channel,payload) as Result<T>; if (!r.ok) throw new Error(r.error.message); return r.data }
@@ -24,7 +25,7 @@ function StatusBars({ rows }: { rows: Row[] }) {
 }
 
 export default function ReportsManagement() {
-  const [tab,setTab] = useState(0),[date,setDate] = useState(new Date().toISOString().slice(0,10)),[daily,setDaily] = useState<Row | null>(null),[weekly,setWeekly] = useState<Row | null>(null)
+  const [tab,setTab] = useState(0),[date,setDate] = useState(koreaDate()),[daily,setDaily] = useState<Row | null>(null),[weekly,setWeekly] = useState<Row | null>(null)
   const exportFile = (channel: Channel, payload: Record<string,unknown>) => call<string | null>(channel,payload).then(v => { if (v) alert(`저장됨: ${v}`) }).catch(e => alert(e.message))
   const query = () => tab === 0 ? call<Row>('reports:daily',{ date }).then(setDaily).catch(e => alert(e.message)) : call<Row>('reports:weekly',{ startDate:date }).then(setWeekly).catch(e => alert(e.message))
   useEffect(() => { query() }, [tab])

@@ -3,7 +3,7 @@
 ## Completed
 
 - [x] Phase 1–2: pnpm project, Electron, React 19, TypeScript strict and secure preload.
-- [x] Phase 3–4: SQLite schema v1, migration, 10 demo users, 38 systems, 52 incidents, 42 maintenance tasks, 28 duty rows, 8 directives.
+- [x] Phase 3–4: SQLite schema v4 순방향 migration, 11 demo users, 38 systems, 52 incidents, 42 maintenance tasks, 3 정비반, 상황경보, 일일 작업계획, 첨부자료 메타데이터.
 - [x] Phase 5–6: local scrypt login, role checks, Zod validated IPC and restricted contextBridge.
 - [x] Phase 7–11: dashboard; operations CRUD/status/history; incident create/edit/assignment/workflow/events; maintenance create/edit/workflow/events/calendar; duty and directive CRUD.
 - [x] Phase 12: offline Local Rule, optional local Ollama provider, structured output validation and fallback; triage, summary, similar incident and maintenance recommendations.
@@ -14,6 +14,11 @@
 - [x] OMNIS rebranding and legacy AFCCS data migration with source preservation.
 - [x] Indigo dashboard redesign, unified data tables/status chips and responsive side navigation.
 - [x] User registration request, duplicate validation, admin approve/reject with role assignment and pending/rejected login handling.
+- [x] PDF 5~11쪽 운영절차: 접수→분류→정비반 배정→원격/현장→결과→검증→종결, 긴급 선조치, 08:30/16:00 작업판, 정합성 검사, 일일 마감, 인수인계.
+- [x] AI 구조화 분류·사람 승인 반영·SLA 위험·실행 이력(`ai_runs`)·Ollama 실패 시 Local Rule fallback.
+- [x] 상황경보, 정비반 master/작업량, 지시사항 확인·기한·이행상태, 평가 시나리오 생성/선택 초기화.
+- [x] Asia/Seoul 업무일자·시간 표시와 집계, 1,000건 이상 인덱스 조회 회귀 테스트.
+- [x] 장애·정비 첨부자료: 다중 선택, 형식·25MB 제한, SHA-256, 역할/소유권, 열기·삭제, 감사 및 업무 이벤트, 백업 연계.
 
 ## In progress
 
@@ -22,9 +27,9 @@
 ## Remaining
 
 - [ ] Move the remaining service SQL into dedicated repositories and integrate Drizzle migrations with the runtime upgrader. The dashboard repository now uses Drizzle and schema generation works, but other services still use hand-written schema v1 migrations and parameterized SQLite queries.
-- [ ] Add richer operations history charts, incident SLA/period filters and calendar drag/drop.
-- [ ] Add date-range trend reports, calendar drag/drop and broader report print layout review.
-- [ ] Role-specific navigation and deeper authorization tests for every IPC channel.
+- [ ] Add richer operations history charts and calendar drag/drop.
+- [ ] Add monthly trend reports, editable AI report drafts and broader report print layout review.
+- [ ] Add external-system file adapter implementation; interface and safeguards are documented only.
 - [ ] Fresh machine installer test.
 
 ## Test Result
@@ -32,21 +37,25 @@
 - TypeScript typecheck: passed.
 - ESLint: passed.
 - TypeScript typecheck and ESLint: passed on 2026-10-28.
-- Vitest: 7 passed across 2 test files.
+- Vitest: 11 passed across 3 test files, including v2→v4 preservation, attachment storage/hash/RBAC/audit, operational control lifecycle, Asia/Seoul boundary and 1,000-row query checks.
 - Seed DB: integrity check passed; expected row counts verified.
 - Electron E2E: login, incident persistence/edit, operations creation, maintenance workflow/result/calendar, duty/directive creation, weekly report, PDF export, notification read state, backup and demo reset passed in an isolated data path.
 - RBAC E2E: VIEWER, OPERATOR and MAINTAINER forbidden actions rejected by Main services.
 - USER RBAC E2E: daily work allowed; admin navigation and Main IPC channels rejected.
 - Signup E2E: request, duplicate prevention, pending login block, role approval, rejection reason and approved-account login passed.
+- Operations E2E: incident workflow, emergency pre-action, linked unplanned maintenance, reconciliation/close, handover, AI fallback, and Demo lifecycle passed.
+- Visual E2E: 1366×768 and 1920×1080 body overflow/renderer-console check passed; screenshots saved under `tests/.tmp/visual`.
 - Source Electron E2E: the latest OMNIS UI and workflow passed on 2026-10-28 with isolated data.
 - Packaged EXE E2E: the latest `release/win-unpacked/OMNIS.exe` passed the full end-to-end flow with isolated data on 2026-10-28.
+- Packaged EXE Operations E2E: the latest unpacked executable passed the new workflow and AI fallback scenario.
 - `pnpm build`, `pnpm dist:win` and `pnpm db:generate`: passed.
 - Production renderer/Main/preload build: passed on 2026-10-28.
 - NSIS `OMNIS Setup 1.0.0.exe`: regenerated on 2026-10-28.
+- Final NSIS SHA-256: `BCE89D9E77DEDDA45EA02E6409589B3285F23DBE33EBEC778FCEBB947A29CA20`.
 
 ## Known Issues
 
-- Feature coverage is partial against the original 45-section specification; remaining items above are not claimed complete.
+- A live external-system adapter, embedding similarity, editable AI report drafts, and clean-machine installer behavior remain outside the verified scope.
 - Fresh-machine installer behavior still needs manual verification.
 - Early smoke tests created a demo DB under `%APPDATA%/Electron/data/afccs.db` before the app data path was corrected. It has not been deleted or reset. Normal runs now use `%APPDATA%/AFCCS/data/afccs.db`; E2E runs use `tests/.tmp`.
 

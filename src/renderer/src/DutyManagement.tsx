@@ -10,26 +10,28 @@ import { DataGrid, type GridColDef } from '@mui/x-data-grid'
 import type { Channel, PublicUser, Result } from '../../shared/contracts'
 import StatusChip from './StatusChip'
 import { Avatar, Card, EmptyState, PageHeader, RowActions, fmtDateTime, weekday, type Tone } from './ui'
+import { koreaDate, koreaDateTimeInput } from '../../shared/date'
 
 type Row = Record<string, any>
 async function call<T>(channel: Channel, payload: Record<string, unknown> = {}): Promise<T> { const r = await window.omnis.invoke(channel, payload) as Result<T>; if (!r.ok) throw new Error(r.error.message); return r.data }
-const blankDuty = { dutyDate: new Date().toISOString().slice(0,10), shiftType: 'DAY' }
+const blankDuty = { dutyDate: koreaDate(), shiftType: 'DAY' }
 const defaultPosition = '운용 담당'
-const blankDirective = { title: '', content: '', level: 'GENERAL' }
+const blankDirective = { title: '', content: '', level: 'GENERAL', dueAt:'', department:'', assigneeId:'', status:'OPEN' }
 const shifts: [string, string, Tone][] = [['DAY','주간','sky'],['NIGHT','야간','lavender'],['DUTY','당직','orange']]
 const shiftChip = (v: string) => { const s = shifts.find(x => x[0] === v); return <StatusChip code={v} label={s?.[1] ?? v} tone={s?.[2] ?? 'gray'} /> }
 const levels: [string, string][] = [['URGENT','긴급'],['GENERAL','일반'],['NOTICE','공지']]
 const levelText = (v: string) => levels.find(x => x[0] === v)?.[1] ?? v
-const today = new Date().toISOString().slice(0,10)
+const today = koreaDate()
 
 export default function DutyManagement({ user }: { user: PublicUser }) {
   const [tab,setTab] = useState(0), [duty,setDuty] = useState<Row[]>([]), [directives,setDirectives] = useState<Row[]>([]), [users,setUsers] = useState<Row[]>([])
   const [dutyForm,setDutyForm] = useState<Row | null>(null), [directiveForm,setDirectiveForm] = useState<Row | null>(null)
   const editable = ['ADMIN','OPERATOR','USER'].includes(user.role)
+  const canManageDirective = ['ADMIN','OPERATOR'].includes(user.role)
   const refresh = () => { call<Row[]>('duty:list').then(setDuty); call<Row[]>('directives:list').then(setDirectives) }
   useEffect(() => { refresh(); call<Row[]>('users:list').then(setUsers) }, [])
   const saveDuty = () => { if (!dutyForm) return; const { id, ...fields } = dutyForm; call(id ? 'duty:update' : 'duty:create', id ? { id, ...fields } : fields).then(() => { setDutyForm(null); refresh() }).catch(e => alert(e.message)) }
-  const saveDirective = () => { if (!directiveForm) return; const { id, ...fields } = directiveForm; call(id ? 'directives:update' : 'directives:create', id ? { id, ...fields } : fields).then(() => { setDirectiveForm(null); refresh() }).catch(e => alert(e.message)) }
+  const saveDirective = () => { if (!directiveForm) return; const { id, ...raw } = directiveForm; const fields = { ...raw, dueAt:raw.dueAt ? new Date(raw.dueAt).toISOString() : (id ? null : undefined), assigneeId:raw.assigneeId || (id ? null : undefined), department:raw.department || (id ? null : undefined) }; call(id ? 'directives:update' : 'directives:create', id ? { id, ...fields } : fields).then(() => { setDirectiveForm(null); refresh() }).catch(e => alert(e.message)) }
   const assignees: Row[] = dutyForm?.assignees ?? []
   const setAssignee = (i: number, patch: Row) => dutyForm && setDutyForm({ ...dutyForm, assignees: assignees.map((a, j) => j === i ? { ...a, ...patch } : a) })
   const addAssignee = () => { if (!dutyForm) return; const next = users.find(u => !assignees.some(a => a.userId === u.id)); setDutyForm({ ...dutyForm, assignees: [...assignees, { userId: next?.id ?? '', position: defaultPosition }] }) }
@@ -45,7 +47,7 @@ export default function DutyManagement({ user }: { user: PublicUser }) {
   ]
   return <>
     <PageHeader section="업무 지원" title="근무 / 지시사항" description="근무 편성과 부대 지시사항·공지를 관리합니다."
-      actions={editable && <Button variant="contained" startIcon={<AddRounded />} onClick={() => tab === 0 ? setDutyForm({ ...blankDuty, assignees: [{ userId: users[0]?.id ?? '', position: defaultPosition }] }) : setDirectiveForm({ ...blankDirective })}>{tab === 0 ? '근무 등록' : '지시사항 등록'}</Button>} />
+      actions={((tab === 0 && editable) || (tab === 1 && canManageDirective)) && <Button variant="contained" startIcon={<AddRounded />} onClick={() => tab === 0 ? setDutyForm({ ...blankDuty, assignees: [{ userId: users[0]?.id ?? '', position: defaultPosition }] }) : setDirectiveForm({ ...blankDirective })}>{tab === 0 ? '근무 등록' : '지시사항 등록'}</Button>} />
 
     <Card icon={TodayRounded} tone="sky" title="오늘의 근무" subtitle={`${new Date().toLocaleDateString('ko-KR', { month: 'long', day: 'numeric', weekday: 'long' })} · ${todayDuty.length}명`}>
       {todayDuty.length
@@ -59,10 +61,10 @@ export default function DutyManagement({ user }: { user: PublicUser }) {
         ? <DataGrid rows={duty} columns={columns} density="compact" rowHeight={48} columnHeaderHeight={44} disableRowSelectionOnClick pageSizeOptions={[10,25]} initialState={{ pagination: { paginationModel: { pageSize: 10, page: 0 } } }}/>
         : directives.length
           ? <Box className="directive-list">{directives.map(r => <Box className={`directive-card level-${r.level}`} key={r.id}>
-              <Box className="directive-top"><StatusChip code={r.level} label={levelText(r.level)}/>{r.pinned ? <span className="pinned"><PushPinRounded />고정</span> : null}<span className="spacer" />{editable && <RowActions onEdit={() => setDirectiveForm({ id: r.id, title: r.title, content: r.content, level: r.level })} onDelete={() => remove('directives:delete', r.id)} />}</Box>
+              <Box className="directive-top"><StatusChip code={r.level} label={levelText(r.level)}/><StatusChip code={r.status} label={r.status === 'COMPLETED' ? '완료' : r.status === 'IN_PROGRESS' ? '수행중' : '미착수'} tone={r.status === 'COMPLETED' ? 'green' : r.status === 'IN_PROGRESS' ? 'sky' : 'gray'}/>{r.pinned ? <span className="pinned"><PushPinRounded />고정</span> : null}<span className="spacer" />{canManageDirective && <RowActions onEdit={() => setDirectiveForm({ id: r.id, title: r.title, content: r.content, level: r.level, dueAt:r.due_at ? koreaDateTimeInput(r.due_at) : '',department:r.department ?? '',assigneeId:r.assignee_id ?? '',status:r.status ?? 'OPEN' })} onDelete={() => remove('directives:delete', r.id)} />}</Box>
               <strong>{r.title}</strong>
               <p>{r.content}</p>
-              <small>{r.issuer} · {fmtDateTime(r.issued_at)}</small>
+              <Box className="directive-meta"><small>{r.issuer} · {fmtDateTime(r.issued_at)}{r.due_at ? ` · 기한 ${fmtDateTime(r.due_at)}` : ''}{r.department ? ` · ${r.department}` : ''}{r.assignee_name ? ` · ${r.assignee_name}` : ''}</small><span className="spacer"/><small>확인 {r.acknowledgement_count}명</small>{!r.acknowledged_by_me && <Button size="small" onClick={()=>call('directives:acknowledge',{id:r.id}).then(refresh).catch(e=>alert(e.message))}>확인</Button>}</Box>
             </Box>)}</Box>
           : <EmptyState icon={CampaignRounded} title="등록된 지시사항이 없습니다" />}
     </Card>
@@ -87,6 +89,14 @@ export default function DutyManagement({ user }: { user: PublicUser }) {
     <Dialog open={!!directiveForm} onClose={() => setDirectiveForm(null)} fullWidth><DialogTitle>{directiveForm?.id ? '지시사항 수정' : '지시사항 등록'}</DialogTitle><DialogContent>{directiveForm && <Stack spacing={2} sx={{ mt: 1 }}>
       <TextField label="제목" value={directiveForm.title} onChange={e => setDirectiveForm({ ...directiveForm, title: e.target.value })}/>
       <TextField select label="등급" value={directiveForm.level} onChange={e => setDirectiveForm({ ...directiveForm, level: e.target.value })}>{levels.map(([v,t]) => <MenuItem key={v} value={v}>{t}</MenuItem>)}</TextField>
+      <Stack direction="row" spacing={1.5}>
+        <TextField label="완료 기한" type="datetime-local" sx={{flex:1}} slotProps={{inputLabel:{shrink:true}}} value={directiveForm.dueAt ?? ''} onChange={e => setDirectiveForm({ ...directiveForm, dueAt:e.target.value })}/>
+        <TextField label="담당 부서" sx={{flex:1}} value={directiveForm.department ?? ''} onChange={e => setDirectiveForm({ ...directiveForm, department:e.target.value })}/>
+      </Stack>
+      <Stack direction="row" spacing={1.5}>
+        <TextField select label="담당자" sx={{flex:1}} value={directiveForm.assigneeId ?? ''} onChange={e => setDirectiveForm({ ...directiveForm, assigneeId:e.target.value })}><MenuItem value="">미지정</MenuItem>{users.map(u=><MenuItem key={u.id} value={u.id}>{u.display_name}</MenuItem>)}</TextField>
+        {directiveForm.id && <TextField select label="이행 상태" sx={{flex:1}} value={directiveForm.status} onChange={e => setDirectiveForm({ ...directiveForm, status:e.target.value })}><MenuItem value="OPEN">미착수</MenuItem><MenuItem value="IN_PROGRESS">수행중</MenuItem><MenuItem value="COMPLETED">완료</MenuItem></TextField>}
+      </Stack>
       <TextField label="내용" multiline rows={4} value={directiveForm.content} onChange={e => setDirectiveForm({ ...directiveForm, content: e.target.value })}/>
     </Stack>}</DialogContent><DialogActions><Button onClick={() => setDirectiveForm(null)}>취소</Button><Button variant="contained" onClick={saveDirective}>저장</Button></DialogActions></Dialog>
   </>

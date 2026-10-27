@@ -42,11 +42,13 @@ import SystemManagement from './SystemManagement'
 import SignupDialog from './SignupDialog'
 import SignupRequests from './SignupRequests'
 import HowToRegRounded from '@mui/icons-material/HowToRegRounded'
+import FactCheckRounded from '@mui/icons-material/FactCheckRounded'
 import AiManagement from './AiManagement'
 import MaintenanceProgress from './MaintenanceProgress'
 import ReportsManagement from './ReportsManagement'
-import { Avatar, BrandEmblem, Card, Meter, PageHeader, Paged, countBy, type Tone } from './ui'
+import { Avatar, BrandEmblem, Card, Meter, PageHeader, Paged, countBy, fmtDateTime, type Tone } from './ui'
 import DashboardDetail, { MetricListDialog, type DetailTarget, type ListTarget } from './DashboardDetail'
+import ControlCenterManagement from './ControlCenterManagement'
 
 type Row = Record<string, any>
 
@@ -123,7 +125,7 @@ const theme = createTheme({
 })
 
 async function call<T>(channel: Channel, payload: Record<string, unknown> = {}): Promise<T> { const r = await window.omnis.invoke(channel, payload) as Result<T>; if (!r.ok) throw new Error(r.error.message); return r.data }
-const statusText: Record<string, string> = { NORMAL: '정상', WATCH: '주의', INSPECTION: '점검', FAULT: '장애', OFFLINE: '중단', RECEIVED: '접수', TRIAGED: '분류', ASSIGNED: '배정', PLANNED: '계획', IN_PROGRESS: '진행', RESOLVED: '조치완료', CLOSED: '종결', CANCELED: '취소', BLOCKED: '보류', COMPLETED: '완료', URGENT: '긴급', GENERAL: '일반', NOTICE: '공지', HIGH: '높음' }
+const statusText: Record<string, string> = { NORMAL: '정상', WATCH: '주의', INSPECTION: '점검', FAULT: '장애', OFFLINE: '중단', RECEIVED: '접수', TRIAGED: '분류', ASSIGNED: '배정', PLANNED: '계획', IN_PROGRESS: '진행', REMOTE_IN_PROGRESS:'원격조치',ON_SITE_IN_PROGRESS:'현장출동',RESOLVED: '조치완료', VERIFIED:'검증',CLOSED: '종결', ON_HOLD:'보류',CANCELED: '취소', BLOCKED: '보류', COMPLETED: '완료', URGENT: '긴급', GENERAL: '일반', NOTICE: '공지', HIGH: '높음' }
 const label = (v: unknown) => statusText[String(v)] ?? String(v ?? '')
 const roleText: Record<string, string> = { ADMIN: '관리자', OPERATOR: '운용요원', MAINTAINER: '정비요원', VIEWER: '조회전용', USER: '일반 사용자' }
 const commonCols = (names: [string, string, number?][]): GridColDef[] => names.map(([field, headerName, width]) => {
@@ -132,7 +134,7 @@ const commonCols = (names: [string, string, number?][]): GridColDef[] => names.m
     field, headerName, width: width ?? 140, flex: width ? undefined : 1,
     ...(badge
       ? { renderCell: ({ row }: { row: Row }) => <StatusChip code={row[field]} label={label(row[field])} /> }
-      : field.endsWith('_at') ? { valueFormatter: (v: unknown) => String(v ?? '').replace('T', ' ').slice(0, 16) }
+      : field.endsWith('_at') ? { valueFormatter: (v: unknown) => fmtDateTime(v) }
       : field === 'progress' ? { valueFormatter: (v: unknown) => `${v ?? 0}%` }
       : { valueFormatter: (v: unknown) => String(v ?? '') })
   }
@@ -215,10 +217,11 @@ function Login({ onLogin }: { onLogin: (u: PublicUser) => void }) {
 }
 
 type NavItem = { to: string; text: string; icon: SvgIconComponent; adminOnly?: boolean }
-const navGroups: { title: string; items: NavItem[] }[] = [
-  { title: '운용 현황', items: [{ to: '/', text: '통합상황판', icon: DashboardRounded }, { to: '/operations', text: '운영현황', icon: DnsRounded }, { to: '/incidents', text: '고장관리', icon: ReportProblemRounded }, { to: '/maintenance', text: '정비관리', icon: BuildRounded }] },
-  { title: '업무 지원', items: [{ to: '/duty', text: '근무/지시사항', icon: EventNoteRounded }, { to: '/ai', text: 'AI 지원', icon: SmartToyRounded }, { to: '/reports', text: '보고서/통계', icon: AssessmentRounded }] },
-  { title: '관리', items: [{ to: '/signups', text: '사용자 신청현황', icon: HowToRegRounded, adminOnly: true }, { to: '/settings', text: '시스템관리', icon: SettingsRounded, adminOnly: true }] }
+const dashboardNav: NavItem = { to: '/', text: '통합상황판', icon: DashboardRounded }
+const navGroups: { title: string; to: string; items: NavItem[] }[] = [
+  { title: '운용 현황', to: '/operations', items: [{ to: '/operations', text: '운영현황', icon: DnsRounded }, { to: '/incidents', text: '고장관리', icon: ReportProblemRounded }, { to: '/maintenance', text: '정비관리', icon: BuildRounded }, { to: '/control', text: '통제·일일마감', icon: FactCheckRounded }] },
+  { title: '업무 지원', to: '/duty', items: [{ to: '/duty', text: '근무/지시사항', icon: EventNoteRounded }, { to: '/ai', text: 'AI 지원', icon: SmartToyRounded }, { to: '/reports', text: '보고서/통계', icon: AssessmentRounded }] },
+  { title: '관리', to: '/settings', items: [{ to: '/signups', text: '사용자 신청현황', icon: HowToRegRounded, adminOnly: true }, { to: '/settings', text: '시스템관리', icon: SettingsRounded, adminOnly: true }] }
 ]
 
 function Shell({ user, onLogout }: { user: PublicUser; onLogout: () => void }) {
@@ -233,7 +236,7 @@ function Shell({ user, onLogout }: { user: PublicUser; onLogout: () => void }) {
   useEffect(loadPending, [location.pathname])
   const admin = user.role === 'ADMIN'
   const groups = navGroups.map(g => ({ ...g, items: g.items.filter(i => admin || !i.adminOnly) })).filter(g => g.items.length)
-  const current = navGroups.flatMap(g => g.items.map(i => ({ ...i, group: g.title }))).find(i => i.to === location.pathname)
+  const current = location.pathname === dashboardNav.to ? { ...dashboardNav, group:null, groupTo:null } : navGroups.flatMap(g => g.items.map(i => ({ ...i, group:g.title, groupTo:g.to }))).find(i => i.to === location.pathname)
   return <Box className="app">
     <aside className="sidebar">
       <Box className="sb-brand">
@@ -241,6 +244,7 @@ function Shell({ user, onLogout }: { user: PublicUser; onLogout: () => void }) {
         <Box><strong>OMNIS</strong><span>정보통신 운용·정비 통합체계</span></Box>
       </Box>
       <nav className="sb-nav" aria-label="주 메뉴">
+        <Box className="sb-standalone"><NavLink to={dashboardNav.to} end><DashboardRounded /><span>{dashboardNav.text}</span></NavLink></Box>
         {groups.map(g => <Box key={g.title} className="sb-group">
           <span className="sb-group-title">{g.title}</span>
           {g.items.map(({ to, text, icon: Icon }) => <NavLink key={to} to={to} end={to === '/'}>
@@ -259,7 +263,7 @@ function Shell({ user, onLogout }: { user: PublicUser; onLogout: () => void }) {
     </aside>
     <Box className="workspace">
       <header className="topbar">
-        <Box className="crumbs"><span>{current?.group ?? 'OMNIS'}</span><ChevronRightRounded /><strong>{current?.text ?? ''}</strong></Box>
+        <Box className="crumbs">{current?.group&&current.groupTo?<><NavLink to={current.groupTo}>{current.group}</NavLink><ChevronRightRounded /></>:null}<strong>{current?.text ?? 'OMNIS'}</strong></Box>
         <Box className="topbar-right">
           <span className="pill-offline"><CloudOffRounded />오프라인 · 가상 시연 데이터</span>
           <span className="clock"><AccessTimeRounded />{now.toLocaleDateString('ko-KR', { month: 'long', day: 'numeric', weekday: 'short' })} {now.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false })}</span>
@@ -271,6 +275,7 @@ function Shell({ user, onLogout }: { user: PublicUser; onLogout: () => void }) {
           <Route path="/operations" element={<Operations user={user} />} />
           <Route path="/incidents" element={<Incidents user={user} />} />
           <Route path="/maintenance" element={<Maintenance user={user} />} />
+          <Route path="/control" element={<ControlCenterManagement user={user} />} />
           <Route path="/duty" element={<Duty user={user} />} />
           <Route path="/ai" element={<Ai />} />
           <Route path="/reports" element={<Reports />} />
@@ -322,6 +327,15 @@ function Dashboard() {
       <Box className="metric-value">{value}<small>{unit}</small></Box>
       <Box className="metric-foot">{foot}</Box>
     </Paper>)}</div>
+    <Paper elevation={0} className="dashboard-control-band" role="button" tabIndex={0} onClick={() => navigate('/control')} onKeyDown={e => { if (e.key === 'Enter') navigate('/control') }}>
+      <Box><span>금일 접수</span><strong>{data.todayReceived}<small>건</small></strong></Box>
+      <Box><span>금일 조치완료</span><strong>{data.todayCompleted}<small>건</small></strong></Box>
+      <Box className={data.openAlertCount ? 'warn' : ''}><span>미종료 상황경보</span><strong>{data.openAlertCount}<small>건</small></strong></Box>
+      <Box className={data.slaOverdueCount ? 'danger' : ''}><span>SLA 초과</span><strong>{data.slaOverdueCount}<small>건</small></strong></Box>
+      <Box><span>계획 / 비계획</span><strong>{data.plannedCount}<small> / {data.unplannedCount}건</small></strong></Box>
+      <Box><span>금일 근무</span><strong>{data.dutyCount}<small>명</small></strong></Box>
+      <Button size="small" endIcon={<ArrowForwardRounded />}>통제 화면</Button>
+    </Paper>
     <div className="dashboard-grid">
       <Card icon={DnsRounded} tone="sky" title="정보통신 운영 현황" subtitle={`전체 ${data.systemCount}개 체계`} action={viewAll('/operations')}>
         <Paged rows={data.allSystems as Row[]} rowHeight={GRID_ROW} reserved={GRID_HEAD + 2} unit="개">{rows =>

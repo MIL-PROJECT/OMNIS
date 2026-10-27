@@ -27,8 +27,9 @@ const bytes = (n: number) => n >= 1048576 ? `${(n / 1048576).toFixed(1)} MB` : `
 export default function SystemManagement({ user }: { user: PublicUser }) {
   const [info,setInfo] = useState<Row | null>(null),[audit,setAudit] = useState<Row[]>([]),[notifications,setNotifications] = useState<Row[]>([]),[tab,setTab] = useState(0),[step,setStep] = useState(0)
   const [provider,setProvider] = useState('LOCAL'),[endpoint,setEndpoint] = useState('http://127.0.0.1:11434'),[model,setModel] = useState('gemma3')
+  const [planTime,setPlanTime] = useState('08:30'),[closeTime,setCloseTime] = useState('16:00'),[urgentSla,setUrgentSla] = useState(60),[normalSla,setNormalSla] = useState(480)
   const loadNotifications = () => call<Row[]>('system:notifications').then(setNotifications)
-  useEffect(() => { call<Row>('system:getInfo').then(r => { setInfo(r); setProvider(r.aiProvider); setEndpoint(r.ollamaEndpoint); setModel(r.ollamaModel) }); loadNotifications(); if (user.role === 'ADMIN') call<Row[]>('system:auditLogs',{ limit:100 }).then(setAudit) }, [user.role])
+  useEffect(() => { call<Row>('system:getInfo').then(r => { setInfo(r); setProvider(r.aiProvider); setEndpoint(r.ollamaEndpoint); setModel(r.ollamaModel);setPlanTime(r.planTime);setCloseTime(r.closeTime);setUrgentSla(r.urgentSlaMinutes);setNormalSla(r.normalSlaMinutes) }); loadNotifications(); if (user.role === 'ADMIN') call<Row[]>('system:auditLogs',{ limit:100 }).then(setAudit) }, [user.role])
   const admin = user.role === 'ADMIN'
   const unread = notifications.filter(n => !n.read_at).length
   const infoRows: [string, React.ReactNode, boolean?][] = info ? [['앱 버전', info.version], ['스키마 버전', `v${info.schemaVersion}`], ['DB 크기', bytes(info.dbSize)], ['AI 제공자', info.aiProvider === 'OLLAMA' ? 'Ollama (로컬)' : 'Local Rule'], ['DB 경로', info.dbPath, true], ['백업 경로', info.backupPath, true]] : []
@@ -54,6 +55,15 @@ export default function SystemManagement({ user }: { user: PublicUser }) {
           </Stack>
         </Card>}
       </div>
+      {admin && <Card icon={HistoryRounded} tone="sky" title="운영 기준시간 · SLA" subtitle="평가 시연과 실제 운용 환경에 맞게 조정">
+        <Stack direction="row" spacing={2} sx={{p:2.25,alignItems:'center'}}>
+          <TextField label="계획 입력 기준" type="time" slotProps={{inputLabel:{shrink:true}}} value={planTime} onChange={e=>setPlanTime(e.target.value)}/>
+          <TextField label="완료 현황 기준" type="time" slotProps={{inputLabel:{shrink:true}}} value={closeTime} onChange={e=>setCloseTime(e.target.value)}/>
+          <TextField label="긴급 SLA(분)" type="number" slotProps={{htmlInput:{min:10}}} value={urgentSla} onChange={e=>setUrgentSla(Number(e.target.value))}/>
+          <TextField label="일반 SLA(분)" type="number" slotProps={{htmlInput:{min:10}}} value={normalSla} onChange={e=>setNormalSla(Number(e.target.value))}/>
+          <Button variant="outlined" onClick={()=>call('system:setOperationsSettings',{planTime,closeTime,urgentSlaMinutes:urgentSla,normalSlaMinutes:normalSla}).then(()=>alert('운영 기준시간과 SLA를 저장했습니다.')).catch(e=>alert(e.message))}>운영 설정 저장</Button>
+        </Stack>
+      </Card>}
       {admin && <Card icon={BackupRounded} tone="green" title="데이터 관리" subtitle="매일 첫 실행 시 자동 백업 · 최근 10개 보관">
         <Box className="data-actions">
           <Box><strong>수동 백업</strong><span>현재 데이터베이스를 백업 폴더에 즉시 저장합니다.</span></Box>

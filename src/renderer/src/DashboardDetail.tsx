@@ -1,6 +1,7 @@
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, LinearProgress, Typography } from '@mui/material'
 import { DataGrid, type GridColDef } from '@mui/x-data-grid'
 import StatusChip from './StatusChip'
+import { fmtDateTime } from './ui'
 
 type Row = Record<string, any>
 export type DetailKind = 'system' | 'incident' | 'maintenance' | 'directive'
@@ -58,7 +59,7 @@ const specs: Record<DetailKind, { title: string; heading: (r: Row) => string; su
   }
 }
 
-const fmtDate = (v: unknown) => String(v).replace('T', ' ').slice(0, 16)
+const fmtDate = (v: unknown) => fmtDateTime(v)
 
 export default function DashboardDetail({ target, label, onClose }: { target: DetailTarget | null; label: (v: unknown) => string; onClose: () => void }) {
   const spec = target && specs[target.kind], row = target?.row ?? {}

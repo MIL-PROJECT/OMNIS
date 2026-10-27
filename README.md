@@ -6,7 +6,7 @@ Windows용 오프라인 시연 앱입니다. 모든 기본 데이터는 가상 �
 
 ## 구조
 
-React 19 Renderer → sandboxed preload contextBridge → validated IPC → Electron Main → service → SQLite (`better-sqlite3`). HTTP 서버는 사용하지 않습니다. Drizzle schema 정의는 `src/main/database/schema.ts`에 있으며, 전체 ORM 적용은 남은 작업입니다.
+React 19 Renderer → sandboxed preload contextBridge → Zod validated IPC → Electron Main → service/repository → SQLite (`better-sqlite3`). HTTP 서버는 사용하지 않습니다. Drizzle schema 정의는 `src/main/database/schema.ts`에 있으며, 전체 ORM 적용은 남은 작업입니다.
 
 ## 환경 및 실행
 
@@ -25,10 +25,11 @@ React 19 Renderer → sandboxed preload contextBridge → validated IPC → Elec
 
 - `pnpm typecheck`, `pnpm lint`, `pnpm test`
 - `pnpm build`
+- `pnpm test:e2e`, `pnpm test:e2e:operations`, `pnpm test:e2e:roles`, `pnpm test:e2e:signup`, `pnpm test:e2e:visual`
 - `pnpm dist:win` → `release/`에 NSIS 설치 파일
 
 앱 내 시스템관리에서 DB 백업, 데이터 폴더 열기, 2단계 확인 후 Demo 초기화를 실행할 수 있습니다.
 
 ## 현재 범위
 
-인디고 기반 반응형 대시보드, 운영 체계 CRUD, 고장·정비 등록/수정/상태 전이, 근무·지시사항 CRUD, 사용자 등록 신청·승인·반려, 역할 기반 접근 제어, Local Rule 및 선택적 로컬 Ollama, 일일·주간 보고서, CSV/PDF, 백업과 초기화를 구현했습니다. 남은 범위는 `PROJECT_STATUS.md`를 확인하십시오.
+인디고 기반 UI를 유지하면서 상황경보, 정비반 배정, 고장 접수→분류→원격/현장조치→검증→종결, 긴급 선조치, 장애·정비 첨부자료, 계획/비계획 정비, 08:30·16:00 작업판, 정합성 검사·일일 마감, 지시사항 확인, 인수인계, 설명 가능한 SLA 위험, AI 검토 후 반영, Demo Mode를 구현했습니다. 첨부파일은 `%APPDATA%/OMNIS/attachments`에 저장하고 DB에는 분류·크기·SHA-256·등록자·감사기록을 보관합니다. Local Rule만으로 오프라인 시연이 가능하고 선택적 Ollama는 timeout/구조 검증 실패 시 fallback합니다. 남은 범위는 `PROJECT_STATUS.md`를 확인하십시오.

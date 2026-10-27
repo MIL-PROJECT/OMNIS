@@ -4,7 +4,7 @@ import { schemas } from '../../src/shared/contracts'
 
 describe('AI provider safety', () => {
   it('accepts valid structured local Ollama output', async () => {
-    const request = vi.fn().mockResolvedValue({ ok: true, json: async () => ({ response: JSON.stringify({ category:'무선/위성',priority:'URGENT',confidence:.8,recommendation:'담당자 확인' }) }) })
+    const request = vi.fn().mockResolvedValue({ ok: true, json: async () => ({ response: JSON.stringify({ category:'무선/위성',priority:'URGENT',confidence:.8,recommendation:'담당자 확인',rationale:'회선 중단 표현을 감지',recommendedTeamCode:'TEAM-RADIO',estimatedMinutes:60,questions:['영향 범위 확인'] }) }) })
     vi.stubGlobal('fetch',request)
     const result = await new OllamaProvider('http://127.0.0.1:11434','gemma3').triageIncident('가상 장애','무선 중단')
     expect(result.priority).toBe('URGENT')

@@ -1,6 +1,7 @@
 import { useLayoutEffect, useRef, useState, type ReactNode } from 'react'
 import { Box, IconButton, InputAdornment, Pagination, TextField, Tooltip, Typography } from '@mui/material'
 import type { SvgIconComponent } from '@mui/icons-material'
+import { koreaDateTime } from '../../shared/date'
 import SearchRounded from '@mui/icons-material/SearchRounded'
 import VisibilityOutlined from '@mui/icons-material/VisibilityOutlined'
 import EditOutlined from '@mui/icons-material/EditOutlined'
@@ -122,7 +123,7 @@ export function Avatar({ name, size = 28 }: { name: string; size?: number }) {
   return <span className={`ui-avatar tone-${tone}`} style={{ width: size, height: size, fontSize: size >= 32 ? size * .34 : size * .5 }} aria-hidden>{text}</span>
 }
 
-export const fmtDateTime = (v: unknown) => v ? String(v).slice(0, 16).replace('T', ' ') : '-'
-export const fmtShort = (v: unknown) => v ? String(v).slice(5, 16).replace('T', ' ').replace('-', '.') : '-'
+export const fmtDateTime = (v: unknown) => koreaDateTime(v)
+export const fmtShort = (v: unknown) => { const full=koreaDateTime(v); return full === '-' ? full : full.slice(5).replace('-','.') }
 export const weekday = (d: string) => ['일', '월', '화', '수', '목', '금', '토'][new Date(`${d}T00:00:00`).getDay()]
 export const countBy = (rows: Record<string, any>[], key: string) => rows.reduce<Record<string, number>>((m, r) => { m[r[key]] = (m[r[key]] ?? 0) + 1; return m }, {})

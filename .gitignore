@@ -8,6 +8,7 @@ coverage/
 playwright-report/
 test-results/
 tests/.tmp/
+tmp/
 omnis.db
 omnis-*.db
 # 이름 변경 전(AFCCS) 파일

@@ -5,6 +5,7 @@ import log from 'electron-log/main'
 import { openDb, closeDb } from './database/connection'
 import { backup } from './services/AppService'
 import { registerIpc } from './ipc/registerIpc'
+import { koreaDate } from '../shared/date'
 
 // 이름 변경(AFCCS → OMNIS): 새 데이터 폴더가 없으면 기존 DB·백업을 복사해 온다. 원본은 지우지 않는다.
 // 임시 폴더에 모두 복사한 뒤에만 이름을 바꿔, 중간에 실패해도 반쪽짜리 OMNIS 폴더가 남지 않게 한다.
@@ -39,7 +40,7 @@ else {
     window.webContents.on('will-navigate', event => event.preventDefault())
     if (process.env.ELECTRON_RENDERER_URL) window.loadURL(process.env.ELECTRON_RENDERER_URL)
     else window.loadFile(join(__dirname, '../renderer/index.html'))
-    const lastBackup = new Date().toISOString().slice(0, 10)
+    const lastBackup = koreaDate()
     const marker = join(app.getPath('userData'), `backup-${lastBackup}.marker`)
     import('node:fs').then(async fs => { if (!fs.existsSync(marker)) { try { await backup(); fs.writeFileSync(marker, '') } catch (error) { log.error('Backup failed', error) } } })
   })
