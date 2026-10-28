@@ -1,0 +1,18 @@
+{
+  "task": "SIMILAR_INCIDENTS",
+  "data": {
+    "title": "가상 무선 음성 끊김",
+    "candidates": [
+      {
+        "id": "INC-DEMO-A",
+        "title": "가상 무선 음성 간헐 끊김",
+        "status": "CLOSED"
+      },
+      {
+        "id": "INC-DEMO-B",
+        "title": "가상 저장장치 용량 점검",
+        "status": "RECEIVED"
+      }
+    ]
+  }
+}

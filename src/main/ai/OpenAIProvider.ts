@@ -16,7 +16,7 @@ export class OpenAIProvider implements AIProvider {
   private async generate<T>(definition:PromptDefinition,input:unknown,parser:{parse(value:unknown):T}):Promise<ProviderResponse<T>> {
     const started=Date.now()
     try {
-      const response=await this.client.responses.create({model:this.model,instructions:definition.system,input:`<business_data>${JSON.stringify(input)}</business_data>`,reasoning:{effort:'low'},max_output_tokens:definition.maxOutputTokens,text:{format:{type:'json_schema',name:definition.schemaName,strict:true,schema:definition.jsonSchema}}})
+      const response=await this.client.responses.create({model:this.model,store:false,instructions:definition.system,input:`<business_data>${JSON.stringify(input)}</business_data>`,reasoning:{effort:'low'},max_output_tokens:definition.maxOutputTokens,text:{format:{type:'json_schema',name:definition.schemaName,strict:true,schema:definition.jsonSchema}}})
       if(response.status==='incomplete')throw new AIProviderError('INCOMPLETE','외부 AI 응답이 완성되지 않았습니다.')
       if(response.output?.some(item=>item.content?.some(part=>part.type==='refusal')))throw new AIProviderError('REFUSAL','외부 AI가 요청 처리를 거부했습니다.')
       const data=parseJson(response.output_text,parser)
@@ -25,6 +25,6 @@ export class OpenAIProvider implements AIProvider {
   }
   async triageIncident(title:string,description:string,serviceImpact=''):Promise<ProviderResponse<Triage>> { const result=await this.generate(promptCatalog.triage,externalTriageInput(title,description,serviceImpact),triageSchema); return {...result,data:{...result.data,label:'AI 추천'}} }
   async summarizeDailyStatus(status:DailyStatus):Promise<ProviderResponse<{summary:string}>> { const result=await this.generate(promptCatalog.dailySummary,externalDailyInput(status),summarySchema); assertSummaryNumbers(result.data.summary,status); return result }
-  async recommendMaintenance(candidates:MaintenanceCandidate[]):Promise<ProviderResponse<MaintenanceCandidate[]>> { const result=await this.generate(promptCatalog.candidateRanking,externalMaintenanceCandidates(candidates),idsSchema); return {...result,data:selectCandidateIds(result.data.ids,candidates,c=>c.task_no)} }
-  async findSimilarIncidents(title:string,candidates:IncidentMatch[]):Promise<ProviderResponse<IncidentMatch[]>> { const result=await this.generate(promptCatalog.candidateRanking,externalIncidentCandidates(title,candidates),idsSchema); return {...result,data:selectCandidateIds(result.data.ids,candidates,c=>c.ticket_no)} }
+  async recommendMaintenance(candidates:MaintenanceCandidate[]):Promise<ProviderResponse<MaintenanceCandidate[]>> { const result=await this.generate(promptCatalog.maintenancePriority,externalMaintenanceCandidates(candidates),idsSchema); return {...result,data:selectCandidateIds(result.data.ids,candidates,c=>c.task_no)} }
+  async findSimilarIncidents(title:string,candidates:IncidentMatch[]):Promise<ProviderResponse<IncidentMatch[]>> { const result=await this.generate(promptCatalog.similarIncidents,externalIncidentCandidates(title,candidates),idsSchema); return {...result,data:selectCandidateIds(result.data.ids,candidates,c=>c.ticket_no)} }
 }

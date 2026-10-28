@@ -1,0 +1,26 @@
+{
+  "source": "src/main/ai/PromptCatalog.ts",
+  "kind": "code-managed prompts and synthetic format fixtures, not live model results",
+  "prompts": {
+    "triage": {
+      "version": "triage-v4",
+      "schemaName": "omnis_triage",
+      "maxOutputTokens": 700
+    },
+    "dailySummary": {
+      "version": "daily-summary-v4",
+      "schemaName": "omnis_daily_summary",
+      "maxOutputTokens": 350
+    },
+    "similarIncidents": {
+      "version": "similar-incidents-v4",
+      "schemaName": "omnis_similar_incidents",
+      "maxOutputTokens": 300
+    },
+    "maintenancePriority": {
+      "version": "maintenance-priority-v4",
+      "schemaName": "omnis_maintenance_priority",
+      "maxOutputTokens": 300
+    }
+  }
+}

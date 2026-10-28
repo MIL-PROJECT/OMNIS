@@ -1,0 +1,16 @@
+[
+  {
+    "id": "MT-DEMO-A",
+    "title": "가상 전송장비 점검",
+    "priority": "HIGH",
+    "status": "PLANNED",
+    "scheduledDate": "2030-01-01"
+  },
+  {
+    "id": "MT-DEMO-B",
+    "title": "가상 정기 단말 점검",
+    "priority": "NORMAL",
+    "status": "PLANNED",
+    "scheduledDate": "2030-01-02"
+  }
+]

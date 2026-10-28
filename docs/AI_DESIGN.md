@@ -38,3 +38,12 @@ schema v5의 `ai_runs`는 선택/실제 Provider, model, prompt/schema version, 
 ## 로컬 입력 보완
 
 고장 접수/상세와 AI 지원의 `InputAssist`는 공통 `missingQuestions` 규칙을 사용한다. 입력 점검은 추론 요청이 아니며 외부 API를 호출하지 않는다. 답변은 구조화 배열로 유지하고 실제 분석 요청 시 Main에서 `analysisDescription`으로 한 번 조합한다. 저장된 접수의 원문은 명시적 저장 없이 바꾸지 않는다. 화면 입력 변경/상세 이동 후 늦게 도착한 분석 결과는 폐기한다. 기존 Provider·Structured Outputs·Zod·마스킹·safeStorage·fallback·SLA 규칙은 유지된다.
+
+
+## v4 기능별 프롬프트
+
+PromptCatalog의 공통 OMNIS 업무 규칙과 기능별 지시문을 코드로 관리한다. 고장 분석(triage-v4), 일일 요약(daily-summary-v4), 유사 고장(similar-incidents-v4), 정비 우선순위(maintenance-priority-v4)를 각각 SDK 호출에 선택한다. 기존 Local Rule의 결정적 로직과 버전은 변경하지 않는다. OpenAI/Anthropic/Ollama는 동일 기능 지시를 사용하되 기존 각 Provider의 전송/검증/실패 처리 구조를 유지한다.
+
+고장 정보가 부족하면 확인 질문과 잠정 판단을 제시하고, 정비 추천과 유사 고장에는 서로 다른 판단 기준을 적용한다. SLA 계산과 실제 업무 반영은 기존 서비스에 남긴다. 후보 JSON Schema의 uniqueItems를 제거하고 앱의 후보 대조·중복 제거를 유지했다. OpenAI Responses에는 store:false를 지정하며 공급자의 모든 로그가 제거된다고 해석하지 않는다.
+
+콘솔 통합 Prompt, 기능별 system/JSON Schema와 가상 형식 예제는 docs/ai-prompts/v4에 있다. 생성기는 scripts/export-ai-prompts.ts이고 자동 테스트가 코드와 내보낸 파일의 동기화를 검사한다. 사진의 콘솔은 수동 시험에 사용하며 production 앱은 저장형 prompt ID를 참조하지 않는다. 문서·답변 형식 예제는 실제 모델 평가 결과가 아니다.

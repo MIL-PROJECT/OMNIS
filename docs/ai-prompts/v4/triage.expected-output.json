@@ -1,0 +1,12 @@
+{
+  "category": "전송장비",
+  "priority": "URGENT",
+  "confidence": 0.76,
+  "recommendation": "영향 범위와 지속 여부를 확인하고 담당 정비반에 보고한 뒤 승인된 진단 절차를 수행하십시오.",
+  "rationale": "서비스 이용 중단이 명시되어 긴급 확인을 추천합니다. 원인은 아직 확인되지 않았습니다.",
+  "recommendedTeamCode": "TEAM-WIRE",
+  "estimatedMinutes": 60,
+  "questions": [
+    "발생 시각과 영향을 받는 단말 범위는 어떻게 됩니까?"
+  ]
+}

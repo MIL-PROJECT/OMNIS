@@ -1,2 +1,5 @@
 # Preserve PDF byte offsets and hashes across Windows/macOS checkouts.
 resources/manuals/*.pdf binary
+
+# Generated prompt text must stay identical to JS template string line endings.
+docs/ai-prompts/v4/*.txt text eol=lf
