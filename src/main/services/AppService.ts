@@ -20,6 +20,7 @@ import { assertDailyRequestLimit } from '../ai/AIUsagePolicy'
 import type { Channel, PublicUser } from '../../shared/contracts'
 import { operationalChannels, runOperationalChannel } from './OperationalControlService'
 import { attachmentChannels, attachmentRoot, runAttachmentChannel } from './AttachmentService'
+import { listManuals,openManual,saveManual } from './ManualService'
 import { koreaDate } from '../../shared/date'
 import { listActionDepartments, saveActionDepartment } from './OrganizationService'
 import { assignIncidentTeam } from './IncidentAssignmentService'
@@ -80,6 +81,12 @@ export async function run(channel: Channel, p: Record<string, unknown>): Promise
     })()
   }
   requireUser()
+  if(channel.startsWith('manuals:')) {
+    const root=app.isPackaged?join(process.resourcesPath,'manuals'):join(process.cwd(),'resources','manuals')
+    if(channel==='manuals:list')return listManuals(root)
+    if(channel==='manuals:open')return openManual(root,String(p.role),path=>shell.openPath(path))
+    if(channel==='manuals:save')return saveManual(root,String(p.role),async filename=>{const choice=await dialog.showSaveDialog({title:'사용자 매뉴얼 PDF 저장',defaultPath:join(app.getPath('downloads'),filename),filters:[{name:'PDF 문서',extensions:['pdf']}],properties:['createDirectory','showOverwriteConfirmation']});return choice.canceled?undefined:choice.filePath})
+  }
   if (usabilityChannels.has(channel)) return runUsability(db,channel,p,requireUser())
   if (attachmentChannels.has(channel)) return runAttachmentChannel(db,channel,p,requireUser())
   if (operationalChannels.has(channel)) return runOperationalChannel(db,channel,p,requireUser(),attachmentRoot())

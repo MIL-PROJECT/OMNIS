@@ -40,7 +40,8 @@
     "postinstall": "electron-builder install-app-deps",
     "test:e2e:usability": "node tests/e2e/usability.mjs",
     "test:e2e:organizations": "node tests/e2e/organizations.mjs",
-    "test:e2e:duty-units": "node tests/e2e/duty-units.mjs"
+    "test:e2e:duty-units": "node tests/e2e/duty-units.mjs",
+    "test:e2e:manuals": "node tests/e2e/manuals.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^1.3.0",

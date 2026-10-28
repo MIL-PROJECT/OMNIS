@@ -1,0 +1,2 @@
+# Preserve PDF byte offsets and hashes across Windows/macOS checkouts.
+resources/manuals/*.pdf binary

@@ -54,3 +54,15 @@ macOS 로컬 빌드, Apple 서명·공증 및 GitHub Actions 산출물 사용법
 인디고 기반 UI를 유지하면서 상황경보, 정비반 배정, 고장 접수→분류→원격/현장조치→검증→종결, 긴급 선조치, 장애·정비 첨부자료, 계획/비계획 정비, 08:30·16:00 작업판, 정합성 검사·일일 마감, 지시사항 확인, 인수인계, 설명 가능한 SLA 위험, AI 검토 후 반영, Demo Mode를 구현했습니다. 첨부파일은 `%APPDATA%/OMNIS/attachments`에 저장하고 DB에는 분류·크기·SHA-256·등록자·감사기록을 보관합니다.
 
 AI Provider는 기본 `LOCAL`, 로컬 `OLLAMA`, 선택적 `OPENAI` Responses API, `ANTHROPIC` Messages API를 지원합니다. 외부 Provider는 기본 비활성화이며 API Key는 Electron `safeStorage`로 암호화해 userData의 별도 secrets 파일에 저장합니다. 외부 호출 실패 시 업무 흐름을 중단하지 않고 Local Rule로 fallback합니다. 설정·보안·비용·실행 절차는 [`docs/EXTERNAL_AI.md`](docs/EXTERNAL_AI.md)를 확인하십시오.
+
+
+### 앱에서 역할별 사용자 매뉴얼 저장
+
+사이드바 하단 **사용자 매뉴얼**에서 관리자/운용요원/정비요원/일반 사용자/조회전용 PDF 5종을 열거나 저장할 수 있습니다. 본인 역할이 먼저 표시되며 모든 로그인 사용자가 문서를 확인할 수 있습니다. 다운로드 버튼에서 저장 위치를 선택하고, PDF 열기는 OS 기본 뷰어를 사용합니다. 앱에 파일이 포함되어 인터넷이 필요하지 않습니다.
+
+문서는 기존 독립형 작성본(2026-10-28 09:51 KST, 기준 커밋 482b16c66c6a5bc3b5e522644bd86ce916c004fd)을 그대로 제공합니다. 이후 변경된 화면과 차이가 있을 수 있습니다. 원본·SHA-256은 resources/manuals/README.md에 기록하며 기존 output 자료는 수정하지 않습니다. Windows/macOS extraResources에 같은 PDF를 포함합니다. `pnpm test:e2e:manuals`는 격리된 프로필에서 다운로드 원본 일치, 전 역할 접근, 취소/오류 및 레이아웃을 검사하며 OS 저장창·PDF 뷰어는 테스트에서 대체합니다.
+
+
+매뉴얼 다운로드 검증(2026-10-28): typecheck/lint/build, 10개 파일 70개 unit/integration 테스트, source/packaged manuals E2E 및 기존 roles E2E 통과. OS 저장창·PDF 뷰어를 대체한 테스트에서 실제 저장된 5종 PDF의 SHA-256을 원본과 비교했다. 실제 OS 기본 PDF 뷰어별 동작과 macOS 실행은 이번 변경에서 검증하지 않았다.
+
+Windows 설치본: `release/manual-downloads/OMNIS Setup 1.0.0.exe` (136,117,422 bytes, NotSigned). SHA-256: `77DBB2274ED23D426AD77765EAAB5CE768D3956DCAE8681484F5BD7B0D2AAC01`. 이전 release 출력과 사용자 생성물을 보존했다.

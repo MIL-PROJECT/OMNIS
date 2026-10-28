@@ -1,4 +1,6 @@
 import MyWork from './MyWork'
+import ManualsManagement from './ManualsManagement'
+import MenuBookRounded from '@mui/icons-material/MenuBookRounded'
 import { useEffect, useState } from 'react'
 import { HashRouter, Navigate, NavLink, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 import { Box, Button, IconButton, InputAdornment, Paper, TextField, Tooltip, Typography } from '@mui/material'
@@ -237,7 +239,7 @@ function Shell({ user, onLogout }: { user: PublicUser; onLogout: () => void }) {
   useEffect(loadPending, [location.pathname])
   const admin = user.role === 'ADMIN'
   const groups = navGroups.map(g => ({ ...g, items: g.items.filter(i => admin || !i.adminOnly) })).filter(g => g.items.length)
-  const current = location.pathname === dashboardNav.to ? { ...dashboardNav, group:null, groupTo:null } : navGroups.flatMap(g => g.items.map(i => ({ ...i, group:g.title, groupTo:g.to }))).find(i => i.to === location.pathname)
+  const current = location.pathname==='/manuals'?{text:'사용자 매뉴얼',group:null,groupTo:null}:location.pathname === dashboardNav.to ? { ...dashboardNav, group:null, groupTo:null } : navGroups.flatMap(g => g.items.map(i => ({ ...i, group:g.title, groupTo:g.to }))).find(i => i.to === location.pathname)
   return <Box className="app">
     <aside className="sidebar">
       <Box className="sb-brand">
@@ -254,6 +256,7 @@ function Shell({ user, onLogout }: { user: PublicUser; onLogout: () => void }) {
         </Box>)}
       </nav>
       <Box className="sb-foot">
+        <NavLink to="/manuals" className="sb-manual-link"><MenuBookRounded/><span>사용자 매뉴얼</span></NavLink>
         <Box className="sb-sys"><span><i className="dot tone-green" />로컬 DB 연결됨</span><span><i className="dot tone-sky" />AI · Local Rule</span></Box>
         <Box className="sb-user">
           <Avatar name={user.display_name} size={36} />
@@ -279,6 +282,7 @@ function Shell({ user, onLogout }: { user: PublicUser; onLogout: () => void }) {
           <Route path="/control" element={<ControlCenterManagement user={user} />} />
           <Route path="/duty" element={<Duty user={user} />} />
           <Route path="/ai" element={<Ai />} />
+          <Route path="/manuals" element={<ManualsManagement user={user}/>} />
           <Route path="/reports" element={<Reports />} />
           <Route path="/signups" element={admin ? <SignupRequests onChange={loadPending} /> : <Navigate to="/" replace />} />
           <Route path="/settings" element={admin ? <Settings user={user} /> : <Navigate to="/" replace />} />

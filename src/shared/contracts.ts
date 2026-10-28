@@ -37,6 +37,9 @@ export type Result<T> = { ok: true; data: T } | { ok: false; error: { code: stri
 export const schemas = {
   ...usabilitySchemas,
   ...organizationSchemas,
+  'manuals:list': z.object({}),
+  'manuals:open': z.object({role:roleSchema}),
+  'manuals:save': z.object({role:roleSchema}),
   'auth:login': z.object({ username: z.string().min(1), password: z.string().min(1) }),
   'auth:logout': z.object({}), 'auth:me': z.object({}),
   'auth:register': signupSchema,
