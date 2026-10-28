@@ -39,7 +39,8 @@
     "dist:mac:arm64": "pnpm build && electron-builder --mac dmg zip --arm64",
     "postinstall": "electron-builder install-app-deps",
     "test:e2e:usability": "node tests/e2e/usability.mjs",
-    "test:e2e:organizations": "node tests/e2e/organizations.mjs"
+    "test:e2e:organizations": "node tests/e2e/organizations.mjs",
+    "test:e2e:duty-units": "node tests/e2e/duty-units.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^1.3.0",
