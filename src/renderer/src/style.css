@@ -646,3 +646,21 @@ main:has(> .dash) { min-height: 0; display: flex; flex-direction: column; paddin
 .maintenance-result-form { margin-top:18px;padding:0 0 2px; }
 .directive-meta { display:flex;align-items:center;gap:8px;margin-top:3px; }.directive-meta .spacer { flex:1; }.directive-meta small { margin:0!important; }
 @media(max-width:1200px){.team-board{grid-template-columns:1fr}.control-metrics{grid-template-columns:repeat(2,1fr)}}
+
+/* 근무 명부: 10명을 균등한 두 줄로 배치하고 상태·동작을 고정 정렬한다. */
+.duty-roster-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; padding: 10px 20px 20px; }
+.duty-roster-person { min-width: 0; padding: 14px 14px 10px; border: 1px solid var(--line); border-radius: 12px; background: var(--white, #fff); }
+.duty-roster-identity { display: flex; align-items: center; gap: 10px; }
+.duty-roster-name { min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+.duty-roster-name strong { color: var(--ink); font-size: 14px; line-height: 1.4; font-weight: 700; white-space: nowrap; }
+.duty-roster-name span { color: var(--steel); font-size: 11px; line-height: 1.4; white-space: nowrap; }
+.duty-roster-footer { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 12px; padding-top: 8px; border-top: 1px solid var(--line); }
+.duty-roster-status { display: inline-flex; align-items: center; gap: 5px; color: var(--steel); font-size: 11px; white-space: nowrap; }
+.duty-roster-status i { width: 5px; height: 5px; border-radius: 50%; background: var(--stone); }
+.duty-roster-status.is-scheduled { color: #21845d; }
+.duty-roster-status.is-scheduled i { background: #27ae79; }
+.duty-roster-footer .MuiButton-root { min-width: 0; padding: 3px 6px; font-size: 11px; line-height: 1.6; white-space: nowrap; }
+.duty-date-cell { display: flex; align-items: center; gap: 8px; height: 100%; white-space: nowrap; }
+.duty-date-cell > span { flex-shrink: 0; }
+.duty-date-cell .today-tag { white-space: nowrap; }
+@media (max-width: 1100px) { .duty-roster-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }

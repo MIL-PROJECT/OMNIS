@@ -86,7 +86,7 @@ export default function DutyManagement({ user }: { user: PublicUser }) {
   const remove = (channel: Channel, id: string) => { if (confirm('이 항목을 삭제하시겠습니까?')) call(channel, { id }).then(refresh).catch(e => alert(e.message)) }
   const todayDuty = visibleDuty.filter(d => d.duty_date === today).sort((a, b) => shifts.findIndex(s => s[0] === a.shift_type) - shifts.findIndex(s => s[0] === b.shift_type))
   const columns: GridColDef[] = [
-    { field: 'duty_date', headerName: '일자', width: 150, renderCell: ({ row }) => <Box className="cell-person"><span className="cell-muted">{row.duty_date} ({weekday(row.duty_date)})</span>{row.duty_date === today && <span className="today-tag">오늘</span>}</Box> },
+    { field: 'duty_date', headerName: '일자', width: 210, minWidth: 210, renderCell: ({ row }) => <Box className="duty-date-cell"><span className="cell-muted">{row.duty_date} ({weekday(row.duty_date)})</span>{row.duty_date === today && <span className="today-tag">오늘</span>}</Box> },
     { field: 'shift_type', headerName: '근무', width: 90, renderCell: ({ row }) => shiftChip(row.shift_type) },
     { field: 'display_name', headerName: '담당자', flex: 1, renderCell: ({ row }) => <Box className="cell-person"><Avatar name={row.display_name} size={24} /><span className="cell-strong">{row.display_name}</span></Box> },
     { field: 'unit_name', headerName: '소속 부대', flex: 1, minWidth: 160 },
@@ -101,9 +101,12 @@ export default function DutyManagement({ user }: { user: PublicUser }) {
 
     {directoryError&&<Alert severity="error">부대 목록 조회 실패: {directoryError}</Alert>}
     {tab===0&&<Box sx={{mb:2}}><UnitFilter units={units} level={level} unitId={unitId} onLevel={setLevel} onUnit={setUnitId}/></Box>}
-    {tab===0&&unitId&&<Card icon={EventNoteRounded} tone="sky" title="부대 담당자 명부" subtitle={`${units.find(u=>u.id===unitId)?.name??''} · ${rosterRows.length}명 · 근무 등록 여부와 관계없이 조회됩니다.`}>
-      {roster.loading||roster.unitId!==unitId?<Alert severity="info">담당자 조회 중</Alert>:roster.error?<Alert severity="error" action={<Button onClick={()=>setRosterRefresh(v=>v+1)}>다시 조회</Button>}>{roster.error}</Alert>:rosterRows.length?<Box role="list" aria-label="부대 담당자 명부" sx={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(180px,1fr))',gap:1.5,p:2}}>
-        {rosterRows.map(person=><Box key={person.id} role="listitem" sx={{p:1.5,border:'1px solid',borderColor:'divider',borderRadius:2}}><Box sx={{display:'flex',alignItems:'center',gap:1}}><Avatar name={person.display_name} size={28}/><Box><strong>{person.rank_name} {person.display_name}</strong><Box className="cell-muted">{person.is_demo?'가상 담당자 · ':''}{duty.some(d=>d.user_id===person.id&&d.duty_date===today)?'오늘 근무 편성됨':'오늘 미편성'}</Box></Box></Box>{editable&&<Button size="small" aria-label={`${person.display_name} 근무 등록`} onClick={()=>openDuty(undefined,person)}>근무 등록</Button>}</Box>)}
+    {tab===0&&unitId&&<Card icon={EventNoteRounded} tone="sky" title="부대 담당자 명부" subtitle={`${units.find(u=>u.id===unitId)?.name??''} · 담당자 ${rosterRows.length}명 · 오늘 편성 현황`}>
+      {roster.loading||roster.unitId!==unitId?<Alert severity="info">담당자 조회 중</Alert>:roster.error?<Alert severity="error" action={<Button onClick={()=>setRosterRefresh(v=>v+1)}>다시 조회</Button>}>{roster.error}</Alert>:rosterRows.length?<Box role="list" aria-label="부대 담당자 명부" className="duty-roster-grid">
+        {rosterRows.map(person=>{const scheduled=duty.some(d=>d.user_id===person.id&&d.duty_date===today);return <Box key={person.id} role="listitem" className="duty-roster-person">
+          <Box className="duty-roster-identity"><Avatar name={person.display_name.slice(0,1)} size={34}/><Box className="duty-roster-name"><strong>{person.display_name}</strong><span>{person.rank_name}{person.is_demo?' · 가상':''}</span></Box></Box>
+          <Box className="duty-roster-footer"><span className={`duty-roster-status${scheduled?' is-scheduled':''}`}><i/>{scheduled?'편성됨':'미편성'}</span>{editable&&<Button size="small" aria-label={`${person.display_name} 근무 등록`} onClick={()=>openDuty(undefined,person)}>근무 등록</Button>}</Box>
+        </Box>})}
       </Box>:<EmptyState icon={EventNoteRounded} title="등록된 활성 담당자가 없습니다"/>}
     </Card>}
     <Card icon={TodayRounded} tone="sky" title="오늘의 근무" subtitle={`${new Date().toLocaleDateString('ko-KR', { month: 'long', day: 'numeric', weekday: 'long' })} · ${todayDuty.length}명`}>

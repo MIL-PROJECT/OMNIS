@@ -20,6 +20,9 @@ try {
  for(const [width,height] of [[1366,768],[1920,1080]]){
   await page.setViewportSize({width,height});await page.screenshot({path:resolve(`tests/.tmp/duty-roster-no-schedule-${width}.png`),animations:'disabled'})
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true)
+  await roster.locator('..').screenshot({path:resolve(`tests/.tmp/duty-roster-card-${width}.png`),animations:'disabled'})
+  const ys=await roster.getByRole('listitem').evaluateAll(nodes=>nodes.map(el=>Math.round(el.getBoundingClientRect().top)))
+  expect(new Set(ys.slice(0,5)).size).toBe(1);expect(new Set(ys.slice(5)).size).toBe(1);expect(ys[5]).toBeGreaterThan(ys[0])
   for(const item of await roster.getByRole('listitem').all())expect(await item.evaluate(el=>el.scrollHeight<=el.clientHeight+1)).toBe(true)
  }
  expect((await invoke('duty:list')).length).toBe(base)
@@ -66,9 +69,16 @@ try {
  await expect(dialog.getByRole('combobox',{name:'소속 부대',exact:true})).toHaveValue('제2미사일방어여단')
  await expect(dialog.getByRole('alert')).toContainText('부대 담당자 10명')
  await dialog.getByRole('combobox',{name:'담당자',exact:true}).click();await expect(page.getByRole('option')).toHaveCount(10);await page.getByRole('option').last().click()
+ const todayDate=new Date().toLocaleDateString('sv-SE',{timeZone:'Asia/Seoul'})
+ await dialog.getByLabel('일자',{exact:true}).fill(todayDate)
  await dialog.getByRole('button',{name:'저장',exact:true}).click();await expect(dialog).toHaveCount(0)
  const updated=(await invoke('duty:list')).find(d=>d.position==='가상 부대별 근무 시험')
  expect(updated.unit_id).toBe('B02');expect(updated.user_id).not.toBe(saved.find(d=>d.position==='가상 부대별 근무 시험').user_id)
+ for(const [width,height] of [[1366,768],[1920,1080]]){
+  await page.setViewportSize({width,height});const tag=row.locator('.today-tag');await tag.scrollIntoViewIfNeeded();await expect(tag).toHaveText('오늘')
+  expect(await tag.evaluate(el=>{const cell=el.closest('.MuiDataGrid-cell').getBoundingClientRect(),r=el.getBoundingClientRect();return r.left>=cell.left&&r.right<=cell.right&&el.scrollWidth<=el.clientWidth})).toBe(true)
+  await page.screenshot({path:resolve(`tests/.tmp/duty-today-badge-${width}.png`),animations:'disabled'})
+ }
  await choose(page,'부대급','비행단급');await choose(page,'소속 부대','제20전투비행단');await expect(page.getByRole('row').filter({hasText:'가상 부대별 근무 시험'})).toHaveCount(0)
  expect(errors).toEqual([])
  console.log('Duty units E2E passed: wing/brigade/group 10 contacts, create two, duplicate prevention, edit, unit filter, 1366/1920 layout')
