@@ -36,3 +36,16 @@
 - AI 활용도: AI-01~04가 구조화 출력, 사람 승인, fallback, 재현성 기록을 제공한다.
 - 차별성: SLA 위험, 긴급 선조치, 원격→현장 전환, 일일 마감, 인수인계, Demo Mode를 제공한다.
 - 프레젠테이션: PR-01과 `DEMO_SCENARIO.md`가 15분 시연 경로를 고정한다.
+
+
+## 사용자 요청: 실용 기능 5종 (PDF 필수기능과 구분)
+
+| ID | 기능 | 구현 | 주요 검증 |
+|---|---|---|---|
+| UX-01 | 접수 템플릿 | IntakeTemplatePanel / templates IPC / incident_intakes | 기존 입력 보호·버전 snapshot·입력 사실 보존 |
+| UX-02 | 내 업무 | MyWork / work:mine / ID 상세 링크 | 개인 scope·오늘/지연 구분·지시 확인·상세 복귀 |
+| UX-03 | 정비 체크리스트 | TaskChecklistPanel / task_checklists / 완료 gate | 필수/이상/NA·소유권·revision·재시작 복원 |
+| UX-04 | 반복 정비 | RecurringMaintenance / recurring_rules/occurrences | 월말/윤년·담당자·중복 회차·stale/중지·rollback |
+| UX-05 | 입력 보완 | InputAssist / shared/usability / 기존 ai:triageIncident | 외부 점검 호출 없음·답변 보존·기존 분석/fallback |
+
+실제 최종 실행 상태는 `FIVE_FEATURES_VERIFICATION.md`에 기록한다.

@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2400" height="1400" viewBox="0 0 2400 1400" role="img" aria-label="OMNIS AI 업무 지원 데이터 흐름"><title>OMNIS AI 업무 지원 데이터 흐름</title><desc>로컬 입력 보완, Main 권한 검증, 최소 데이터 마스킹, 선택형 Provider, 구조화 검증과 담당자 검토 후 반영</desc><defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#73829D"/></marker></defs><g font-family="Pretendard, Malgun Gothic, Apple SD Gothic Neo, sans-serif">
+<rect x="0" y="0" width="2400" height="1400" rx="0" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="2"/>
+<text x="70" y="95" font-size="49" font-weight="800" fill="#303F91">OMNIS  |  AI 업무 지원 흐름</text>
+<text x="73" y="148" font-size="27" font-weight="400" fill="#66748D">입력 보완부터 검토 후 반영까지 · LOCAL 기본 · 외부 AI는 선택</text>
+<rect x="70" y="250" width="400" height="240" rx="20" fill="#FFFFFF" stroke="#D6DDEC" stroke-width="2"/>
+<rect x="90" y="272" width="78" height="78" rx="17" fill="#F0F3FA" stroke="#F0F3FA" stroke-width="2"/>
+<g transform="translate(100 280) scale(0.95)" fill="none" stroke="#303F91" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+<rect x="2" y="4" width="56" height="38" rx="4"/><path d="M20 56 H42 M30 42 V55"/>
+</g>
+<text x="186" y="302" font-size="31" font-weight="750" fill="#303F91">사용자 입력</text>
+<text x="186" y="337" font-size="21" font-weight="400" fill="#66748D">고장 제목 · 증상 · 영향</text>
+<path d="M94 374 H446" stroke="#D6DDEC" stroke-width="2"/>
+<text x="95" y="450" font-size="30" font-weight="800" fill="#3274CB">01</text>
+<rect x="530" y="250" width="400" height="240" rx="20" fill="#FFFFFF" stroke="#D6DDEC" stroke-width="2"/>
+<rect x="550" y="272" width="78" height="78" rx="17" fill="#F0F3FA" stroke="#F0F3FA" stroke-width="2"/>
+<g transform="translate(560 280) scale(0.95)" fill="none" stroke="#303F91" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+<path d="M28 1 L52 10 V28 C52 44 40 54 28 61 C16 54 4 44 4 28 V10 Z"/><path d="M17 28 L25 36 L41 18"/>
+</g>
+<text x="646" y="302" font-size="31" font-weight="750" fill="#303F91">로컬 입력 점검</text>
+<text x="646" y="337" font-size="21" font-weight="400" fill="#66748D">누락 질문 · 미확인 표시</text>
+<path d="M554 374 H906" stroke="#D6DDEC" stroke-width="2"/>
+<text x="555" y="450" font-size="30" font-weight="800" fill="#3274CB">02</text>
+<rect x="990" y="250" width="400" height="240" rx="20" fill="#FFFFFF" stroke="#D6DDEC" stroke-width="2"/>
+<rect x="1010" y="272" width="78" height="78" rx="17" fill="#F0F3FA" stroke="#F0F3FA" stroke-width="2"/>
+<g transform="translate(1020 280) scale(0.95)" fill="none" stroke="#303F91" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+<rect x="11" y="11" width="38" height="38" rx="7"/><path d="M21 1 V10 M39 1 V10 M21 50 V60 M39 50 V60 M1 21 H10 M1 39 H10 M50 21 H60 M50 39 H60"/><rect x="22" y="22" width="16" height="16" rx="2"/>
+</g>
+<text x="1106" y="302" font-size="31" font-weight="750" fill="#303F91">Main 실행 요청</text>
+<text x="1106" y="337" font-size="21" font-weight="400" fill="#66748D">권한 · 동의 · 한도 검사</text>
+<path d="M1014 374 H1366" stroke="#D6DDEC" stroke-width="2"/>
+<text x="1015" y="450" font-size="30" font-weight="800" fill="#3274CB">03</text>
+<rect x="1450" y="250" width="400" height="240" rx="20" fill="#FFFFFF" stroke="#D6DDEC" stroke-width="2"/>
+<rect x="1470" y="272" width="78" height="78" rx="17" fill="#F0F3FA" stroke="#F0F3FA" stroke-width="2"/>
+<g transform="translate(1480 280) scale(0.95)" fill="none" stroke="#303F91" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+<ellipse cx="30" cy="30" rx="30" ry="11" transform="rotate(0 30 30)"/>
+<ellipse cx="30" cy="30" rx="30" ry="11" transform="rotate(60 30 30)"/>
+<ellipse cx="30" cy="30" rx="30" ry="11" transform="rotate(120 30 30)"/>
+<circle cx="30" cy="30" r="4" fill="#303F91" stroke="none"/>
+</g>
+<text x="1566" y="302" font-size="31" font-weight="750" fill="#303F91">Provider 선택</text>
+<text x="1566" y="337" font-size="21" font-weight="400" fill="#66748D">Factory + Orchestrator</text>
+<path d="M1474 374 H1826" stroke="#D6DDEC" stroke-width="2"/>
+<text x="1475" y="450" font-size="30" font-weight="800" fill="#3274CB">04</text>
+<rect x="1910" y="250" width="400" height="240" rx="20" fill="#FFFFFF" stroke="#D6DDEC" stroke-width="2"/>
+<rect x="1930" y="272" width="78" height="78" rx="17" fill="#F0F3FA" stroke="#F0F3FA" stroke-width="2"/>
+<g transform="translate(1940 280) scale(0.95)" fill="none" stroke="#303F91" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+<path d="M28 1 L52 10 V28 C52 44 40 54 28 61 C16 54 4 44 4 28 V10 Z"/><path d="M17 28 L25 36 L41 18"/>
+</g>
+<text x="2026" y="302" font-size="31" font-weight="750" fill="#303F91">구조화 결과</text>
+<text x="2026" y="337" font-size="21" font-weight="400" fill="#66748D">JSON Schema + Zod</text>
+<path d="M1934 374 H2286" stroke="#D6DDEC" stroke-width="2"/>
+<text x="1935" y="450" font-size="30" font-weight="800" fill="#3274CB">05</text>
+<path d="M470 370 H520" fill="none" stroke="#73829D" stroke-width="3.5" stroke-linejoin="round" marker-end="url(#arr)"/>
+<path d="M930 370 H980" fill="none" stroke="#73829D" stroke-width="3.5" stroke-linejoin="round" marker-end="url(#arr)"/>
+<path d="M1390 370 H1440" fill="none" stroke="#73829D" stroke-width="3.5" stroke-linejoin="round" marker-end="url(#arr)"/>
+<path d="M1850 370 H1900" fill="none" stroke="#73829D" stroke-width="3.5" stroke-linejoin="round" marker-end="url(#arr)"/>
+<rect x="70" y="530" width="860" height="132" rx="17" fill="#F3F8F9" stroke="#D4E7E8" stroke-width="2"/>
+<text x="95" y="575" font-size="30" font-weight="750" fill="#087F86">입력 점검에서는 외부 API 호출 0회</text>
+<text x="95" y="620" font-size="24" font-weight="400" fill="#66748D">사용자가 분석을 요청할 때만 선택한 Provider를 호출</text>
+<rect x="990" y="545" width="400" height="380" rx="18" fill="#F8F9FD" stroke="#D7E0EF" stroke-width="2"/>
+<text x="1020" y="595" font-size="28" font-weight="750" fill="#303F91">전송 전 보호</text>
+<text x="1020" y="652" font-size="25" font-weight="400" fill="#66748D">필요한 업무 필드만 추출</text>
+<text x="1020" y="700" font-size="25" font-weight="400" fill="#66748D">전화 · 이메일 · 토큰 마스킹</text>
+<text x="1020" y="748" font-size="25" font-weight="400" fill="#66748D">질문 답변도 같은 경로 적용</text>
+<text x="1020" y="796" font-size="25" font-weight="400" fill="#66748D">파일 원문 / DB 전체 제외</text>
+<text x="1020" y="844" font-size="25" font-weight="400" fill="#66748D">API Key는 Main에만 보관</text>
+<path d="M1190 490 V535" fill="none" stroke="#73829D" stroke-width="3.5" stroke-linejoin="round" marker-end="url(#arr)"/>
+<rect x="1450" y="545" width="400" height="380" rx="18" fill="#F6F5FC" stroke="#D9D4ED" stroke-width="2"/>
+<text x="1480" y="595" font-size="28" font-weight="750" fill="#7655B1">4개 Provider</text>
+<text x="1480" y="655" font-size="26" font-weight="400" fill="#182344">LOCAL · 기본 / 오프라인</text>
+<text x="1480" y="710" font-size="26" font-weight="400" fill="#182344">OLLAMA · 로컬 HTTP</text>
+<text x="1480" y="765" font-size="26" font-weight="400" fill="#182344">OPENAI · HTTPS</text>
+<text x="1480" y="820" font-size="26" font-weight="400" fill="#182344">ANTHROPIC · HTTPS</text>
+<path d="M1650 490 V535" fill="none" stroke="#73829D" stroke-width="3.5" stroke-linejoin="round" marker-end="url(#arr)"/>
+<rect x="1910" y="545" width="400" height="380" rx="18" fill="#F5FAFC" stroke="#D4E2ED" stroke-width="2"/>
+<text x="1940" y="595" font-size="28" font-weight="750" fill="#3274CB">결과 검증 · 기록</text>
+<text x="1940" y="652" font-size="24" font-weight="400" fill="#66748D">refusal / incomplete 처리</text>
+<text x="1940" y="700" font-size="24" font-weight="400" fill="#66748D">잘못된 결과 → 규칙 fallback</text>
+<text x="1940" y="748" font-size="24" font-weight="400" fill="#66748D">Provider · model · latency</text>
+<text x="1940" y="796" font-size="24" font-weight="400" fill="#66748D">token · request ID · fallback</text>
+<text x="1940" y="844" font-size="24" font-weight="400" fill="#66748D">AI 실행 이력에 기록</text>
+<path d="M2110 490 V535" fill="none" stroke="#73829D" stroke-width="3.5" stroke-linejoin="round" marker-end="url(#arr)"/>
+<rect x="70" y="730" width="860" height="195" rx="18" fill="#FFF9F2" stroke="#EEDDC5" stroke-width="2"/>
+<text x="100" y="782" font-size="30" font-weight="750" fill="#BA6A25">통제 원칙</text>
+<text x="100" y="827" font-size="25" font-weight="400" fill="#66748D">SLA 위험은 기존 규칙으로 계산</text>
+<text x="100" y="873" font-size="25" font-weight="400" fill="#66748D">AI 분석이 고장 상태·담당자·우선순위를 자동 변경하지 않음</text>
+<path d="M2110 925 V1010 H1650 V1055" fill="none" stroke="#73829D" stroke-width="3.5" stroke-linejoin="round" marker-end="url(#arr)"/>
+<rect x="1250" y="1065" width="1060" height="230" rx="20" fill="#FFFFFF" stroke="#D6DDEC" stroke-width="2"/>
+<rect x="1270" y="1087" width="78" height="78" rx="17" fill="#F0F3FA" stroke="#F0F3FA" stroke-width="2"/>
+<g transform="translate(1280 1095) scale(0.95)" fill="none" stroke="#087F86" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+<circle cx="29" cy="16" r="13"/><path d="M3 60 C3 26 55 26 55 60 Z" fill="#087F86" stroke="none"/>
+</g>
+<text x="1366" y="1117" font-size="31" font-weight="750" fill="#087F86">담당자 검토 → 명시적 반영</text>
+<text x="1366" y="1152" font-size="21" font-weight="400" fill="#66748D">추천 근거 확인 · 수정 · 기존 권한 / 업무 workflow 적용</text>
+<path d="M1274 1189 H2286" stroke="#D6DDEC" stroke-width="2"/>
+<text x="1290" y="1245" font-size="26" font-weight="400" fill="#66748D">정상 결과도 사람이 검토하기 전에는 업무 데이터에 적용되지 않습니다.</text>
+<rect x="70" y="1065" width="1060" height="230" rx="20" fill="#F8FAFE" stroke="#D7E0EF" stroke-width="2"/>
+<text x="110" y="1120" font-size="30" font-weight="750" fill="#303F91">실행 이력과 업무 이력</text>
+<text x="110" y="1173" font-size="25" font-weight="400" fill="#66748D">ai_runs: 선택 / 실제 Provider · 응답시간 · 사용량 · fallback</text>
+<text x="110" y="1221" font-size="25" font-weight="400" fill="#66748D">incident_events / audit_logs: 검토 후 반영과 업무 변경 기록</text>
+<path d="M1250 1185 H1140" fill="none" stroke="#73829D" stroke-width="3.5" stroke-linejoin="round" marker-end="url(#arr)"/>
+<text x="74" y="1354" font-size="23" font-weight="400" fill="#66748D">범위: 현재 입력과 DB 업무 데이터를 요청 시 분석하는 구조 · 문서 RAG 및 모델 학습 기능은 포함하지 않음</text>
+</g></svg>

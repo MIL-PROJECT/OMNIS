@@ -33,3 +33,8 @@ SLA 위험은 LLM이 변경하지 않는다. `team_average_minutes × (1 + activ
 API Key는 DB·renderer·localStorage·로그에 저장하지 않는다. Electron `safeStorage` ciphertext만 `userData/secrets/ai-credentials.json`에 저장하며 암호화를 사용할 수 없으면 저장을 거부하고 환경변수만 허용한다. IPC는 configured/source/masked만 반환한다.
 
 schema v5의 `ai_runs`는 선택/실제 Provider, model, prompt/schema version, latency, input/output token, request ID, error code, fallback, external transmission, 반영 여부를 저장한다. 가격표는 저장하지 않는다.
+
+
+## 로컬 입력 보완
+
+고장 접수/상세와 AI 지원의 `InputAssist`는 공통 `missingQuestions` 규칙을 사용한다. 입력 점검은 추론 요청이 아니며 외부 API를 호출하지 않는다. 답변은 구조화 배열로 유지하고 실제 분석 요청 시 Main에서 `analysisDescription`으로 한 번 조합한다. 저장된 접수의 원문은 명시적 저장 없이 바꾸지 않는다. 화면 입력 변경/상세 이동 후 늦게 도착한 분석 결과는 폐기한다. 기존 Provider·Structured Outputs·Zod·마스킹·safeStorage·fallback·SLA 규칙은 유지된다.

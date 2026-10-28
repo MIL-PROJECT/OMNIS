@@ -3,7 +3,7 @@
 ## Completed
 
 - [x] Phase 1–2: pnpm project, Electron, React 19, TypeScript strict and secure preload.
-- [x] Phase 3–4: SQLite schema v5 순방향 migration, 11 demo users, 38 systems, 52 incidents, 42 maintenance tasks, 3 정비반, 상황경보, 일일 작업계획, 첨부자료 메타데이터, AI 실행 사용량 메타데이터.
+- [x] Phase 3–4: SQLite schema v6 순방향 migration, 11 demo users, 38 systems, 52 incidents, 42 maintenance tasks, 3 정비반, 상황경보, 일일 작업계획, 첨부자료 메타데이터, AI 실행 사용량 메타데이터.
 - [x] Phase 5–6: local scrypt login, role checks, Zod validated IPC and restricted contextBridge.
 - [x] Phase 7–11: dashboard; operations CRUD/status/history; incident create/edit/assignment/workflow/events; maintenance create/edit/workflow/events/calendar; duty and directive CRUD.
 - [x] Phase 12: offline Local Rule, optional local Ollama provider, structured output validation and fallback; triage, summary, similar incident and maintenance recommendations.
@@ -73,3 +73,10 @@
 - OMNIS 대시보드·업무 화면 디자인과 사용자 등록 기능이 Main/Preload/Renderer 계약에 연결된 상태를 확인.
 - `pnpm typecheck`, `pnpm lint`, `pnpm test`, `pnpm build` 통과.
 - 업무 smoke, RBAC, 사용자 등록 E2E를 각각 격리된 SQLite 데이터로 통과.
+
+
+## 실용 기능 5종 브랜치
+
+`codex/usability-five-features`에서 접수 템플릿·내 업무·정비 체크리스트·반복 정비·로컬 입력 보완을 구현했다. DB v6 additive migration, typed/Zod IPC, Main 권한, 기존 AI Provider 연계, 고해상도 시스템 구성도를 포함한다.
+
+최신 테스트/산출물 결과는 `docs/FIVE_FEATURES_VERIFICATION.md`에 별도 기록한다. 앞선 외부 AI 브랜치의 테스트 수·hash·macOS 결과를 이번 버전의 검증으로 대체하지 않는다.

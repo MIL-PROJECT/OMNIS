@@ -4,6 +4,16 @@
 
 Windows와 macOS용 오프라인 시연 앱입니다. 모든 기본 데이터는 가상 데이터입니다. 실제 군 운용 자료를 입력하지 마십시오.
 
+## 실용 기능 5종
+
+- 고장 접수 템플릿과 로컬 입력 보완: 예시와 사실을 구분하고 작성한 내용을 보존합니다.
+- 통합상황판의 **내 업무**: 개인 배정 고장·오늘/지연 정비·미확인 지시에서 상세로 바로 이동합니다.
+- 정비 체크리스트: 작업별 snapshot과 결과를 저장하고 필수 미점검 시 완료를 차단합니다.
+- 반복 정비: 주간/월간 일정 미리보기 후 명시적으로 생성하며 같은 회차는 중복 생성하지 않습니다.
+- 기존 AI 분석에 보완 답변을 전달하되 로컬 점검 자체에는 API 비용이 없습니다.
+
+사용법은 [5개 기능 사용 안내](docs/FIVE_FEATURES_USER_GUIDE.md), 구조 그림은 [시스템 구성도](docs/architecture/README.md)를 참고하십시오.
+
 ## 구조
 
 React 19 Renderer → sandboxed preload contextBridge → Zod validated IPC → Electron Main → service/repository → SQLite (`better-sqlite3`). HTTP 서버는 사용하지 않습니다. Drizzle schema 정의는 `src/main/database/schema.ts`에 있으며, 전체 ORM 적용은 남은 작업입니다.
@@ -26,7 +36,7 @@ React 19 Renderer → sandboxed preload contextBridge → Zod validated IPC → 
 
 - `pnpm typecheck`, `pnpm lint`, `pnpm test`
 - `pnpm build`
-- `pnpm test:e2e`, `pnpm test:e2e:operations`, `pnpm test:e2e:roles`, `pnpm test:e2e:signup`, `pnpm test:e2e:visual`, `pnpm test:e2e:external-ai`
+- `pnpm test:e2e`, `pnpm test:e2e:operations`, `pnpm test:e2e:roles`, `pnpm test:e2e:signup`, `pnpm test:e2e:visual`, `pnpm test:e2e:external-ai`, `pnpm test:e2e:usability`
 - `pnpm dist:win` → `release/`에 NSIS 설치 파일
 - macOS에서 `pnpm dist:mac` → 현재 Mac CPU에 맞는 DMG·ZIP
 - `pnpm dist:mac:arm64`, `pnpm dist:mac:x64` → CPU 아키텍처를 지정한 DMG·ZIP

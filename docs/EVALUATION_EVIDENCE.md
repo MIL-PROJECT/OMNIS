@@ -2,7 +2,13 @@
 
 이 문서는 구현 파일과 실행 결과만 근거로 채점한다. 시뮬레이션·가상 데이터 결과를 실제 군 운용 검증으로 표현하지 않는다.
 
-## 자체평가
+## 실용 기능 5종 추가 검증 (2026-10-28)
+
+`codex/usability-five-features`의 DB v6, 템플릿·개인 업무·체크리스트·반복 정비·입력 보완 구현과 최종 Windows 실행본의 결과는 [별도 검증 기록](FIVE_FEATURES_VERIFICATION.md)을 기준으로 한다. 정적 검사, 52개 단위/통합 테스트, 기존·신규 source E2E, 최종 packaged smoke/operations/usability/external-AI mock E2E를 통과했다. [시스템 구성도](architecture/README.md)와 [사용 안내](FIVE_FEATURES_USER_GUIDE.md)를 제공한다.
+
+아래 점수표는 이전 버전의 자체 예상이며 공식 평가 결과가 아니다. 신규 기능을 이유로 점수를 추가 산정하거나 macOS/live API/clean PC를 검증 완료로 간주하지 않는다.
+
+## 이전 버전 자체평가
 
 | 영역 | 배점 | 예상 | 근거 | 남은 위험 |
 |---|---:|---:|---|---|
