@@ -2,6 +2,7 @@ import { randomUUID } from 'node:crypto'
 import type Database from 'better-sqlite3'
 import type { PublicUser } from '../../shared/contracts'
 import { organizationSchemas } from '../../shared/organization'
+import { seedOrganizationContacts } from '../database/organizationContacts'
 
 export function listActionDepartments(db: Database.Database): unknown[] {
   return db
@@ -111,6 +112,7 @@ export function saveActionDepartment(
       JSON.stringify(p),
       date
     )
+    seedOrganizationContacts(db)
     return { id }
   })()
 }

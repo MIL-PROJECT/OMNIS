@@ -2,6 +2,7 @@ import { randomUUID } from 'node:crypto'
 import type Database from 'better-sqlite3'
 import type { PublicUser } from '../../shared/contracts'
 import { schemas } from '../../shared/contracts'
+import { assertOrganizationAssignee } from '../database/organizationContacts'
 
 export function assignIncidentTeam(
   db: Database.Database,
@@ -39,6 +40,7 @@ export function assignIncidentTeam(
           ? 'TRIAGED'
           : before.status
     const assignee = p.userId === undefined ? before.assigned_to : p.userId
+    assertOrganizationAssignee(db,p.teamId,assignee as string|null)
     // department always represents the requesting department; assignment must never overwrite it.
     db.prepare(
       'UPDATE incidents SET team_id=?,assigned_to=?,assigned_at=?,status=?,updated_at=? WHERE id=?'

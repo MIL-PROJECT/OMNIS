@@ -47,3 +47,7 @@ Demo Mode 초기화는 `demo_scenarios.entity_ids_json`에 기록된 생성 행�
 `team_organizations`: 기존 `maintenance_teams`와 부대의 연결, 부서 명칭·출처·자료 기준일·PUBLIC/LOCAL 등록 기준·메모. 부대/부서명 조합은 유일하다. seed는 관리자 수정과 비활성 상태를 보존한다.
 
 `incidents.department`는 요청부서이며 배정 시 변경하지 않는다. 조치부서는 `team_id`로 조회하고 NULL이면 미지정으로 표시한다. v7 migration은 기존 요청부서·배정 행을 추정 수정하지 않는다. 기존 유선·무선·사이버 정비반 코드와 AI 계약을 유지한다.
+
+## v8 부대별 가상 담당자
+
+`organization_members`: user_id(사용자 FK/PK), unit_id(부대 FK), demo_slot(1~10), is_demo. `(unit_id,demo_slot)`은 유일하여 동일 부대에 10개의 가상 담당자 슬롯을 유지한다. 기존 users 행과 배정을 덮어쓰지 않는다. 가상 담당자는 빈 인증 필드로 생성하므로 로그인할 수 없고 군번·연락처를 생성하지 않는다. 사용자 목록에는 unit_id/is_demo를 추가 반환하며 원래 계정이 먼저 정렬된다. 조직별 조치부서와 다른 부대의 가상 담당자를 함께 배정하려는 요청은 Main에서 거부한다.

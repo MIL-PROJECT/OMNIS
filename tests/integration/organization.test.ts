@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import Database from 'better-sqlite3'
-import { migrate } from '../../src/main/database/migrate'
+import { migrate, SCHEMA_VERSION } from '../../src/main/database/migrate'
 import { seed } from '../../src/main/database/seed'
 import { organizationCatalog } from '../../src/main/database/organizationCatalog'
 import { assignIncidentTeam } from '../../src/main/services/IncidentAssignmentService'
@@ -149,10 +149,10 @@ describe('action organization and requesting department separation', () => {
   })
   it('upgrades version 6 additively without changing old requester or assignment data', () => {
     const before = incident()
-    db.exec('DROP TABLE team_organizations; DROP TABLE organization_units;')
+    db.exec('DROP TABLE organization_members; DROP TABLE team_organizations; DROP TABLE organization_units;')
     db.pragma('user_version=6')
     migrate(db)
     expect(incident()).toEqual(before)
-    expect(db.pragma('user_version', { simple: true })).toBe(7)
+    expect(db.pragma('user_version', { simple: true })).toBe(SCHEMA_VERSION)
   })
 })

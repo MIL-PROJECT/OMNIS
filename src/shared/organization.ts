@@ -19,6 +19,7 @@ export const publicSourceSchema = z
   }, 'HTTPS 자료 주소를 입력하십시오.')
 export const organizationSchemas = {
   'organizations:list': z.object({}),
+  'organizations:members': z.object({unitId:z.string().min(1)}),
   'organizations:saveDepartment': z.object({
     id: z.string().min(1).optional(),
     unitId: z.string().min(1).optional(),

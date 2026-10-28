@@ -23,7 +23,7 @@ describe('offline database', () => {
     db.pragma('foreign_keys = ON')
     migrate(db); seed(db); seed(db)
     const count = (table: string) => (db.prepare(`SELECT count(*) n FROM ${table}`).get() as { n: number }).n
-    expect(count('users')).toBe(11)
+    expect(count('users')).toBe(11+organizationCatalog.length*10)
     expect(db.prepare("SELECT role FROM users WHERE username='demo_user'").get()).toEqual({ role: 'USER' })
     expect(count('communication_systems')).toBe(38)
     expect(count('incidents')).toBe(52)

@@ -1,5 +1,12 @@
 import { useState } from 'react'
-import { Alert, Autocomplete, Button, MenuItem, Stack, TextField } from '@mui/material'
+import {
+  Alert,
+  Autocomplete,
+  Button,
+  MenuItem,
+  Stack,
+  TextField
+} from '@mui/material'
 import {
   unitLevelLabels,
   type ActionDepartment,
@@ -11,12 +18,14 @@ export default function ActionDepartmentPicker({
   units,
   value,
   onChange,
+  onUnitChange,
   disabled = false
 }: {
   teams: ActionDepartment[]
   units: OrganizationUnit[]
   value: string
   onChange: (id: string) => void
+  onUnitChange?: (id: string | null) => void
   disabled?: boolean
 }) {
   const selected = teams.find((t) => t.id === value)
@@ -45,6 +54,7 @@ export default function ActionDepartmentPicker({
             setFilter(e.target.value)
             setUnitFilter(null)
             onChange('')
+            onUnitChange?.(null)
           }}
         >
           <MenuItem value="">전체</MenuItem>
@@ -66,6 +76,7 @@ export default function ActionDepartmentPicker({
           onChange={(_, u) => {
             setUnitFilter(u?.id ?? null)
             onChange('')
+            onUnitChange?.(u?.id ?? null)
           }}
           renderInput={(params) => (
             <TextField
@@ -86,7 +97,10 @@ export default function ActionDepartmentPicker({
         }
         isOptionEqualToValue={(a, b) => a.id === b.id}
         noOptionsText="선택 가능한 정보통신부서가 없습니다"
-        onChange={(_, t) => onChange(t?.id ?? '')}
+        onChange={(_, t) => {
+          onChange(t?.id ?? '')
+          onUnitChange?.(t?.unit_id ?? selectedUnit?.id ?? null)
+        }}
         renderInput={(params) => (
           <TextField
             {...params}
@@ -96,7 +110,14 @@ export default function ActionDepartmentPicker({
           />
         )}
       />
-      <Button size="small" disabled={disabled||!value} onClick={()=>onChange('')} sx={{alignSelf:'flex-end'}}>조치부서 미지정</Button>
+      <Button
+        size="small"
+        disabled={disabled || !value}
+        onClick={() => onChange('')}
+        sx={{ alignSelf: 'flex-end' }}
+      >
+        조치부서 미지정
+      </Button>
       {selectedUnit &&
         !teams.some(
           (t) => t.unit_id === selectedUnit.id && t.available === 1

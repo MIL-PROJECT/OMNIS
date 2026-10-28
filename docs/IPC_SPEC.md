@@ -42,6 +42,7 @@ Mutation 권한은 Renderer 상태와 무관하게 Main Process에서 검사한�
 `shared/organization.ts`의 Zod 계약을 사용한다.
 
 - `organizations:list`: 로그인 사용자. 실제 부대와 부서 metadata/출처/등록 기준을 반환한다.
+- `organizations:members`: 로그인 사용자, `unitId` 필수. 부대 담당자의 이름·계급·활성/가상 여부를 조회하며 인증 필드는 반환하지 않는다.
 - `organizations:saveDepartment`: ADMIN. 실제 부대/부서 추가·수정·사용 여부. 동일 부대/부서 중복과 임의 부대 ID를 거부한다.
 - `incidents:assignTeam`: ADMIN·OPERATOR. `teamId:null`은 조치부서 미지정, `userId:null`은 담당자 해제다. userId 생략은 기존 담당자 유지다. 비가용 부서/부적합 담당자를 거부하고 이벤트/감사 기록을 남긴다.
 - `incidents:assign`, `incidents:assignTeam`, `incidents:applyAi`: 요청부서 `department`를 변경하지 않는다. 요청부서 변경은 접수 수정에서 수행한다. 기존 `incidents:assign.department` 입력은 호환성을 위해 수신하지만 더 이상 요청부서에 적용하지 않는다.

@@ -5,7 +5,7 @@
 ## Completed
 
 - [x] Phase 1–2: pnpm project, Electron, React 19, TypeScript strict and secure preload.
-- [x] Phase 3–4: SQLite schema v7 순방향 migration, 11 demo users, 38 systems, 52 incidents, 42 maintenance tasks, 기존 공통 정비반 3종 + 실제 부대별 조치조직 디렉터리, 상황경보, 일일 작업계획, 첨부자료 메타데이터, AI 실행 사용량 메타데이터.
+- [x] Phase 3–4: SQLite schema v8 순방향 migration, 기존 11 demo users + 부대별 가상 담당자 220명, 38 systems, 52 incidents, 42 maintenance tasks, 기존 공통 정비반 3종 + 실제 부대별 조치조직 디렉터리, 상황경보, 일일 작업계획, 첨부자료 메타데이터, AI 실행 사용량 메타데이터.
 - [x] Phase 5–6: local scrypt login, role checks, Zod validated IPC and restricted contextBridge.
 - [x] Phase 7–11: dashboard; operations CRUD/status/history; incident create/edit/assignment/workflow/events; maintenance create/edit/workflow/events/calendar; duty and directive CRUD.
 - [x] Phase 12: offline Local Rule, optional local Ollama provider, structured output validation and fallback; triage, summary, similar incident and maintenance recommendations.

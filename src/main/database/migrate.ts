@@ -1,8 +1,9 @@
 import type Database from 'better-sqlite3'
 import { migrateUsability } from './usabilityMigration'
 import { migrateOrganizations } from './organizationMigration'
+import { migrateOrganizationContacts } from './organizationContacts'
 
-export const SCHEMA_VERSION = 7
+export const SCHEMA_VERSION = 8
 
 // 버전별 스키마 변경을 순서대로 적용한다 (기존 DB는 부족한 단계만 실행)
 export function migrate(db: Database.Database): void {
@@ -17,6 +18,7 @@ export function migrate(db: Database.Database): void {
     if (current < 5) migrateV5(db)
     if (current < 6) migrateUsability(db)
     if (current < 7) migrateOrganizations(db)
+    if (current < 8) migrateOrganizationContacts(db)
     db.pragma(`user_version = ${SCHEMA_VERSION}`)
   })()
 }
