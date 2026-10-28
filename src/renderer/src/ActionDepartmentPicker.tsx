@@ -19,6 +19,7 @@ export default function ActionDepartmentPicker({
   value,
   onChange,
   onUnitChange,
+  onRefresh,
   disabled = false
 }: {
   teams: ActionDepartment[]
@@ -26,6 +27,7 @@ export default function ActionDepartmentPicker({
   value: string
   onChange: (id: string) => void
   onUnitChange?: (id: string | null) => void
+  onRefresh?: () => void
   disabled?: boolean
 }) {
   const selected = teams.find((t) => t.id === value)
@@ -90,6 +92,7 @@ export default function ActionDepartmentPicker({
       <Autocomplete
         clearText="선택값 지우기"
         options={options}
+        onOpen={onRefresh}
         value={selected ?? null}
         disabled={disabled}
         getOptionLabel={(t) =>
@@ -129,8 +132,7 @@ export default function ActionDepartmentPicker({
         )}
       {selected?.provenance === 'DEMO' && (
         <Alert severity="info">
-          실제 내부 편제명이 확인되지 않은 부대의 시연용 정보통신 업무
-          담당창구입니다.
+          사용자 지정 시연 부서명입니다. 실제 공식 편제 확인과 구분합니다.
         </Alert>
       )}
       {selected?.source_date && (

@@ -2,6 +2,7 @@ import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import Database from 'better-sqlite3'
 import { migrate, SCHEMA_VERSION } from '../../src/main/database/migrate'
 import { seed } from '../../src/main/database/seed'
+import { seedOrganizationDirectory } from '../../src/main/database/organizationMigration'
 import { organizationCatalog } from '../../src/main/database/organizationCatalog'
 import { assignIncidentTeam } from '../../src/main/services/IncidentAssignmentService'
 import {
@@ -92,7 +93,7 @@ describe('action organization and requesting department separation', () => {
           source_url: unit.url,
           provenance: 'PUBLIC'
         })
-      else expect(rows[0]).toMatchObject({department_name:'정보통신 업무 담당 (시연)',provenance:'DEMO',source_url:null,source_date:null})
+      else expect(rows[0]).toMatchObject({department_name:'정보통신대대',provenance:'DEMO',source_url:null,source_date:null})
     }
     expect(departments.find((t) => t.code === 'TEAM-WIRE')).toMatchObject({
       name: '유선정비반',
@@ -147,6 +148,20 @@ describe('action organization and requesting department separation', () => {
       provenance: 'LOCAL'
     })
     expect(db.pragma('integrity_check', { simple: true })).toBe('ok')
+  })
+  it('repairs the old demo department name while preserving IDs, assignments and availability', () => {
+    const id='department-B02-ict'
+    db.prepare("UPDATE team_organizations SET department_name='정보통신 업무 담당 (시연)' WHERE team_id=?").run(id)
+    db.prepare("UPDATE maintenance_teams SET name='이전 시연 창구',available=0 WHERE id=?").run(id)
+    const row=incident()
+    db.prepare('UPDATE incidents SET team_id=? WHERE id=?').run(id,row.id)
+    const before=incident()
+    seedOrganizationDirectory(db)
+    seedOrganizationDirectory(db)
+    expect(incident()).toEqual(before)
+    expect(db.prepare('SELECT department_name,provenance FROM team_organizations WHERE team_id=?').get(id)).toMatchObject({department_name:'정보통신대대',provenance:'DEMO'})
+    expect(db.prepare('SELECT name,available FROM maintenance_teams WHERE id=?').get(id)).toMatchObject({name:'제2미사일방어여단 · 정보통신대대',available:0})
+    expect(db.prepare("SELECT count(*) n FROM team_organizations WHERE unit_id='B02'").get()).toEqual({n:1})
   })
   it('upgrades version 6 additively without changing old requester or assignment data', () => {
     const before = incident()
