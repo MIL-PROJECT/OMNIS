@@ -85,13 +85,14 @@ describe('action organization and requesting department separation', () => {
     ).toEqual({ n: organizationCatalog.length })
     for (const unit of organizationCatalog) {
       const rows = departments.filter((d) => d.unit_id === unit.id)
-      expect(rows).toHaveLength(unit.department ? 1 : 0)
+      expect(rows).toHaveLength(1)
       if (unit.department)
         expect(rows[0]).toMatchObject({
           department_name: unit.department,
           source_url: unit.url,
           provenance: 'PUBLIC'
         })
+      else expect(rows[0]).toMatchObject({department_name:'정보통신 업무 담당 (시연)',provenance:'DEMO',source_url:null,source_date:null})
     }
     expect(departments.find((t) => t.code === 'TEAM-WIRE')).toMatchObject({
       name: '유선정비반',

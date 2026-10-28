@@ -127,6 +127,12 @@ export default function ActionDepartmentPicker({
             → 조치부서에서 관리자가 실제 명칭을 등록할 수 있습니다.
           </Alert>
         )}
+      {selected?.provenance === 'DEMO' && (
+        <Alert severity="info">
+          실제 내부 편제명이 확인되지 않은 부대의 시연용 정보통신 업무
+          담당창구입니다.
+        </Alert>
+      )}
       {selected?.source_date && (
         <Alert severity="info">
           공개자료 명칭 기준: {selected.source_date} · 현행 명칭이 다르면

@@ -21,13 +21,18 @@ export function seedOrganizationDirectory(db: Database.Database): void {
       db.prepare(
         'INSERT OR IGNORE INTO organization_units (id,name,unit_level,source_url,source_date,created_at) VALUES (?,?,?,?,?,?)'
       ).run(entry.id, entry.name, entry.level, entry.url, entry.date, date)
-      if (!entry.department) continue
+      if (
+        !entry.department &&
+        db
+          .prepare('SELECT team_id FROM team_organizations WHERE unit_id=?')
+          .get(entry.id)
+      )
+        continue
+      const department = entry.department ?? '정보통신 업무 담당 (시연)'
       const code = `ROKAF-${entry.id}-ICT`,
         id = `department-${entry.id}-ict`
       const name =
-        entry.department === entry.name
-          ? entry.name
-          : `${entry.name} · ${entry.department}`
+        department === entry.name ? entry.name : `${entry.name} · ${department}`
       db.prepare(
         `INSERT OR IGNORE INTO maintenance_teams (id,code,name,specialties,system_categories,available,average_resolution_minutes,display_order,created_at,updated_at)
         VALUES (?,?,?,?,?,1,120,?,?,?)`
@@ -37,14 +42,17 @@ export function seedOrganizationDirectory(db: Database.Database): void {
         .get(code) as { id: string }
       db.prepare(
         `INSERT OR IGNORE INTO team_organizations (team_id,unit_id,department_name,source_url,source_date,provenance,note)
-        VALUES (?,?,?,?,?,'PUBLIC',?)`
+        VALUES (?,?,?,?,?,?,?)`
       ).run(
         team.id,
         entry.id,
-        entry.department,
-        entry.url,
-        entry.date,
-        '공개자료에 기재된 명칭. 현재 내부 편제의 전수 검증을 의미하지 않습니다.'
+        department,
+        entry.department ? entry.url : null,
+        entry.department ? entry.date : null,
+        entry.department ? 'PUBLIC' : 'DEMO',
+        entry.department
+          ? '공개자료에 기재된 명칭. 현재 내부 편제의 전수 검증을 의미하지 않습니다.'
+          : '실제 내부 편제명이 확인되지 않은 부대의 가상 업무 접수창구입니다.'
       )
     }
   })()

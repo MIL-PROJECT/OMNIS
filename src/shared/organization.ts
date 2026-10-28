@@ -52,6 +52,6 @@ export type ActionDepartment = {
   department_name: string | null
   source_url: string | null
   source_date: string | null
-  provenance: 'PUBLIC' | 'LOCAL' | null
+  provenance: 'PUBLIC' | 'LOCAL' | 'DEMO' | null
   note: string | null
 }

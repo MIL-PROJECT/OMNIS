@@ -23,7 +23,7 @@ import { attachmentChannels, attachmentRoot, runAttachmentChannel } from './Atta
 import { koreaDate } from '../../shared/date'
 import { listActionDepartments, saveActionDepartment } from './OrganizationService'
 import { assignIncidentTeam } from './IncidentAssignmentService'
-import { assertOrganizationAssignee } from '../database/organizationContacts'
+import { seedOrganizationContacts, assertOrganizationAssignee } from '../database/organizationContacts'
 
 type Row = Record<string, unknown>
 const now = () => new Date().toISOString()
@@ -111,7 +111,7 @@ export async function run(channel: Channel, p: Record<string, unknown>): Promise
     })()
   }
   if (channel === 'organizations:list') { requireUser(); return {units:all(db,'SELECT * FROM organization_units ORDER BY unit_level,name'),departments:listActionDepartments(db)} }
-  if (channel === 'organizations:members') { requireUser(); return all(db,"SELECT u.id,u.display_name,u.rank_name,u.unit_name,u.role,u.active,m.unit_id,m.demo_slot,m.is_demo FROM organization_members m JOIN users u ON u.id=m.user_id WHERE m.unit_id=? ORDER BY m.demo_slot",p.unitId) }
+  if (channel === 'organizations:members') { requireUser(); seedOrganizationContacts(db); return all(db,"SELECT u.id,u.display_name,u.rank_name,u.unit_name,u.role,u.active,m.unit_id,m.demo_slot,m.is_demo FROM organization_members m JOIN users u ON u.id=m.user_id WHERE m.unit_id=? ORDER BY m.demo_slot",p.unitId) }
   if (channel === 'organizations:saveDepartment') return saveActionDepartment(db,requireUser(),p)
   if (channel === 'dashboard:getSummary') return new DashboardRepository(db).summary()
   if (channel === 'operations:list') return all(db, 'SELECT * FROM communication_systems WHERE (? IS NULL OR name LIKE ? OR code LIKE ?) AND (? IS NULL OR status=?) ORDER BY display_order', p.search ? `%${p.search}%` : null, `%${p.search ?? ''}%`, `%${p.search ?? ''}%`, p.status ?? null, p.status ?? null)

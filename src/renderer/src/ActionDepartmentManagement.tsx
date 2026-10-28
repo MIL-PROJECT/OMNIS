@@ -135,11 +135,13 @@ export default function ActionDepartmentManagement() {
       headerName: '등록 기준',
       width: 120,
       valueFormatter: (v) =>
-        v === 'PUBLIC'
-          ? '공개자료'
-          : v === 'LOCAL'
-            ? '관리자 등록'
-            : '기존 공통'
+        v === 'DEMO'
+          ? '시연용 담당창구'
+          : v === 'PUBLIC'
+            ? '공개자료'
+            : v === 'LOCAL'
+              ? '관리자 등록'
+              : '기존 공통'
     },
     {
       field: 'available',

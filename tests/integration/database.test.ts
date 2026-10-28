@@ -31,7 +31,7 @@ describe('offline database', () => {
     expect(count('duty_roster')).toBe(28)
     expect(count('directives')).toBe(8)
     expect(count('signup_requests')).toBe(2)
-    expect(count('maintenance_teams')).toBe(3+organizationCatalog.filter(entry=>entry.department).length)
+    expect(count('maintenance_teams')).toBe(3+organizationCatalog.length)
     expect(count('situation_alerts')).toBe(1)
     expect(count('maintenance_daily_plans')).toBe(3)
     expect(db.pragma('user_version', { simple: true })).toBe(SCHEMA_VERSION)

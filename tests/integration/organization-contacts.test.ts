@@ -50,7 +50,7 @@ describe('fictional unit contacts', () => {
           "SELECT count(*) n FROM team_organizations WHERE unit_id='B01'"
         )
         .get()
-    ).toEqual({ n: 0 })
+    ).toEqual({ n: 1 })
   })
   it('preserves existing users, names, disabled contacts and assignments through repeat seeding', () => {
     db.prepare(
