@@ -43,3 +43,23 @@ Windows는 `release/OMNIS Setup 1.0.0.exe`로 설치하거나 `release/win-unpac
 - timeout/offline: Local Rule fallback 표시와 AI 실행 이력의 error code를 확인한다.
 
 자동 테스트는 실제 API를 호출하지 않는다. 실제 Key smoke는 비용 안내를 확인한 뒤 Windows PowerShell에서 `$env:RUN_EXTERNAL_AI_TESTS='1'; pnpm test:external-ai:live`, macOS에서 `RUN_EXTERNAL_AI_TESTS=1 pnpm test:external-ai:live`로 명시적으로 opt-in하며 기본 CI에서는 제외한다.
+
+
+## 1.0.1: 체크했는데도 EXTERNAL_DISABLED가 표시되는 문제 수정
+
+이전 UI는 화면의 미저장 체크값과 DB 저장값을 구분하지 않았고, 키 저장/시험 후 설정 전체를 다시 불러와 선택값을 덮어썼다. 설치본 1.0.1에서는 다음 흐름을 사용한다.
+
+1. 시스템관리에서 Provider를 OPENAI 또는 ANTHROPIC으로 선택한다.
+2. 외부 AI 사용 활성화와 외부 전송·별도 비용·최종 검토 동의를 직접 체크한다.
+3. 키가 미설정이면 키를 입력하고 키 저장을 누른다. 키 저장은 Provider/동의/모델/timeout 입력을 유지한다.
+4. 저장되지 않은 변경이 있으면 연결 버튼이 **저장 후 연결 시험**으로 표시된다. 누르면 설정 저장 성공 후에만 시험한다. 설정은 위쪽 AI 설정 저장 버튼으로 별도 저장할 수도 있다.
+5. 체크가 없거나 설정 검증에 실패하면 외부 시험을 실행하지 않는다. 아직 입력 중인 키는 먼저 저장해야 한다. 연결 시험은 외부 전송과 과금이 가능하므로 화면에 이를 표시한다.
+
+화면에 저장된 제공자·현재 선택·미저장 상태를 구분하고, 선택한 Provider의 설정만 표시한다. 결과는 모달 경고 대신 화면 메시지와 오류 코드로 안내한다. 실제 사용한 Provider와 fallback은 기존 실행 이력에서 확인한다. 사이드바의 고정 Local Rule 표시는 일반 업무지원 문구로 정리했다.
+
+기존 앱 데이터와 암호화 키 저장 위치는 유지하며 DB migration은 추가하지 않았다. 사용자 실제 DB는 provider/활성화/동의 시각/마지막 시험 코드 4개 비밀이 아닌 항목만 읽어 원인을 확인했다. 실제 키를 읽거나 설정을 자동으로 활성화하거나 실제 외부 API를 호출하지 않았다.
+
+검증: typecheck/lint/build, 83개 unit/integration 테스트 및 격리된 mock `pnpm test:e2e:ai-settings` 통과. 체크→키 저장→저장 후 시험, 미동의 및 설정 저장 실패 시 시험 차단, OpenAI/Claude, 1366×768·1920×1080을 검증한다. 기존 external-ai/roles E2E도 회귀 검증한다. 실제 API 계정의 인증·결제·모델 접근 성공을 확인한 결과는 아니다.
+
+
+최종 배포 검증: v1.0.1 Windows 실행본에서 ai-settings E2E 통과, 새로고침 후 동의/Provider 보존 및 자동 호출 없음도 검증했다. 테스트는 전부 mock 기반이며 실제 키는 사용하지 않았다. 설치 파일 크기 142,032,825 bytes, NotSigned, SHA-256 `34AD61ED318FC917A68CEDD289A9C3B8B7216FDC763CA4B56CB49BA578B02AE0`.

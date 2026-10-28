@@ -186,7 +186,7 @@ function Login({ onLogin }: { onLogin: (u: PublicUser) => void }) {
       <Box className="login-points">
         {features.map(([Icon, title, desc]) => <Box className="pt" key={title}><span><Icon /></span><Box><strong>{title}</strong><small>{desc}</small></Box></Box>)}
       </Box>
-      <span className="login-foot">가상 시연 데이터 · 오프라인 환경 · v1.0.0</span>
+      <span className="login-foot">가상 시연 데이터 · 오프라인 환경 · OMNIS Desktop</span>
     </Box>
     <Box className="login-panel">
       <Box className="login-form" component="form" onSubmit={e => { e.preventDefault(); submit() }}>
@@ -257,7 +257,7 @@ function Shell({ user, onLogout }: { user: PublicUser; onLogout: () => void }) {
       </nav>
       <Box className="sb-foot">
         <NavLink to="/manuals" className="sb-manual-link"><MenuBookRounded/><span>사용자 매뉴얼</span></NavLink>
-        <Box className="sb-sys"><span><i className="dot tone-green" />로컬 DB 연결됨</span><span><i className="dot tone-sky" />AI · Local Rule</span></Box>
+        <Box className="sb-sys"><span><i className="dot tone-green" />로컬 DB 연결됨</span><span><i className="dot tone-sky" />AI · 업무지원</span></Box>
         <Box className="sb-user">
           <Avatar name={user.display_name} size={36} />
           <Box sx={{ minWidth: 0, flex: 1 }}><strong>{user.display_name}</strong><span>{user.rank_name ? `${user.rank_name} · ` : ''}{roleText[user.role] ?? user.role}</span></Box>

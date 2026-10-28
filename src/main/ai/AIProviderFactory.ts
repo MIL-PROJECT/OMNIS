@@ -17,7 +17,7 @@ export class AIProviderFactory {
     const s=this.settings
     if(s.provider==='LOCAL')return this.local
     if(s.provider==='OLLAMA')return new OllamaProvider(s.ollamaEndpoint,s.ollamaModel,s.timeoutSeconds*1000)
-    if(!s.externalAiEnabled||!s.externalAiConsentAt)return new UnavailableProvider(s.provider,s.provider==='OPENAI'?s.openaiModel:s.anthropicModel,'EXTERNAL_DISABLED','외부 AI 사용 동의와 활성화가 필요합니다.')
+    if(!s.externalAiEnabled||!s.externalAiConsentAt)return new UnavailableProvider(s.provider,s.provider==='OPENAI'?s.openaiModel:s.anthropicModel,'EXTERNAL_DISABLED','외부 AI 사용 활성화와 전송 동의를 선택한 뒤 AI 설정 저장을 완료해 주세요.')
     const credential=this.secrets.getCredential(s.provider)
     if(!credential)return new UnavailableProvider(s.provider,s.provider==='OPENAI'?s.openaiModel:s.anthropicModel,'CREDENTIAL_MISSING',`${s.provider==='OPENAI'?'OpenAI':'Anthropic'} API Key가 설정되지 않았습니다.`)
     return s.provider==='OPENAI'?new OpenAIProvider(credential.value,s.openaiModel,s.timeoutSeconds*1000,this.clients.openai):new AnthropicProvider(credential.value,s.anthropicModel,s.timeoutSeconds*1000,this.clients.anthropic)

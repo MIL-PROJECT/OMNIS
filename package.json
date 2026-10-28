@@ -1,6 +1,6 @@
 {
   "name": "omnis-desktop",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "OMNIS (Operations & Maintenance Network Integrated System) offline demo desktop application",
   "author": "OMNIS Demo Team",
   "private": true,
@@ -25,6 +25,7 @@
     "test:e2e:operations": "node tests/e2e/operations-flow.mjs",
     "test:e2e:visual": "node tests/e2e/visual-check.mjs",
     "test:e2e:external-ai": "node tests/e2e/external-ai.mjs",
+    "test:e2e:ai-settings": "node tests/e2e/ai-settings-flow.mjs",
     "test:external-ai:live": "tsx scripts/external-ai-smoke.ts",
     "icons:mac": "node scripts/generate-mac-icon.mjs",
     "db:generate": "drizzle-kit generate",
