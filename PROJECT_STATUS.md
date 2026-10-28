@@ -1,9 +1,11 @@
 # Project Status
 
+2026-10-28 조치부서 수정: 요청부서·조치부서 분리, 미지정/배정 해제, 실제 부대별 검색과 관리자 디렉터리, DB v7. 현재 등록 범위·출처·검증 결과와 설치본은 [조치부서 안내](docs/ACTION_DEPARTMENTS.md)를 기준으로 한다. 아래 이전 버전의 hash와 macOS 결과는 이번 수정본의 검증을 대신하지 않는다.
+
 ## Completed
 
 - [x] Phase 1–2: pnpm project, Electron, React 19, TypeScript strict and secure preload.
-- [x] Phase 3–4: SQLite schema v6 순방향 migration, 11 demo users, 38 systems, 52 incidents, 42 maintenance tasks, 3 정비반, 상황경보, 일일 작업계획, 첨부자료 메타데이터, AI 실행 사용량 메타데이터.
+- [x] Phase 3–4: SQLite schema v7 순방향 migration, 11 demo users, 38 systems, 52 incidents, 42 maintenance tasks, 기존 공통 정비반 3종 + 실제 부대별 조치조직 디렉터리, 상황경보, 일일 작업계획, 첨부자료 메타데이터, AI 실행 사용량 메타데이터.
 - [x] Phase 5–6: local scrypt login, role checks, Zod validated IPC and restricted contextBridge.
 - [x] Phase 7–11: dashboard; operations CRUD/status/history; incident create/edit/assignment/workflow/events; maintenance create/edit/workflow/events/calendar; duty and directive CRUD.
 - [x] Phase 12: offline Local Rule, optional local Ollama provider, structured output validation and fallback; triage, summary, similar incident and maintenance recommendations.

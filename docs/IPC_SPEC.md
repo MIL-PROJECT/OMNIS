@@ -36,3 +36,13 @@ Mutation 권한은 Renderer 상태와 무관하게 Main Process에서 검사한�
 | 입력 점검 | `input:inspect` | 로그인, 결정적 로컬 규칙, 외부 호출 없음 |
 
 `incidents:create/update`의 선택적 `intake`는 질문별 답변을 받으며 질문 snapshot은 Main이 템플릿에서 생성한다. 수정 시 `expectedUpdatedAt`로 오래된 접수 덮어쓰기를 방지할 수 있다. `maintenance:create`는 선택적 `assigneeId`와 `checklistTemplateId`를 받으며 생략 시 기존 생성자 배정·점검표 미부착 동작을 유지한다. `ai:triageIncident`의 선택적 `answers`는 Main에서 분석 입력에 조합한 후 기존 Provider의 마스킹 경로를 통과한다.
+
+## 조직별 조치부서
+
+`shared/organization.ts`의 Zod 계약을 사용한다.
+
+- `organizations:list`: 로그인 사용자. 실제 부대와 부서 metadata/출처/등록 기준을 반환한다.
+- `organizations:saveDepartment`: ADMIN. 실제 부대/부서 추가·수정·사용 여부. 동일 부대/부서 중복과 임의 부대 ID를 거부한다.
+- `incidents:assignTeam`: ADMIN·OPERATOR. `teamId:null`은 조치부서 미지정, `userId:null`은 담당자 해제다. userId 생략은 기존 담당자 유지다. 비가용 부서/부적합 담당자를 거부하고 이벤트/감사 기록을 남긴다.
+- `incidents:assign`, `incidents:assignTeam`, `incidents:applyAi`: 요청부서 `department`를 변경하지 않는다. 요청부서 변경은 접수 수정에서 수행한다. 기존 `incidents:assign.department` 입력은 호환성을 위해 수신하지만 더 이상 요청부서에 적용하지 않는다.
+- `control:teams`, `incidents:list/get`: 기존 필드를 유지하면서 부대 metadata 또는 `team_name`을 반환한다. 목록의 조치부서는 team_name만 사용하고 NULL은 미지정이다.

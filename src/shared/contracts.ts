@@ -1,5 +1,6 @@
 import { z } from 'zod'
 import { usabilitySchemas } from './usabilityContracts'
+import { organizationSchemas } from './organization'
 import { intakeSchema, answerSchema } from './usability'
 
 export const statusSchema = z.enum(['NORMAL', 'WATCH', 'INSPECTION', 'FAULT', 'OFFLINE'])
@@ -35,6 +36,7 @@ export type Result<T> = { ok: true; data: T } | { ok: false; error: { code: stri
 
 export const schemas = {
   ...usabilitySchemas,
+  ...organizationSchemas,
   'auth:login': z.object({ username: z.string().min(1), password: z.string().min(1) }),
   'auth:logout': z.object({}), 'auth:me': z.object({}),
   'auth:register': signupSchema,
@@ -54,7 +56,7 @@ export const schemas = {
   'incidents:update': z.object({ id: z.string(), title: z.string().min(3), category: z.string().min(1), severity: z.enum(['URGENT','NORMAL']), description: z.string().min(3), department: z.string().nullable().optional(), intakeSource: intakeSourceSchema.optional(), reporterName: z.string().max(50).nullable().optional(), equipmentName: z.string().max(100).nullable().optional(), serviceImpact: z.string().max(1000).nullable().optional(), desiredResolutionAt: z.iso.datetime().nullable().optional(), intake:intakeSchema.optional(), expectedUpdatedAt:z.string().optional() }),
   'incidents:updateStatus': z.object({ id: z.string(), status: incidentStatusSchema, note: z.string().max(1000).optional(), cause: z.string().max(1000).optional(), actionSummary: z.string().max(2000).optional(), resolutionMode: resolutionModeSchema.optional(), recurrenceRisk: z.enum(['LOW','MEDIUM','HIGH']).optional(), followUpDate: z.iso.date().optional(), userConfirmed: z.boolean().optional() }),
   'incidents:assign': z.object({ id: z.string(), userId: z.string(), department: z.string().optional() }),
-  'incidents:assignTeam': z.object({ id: z.string(), teamId: z.string(), userId: z.string().optional(), note: z.string().max(500).optional() }),
+  'incidents:assignTeam': z.object({ id: z.string(), teamId: z.string().min(1).nullable(), userId: z.string().min(1).nullable().optional(), note: z.string().max(500).optional() }),
   'incidents:applyAi': z.object({ id: z.string(), category: z.string().min(1).max(50), severity: z.enum(['URGENT','NORMAL']), teamId: z.string().optional(), rationale: z.string().min(1).max(1000), confidence: z.number().min(0).max(1), runId: z.string().optional() }),
   'incidents:getEvents': z.object({ id: z.string() }),
   'maintenance:list': z.object({ search: z.string().optional() }),

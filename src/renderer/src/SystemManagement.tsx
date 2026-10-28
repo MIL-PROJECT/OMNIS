@@ -1,4 +1,5 @@
 import TemplateManagement from './TemplateManagement'
+import ActionDepartmentManagement from './ActionDepartmentManagement'
 import { useEffect, useState } from 'react'
 import { Alert, Box, Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, MenuItem, Stack, Tab, Tabs, TextField, Typography } from '@mui/material'
 import { DataGrid, type GridColDef } from '@mui/x-data-grid'
@@ -45,10 +46,11 @@ export default function SystemManagement({ user }: { user: PublicUser }) {
     <Tabs value={tab} onChange={(_,v) => setTab(v)} className="page-tabs">
       <Tab label="정보"/>
       <Tab label="알림" icon={unread ? <span className="tab-count">{unread}</span> : undefined} iconPosition="end"/>
-      {admin && <Tab label="감사 로그"/>}{admin&&<Tab label="업무 템플릿"/>}
+      {admin && <Tab label="감사 로그"/>}{admin&&<Tab label="업무 템플릿"/>}{admin&&<Tab label="조치부서"/>}
     </Tabs>
 
     {admin&&tab===3&&<TemplateManagement/>}
+    {admin&&tab===4&&<ActionDepartmentManagement/>}
     {tab === 0 && <>
       <div className="dashboard-grid">
         <Card icon={StorageRounded} tone="sky" title="시스템 정보" subtitle="로컬 설치 환경">

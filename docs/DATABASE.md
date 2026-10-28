@@ -39,3 +39,11 @@ Demo Mode 초기화는 `demo_scenarios.entity_ids_json`에 기록된 생성 행�
 `recurring_rules`: 소유자, version, 활성/삭제 상태, 반복 정의. `recurring_occurrences`는 `(rule_id, occurrence_date)`를 primary key로 하고 원래 발생일과 실제 task 예정일을 분리한다. task가 삭제되어도 발생 회차 tombstone은 남아 자동 재생성을 막는다.
 
 신규 테이블은 전체 DB 백업에 포함된다. API Key 저장소는 포함하지 않는다. 과거 데이터와 v5 AI 사용량·Provider 설정도 보존된다.
+
+## v7 조치부서 디렉터리
+
+`organization_units`: 실제 부대명·부대급·공개 출처와 자료 기준일. 부대만 확인한 경우에도 행은 존재하며 가상의 내부 부서를 만들지 않는다.
+
+`team_organizations`: 기존 `maintenance_teams`와 부대의 연결, 부서 명칭·출처·자료 기준일·PUBLIC/LOCAL 등록 기준·메모. 부대/부서명 조합은 유일하다. seed는 관리자 수정과 비활성 상태를 보존한다.
+
+`incidents.department`는 요청부서이며 배정 시 변경하지 않는다. 조치부서는 `team_id`로 조회하고 NULL이면 미지정으로 표시한다. v7 migration은 기존 요청부서·배정 행을 추정 수정하지 않는다. 기존 유선·무선·사이버 정비반 코드와 AI 계약을 유지한다.

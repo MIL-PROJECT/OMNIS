@@ -1,0 +1,85 @@
+# 요청부서·조치부서 분리와 공군 조직별 선택
+
+2026-10-28 변경. 기존 UI와 업무 workflow를 유지하며 DB v7에 조직 디렉터리를 추가했다.
+
+## 사용 순서
+
+1. 고장관리 → 신규 고장 접수에서 요청부서와 증상을 입력하고 저장한다.
+2. 조치부서를 지정하지 않은 새 접수의 목록에는 **미지정**이 표시된다. 담당자만 지정한 경우에도 조치부서는 미지정이다.
+3. 상세 → 조치부서 지정에서 부대급 → 실제 소속 부대 → 조치부서를 선택하고 **조치부서 배정**을 누른다.
+4. 배정을 해제하려면 **조치부서 미지정** → **미지정으로 저장**을 누르고 확인한다.
+5. ADMIN은 시스템관리 → **조치부서**에서 누락 부서 추가, 명칭 수정, 새 배정 사용 여부를 관리한다. 부대명 검색 또는 새 부대명을 직접 입력할 수 있다.
+
+선택·검색만으로 배정되지 않는다. 담당자는 별도 선택하며 가상 담당자를 실제 부대원으로 자동 연결하지 않는다. 배정/해제 및 AI 추천 반영으로 요청부서를 변경하지 않는다. 해제 시 배정(ASSIGNED) 상태만 분류(TRIAGED)로 돌아가며, 진행 중 상태와 처리 기록을 지우지 않는다.
+
+## 데이터와 권한
+
+- 요청부서: 기존 incidents.department. 조치부서: incidents.team_id → maintenance_teams.name. 목록·상세는 배정된 부서 이름을 사용하며 요청부서로 대체하지 않는다.
+- v7: organization_units, team_organizations 추가. 기존 표·행·배정·첨부자료를 삭제하거나 초기화하지 않는다.
+- 배정/해제는 ADMIN·OPERATOR, 디렉터리 변경은 ADMIN만 Main에서 허용한다. payload는 Zod로 검증한다.
+- 부서를 사용 안 함으로 바꾸면 신규 배정을 차단하고 기존 배정·이력은 보존한다. seed 재실행은 관리자 수정·사용 안 함을 덮어쓰지 않는다.
+- 기존 유선·무선·사이버 정비반과 세 가지 AI 추천 코드는 호환성을 위해 유지한다. 외부 AI가 임의의 실제 부대명이나 새 부서 ID를 생성하지 않는다.
+- 기존 버전에서 이미 덮어쓴 요청부서는 근거 없이 자동 복원하지 않는다. 원본을 확인한 뒤 접수 수정에서 바로잡을 수 있다.
+- 디렉터리 주소는 출처 기록용으로 저장하며 앱 시작·화면 열기 시 인터넷으로 자동 조회하지 않는다.
+
+## 공개자료 반영 범위
+
+22개 실제 부대명(비행단 13·여단 3·전대 6)을 등록했다. 공개자료에서 확인한 13개 조치조직과 기존 공통 정비반 3개를 선택할 수 있다. 제7항공통신전대는 통신부대 자체를 조치조직으로 등록했으며 확인하지 않은 예하 부서는 만들지 않았다.
+
+부대명 확인과 내부 부서 확인을 구분한다. 1·2·3미사일방어여단 등의 세부 정보통신 편제는 이번에 확보한 자료로 확인하지 못해 부대명만 등록했다. '모든 부대의 현행 내부 편제가 검증 완료되었다'는 뜻이 아니다. 내부 부서명을 추정하여 일괄 복제하지 않는다. 관리자 확인 명칭은 **관리자 등록**, 기본 출처 명칭은 **공개자료**로 구분한다.
+
+아래 자료는 공개 기사·보도에 나타난 명칭을 확인한 근거이며 현재 편제의 공식 인증은 아니다. 일부 자료는 오래되었고, 직접 페이지 열기가 시간 초과한 경우 검색 색인에 제공된 본문·발췌를 확인했다. 기준일을 함께 보존하므로 현행과 다를 경우 관리자가 수정할 수 있다. 인명·군번·연락처·위치·실제 임무 현황은 수집하지 않았다. 120분 처리시간 등의 기존 앱 기본값은 실제 부대 실측치가 아니다.
+
+| 구분 | 실제 부대명 | 조치조직 | 자료 기준일 | 출처 |
+|---|---|---|---|---|
+| 비행단급 | 제1전투비행단 | 정보통신대대 | 2021-07-29 | [자료](https://kookbang.dema.mil.kr/newsWeb/m/20210730/3/ATCE_CTGR_0010050000/view.do) |
+| 비행단급 | 제3훈련비행단 | 정보통신대대 | 2026-01-30 | [자료](https://kookbang.dema.mil.kr/newsWeb/20260202/2/ATCE_CTGR_0010050000/view.do) |
+| 비행단급 | 제5공중기동비행단 | 정보통신대대 | 2026-10-01 | [자료](https://kookbang.dema.mil.kr/newsWeb/20261002/2/ATCE_CTGR_0010050000/view.do) |
+| 비행단급 | 제8전투비행단 | 정보통신대대 | 2022-09-21 | [자료](https://www.iwjnews.com/news/articleView.html?idxno=49676) |
+| 비행단급 | 제10전투비행단 | 정보통신대대 | 2016-10-12 | [자료](https://kookbang.dema.mil.kr/newsWeb/20161013/1/ATCE_CTGR_0010050000/view.do) |
+| 비행단급 | 제11전투비행단 | 정보통신대대 | 2026-07-15 | [자료](https://kookbang.dema.mil.kr/newsWeb/20260716/2/ATCE_CTGR_0010050000/view.do) |
+| 비행단급 | 제15특수임무비행단 | 정보통신대대 | 2021-07-02 | [자료](https://www.newsis.com/view/NISX20210702_0001498839) |
+| 비행단급 | 제16전투비행단 | 정보통신대대 | 2019-12-16 | [자료](https://www.yeongnam.com/web/view.php?key=20191216.010280726400001) |
+| 비행단급 | 제17전투비행단 | 정보통신대대 / 기지통신반 | 2015-07-02 | [자료](https://www.yna.co.kr/amp/view/AKR20150702141800064) |
+| 비행단급 | 제18전투비행단 | 정보통신대대 | 2023-07-28 | [자료](https://kookbang.dema.mil.kr/newsWeb/m/20230731/2/ATCE_CTGR_0010050000/view.do) |
+| 비행단급 | 제19전투비행단 | 정보통신대대 | 2026-07-13 | [자료](https://kookbang.dema.mil.kr/newsWeb/20260714/3/ATCE_CTGR_0010050000/view.do) |
+| 비행단급 | 제20전투비행단 | 정보통신대대 | 2021-01-22 | [자료](https://m.joongdo.co.kr/view.php?key=20210122010008176) |
+| 비행단급 | 제39정찰비행단 | 부대명만 확인 · 정보통신부서 미등록 | 2026-04-08 | [자료](https://kookbang.dema.mil.kr/newsWeb/20260409/2/ATCE_CTGR_0010050000/view.do) |
+| 여단급 | 제1미사일방어여단 | 부대명만 확인 · 정보통신부서 미등록 | 2025-04-14 | [자료](https://kookbang.dema.mil.kr/newsWeb/20250415/1/ATCE_CTGR_0010050000/view.do) |
+| 여단급 | 제2미사일방어여단 | 부대명만 확인 · 정보통신부서 미등록 | 2025-04-14 | [자료](https://kookbang.dema.mil.kr/newsWeb/20250415/1/ATCE_CTGR_0010050000/view.do) |
+| 여단급 | 제3미사일방어여단 | 부대명만 확인 · 정보통신부서 미등록 | 2025-04-14 | [자료](https://kookbang.dema.mil.kr/newsWeb/20250415/1/ATCE_CTGR_0010050000/view.do) |
+| 전대급 | 제6탐색구조비행전대 | 부대명만 확인 · 정보통신부서 미등록 | 2020-09-03 | [자료](https://kookbang.dema.mil.kr/newsWeb/20200904/4/BBSMSTR_000000010026/view.do) |
+| 전대급 | 제7항공통신전대 | 제7항공통신전대 | 2022-12-05 | [자료](https://kookbang.dema.mil.kr/newsWeb/20221206/5/BBSMSTR_000000010024/view.do) |
+| 전대급 | 제38전투비행전대 | 부대명만 확인 · 정보통신부서 미등록 | 2021-03-17 | [자료](https://www.newsis.com/view/?id=NISX20210317_0001374232&pc_view=1) |
+| 전대급 | 제29전술개발훈련비행전대 | 부대명만 확인 · 정보통신부서 미등록 | 2025-01-02 | [자료](https://kookbang.dema.mil.kr/newsWeb/20250103/3/ATCE_CTGR_0010050000/view.do) |
+| 전대급 | 제51항공통제비행전대 | 부대명만 확인 · 정보통신부서 미등록 | 2026-07-10 | [자료](https://kookbang.dema.mil.kr/newsWeb/20260713/8/ATCE_CTGR_0010050000/view.do) |
+| 전대급 | 제53특수비행전대 | 부대명만 확인 · 정보통신부서 미등록 | 2025-07-07 | [자료](https://kookbang.dema.mil.kr/newsWeb/20250708/1/ATCE_CTGR_0010050000/view.do) |
+
+## 검증
+
+자동 테스트는 가상 신고·가상 부서와 tests/.tmp의 격리 DB를 사용한다. 실제 사용자 DB나 실제 외부 AI API를 초기화·호출하지 않는다. 실제 명령 결과와 새 Windows 설치본 정보는 문서 하단 검증 기록을 참고한다.
+
+### 2026-10-28 실행 결과
+
+| 명령 | 결과 |
+|---|---|
+| `pnpm typecheck`, `pnpm lint` | 통과 |
+| `pnpm test` | 8개 파일, 57개 테스트 통과 |
+| `pnpm build` | 통과 |
+| `pnpm test:e2e:organizations` | 미지정 표시·배정/해제·요청부서 유지·AI/기존 담당자 배정 경로·관리자 등록·재시작 보존·1366/1920 화면 통과 |
+| `pnpm test:e2e`, `pnpm test:e2e:operations`, `pnpm test:e2e:roles` | 기존 업무·저장·권한 회귀 통과 |
+| `pnpm test:e2e:usability`, `pnpm test:e2e:visual`, `pnpm test:e2e:external-ai` | 기존 실용 기능·화면·외부 AI mock 회귀 통과 |
+| `pnpm dist:win --config.directories.output=release/action-departments` | 최종 NSIS x64 설치본 생성 완료 |
+| 최종 `release/action-departments/win-unpacked/OMNIS.exe` | 새 organizations E2E + 기존 smoke/operations E2E 통과 |
+
+Windows 설치 파일: `release/action-departments/OMNIS Setup 1.0.0.exe`, 122,060,929 bytes.
+
+```text
+Installer SHA-256
+43334AD5BEF37E5C712DC6CF7625783A78AA4E9DC8265FCD0013FA7358D0901E
+
+win-unpacked/OMNIS.exe SHA-256
+13BCE0EE7A91A8CF76AA9B634BCFF68D1F07819C231203FAE6921F6CCCAB6815
+```
+
+두 실행 파일의 Authenticode 상태는 `NotSigned`다. 기존 `release/usability-five-features` 등 다른 산출물은 보존했다. 새 macOS 패키징·실실행, 깨끗한 PC에서 설치/제거, 실제 유료 API 호출은 수행하지 않았다. 이번 자동 테스트는 실제 부대 업무 데이터나 편제의 운영 검증을 의미하지 않는다.

@@ -1,6 +1,7 @@
 import type Database from 'better-sqlite3'
 import { randomUUID, randomBytes, scryptSync } from 'node:crypto'
 import { koreaDate } from '../../shared/date'
+import { seedOrganizationDirectory } from './organizationMigration'
 
 const day = (offset = 0): string => new Date(Date.now() + offset * 86400000).toISOString()
 const localDay = (offset = 0): string => koreaDate(new Date(Date.now() + offset * 86400000))
@@ -45,7 +46,7 @@ function ensureDemoUser(db: Database.Database): void {
 }
 
 export function seed(db: Database.Database): void {
-  if ((db.prepare('SELECT count(*) n FROM users').get() as { n: number }).n) { ensureDemoUser(db); ensureOperationalDemoData(db); return }
+  if ((db.prepare('SELECT count(*) n FROM users').get() as { n: number }).n) { ensureDemoUser(db); ensureOperationalDemoData(db); seedOrganizationDirectory(db); return }
   db.transaction(() => {
     const insertUser = db.prepare('INSERT INTO users (id,username,display_name,rank_name,unit_name,role,password_hash,password_salt,active,created_at,updated_at,service_no) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)')
     const names = ['김정보', '이통신', '박운용', '최정비', '정지원', '한관제', '서네트', '오보안', '유장비', '강당직']
@@ -89,5 +90,6 @@ export function seed(db: Database.Database): void {
     }
   })()
   ensureOperationalDemoData(db)
+  seedOrganizationDirectory(db)
 }
 

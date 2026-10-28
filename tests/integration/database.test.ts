@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest'
 import Database from 'better-sqlite3'
 import { migrate, migrateV1, migrateV2, SCHEMA_VERSION } from '../../src/main/database/migrate'
 import { seed } from '../../src/main/database/seed'
+import { organizationCatalog } from '../../src/main/database/organizationCatalog'
 import { assertTransition, incidentTransitions, maintenanceTransitions } from '../../src/main/services/Workflow'
 import { triageIncident } from '../../src/main/ai/LocalRuleProvider'
 import { DashboardRepository } from '../../src/main/repositories/DashboardRepository'
@@ -30,7 +31,7 @@ describe('offline database', () => {
     expect(count('duty_roster')).toBe(28)
     expect(count('directives')).toBe(8)
     expect(count('signup_requests')).toBe(2)
-    expect(count('maintenance_teams')).toBe(3)
+    expect(count('maintenance_teams')).toBe(3+organizationCatalog.filter(entry=>entry.department).length)
     expect(count('situation_alerts')).toBe(1)
     expect(count('maintenance_daily_plans')).toBe(3)
     expect(db.pragma('user_version', { simple: true })).toBe(SCHEMA_VERSION)
