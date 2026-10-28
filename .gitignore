@@ -3,6 +3,8 @@ out/
 dist/
 release/
 .env
+secrets/
+ai-credentials.json
 *.log
 coverage/
 playwright-report/

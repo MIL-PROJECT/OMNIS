@@ -9,6 +9,7 @@ export const resolutionModeSchema = z.enum(['REMOTE', 'ON_SITE'])
 export const situationSeveritySchema = z.enum(['INFO', 'WARNING', 'CRITICAL'])
 export const attachmentEntitySchema = z.enum(['INCIDENT', 'MAINTENANCE'])
 export const attachmentCategorySchema = z.enum(['PHOTO', 'LOG', 'REPORT', 'CHECKLIST', 'OTHER'])
+export const aiProviderSchema = z.enum(['LOCAL','OLLAMA','OPENAI','ANTHROPIC'])
 export type Role = z.infer<typeof roleSchema>
 // 사용자 등록 신청
 export const ranks = ['이병', '일병', '상병', '병장', '하사', '중사', '상사', '원사', '준위', '소위', '중위', '대위', '소령', '중령', '대령', '준장', '소장', '중장', '대장', '군무원'] as const
@@ -82,6 +83,7 @@ export const schemas = {
   'ai:maintenanceRecommendations': z.object({}),
   'ai:slaRisk': z.object({ incidentId: z.string() }),
   'ai:markApplied': z.object({ runId: z.string(), userModified: z.boolean().default(false) }),
+  'ai:listRuns': z.object({ limit: z.number().int().min(1).max(200).default(50) }),
   'control:overview': z.object({ date: z.iso.date().optional() }),
   'control:teams': z.object({}),
   'control:alerts': z.object({ status: z.enum(['OPEN','ACKNOWLEDGED','RESOLVED']).optional() }),
@@ -98,7 +100,11 @@ export const schemas = {
   'demo:reset': z.object({ scenario: z.literal('EVALUATION') }),
   'system:getInfo': z.object({}), 'system:backup': z.object({}), 'system:resetDemo': z.object({ confirm: z.literal('RESET DEMO') }),
   'system:openDataFolder': z.object({}),
-  'system:setAiSettings': z.object({ provider: z.enum(['LOCAL','OLLAMA']), endpoint: z.url().refine(v => { const u = new URL(v); return u.protocol === 'http:' && ['127.0.0.1','localhost'].includes(u.hostname) && !u.username && !u.password && u.pathname === '/' }, '로컬 HTTP 주소만 허용됩니다.'), model: z.string().regex(/^[a-zA-Z0-9_.:-]{1,80}$/) }),
+  'system:getAiSettings': z.object({}),
+  'system:setAiSettings': z.object({ provider: aiProviderSchema, ollamaEndpoint: z.url().refine(v => { const u = new URL(v); return u.protocol === 'http:' && ['127.0.0.1','localhost'].includes(u.hostname) && !u.username && !u.password && u.pathname === '/' }, '로컬 HTTP 주소만 허용됩니다.'), ollamaModel: z.string().regex(/^[a-zA-Z0-9_.:-]{1,80}$/), openaiModel:z.string().regex(/^[a-zA-Z0-9_.:-]{1,80}$/), anthropicModel:z.string().regex(/^[a-zA-Z0-9_.:-]{1,80}$/), externalAiEnabled:z.boolean(), externalConsent:z.boolean(), timeoutSeconds:z.number().int().min(5).max(30), dailyRequestLimit:z.number().int().min(1).max(1000) }),
+  'system:saveAiCredential': z.object({ provider:z.enum(['OPENAI','ANTHROPIC']), apiKey:z.string().trim().min(12).max(500) }),
+  'system:deleteAiCredential': z.object({ provider:z.enum(['OPENAI','ANTHROPIC']) }),
+  'system:testAiConnection': z.object({ provider:z.enum(['OLLAMA','OPENAI','ANTHROPIC']) }),
   'system:setOperationsSettings': z.object({ planTime: z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/), closeTime: z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/), urgentSlaMinutes: z.number().int().min(10).max(10080), normalSlaMinutes: z.number().int().min(10).max(43200) }),
   'system:auditLogs': z.object({ limit: z.number().int().min(1).max(500).default(100) }),
   'system:notifications': z.object({}),

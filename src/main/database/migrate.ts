@@ -1,6 +1,6 @@
 import type Database from 'better-sqlite3'
 
-export const SCHEMA_VERSION = 4
+export const SCHEMA_VERSION = 5
 
 // 버전별 스키마 변경을 순서대로 적용한다 (기존 DB는 부족한 단계만 실행)
 export function migrate(db: Database.Database): void {
@@ -12,12 +12,37 @@ export function migrate(db: Database.Database): void {
     if (current < 2) migrateV2(db)
     if (current < 3) migrateV3(db)
     if (current < 4) migrateV4(db)
+    if (current < 5) migrateV5(db)
     db.pragma(`user_version = ${SCHEMA_VERSION}`)
   })()
 }
 
+// v5: 외부 AI Provider 실행 추적. API Key는 DB에 저장하지 않는다.
+function migrateV5(db: Database.Database): void {
+  db.exec(`
+    ALTER TABLE ai_runs ADD COLUMN request_id TEXT;
+    ALTER TABLE ai_runs ADD COLUMN input_tokens INTEGER;
+    ALTER TABLE ai_runs ADD COLUMN output_tokens INTEGER;
+    ALTER TABLE ai_runs ADD COLUMN error_code TEXT;
+    ALTER TABLE ai_runs ADD COLUMN external_transmission INTEGER NOT NULL DEFAULT 0;
+    ALTER TABLE ai_runs ADD COLUMN output_schema_version TEXT;
+    ALTER TABLE ai_runs ADD COLUMN selected_provider TEXT;
+    CREATE INDEX IF NOT EXISTS idx_ai_runs_provider_created ON ai_runs(provider,created_at);
+    INSERT OR IGNORE INTO app_settings(key,value,updated_at) VALUES
+      ('ai_provider','LOCAL',datetime('now')),
+      ('ollama_endpoint','http://127.0.0.1:11434',datetime('now')),
+      ('ollama_model','gemma3',datetime('now')),
+      ('openai_model','gpt-6-luna',datetime('now')),
+      ('anthropic_model','claude-haiku-5-5',datetime('now')),
+      ('external_ai_enabled','false',datetime('now')),
+      ('ai_timeout_seconds','15',datetime('now')),
+      ('ai_daily_request_limit','50',datetime('now')),
+      ('external_ai_consent_at','',datetime('now'));
+  `)
+}
+
 // v4: 장애·정비 증빙 첨부자료 메타데이터. 실제 파일은 userData/attachments에 저장한다.
-function migrateV4(db: Database.Database): void {
+export function migrateV4(db: Database.Database): void {
   db.exec(`
     CREATE TABLE IF NOT EXISTS attachments (
       id TEXT PRIMARY KEY,
@@ -71,7 +96,7 @@ export function migrateV2(db: Database.Database): void {
 }
 
 // v3: PDF 운용절차 기반 통제·정비 협업·일일 마감·AI 추적
-function migrateV3(db: Database.Database): void {
+export function migrateV3(db: Database.Database): void {
   db.exec(`
     ALTER TABLE incidents ADD COLUMN intake_source TEXT NOT NULL DEFAULT 'BOARD';
     ALTER TABLE incidents ADD COLUMN reporter_name TEXT;

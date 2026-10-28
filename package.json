@@ -24,6 +24,8 @@
     "test:e2e:signup": "node tests/e2e/signup.mjs",
     "test:e2e:operations": "node tests/e2e/operations-flow.mjs",
     "test:e2e:visual": "node tests/e2e/visual-check.mjs",
+    "test:e2e:external-ai": "node tests/e2e/external-ai.mjs",
+    "test:external-ai:live": "tsx scripts/external-ai-smoke.ts",
     "icons:mac": "node scripts/generate-mac-icon.mjs",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "tsx scripts/migrate-db.ts",
@@ -38,15 +40,17 @@
     "postinstall": "electron-builder install-app-deps"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^1.3.0",
     "better-sqlite3": "13.0.3",
     "drizzle-orm": "0.45.2",
     "electron-log": "5.4.4",
+    "openai": "^7.45.0",
     "zod": "4.6.5"
   },
   "devDependencies": {
+    "@electron/rebuild": "4.2.0",
     "@emotion/react": "11.14.0",
     "@emotion/styled": "11.14.1",
-    "@electron/rebuild": "4.2.0",
     "@fullcalendar/core": "6.1.21",
     "@fullcalendar/daygrid": "6.1.21",
     "@fullcalendar/interaction": "6.1.21",
@@ -65,8 +69,8 @@
     "@typescript-eslint/eslint-plugin": "8.70.0",
     "@typescript-eslint/parser": "8.70.0",
     "@vitejs/plugin-react": "5.1.1",
-    "drizzle-kit": "0.31.10",
     "date-fns": "4.4.0",
+    "drizzle-kit": "0.31.10",
     "electron": "44.4.1",
     "electron-builder": "26.15.3",
     "electron-vite": "5.0.0",
