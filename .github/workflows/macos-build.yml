@@ -101,6 +101,7 @@ jobs:
           pnpm test:e2e:signup
           pnpm test:e2e:operations
           pnpm test:e2e:visual
+          pnpm test:e2e:external-ai
 
       - name: Package DMG and ZIP
         run: pnpm exec electron-builder --mac dmg zip --${{ matrix.arch }} --publish never
@@ -113,6 +114,7 @@ jobs:
           test -x "$APP_EXECUTABLE"
           lipo -archs "$APP_EXECUTABLE" | grep -qw "${{ matrix.binary_arch }}"
           OMNIS_E2E_EXE="$APP_EXECUTABLE" OMNIS_E2E_PROFILE="tests/.tmp/packaged-${{ matrix.arch }}" pnpm test:e2e
+          OMNIS_E2E_EXE="$APP_EXECUTABLE" pnpm test:e2e:external-ai
           if [[ -n "${CSC_LINK:-}" ]]; then
             codesign --verify --deep --strict --verbose=2 "$APP_BUNDLE"
           else

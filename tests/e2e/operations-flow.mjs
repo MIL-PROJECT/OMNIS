@@ -56,10 +56,11 @@ try {
   const handover = await invoke('control:handoverDraft',{date,shiftType:'DAY'})
   await invoke('control:saveHandover',{date,shiftType:'DAY',text:handover.text,confirm:true})
 
-  await invoke('system:setAiSettings',{provider:'OLLAMA',endpoint:'http://127.0.0.1:65530/',model:'missing-demo-model'})
+  const aiBase={ollamaModel:'missing-demo-model',openaiModel:'gpt-6-luna',anthropicModel:'claude-haiku-5-5',externalAiEnabled:false,externalConsent:false,timeoutSeconds:5,dailyRequestLimit:50}
+  await invoke('system:setAiSettings',{...aiBase,provider:'OLLAMA',ollamaEndpoint:'http://127.0.0.1:65530/'})
   const fallback = await invoke('ai:triageIncident',{title:'E2E AI 장애 복구',description:'가상 통신 중단'})
-  if (!fallback.fallbackUsed || fallback.provider !== 'Local Rule') throw new Error('AI fallback was not activated')
-  await invoke('system:setAiSettings',{provider:'LOCAL',endpoint:'http://127.0.0.1:11434/',model:'gemma3'})
+  if (!fallback.fallbackUsed || fallback.provider !== 'LOCAL') throw new Error('AI fallback was not activated')
+  await invoke('system:setAiSettings',{...aiBase,provider:'LOCAL',ollamaEndpoint:'http://127.0.0.1:11434/',ollamaModel:'gemma3'})
 
   const demo = await invoke('demo:prepare',{scenario:'EVALUATION'})
   await invoke('demo:reset',{scenario:'EVALUATION'})

@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import Database from 'better-sqlite3'
-import { migrate, migrateV1, migrateV2 } from '../../src/main/database/migrate'
+import { migrate, migrateV1, migrateV2, SCHEMA_VERSION } from '../../src/main/database/migrate'
 import { seed } from '../../src/main/database/seed'
 import { assertTransition, incidentTransitions, maintenanceTransitions } from '../../src/main/services/Workflow'
 import { triageIncident } from '../../src/main/ai/LocalRuleProvider'
@@ -33,7 +33,7 @@ describe('offline database', () => {
     expect(count('maintenance_teams')).toBe(3)
     expect(count('situation_alerts')).toBe(1)
     expect(count('maintenance_daily_plans')).toBe(3)
-    expect(db.pragma('user_version', { simple: true })).toBe(4)
+    expect(db.pragma('user_version', { simple: true })).toBe(SCHEMA_VERSION)
     expect(count('attachments')).toBe(0)
     const dashboard = new DashboardRepository(db).summary()
     expect(dashboard.systemCount).toBe(38)
@@ -65,7 +65,7 @@ describe('offline database', () => {
     expect(incidentColumns).toContain('team_id')
     expect(db.prepare("SELECT username FROM users").get()).toEqual({ username: 'old_user' })
     expect(db.prepare("SELECT count(*) n FROM sqlite_master WHERE name='attachments'").get()).toEqual({ n: 1 })
-    expect(db.pragma('user_version', { simple: true })).toBe(4)
+    expect(db.pragma('user_version', { simple: true })).toBe(SCHEMA_VERSION)
     db.close()
   })
   it('stores, hashes, audits, and deletes an incident attachment', () => {
