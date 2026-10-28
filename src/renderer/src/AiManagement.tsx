@@ -1,4 +1,6 @@
-import { useState } from 'react'
+import InputAssist from './InputAssist'
+import { type IntakeAnswer } from '../../shared/usability'
+import { useState, useRef, useEffect } from 'react'
 import { Box, Button, Dialog, DialogContent, DialogTitle, Stack, TextField, Typography } from '@mui/material'
 import { DataGrid, type GridColDef } from '@mui/x-data-grid'
 import AutoAwesomeRounded from '@mui/icons-material/AutoAwesomeRounded'
@@ -28,8 +30,11 @@ const recommendationColumns: GridColDef[] = [
 const runColumns:GridColDef[]=[{field:'created_at',headerName:'실행 시각',width:180},{field:'feature',headerName:'기능',width:190},{field:'selected_provider',headerName:'선택',width:100},{field:'provider',headerName:'실제 사용',width:100},{field:'model',headerName:'Model',flex:1,minWidth:160},{field:'latency_ms',headerName:'응답(ms)',width:100},{field:'input_tokens',headerName:'입력 Token',width:100},{field:'output_tokens',headerName:'출력 Token',width:100},{field:'fallback_used',headerName:'Fallback',width:90,renderCell:({value})=>value?'예':'아니오'}]
 
 export default function AiManagement() {
+  const [answers,setAnswers]=useState<IntakeAnswer[]>([]),epoch=useRef(0)
+  useEffect(()=>()=>{epoch.current++},[])
+  const invalidate=()=>{epoch.current++;setResult(null);setSimilar(null);setSimilarMeta(null)}
   const [title,setTitle] = useState(''),[description,setDescription] = useState(''),[result,setResult] = useState<Row | null>(null),[similar,setSimilar] = useState<Row[] | null>(null),[similarMeta,setSimilarMeta]=useState<Row|null>(null),[summary,setSummary] = useState<Row|null>(null),[recommendations,setRecommendations] = useState<Row[] | null>(null),[recommendationMeta,setRecommendationMeta]=useState<Row|null>(null),[busy,setBusy]=useState(''),[runs,setRuns]=useState<Row[]|null>(null)
-  const analyze = async() => { if(busy)return;setBusy('analysis');try{const jobs:[Promise<Row>,Promise<Row>|null]=[call<Row>('ai:triageIncident',{title,description}),title.length>=3?call<Row>('ai:similarIncidents',{title}):null];const [analysis,matches]=await Promise.all([jobs[0],jobs[1]]);setResult(analysis);if(matches){setSimilar(matches.items);setSimilarMeta(matches)}}catch(e){alert((e as Error).message)}finally{setBusy('')} }
+  const analyze = async(inputAnswers:IntakeAnswer[]=answers) => { if(busy)return;const version=epoch.current;setBusy('analysis');try{const jobs:[Promise<Row>,Promise<Row>|null]=[call<Row>('ai:triageIncident',{title,description,answers:inputAnswers}),title.length>=3?call<Row>('ai:similarIncidents',{title}):null];const [analysis,matches]=await Promise.all([jobs[0],jobs[1]]);if(version!==epoch.current)return;setResult(analysis);if(matches){setSimilar(matches.items);setSimilarMeta(matches)}}catch(e){alert((e as Error).message)}finally{setBusy('')} }
   const metadata=(value:Row|null)=>value?<Typography variant="caption" color="text.secondary">{value.provider} · {value.model} · {value.latencyMs ?? 0}ms · {value.fallbackUsed?'Local Rule fallback':'선택 Provider 사용'} · 외부 전송 {value.externalTransmission?'예':'아니오'}</Typography>:null
   // 한 화면 배치: 2×2 카드가 창 높이를 나눠 갖고, 목록은 Paged, 긴 본문은 카드 안에서 스크롤
   const grid = { rowHeight: 36, columnHeaderHeight: 36, hideFooter: true, autoHeight: true, disableColumnMenu: true, sx: { minHeight: 0 } } as const
@@ -39,9 +44,10 @@ export default function AiManagement() {
     <div className="dashboard-grid">
       <Card icon={AutoAwesomeRounded} tone="lavender" title="고장 분석" subtitle="제목과 내용으로 분류·우선순위 추천">
         <Stack spacing={1.5} className="ui-card-scroll" sx={{ p: 2 }}>
-          <TextField label="제목" placeholder="예: 무선 통신 장애" value={title} onChange={e => setTitle(e.target.value)}/>
-          <TextField label="내용" multiline rows={3} placeholder="증상, 발생 위치, 영향 범위를 입력하십시오." value={description} onChange={e => setDescription(e.target.value)}/>
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}><Button variant="contained" startIcon={<AutoAwesomeRounded />} disabled={!title.trim()||Boolean(busy)} onClick={analyze}>분석 및 유사 고장 조회</Button></Box>
+          <TextField label="제목" placeholder="예: 무선 통신 장애" value={title} onChange={e => {setTitle(e.target.value);invalidate()}}/>
+          <TextField label="내용" multiline rows={3} placeholder="증상, 발생 위치, 영향 범위를 입력하십시오." value={description} onChange={e => {setDescription(e.target.value);invalidate()}}/>
+          <InputAssist description={description} answers={answers} onChange={v=>{setAnswers(v);invalidate()}} onAnalyze={analyze} analyzeLabel="분석 및 유사 고장 조회" busy={Boolean(busy)||!title.trim()}/>
+
           {result && <Box className="ai-result">
             <Box className="ai-result-head"><span className="dd-label">AI 추천 · {result.provider}{result.fallbackUsed ? ' (대체 규칙)' : ''}</span></Box>
             <Box className="stat-row">

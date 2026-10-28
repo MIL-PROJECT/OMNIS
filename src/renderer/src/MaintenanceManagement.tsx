@@ -1,3 +1,7 @@
+import TaskChecklistPanel from './TaskChecklistPanel'
+import RecurringMaintenance from './RecurringMaintenance'
+import { type WorkTemplate } from '../../shared/usability'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, MenuItem, Stack, Tab, Tabs, TextField, Typography } from '@mui/material'
 import { DataGrid, type GridColDef } from '@mui/x-data-grid'
@@ -22,16 +26,23 @@ const empty = { title:'',maintenanceType:'정기점검',workKind:'PLANNED',prior
 const priorityChip = (v: string) => <StatusChip code={v} label={v === 'HIGH' ? '높음' : '일반'} tone={v === 'HIGH' ? 'red' : 'gray'} />
 
 export default function MaintenanceManagement({ user }: { user: PublicUser }) {
+  const [params]=useSearchParams(),navigate=useNavigate()
+  const [checkTemplates,setCheckTemplates]=useState<WorkTemplate[]>([])
+  const [recurringOpen,setRecurringOpen]=useState(false)
+  const closeDetail=()=>{setSelected(null);if(params.get('from')==='mine')navigate('/?view=mine');else if(params.has('detail'))navigate('/maintenance',{replace:true})}
+  useEffect(()=>{const id=params.get('detail');if(id)call<Row>('maintenance:get',{id}).then(show).catch(e=>{alert(e.message);navigate(params.get('from')==='mine'?'/?view=mine':'/maintenance',{replace:true})})},[params.get('detail')])
+  useEffect(()=>{call<WorkTemplate[]>('templates:list',{kind:'CHECKLIST'}).then(setCheckTemplates)},[])
   const [rows,setRows] = useState<Row[]>([]), [incidents,setIncidents] = useState<Row[]>([]), [tab,setTab] = useState(0), [search,setSearch] = useState(''), [filter,setFilter] = useState(''), [form,setForm] = useState<Row | null>(null), [selected,setSelected] = useState<Row | null>(null), [events,setEvents] = useState<Row[]>([])
   const [resultForm,setResultForm] = useState<Row>({ result:'',cause:'',actionDetail:'',partsUsed:'',resolutionMode:'REMOTE',recurrenceRisk:'LOW',followUpDate:'' })
   const editable = ['ADMIN','MAINTAINER'].includes(user.role)
-  const canEdit = (row: Row) => user.role === 'ADMIN' || (user.role === 'MAINTAINER' && row.assignee_id === user.id)
+  const canEdit = (row: Row) => !['COMPLETED','CANCELED'].includes(row.status)&&(user.role === 'ADMIN' || (user.role === 'MAINTAINER' && row.assignee_id === user.id))
   const refresh = () => call<Row[]>('maintenance:list',{ search }).then(setRows)
   useEffect(() => { refresh() }, [search])
   useEffect(() => { call<Row[]>('incidents:list',{}).then(setIncidents) }, [])
   const counts = countBy(rows, 'status'), shown = filter ? rows.filter(r => r.status === filter) : rows
   const done = rows.length ? Math.round((counts.COMPLETED ?? 0) / rows.length * 100) : 0
-  const save = () => { if (!form) return; const { id, ...raw } = form, fields={...raw,incidentId:raw.incidentId || null}; call(id ? 'maintenance:update' : 'maintenance:create',id ? { id, ...fields } : fields).then(() => { setForm(null); refresh() }).catch(e => alert(e.message)) }
+  const [saving,setSaving]=useState(false)
+  const save = () => { if (!form||saving) return;setSaving(true); const { id, ...raw } = form, fields={...raw,incidentId:raw.incidentId || null}; call(id ? 'maintenance:update' : 'maintenance:create',id ? { id, ...fields } : fields).then(() => { setForm(null); refresh() }).catch(e => alert(e.message)).finally(()=>setSaving(false)) }
   const show = (row: Row) => { setSelected(row); setResultForm({ result:row.result ?? '',cause:row.cause ?? '',actionDetail:row.action_detail ?? '',partsUsed:row.parts_used ?? '',resolutionMode:row.resolution_mode ?? 'REMOTE',recurrenceRisk:row.recurrence_risk ?? 'LOW',followUpDate:row.follow_up_date ?? '' }); call<Row[]>('maintenance:getEvents',{ id:row.id }).then(setEvents) }
   const columns: GridColDef[] = [
     { field:'task_no',headerName:'작업번호',width:150,renderCell:({row}) => <span className="cell-code">{row.task_no}</span> },
@@ -46,7 +57,9 @@ export default function MaintenanceManagement({ user }: { user: PublicUser }) {
   ]
   return <>
     <PageHeader section="운용 현황" title="정비관리" description="정비 작업 계획과 진행 상황을 목록과 캘린더로 관리합니다."
-      actions={editable && <Button variant="contained" startIcon={<AddRounded />} onClick={() => setForm({ ...empty })}>작업 등록</Button>} />
+      actions={editable && <Button variant="contained" startIcon={<AddRounded />} onClick={() => setForm({ ...empty, checklistTemplateId:'check-general' })}>작업 등록</Button>} />
+    {editable&&<Box sx={{mb:1}}><Button variant="outlined" onClick={()=>setRecurringOpen(true)}>반복 정비</Button></Box>}
+    <Dialog open={recurringOpen} onClose={()=>setRecurringOpen(false)} fullWidth maxWidth="md"><DialogTitle>반복 정비</DialogTitle><DialogContent dividers><RecurringMaintenance user={user} onCreated={refresh}/></DialogContent><DialogActions><Button onClick={()=>setRecurringOpen(false)}>닫기</Button></DialogActions></Dialog>
     <Card icon={BuildRounded} tone="orange" title="정비 작업" subtitle={`전체 ${rows.length}건 · 완료율 ${done}%`} action={<SearchField value={search} onChange={setSearch} placeholder="작업명 또는 작업번호 검색" />}>
       <Box className="ui-toolbar">
         <Tabs value={tab} onChange={(_,v) => setTab(v)} className="ui-seg-tabs"><Tab label="목록"/><Tab label="캘린더"/></Tabs>
@@ -63,7 +76,7 @@ export default function MaintenanceManagement({ user }: { user: PublicUser }) {
       <DialogContent>{form && <Stack spacing={2} sx={{ mt:1 }}>
         <TextField label="작업명" value={form.title} onChange={e => setForm({...form,title:e.target.value})}/>
         <Stack direction="row" spacing={1.5}>
-          <TextField label="작업유형" sx={{ flex:1 }} value={form.maintenanceType} onChange={e => setForm({...form,maintenanceType:e.target.value})}/>
+          <TextField label="작업유형" sx={{ flex:1 }} value={form.maintenanceType} onChange={e => setForm({...form,maintenanceType:e.target.value,...(!form.id&&!form.checklistManual?{checklistTemplateId:/네트워크|망/.test(e.target.value)?'check-network':/무선|통신/.test(e.target.value)?'check-radio':/보안|프로그램/.test(e.target.value)?'check-security':'check-general'}:{})})}/>
           <TextField select label="우선순위" sx={{ flex:1 }} value={form.priority} onChange={e => setForm({...form,priority:e.target.value})}><MenuItem value="NORMAL">일반</MenuItem><MenuItem value="HIGH">높음</MenuItem></TextField>
         </Stack>
         <Stack direction="row" spacing={1.5}>
@@ -74,12 +87,13 @@ export default function MaintenanceManagement({ user }: { user: PublicUser }) {
           <TextField label="담당부서" sx={{ flex:1 }} value={form.department} onChange={e => setForm({...form,department:e.target.value})}/>
           <TextField label="예정일" type="date" sx={{ flex:1 }} slotProps={{ inputLabel:{shrink:true} }} value={form.scheduledDate} onChange={e => setForm({...form,scheduledDate:e.target.value})}/>
         </Stack>
+        {!form.id&&<TextField select label="체크리스트" value={form.checklistTemplateId??''} onChange={e=>setForm({...form,checklistTemplateId:e.target.value||null,checklistManual:true})}><MenuItem value="">없음 (기존 방식)</MenuItem>{checkTemplates.map(t=><MenuItem key={t.id} value={t.id}>{t.definition.title}</MenuItem>)}</TextField>}
         <TextField multiline rows={3} label="내용" value={form.description} onChange={e => setForm({...form,description:e.target.value})}/>
       </Stack>}</DialogContent>
-      <DialogActions><Button onClick={() => setForm(null)}>취소</Button><Button variant="contained" onClick={save}>저장</Button></DialogActions>
+      <DialogActions><Button onClick={() => setForm(null)}>취소</Button><Button variant="contained" disabled={saving} onClick={save}>저장</Button></DialogActions>
     </Dialog>
 
-    <Dialog open={!!selected} onClose={() => setSelected(null)} fullWidth maxWidth="sm">
+    <Dialog open={!!selected} onClose={closeDetail} fullWidth maxWidth="md">
       {selected && <>
         <DialogTitle sx={{ pb: 1 }}><Typography className="dd-kicker">정비 작업 · {selected.task_no}</Typography><Typography className="dd-heading">{selected.title}</Typography></DialogTitle>
         <DialogContent dividers>
@@ -106,14 +120,15 @@ export default function MaintenanceManagement({ user }: { user: PublicUser }) {
             </Stack>
           </Box>}
           {selected.status === 'COMPLETED' && <><Typography className="dd-section">완료 결과</Typography><dl className="result-detail"><div><dt>원인</dt><dd>{selected.cause || '-'}</dd></div><div><dt>조치</dt><dd>{selected.action_detail || '-'}</dd></div><div><dt>결과</dt><dd>{selected.result || '-'}</dd></div><div><dt>방식</dt><dd>{selected.resolution_mode === 'ON_SITE' ? '현장 조치' : '원격 조치'}</dd></div><div><dt>재발 위험</dt><dd>{selected.recurrence_risk || '-'}</dd></div></dl></>}
+          <TaskChecklistPanel taskId={selected.id} editable={canEdit(selected)&&!['COMPLETED','CANCELED'].includes(selected.status)} onChanged={()=>call<Row[]>('maintenance:getEvents',{id:selected.id}).then(setEvents)}/>
           <AttachmentsPanel entityType="MAINTENANCE" entityId={selected.id} canAdd={user.role==='ADMIN'||(!['COMPLETED','CANCELED'].includes(selected.status)&&(user.role==='OPERATOR'||canEdit(selected)))} onChanged={()=>call<Row[]>('maintenance:getEvents',{id:selected.id}).then(setEvents)}/>
           <Typography className="dd-section">작업 이력</Typography>
           <ul className="timeline">{events.map(e => <li key={e.id}><span>{e.note}</span><time>{fmtDateTime(e.created_at)}</time></li>)}</ul>
         </DialogContent>
         <DialogActions>
           {canEdit(selected) && (next[selected.status] ?? []).length > 0 && <span className="dlg-hint">상태 변경</span>}
-          {canEdit(selected) && (next[selected.status] ?? []).map(v => <Button key={v} variant="outlined" color={v === 'CANCELED' ? 'error' : 'primary'} onClick={() => call('maintenance:updateStatus',{ id:selected.id,status:v,progress:v === 'COMPLETED' ? 100 : v === 'IN_PROGRESS' ? Math.max(50,selected.progress) : selected.progress,...(v === 'COMPLETED' ? {...resultForm,followUpDate:resultForm.followUpDate || undefined} : {}) }).then(() => { setSelected(null); refresh() }).catch(e => alert(e.message))}>{statusLabel[v]}</Button>)}
-          <Button onClick={() => setSelected(null)} sx={{ ml: 'auto !important' }}>닫기</Button>
+          {canEdit(selected) && (next[selected.status] ?? []).map(v => <Button key={v} variant="outlined" color={v === 'CANCELED' ? 'error' : 'primary'} onClick={() => call('maintenance:updateStatus',{ id:selected.id,status:v,progress:v === 'COMPLETED' ? 100 : v === 'IN_PROGRESS' ? Math.max(50,selected.progress) : selected.progress,...(v === 'COMPLETED' ? {...resultForm,followUpDate:resultForm.followUpDate || undefined} : {}) }).then(() => { closeDetail(); refresh() }).catch(e => alert(e.message))}>{statusLabel[v]}</Button>)}
+          <Button onClick={closeDetail} sx={{ ml: 'auto !important' }}>닫기</Button>
         </DialogActions>
       </>}
     </Dialog>

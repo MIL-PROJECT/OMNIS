@@ -1,3 +1,4 @@
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, MenuItem, Stack, Tab, Tabs, TextField } from '@mui/material'
 import AddRounded from '@mui/icons-material/AddRounded'
@@ -24,6 +25,10 @@ const levelText = (v: string) => levels.find(x => x[0] === v)?.[1] ?? v
 const today = koreaDate()
 
 export default function DutyManagement({ user }: { user: PublicUser }) {
+  const [params]=useSearchParams(),navigate=useNavigate()
+  const [detail,setDetail]=useState<Row|null>(null)
+  const closeDetail=()=>{setDetail(null);if(params.get('from')==='mine')navigate('/?view=mine');else navigate('/duty',{replace:true})}
+  useEffect(()=>{let alive=true;const id=params.get('detail');if(id)call<Row>('directives:get',{id}).then(v=>{if(alive){setTab(1);setDetail(v)}}).catch(e=>{if(alive){alert(e.message);closeDetail()}});return()=>{alive=false}},[params.get('detail')])
   const [tab,setTab] = useState(0), [duty,setDuty] = useState<Row[]>([]), [directives,setDirectives] = useState<Row[]>([]), [users,setUsers] = useState<Row[]>([])
   const [dutyForm,setDutyForm] = useState<Row | null>(null), [directiveForm,setDirectiveForm] = useState<Row | null>(null)
   const editable = ['ADMIN','OPERATOR','USER'].includes(user.role)
@@ -46,6 +51,8 @@ export default function DutyManagement({ user }: { user: PublicUser }) {
     { field: 'action', headerName: '', width: 92, sortable: false, renderCell: ({ row }) => editable && <RowActions onEdit={() => setDutyForm({ id: row.id, dutyDate: row.duty_date, shiftType: row.shift_type, userId: row.user_id, position: row.position })} onDelete={() => remove('duty:delete', row.id)} /> }
   ]
   return <>
+    <Dialog open={!!detail} onClose={closeDetail} fullWidth maxWidth="sm"><DialogTitle>{detail?.title}</DialogTitle><DialogContent dividers><Box sx={{whiteSpace:'pre-wrap'}}>{detail?.content}</Box><Box sx={{mt:2}}>기한: {detail?.due_at?fmtDateTime(detail.due_at):'없음'} · {detail?.acknowledged_by_me?'확인 완료':'확인 전'}</Box></DialogContent><DialogActions>{detail&&!detail.acknowledged_by_me&&<Button variant="contained" onClick={()=>call('directives:acknowledge',{id:detail.id}).then(()=>{refresh();closeDetail()}).catch(e=>alert(e.message))}>지시사항 확인</Button>}<Button onClick={closeDetail}>닫기</Button></DialogActions></Dialog>
+
     <PageHeader section="업무 지원" title="근무 / 지시사항" description="근무 편성과 부대 지시사항·공지를 관리합니다."
       actions={((tab === 0 && editable) || (tab === 1 && canManageDirective)) && <Button variant="contained" startIcon={<AddRounded />} onClick={() => tab === 0 ? setDutyForm({ ...blankDuty, assignees: [{ userId: users[0]?.id ?? '', position: defaultPosition }] }) : setDirectiveForm({ ...blankDirective })}>{tab === 0 ? '근무 등록' : '지시사항 등록'}</Button>} />
 

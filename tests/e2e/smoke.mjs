@@ -63,6 +63,14 @@ await page.getByRole('row').filter({ hasText:'E2E 가상 정비 작업' }).getBy
 await page.getByRole('textbox',{ name:'원인 분석' }).fill('가상 케이블 접속 불량')
 await page.getByRole('textbox',{ name:'상세 조치내용' }).fill('가상 케이블 재접속 및 신호 점검')
 await page.getByRole('textbox',{ name:'작업 결과' }).fill('가상 정비 작업 완료')
+// New tasks use a checklist; complete the actual UI checks before normal completion.
+// Use accessible item labels, preserving the existing workflow assertions below.
+for(const label of ['외관 확인','전원 확인','연결 확인','기본 동작 시험','점검 결과 기록']){
+  const select=page.getByRole('combobox',{name:`${label} 결과`,exact:true})
+  await select.click();await page.getByRole('option',{name:'정상',exact:true}).click()
+}
+await page.getByRole('button',{name:'점검 결과 저장',exact:true}).click()
+await page.getByText('점검 결과를 저장했습니다.',{exact:true}).waitFor()
 await page.getByRole('button',{ name:'완료',exact:true }).click()
 await page.getByRole('tab', { name: '캘린더' }).click()
 await page.getByText('E2E 가상 정비 작업').first().waitFor()

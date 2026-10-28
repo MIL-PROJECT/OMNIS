@@ -1,3 +1,4 @@
+import MyWork from './MyWork'
 import { useEffect, useState } from 'react'
 import { HashRouter, Navigate, NavLink, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 import { Box, Button, IconButton, InputAdornment, Paper, TextField, Tooltip, Typography } from '@mui/material'
@@ -271,7 +272,7 @@ function Shell({ user, onLogout }: { user: PublicUser; onLogout: () => void }) {
       </header>
       <main>
         <Routes>
-          <Route path="/" element={<Dashboard />} />
+          <Route path="/" element={<Dashboard user={user} />} />
           <Route path="/operations" element={<Operations user={user} />} />
           <Route path="/incidents" element={<Incidents user={user} />} />
           <Route path="/maintenance" element={<Maintenance user={user} />} />
@@ -295,7 +296,8 @@ const chipCol = (field: string, headerName: string, width: number, tone?: (v: un
 // 상황판 목록 행 높이(px) — style.css의 .dash 규칙과 맞춘다
 const GRID_ROW = 36, GRID_HEAD = 36, NOTICE_ROW = 42
 
-function Dashboard() {
+function Dashboard({ user }: { user: PublicUser }) {
+  const location = useLocation()
   const navigate = useNavigate()
   const [data, setData] = useState<Row | null>(null)
   const [detail, setDetail] = useState<DetailTarget | null>(null)
@@ -304,6 +306,7 @@ function Dashboard() {
   const open = (kind: DetailTarget['kind']) => ({ row }: { row: Row }) => setDetail({ kind, row })
   const load = () => call<Row>('dashboard:getSummary').then(d => { setData(d); setLoadedAt(new Date().toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit', hour12: false })) })
   useEffect(() => { load() }, [])
+  if(new URLSearchParams(location.search).get('view')==='mine')return <MyWork user={user}/>
   if (!data) return <Typography color="text.secondary">불러오는 중...</Typography>
   const sys = countBy(data.allSystems, 'status')
   const ms: Record<string, number> = Object.fromEntries(data.maintenanceStatus.map((r: Row) => [r.status, r.n]))
@@ -320,7 +323,7 @@ function Dashboard() {
   const grid = { rowHeight: GRID_ROW, columnHeaderHeight: GRID_HEAD, hideFooter: true, autoHeight: true, disableColumnMenu: true } as const
   return <div className="dash">
     <PageHeader section="운용 현황" title="통합상황판" description={`${new Date().toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' })} 기준 정보통신 운용 현황입니다.`}
-      actions={<><span className="ui-updated">{loadedAt} 갱신</span><Button variant="outlined" startIcon={<RefreshRounded />} onClick={load}>새로고침</Button></>} />
+      actions={<><Button variant="outlined" onClick={()=>navigate('/?view=mine')}>내 업무</Button><span className="ui-updated">{loadedAt} 갱신</span><Button variant="outlined" startIcon={<RefreshRounded />} onClick={load}>새로고침</Button></>} />
     <div className="metrics">{metrics.map(({ key, value, unit, icon: Icon, tone, foot, list }) => <Paper elevation={0} className={`metric clickable`} key={key} role="button" tabIndex={0} aria-label={`${key} ${value}${unit} 목록 보기`}
       onClick={() => setList(list)} onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setList(list) } }}>
       <Box className="metric-top"><span className="metric-label">{key}</span><span className={`ui-icon-tile tone-${tone}`}><Icon /></span></Box>
