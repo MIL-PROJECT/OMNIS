@@ -7,10 +7,10 @@
 | 영역 | 배점 | 예상 | 근거 | 남은 위험 |
 |---|---:|---:|---|---|
 | 완성도 | 50 | 48 | schema v4, 접수→종결 workflow, 정비·경보·작업판·마감 UI, 장애·정비 첨부자료, 기존 CRUD/보고서/백업, Electron E2E | 외부 adapter 구현 없음, 깨끗한 VM 설치 미검증 |
-| AI 활용도 | 30 | 27 | 구조화 분류, 사용자 승인 반영, 유사 사례, SLA 규칙, 인수인계, Ollama fallback, `ai_runs` | embedding 유사도와 여러 보고서 초안은 제한적 |
+| AI 활용도 | 30 | 29 | 네 Provider, OpenAI/Claude structured output, 사용자 승인 반영, 유사 사례, SLA 규칙, 마스킹·암호화·fallback, `ai_runs` | 실제 유료 API live call과 embedding 유사도는 미검증 |
 | 차별성 | 15 | 14 | 긴급 선조치, 원격→현장, 정합성 검사, snapshot, 설명 가능한 SLA, Demo Mode | 실제 외부 체계 대조는 범위 밖 |
 | 프레젠테이션 | 5 | 5 | 반복 가능한 시나리오 준비/초기화, 15분 클릭 흐름, 가상자료 표시 | 발표자 리허설 필요 |
-| **합계** | **100** | **94** | 현재 코드와 로컬 검증 기준 | 미검증 항목을 점수에 포함하지 않음 |
+| **합계** | **100** | **96** | 현재 코드와 mock/로컬 검증 기준 | live API·clean machine 미검증 항목은 제외 |
 
 ## 구현 증빙
 
@@ -24,10 +24,10 @@
 
 ### AI
 
-- Local Rule/Ollama: `src/main/ai/LocalRuleProvider.ts`, `OllamaProvider.ts`
-- 구조화 출력: `AIProvider.ts`와 Zod provider schema
+- Local Rule/Ollama/OpenAI/Anthropic: `src/main/ai/*Provider.ts`
+- 구조화 출력: `PromptCatalog.ts` JSON Schema와 Zod 재검증
 - 사용자 승인 반영과 추적: `incidents:applyAi`, `ai_runs`, incident event
-- 안전성: loopback 제한, 8초 timeout, JSON/Zod 검증, Local Rule fallback
+- 안전성: safeStorage, 외부 데이터 마스킹, loopback 제한, 5~30초 timeout, 선택적 retry, 일일 한도, Local Rule fallback
 
 ### 보안·권한
 
@@ -51,16 +51,18 @@
 | 가입 E2E | `pnpm test:e2e:signup` | 통과 |
 | 신규 workflow E2E | `pnpm test:e2e:operations` | 통과 |
 | 해상도 UI | `pnpm test:e2e:visual` | 1366×768, 1920×1080 통과 |
+| 외부 AI mock E2E | `pnpm test:e2e:external-ai` | OpenAI·Claude·masked key·fallback·검토 반영 통과 |
 | NSIS | `pnpm dist:win` | 통과 |
 | packaged E2E | unpacked EXE 대상 smoke + operations | 모두 통과 |
 
-94점은 현재 기능 범위의 보수적 자체평가다. 외부 adapter와 clean VM 설치까지 증빙하면 95점 이상 근거가 강화된다.
+96점은 현재 구현과 mock/로컬 검증 기준의 자체평가다. 실제 API live smoke, 외부 adapter, clean VM 설치를 증빙하면 운영 신뢰성 근거가 강화된다.
 
 ## Windows 산출물
 
 - 설치 파일: `release/OMNIS Setup 1.0.0.exe`
 - unpacked 실행본: `release/win-unpacked/OMNIS.exe`
-- SHA-256: `918F017A7ECC3BF62CD3FDD988592A45D47D78943B165B784EE4871C7C7B409A`
-- 생성 시각: 2026-10-28 07:24 KST
-- 설치 파일 크기: 124,581,731 bytes
-- unpacked 실행본 smoke와 operations workflow E2E 통과
+- SHA-256: `3C4C6C5EAEB4FE2448D6517C1000852CC99702A11F42B183D6782A1A32428D46`
+- 설치 파일 크기: 122,034,587 bytes
+- unpacked EXE SHA-256: `D3746FE90D0A6696EB49D48CEA407F2ED6C26199008AEC4D1B54DB25FD86CCDB`
+- Authenticode: `NotSigned`
+- unpacked 실행본 smoke, operations workflow, external AI mock E2E 통과

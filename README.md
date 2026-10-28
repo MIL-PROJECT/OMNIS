@@ -26,7 +26,7 @@ React 19 Renderer → sandboxed preload contextBridge → Zod validated IPC → 
 
 - `pnpm typecheck`, `pnpm lint`, `pnpm test`
 - `pnpm build`
-- `pnpm test:e2e`, `pnpm test:e2e:operations`, `pnpm test:e2e:roles`, `pnpm test:e2e:signup`, `pnpm test:e2e:visual`
+- `pnpm test:e2e`, `pnpm test:e2e:operations`, `pnpm test:e2e:roles`, `pnpm test:e2e:signup`, `pnpm test:e2e:visual`, `pnpm test:e2e:external-ai`
 - `pnpm dist:win` → `release/`에 NSIS 설치 파일
 - macOS에서 `pnpm dist:mac` → 현재 Mac CPU에 맞는 DMG·ZIP
 - `pnpm dist:mac:arm64`, `pnpm dist:mac:x64` → CPU 아키텍처를 지정한 DMG·ZIP
@@ -37,4 +37,6 @@ macOS 로컬 빌드, Apple 서명·공증 및 GitHub Actions 산출물 사용법
 
 ## 현재 범위
 
-인디고 기반 UI를 유지하면서 상황경보, 정비반 배정, 고장 접수→분류→원격/현장조치→검증→종결, 긴급 선조치, 장애·정비 첨부자료, 계획/비계획 정비, 08:30·16:00 작업판, 정합성 검사·일일 마감, 지시사항 확인, 인수인계, 설명 가능한 SLA 위험, AI 검토 후 반영, Demo Mode를 구현했습니다. 첨부파일은 `%APPDATA%/OMNIS/attachments`에 저장하고 DB에는 분류·크기·SHA-256·등록자·감사기록을 보관합니다. Local Rule만으로 오프라인 시연이 가능하고 선택적 Ollama는 timeout/구조 검증 실패 시 fallback합니다. 남은 범위는 `PROJECT_STATUS.md`를 확인하십시오.
+인디고 기반 UI를 유지하면서 상황경보, 정비반 배정, 고장 접수→분류→원격/현장조치→검증→종결, 긴급 선조치, 장애·정비 첨부자료, 계획/비계획 정비, 08:30·16:00 작업판, 정합성 검사·일일 마감, 지시사항 확인, 인수인계, 설명 가능한 SLA 위험, AI 검토 후 반영, Demo Mode를 구현했습니다. 첨부파일은 `%APPDATA%/OMNIS/attachments`에 저장하고 DB에는 분류·크기·SHA-256·등록자·감사기록을 보관합니다.
+
+AI Provider는 기본 `LOCAL`, 로컬 `OLLAMA`, 선택적 `OPENAI` Responses API, `ANTHROPIC` Messages API를 지원합니다. 외부 Provider는 기본 비활성화이며 API Key는 Electron `safeStorage`로 암호화해 userData의 별도 secrets 파일에 저장합니다. 외부 호출 실패 시 업무 흐름을 중단하지 않고 Local Rule로 fallback합니다. 설정·보안·비용·실행 절차는 [`docs/EXTERNAL_AI.md`](docs/EXTERNAL_AI.md)를 확인하십시오.

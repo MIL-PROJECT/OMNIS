@@ -23,6 +23,9 @@
 | AI-02 | 5 | 사람이 검토·수정 후 업무 반영 | 신규 구현 | AI 승인 | P0 | `incidents:applyAi`, AI 검토 패널 | workflow E2E | 완료 |
 | AI-03 | 5 | timeout·잘못된 JSON fallback | 기존 안전장치 유지·로그 확장 | AI runtime | P0 | `AppService.ts`, `ai_runs` | AI unit/E2E | 완료 |
 | AI-04 | 5 | 모델·프롬프트·latency·반영 추적 | 신규 구현 | AI audit | P1 | `ai_runs`, `ai:markApplied` | DB integration | 완료 |
+| AI-05 | 5, 8~11 | OpenAI·Claude 선택형 Provider | 신규 구현 | 외부 AI | P0 | `OpenAIProvider.ts`, `AnthropicProvider.ts`, `AIProviderFactory.ts` | structured-output unit, mock E2E | 완료 |
+| AI-06 | 5 | 외부 전송 최소화·credential 보호 | 신규 구현 | 보안 | P0 | `AISecretStore.ts`, `ExternalDataGuard.ts`, system IPC | masking/safeStorage/RBAC test | 완료 |
+| AI-07 | 5 | retry·timeout·요청한도·직접 Local fallback | 신규 구현 | AI runtime | P0 | `AIOrchestrator.ts`, `AIUsagePolicy.ts` | 오류경로 unit, operations/external AI E2E | 완료 |
 | PR-01 | 5 | 15분 시연과 반복 가능한 가상 시나리오 | 신규 구현 | Demo Mode | P0 | `demo_scenarios`, `demo:prepare/reset` | workflow E2E | 완료 |
 | EX-01 | 11 | 향후 외부 체계 연동 경계 | 인터페이스 설계만 | adapter | P2 | `OPERATION_CONCEPT.md` | 문서 검토 | 부분 |
 | AT-01 | 8~9 | 접수·조치 첨부자료 | 신규 구현 | 고장·정비 상세 | P2 | `attachments`, `AttachmentStore.ts`, `AttachmentsPanel.tsx` | hash/storage integration, build, Electron E2E | 완료 |
