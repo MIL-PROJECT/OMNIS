@@ -51,16 +51,25 @@ export default function DutyManagement({ user }: { user: PublicUser }) {
     call<Row[]>('organizations:members',{unitId:formUnit}).then(rows=>{if(active)setMembers(rows.filter(u=>u.active===1))}).catch(e=>{if(active)setMembersError(e.message)}).finally(()=>{if(active)setMembersBusy(false)})
     return()=>{active=false}
   },[formUnit,!!dutyForm])
+  const [roster,setRoster]=useState<{unitId:string;rows:Row[];loading:boolean;error:string}>({unitId:'',rows:[],loading:false,error:''})
+  const [rosterRefresh,setRosterRefresh]=useState(0)
+  useEffect(()=>{
+    if(!unitId){setRoster({unitId:'',rows:[],loading:false,error:''});return}
+    let active=true;setRoster({unitId,rows:[],loading:true,error:''})
+    call<Row[]>('organizations:members',{unitId}).then(rows=>{if(active)setRoster({unitId,rows:rows.filter(u=>u.active===1),loading:false,error:''})}).catch(e=>{if(active)setRoster({unitId,rows:[],loading:false,error:e.message})})
+    return()=>{active=false}
+  },[unitId,rosterRefresh])
+  const rosterRows=roster.unitId===unitId?roster.rows:[]
   const visibleDuty=duty.filter(d=>unitId?d.unit_id===unitId:!level||units.some(u=>u.id===d.unit_id&&u.unit_level===level))
   const memberOptions=formUnit?members:users
   const existingDutyPerson=dutyForm?.id?duty.find(d=>d.user_id===dutyForm.userId):undefined
   const existingMember=dutyForm?.id?(users.find(u=>u.id===dutyForm.userId)??(existingDutyPerson?{...existingDutyPerson,id:existingDutyPerson.user_id}:undefined)):undefined
   const dutyPeople=existingMember&&!memberOptions.some(u=>u.id===existingMember.id)?[...memberOptions,existingMember]:memberOptions
-  const openDuty=(row?:Row)=>{
-    const selectedUnit=row?.unit_id??users.find(u=>u.id===row?.user_id)?.unit_id??unitId
+  const openDuty=(row?:Row,member?:Row)=>{
+    const selectedUnit=member?.unit_id??row?.unit_id??users.find(u=>u.id===row?.user_id)?.unit_id??unitId
     setFormUnit(selectedUnit||'');setFormLevel(units.find(u=>u.id===selectedUnit)?.unit_level??level)
     setMembers([]);setMembersError('')
-    setDutyForm(row?{id:row.id,dutyDate:row.duty_date,shiftType:row.shift_type,userId:row.user_id,position:row.position}:{...blankDuty,assignees:[{userId:selectedUnit?'':users[0]?.id??'',position:defaultPosition}]})
+    setDutyForm(row?{id:row.id,dutyDate:row.duty_date,shiftType:row.shift_type,userId:row.user_id,position:row.position}:{...blankDuty,assignees:[{userId:member?.id??(selectedUnit?'':users[0]?.id??''),position:defaultPosition}]})
   }
   const changeFormUnit=(id:string)=>{setFormUnit(id);setMembers([]);setMembersError('');setMembersBusy(!!id);if(dutyForm)setDutyForm(dutyForm.id?{...dutyForm,userId:''}:{...dutyForm,assignees:assignees.map(a=>({...a,userId:''}))})}
   const personLabel=(u:Row)=>`${u.rank_name??''} ${u.display_name}${formUnit?'':` · ${u.unit_name??'공통'}`}${u.is_demo?' · 가상':''}`.trim()
@@ -92,6 +101,11 @@ export default function DutyManagement({ user }: { user: PublicUser }) {
 
     {directoryError&&<Alert severity="error">부대 목록 조회 실패: {directoryError}</Alert>}
     {tab===0&&<Box sx={{mb:2}}><UnitFilter units={units} level={level} unitId={unitId} onLevel={setLevel} onUnit={setUnitId}/></Box>}
+    {tab===0&&unitId&&<Card icon={EventNoteRounded} tone="sky" title="부대 담당자 명부" subtitle={`${units.find(u=>u.id===unitId)?.name??''} · ${rosterRows.length}명 · 근무 등록 여부와 관계없이 조회됩니다.`}>
+      {roster.loading||roster.unitId!==unitId?<Alert severity="info">담당자 조회 중</Alert>:roster.error?<Alert severity="error" action={<Button onClick={()=>setRosterRefresh(v=>v+1)}>다시 조회</Button>}>{roster.error}</Alert>:rosterRows.length?<Box role="list" aria-label="부대 담당자 명부" sx={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(180px,1fr))',gap:1.5,p:2}}>
+        {rosterRows.map(person=><Box key={person.id} role="listitem" sx={{p:1.5,border:'1px solid',borderColor:'divider',borderRadius:2}}><Box sx={{display:'flex',alignItems:'center',gap:1}}><Avatar name={person.display_name} size={28}/><Box><strong>{person.rank_name} {person.display_name}</strong><Box className="cell-muted">{person.is_demo?'가상 담당자 · ':''}{duty.some(d=>d.user_id===person.id&&d.duty_date===today)?'오늘 근무 편성됨':'오늘 미편성'}</Box></Box></Box>{editable&&<Button size="small" aria-label={`${person.display_name} 근무 등록`} onClick={()=>openDuty(undefined,person)}>근무 등록</Button>}</Box>)}
+      </Box>:<EmptyState icon={EventNoteRounded} title="등록된 활성 담당자가 없습니다"/>}
+    </Card>}
     <Card icon={TodayRounded} tone="sky" title="오늘의 근무" subtitle={`${new Date().toLocaleDateString('ko-KR', { month: 'long', day: 'numeric', weekday: 'long' })} · ${todayDuty.length}명`}>
       {todayDuty.length
         ? <Box className="today-duty">{todayDuty.map(d => <Box key={d.id} className="duty-person"><Avatar name={d.display_name} size={36} /><Box><strong>{d.display_name}</strong><span>{d.position}</span></Box>{shiftChip(d.shift_type)}</Box>)}</Box>

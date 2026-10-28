@@ -13,6 +13,23 @@ try {
  await page.getByRole('button',{name:'관리자 로그인',exact:true}).click()
  await page.evaluate(()=>{location.hash='/duty'})
  const base=(await invoke('duty:list')).length
+ await choose(page,'부대급','비행단급');await choose(page,'소속 부대','제20전투비행단')
+ const roster=page.getByRole('list',{name:'부대 담당자 명부',exact:true})
+ await expect(roster.getByRole('listitem')).toHaveCount(10)
+ await expect(page.getByText(`조회 0건 / 전체 ${base}건`,{exact:true})).toBeVisible()
+ for(const [width,height] of [[1366,768],[1920,1080]]){
+  await page.setViewportSize({width,height});await page.screenshot({path:resolve(`tests/.tmp/duty-roster-no-schedule-${width}.png`),animations:'disabled'})
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true)
+  for(const item of await roster.getByRole('listitem').all())expect(await item.evaluate(el=>el.scrollHeight<=el.clientHeight+1)).toBe(true)
+ }
+ expect((await invoke('duty:list')).length).toBe(base)
+ await roster.getByRole('button').first().click()
+ await expect(page.getByRole('dialog').getByRole('alert')).toContainText('부대 담당자 10명')
+ await expect(page.getByRole('dialog').getByRole('combobox',{name:'담당자 1',exact:true})).toContainText((await invoke('organizations:members',{unitId:'W20'}))[0].display_name)
+ await page.getByRole('dialog').getByRole('button',{name:'취소',exact:true}).click()
+ await choose(page,'부대급','여단급');await choose(page,'소속 부대','제2미사일방어여단')
+ await expect(roster.getByRole('listitem')).toHaveCount(10)
+ await expect(roster).not.toContainText('제20전투비행단')
  await page.getByRole('button',{name:'근무 등록',exact:true}).click()
  const dialog=page.getByRole('dialog')
  for(const [level,unit,id] of [['비행단급','제20전투비행단','W20'],['여단급','제2미사일방어여단','B02'],['전대급','제7항공통신전대','G07']]){
