@@ -1,0 +1,250 @@
+[
+  {
+    "channel": "admin:approveSignup",
+    "result": "same"
+  },
+  {
+    "channel": "admin:rejectSignup",
+    "result": "same"
+  },
+  {
+    "channel": "admin:signupRequests",
+    "result": "same"
+  },
+  {
+    "channel": "ai:dailySummary",
+    "result": "changed"
+  },
+  {
+    "channel": "ai:listRuns",
+    "result": "added_or_removed"
+  },
+  {
+    "channel": "ai:maintenanceRecommendations",
+    "result": "changed"
+  },
+  {
+    "channel": "ai:markApplied",
+    "result": "same"
+  },
+  {
+    "channel": "ai:similarIncidents",
+    "result": "changed"
+  },
+  {
+    "channel": "ai:slaRisk",
+    "result": "same"
+  },
+  {
+    "channel": "ai:triageIncident",
+    "result": "changed"
+  },
+  {
+    "channel": "auth:login",
+    "result": "same"
+  },
+  {
+    "channel": "auth:logout",
+    "result": "same"
+  },
+  {
+    "channel": "auth:me",
+    "result": "same"
+  },
+  {
+    "channel": "auth:register",
+    "result": "same"
+  },
+  {
+    "channel": "dashboard:getSummary",
+    "result": "same"
+  },
+  {
+    "channel": "directives:acknowledge",
+    "result": "same"
+  },
+  {
+    "channel": "directives:create",
+    "result": "same"
+  },
+  {
+    "channel": "directives:delete",
+    "result": "same"
+  },
+  {
+    "channel": "directives:list",
+    "result": "same"
+  },
+  {
+    "channel": "directives:update",
+    "result": "same"
+  },
+  {
+    "channel": "duty:create",
+    "result": "same"
+  },
+  {
+    "channel": "duty:delete",
+    "result": "same"
+  },
+  {
+    "channel": "duty:list",
+    "result": "same"
+  },
+  {
+    "channel": "duty:update",
+    "result": "same"
+  },
+  {
+    "channel": "incidents:applyAi",
+    "result": "same"
+  },
+  {
+    "channel": "incidents:assign",
+    "result": "same"
+  },
+  {
+    "channel": "incidents:assignTeam",
+    "result": "same"
+  },
+  {
+    "channel": "incidents:create",
+    "result": "same"
+  },
+  {
+    "channel": "incidents:get",
+    "result": "same"
+  },
+  {
+    "channel": "incidents:getEvents",
+    "result": "same"
+  },
+  {
+    "channel": "incidents:list",
+    "result": "same"
+  },
+  {
+    "channel": "incidents:update",
+    "result": "same"
+  },
+  {
+    "channel": "incidents:updateStatus",
+    "result": "same"
+  },
+  {
+    "channel": "maintenance:create",
+    "result": "same"
+  },
+  {
+    "channel": "maintenance:getEvents",
+    "result": "same"
+  },
+  {
+    "channel": "maintenance:list",
+    "result": "same"
+  },
+  {
+    "channel": "maintenance:update",
+    "result": "same"
+  },
+  {
+    "channel": "maintenance:updateStatus",
+    "result": "same"
+  },
+  {
+    "channel": "operations:create",
+    "result": "same"
+  },
+  {
+    "channel": "operations:delete",
+    "result": "same"
+  },
+  {
+    "channel": "operations:getHistory",
+    "result": "same"
+  },
+  {
+    "channel": "operations:list",
+    "result": "same"
+  },
+  {
+    "channel": "operations:update",
+    "result": "same"
+  },
+  {
+    "channel": "operations:updateStatus",
+    "result": "same"
+  },
+  {
+    "channel": "reports:daily",
+    "result": "same"
+  },
+  {
+    "channel": "reports:exportCsv",
+    "result": "same"
+  },
+  {
+    "channel": "reports:exportPdf",
+    "result": "same"
+  },
+  {
+    "channel": "reports:weekly",
+    "result": "same"
+  },
+  {
+    "channel": "system:auditLogs",
+    "result": "same"
+  },
+  {
+    "channel": "system:backup",
+    "result": "same"
+  },
+  {
+    "channel": "system:deleteAiCredential",
+    "result": "added_or_removed"
+  },
+  {
+    "channel": "system:getAiSettings",
+    "result": "added_or_removed"
+  },
+  {
+    "channel": "system:getInfo",
+    "result": "changed"
+  },
+  {
+    "channel": "system:markNotificationRead",
+    "result": "same"
+  },
+  {
+    "channel": "system:notifications",
+    "result": "same"
+  },
+  {
+    "channel": "system:openDataFolder",
+    "result": "same"
+  },
+  {
+    "channel": "system:resetDemo",
+    "result": "same"
+  },
+  {
+    "channel": "system:saveAiCredential",
+    "result": "added_or_removed"
+  },
+  {
+    "channel": "system:setAiSettings",
+    "result": "changed"
+  },
+  {
+    "channel": "system:setOperationsSettings",
+    "result": "same"
+  },
+  {
+    "channel": "system:testAiConnection",
+    "result": "added_or_removed"
+  },
+  {
+    "channel": "users:list",
+    "result": "same"
+  }
+]

@@ -1,0 +1,1573 @@
+{
+  "dataDir": "C:\\Users\\admin\\alex\\alex_study\\military_project\\output\\pdf\\role-manuals-20261028\\evidence\\ui-profiles\\1793141699182",
+  "results": [
+    {
+      "id": "UI01",
+      "role": "LOGIN",
+      "task": "등록 신청 입력 검증",
+      "level": "실제 UI 실행 확인",
+      "status": "통과",
+      "detail": ""
+    },
+    {
+      "id": "MENU-USER",
+      "role": "USER",
+      "task": "역할별 메뉴와 화면",
+      "level": "실제 UI 실행 확인",
+      "status": "통과",
+      "detail": {
+        "menus": [
+          "통합상황판",
+          "운영현황",
+          "고장관리5",
+          "정비관리",
+          "통제·일일마감",
+          "근무/지시사항",
+          "AI 지원",
+          "보고서/통계"
+        ],
+        "menuData": [
+          {
+            "menu": "운영현황",
+            "buttons": [
+              "체계 등록",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ]
+          },
+          {
+            "menu": "고장관리",
+            "buttons": [
+              "신규 고장 접수",
+              "",
+              "",
+              "",
+              ""
+            ]
+          },
+          {
+            "menu": "정비관리",
+            "buttons": [
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ]
+          },
+          {
+            "menu": "통제·일일마감",
+            "buttons": [
+              "",
+              "",
+              "",
+              ""
+            ]
+          },
+          {
+            "menu": "근무/지시사항",
+            "buttons": [
+              "근무 등록",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ]
+          },
+          {
+            "menu": "AI 지원",
+            "buttons": [
+              "분석 및 유사 고장 조회",
+              "일일 요약 생성",
+              "정비 우선순위 조회"
+            ]
+          },
+          {
+            "menu": "보고서/통계",
+            "buttons": [
+              "고장 CSV",
+              "정비 CSV",
+              "조회",
+              "일일 PDF"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "MENU-OPERATOR",
+      "role": "OPERATOR",
+      "task": "역할별 메뉴와 화면",
+      "level": "실제 UI 실행 확인",
+      "status": "통과",
+      "detail": {
+        "menus": [
+          "통합상황판",
+          "운영현황",
+          "고장관리5",
+          "정비관리",
+          "통제·일일마감",
+          "근무/지시사항",
+          "AI 지원",
+          "보고서/통계"
+        ],
+        "menuData": [
+          {
+            "menu": "운영현황",
+            "buttons": [
+              "체계 등록",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ]
+          },
+          {
+            "menu": "고장관리",
+            "buttons": [
+              "신규 고장 접수",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ]
+          },
+          {
+            "menu": "정비관리",
+            "buttons": [
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ]
+          },
+          {
+            "menu": "통제·일일마감",
+            "buttons": [
+              "상황경보 등록",
+              "확인",
+              "종료",
+              "",
+              "",
+              "",
+              ""
+            ]
+          },
+          {
+            "menu": "근무/지시사항",
+            "buttons": [
+              "근무 등록",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ]
+          },
+          {
+            "menu": "AI 지원",
+            "buttons": [
+              "분석 및 유사 고장 조회",
+              "일일 요약 생성",
+              "정비 우선순위 조회"
+            ]
+          },
+          {
+            "menu": "보고서/통계",
+            "buttons": [
+              "고장 CSV",
+              "정비 CSV",
+              "조회",
+              "일일 PDF"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "MENU-MAINTAINER",
+      "role": "MAINTAINER",
+      "task": "역할별 메뉴와 화면",
+      "level": "실제 UI 실행 확인",
+      "status": "통과",
+      "detail": {
+        "menus": [
+          "통합상황판",
+          "운영현황",
+          "고장관리5",
+          "정비관리",
+          "통제·일일마감",
+          "근무/지시사항",
+          "AI 지원",
+          "보고서/통계"
+        ],
+        "menuData": [
+          {
+            "menu": "운영현황",
+            "buttons": [
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ]
+          },
+          {
+            "menu": "고장관리",
+            "buttons": [
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ]
+          },
+          {
+            "menu": "정비관리",
+            "buttons": [
+              "작업 등록",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ]
+          },
+          {
+            "menu": "통제·일일마감",
+            "buttons": [
+              "",
+              "",
+              "",
+              ""
+            ]
+          },
+          {
+            "menu": "근무/지시사항",
+            "buttons": [
+              "",
+              "",
+              "",
+              ""
+            ]
+          },
+          {
+            "menu": "AI 지원",
+            "buttons": [
+              "분석 및 유사 고장 조회",
+              "일일 요약 생성",
+              "정비 우선순위 조회"
+            ]
+          },
+          {
+            "menu": "보고서/통계",
+            "buttons": [
+              "고장 CSV",
+              "정비 CSV",
+              "조회",
+              "일일 PDF"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "MENU-VIEWER",
+      "role": "VIEWER",
+      "task": "역할별 메뉴와 화면",
+      "level": "실제 UI 실행 확인",
+      "status": "통과",
+      "detail": {
+        "menus": [
+          "통합상황판",
+          "운영현황",
+          "고장관리5",
+          "정비관리",
+          "통제·일일마감",
+          "근무/지시사항",
+          "AI 지원",
+          "보고서/통계"
+        ],
+        "menuData": [
+          {
+            "menu": "운영현황",
+            "buttons": [
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ]
+          },
+          {
+            "menu": "고장관리",
+            "buttons": [
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ]
+          },
+          {
+            "menu": "정비관리",
+            "buttons": [
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ]
+          },
+          {
+            "menu": "통제·일일마감",
+            "buttons": [
+              "",
+              "",
+              "",
+              ""
+            ]
+          },
+          {
+            "menu": "근무/지시사항",
+            "buttons": [
+              "",
+              "",
+              "",
+              ""
+            ]
+          },
+          {
+            "menu": "AI 지원",
+            "buttons": [
+              "분석 및 유사 고장 조회",
+              "일일 요약 생성",
+              "정비 우선순위 조회"
+            ]
+          },
+          {
+            "menu": "보고서/통계",
+            "buttons": [
+              "고장 CSV",
+              "정비 CSV",
+              "조회",
+              "일일 PDF"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "MENU-ADMIN",
+      "role": "ADMIN",
+      "task": "역할별 메뉴와 화면",
+      "level": "실제 UI 실행 확인",
+      "status": "통과",
+      "detail": {
+        "menus": [
+          "통합상황판",
+          "운영현황",
+          "고장관리5",
+          "정비관리",
+          "통제·일일마감",
+          "근무/지시사항",
+          "AI 지원",
+          "보고서/통계",
+          "사용자 신청현황3",
+          "시스템관리"
+        ],
+        "menuData": [
+          {
+            "menu": "운영현황",
+            "buttons": [
+              "체계 등록",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ]
+          },
+          {
+            "menu": "고장관리",
+            "buttons": [
+              "신규 고장 접수",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ]
+          },
+          {
+            "menu": "정비관리",
+            "buttons": [
+              "작업 등록",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ]
+          },
+          {
+            "menu": "통제·일일마감",
+            "buttons": [
+              "평가 시나리오 준비",
+              "시연 초기화",
+              "상황경보 등록",
+              "확인",
+              "종료",
+              "",
+              "",
+              "",
+              ""
+            ]
+          },
+          {
+            "menu": "근무/지시사항",
+            "buttons": [
+              "근무 등록",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ]
+          },
+          {
+            "menu": "AI 지원",
+            "buttons": [
+              "분석 및 유사 고장 조회",
+              "일일 요약 생성",
+              "정비 우선순위 조회"
+            ]
+          },
+          {
+            "menu": "보고서/통계",
+            "buttons": [
+              "고장 CSV",
+              "정비 CSV",
+              "조회",
+              "일일 PDF"
+            ]
+          },
+          {
+            "menu": "사용자 신청현황",
+            "buttons": [
+              "승인",
+              "반려",
+              "승인",
+              "반려",
+              "승인",
+              "반려",
+              "",
+              "",
+              "",
+              ""
+            ]
+          },
+          {
+            "menu": "시스템관리",
+            "buttons": [
+              "AI 설정 저장",
+              "운영 설정 저장",
+              "데이터 폴더 열기",
+              "DB 백업",
+              "Demo 데이터 초기화"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "UI02",
+      "role": "ADMIN",
+      "task": "관리자의 신청 승인",
+      "level": "실제 UI 실행 확인",
+      "status": "통과",
+      "detail": "APPROVED"
+    },
+    {
+      "id": "UI03",
+      "role": "USER",
+      "task": "일반 사용자의 고장 접수와 수정",
+      "level": "실제 UI 실행 확인",
+      "status": "통과",
+      "detail": {
+        "ticket": "INC-20261028-0001",
+        "status": "RECEIVED",
+        "impact": "가상 교육실 단말 2대, 10분 동안 접속 불가"
+      }
+    },
+    {
+      "id": "UI04",
+      "role": "USER",
+      "task": "긴급 선조치 사후 접수",
+      "level": "실제 UI 실행 확인",
+      "status": "통과",
+      "detail": 1
+    },
+    {
+      "id": "UI05",
+      "role": "OPERATOR",
+      "task": "운용요원의 AI 검토·분류·담당 배정",
+      "level": "실제 UI 실행 확인",
+      "status": "통과",
+      "detail": "ASSIGNED"
+    },
+    {
+      "id": "UI06",
+      "role": "MAINTAINER",
+      "task": "정비요원의 고장 원격조치와 조치완료",
+      "level": "실제 UI 실행 확인",
+      "status": "통과",
+      "detail": "RESOLVED"
+    },
+    {
+      "id": "UI07",
+      "role": "OPERATOR",
+      "task": "운용요원의 검증",
+      "level": "실제 UI 실행 확인",
+      "status": "통과",
+      "detail": "VERIFIED"
+    },
+    {
+      "id": "UI08",
+      "role": "USER",
+      "task": "접수자의 사용자 확인과 종결",
+      "level": "실제 UI 실행 확인",
+      "status": "통과",
+      "detail": {
+        "buttonDisabledBeforeConfirmation": true,
+        "status": "CLOSED"
+      }
+    },
+    {
+      "id": "UI09",
+      "role": "MAINTAINER",
+      "task": "정비 작업 등록·진행·결과 완료·캘린더",
+      "level": "실제 UI 실행 확인",
+      "status": "통과",
+      "detail": "COMPLETED"
+    },
+    {
+      "id": "UI10",
+      "role": "MAINTAINER",
+      "task": "정비요원의 소속 정비반 작업판 입력",
+      "level": "실제 UI 실행 확인",
+      "status": "통과",
+      "detail": "무선정비반"
+    },
+    {
+      "id": "UI11",
+      "role": "OPERATOR",
+      "task": "인수인계 초안 생성·수정·저장",
+      "level": "실제 UI 실행 확인",
+      "status": "통과",
+      "detail": ""
+    },
+    {
+      "id": "UI12",
+      "role": "OPERATOR",
+      "task": "상황경보 등록·확인·종료",
+      "level": "실제 UI 실행 확인",
+      "status": "통과",
+      "detail": "ALT-20261028-001\n주의\n교육용 통신 품질 저하\nGPS 전파환경\n가상 교육실\n확인\n2026-10-28 07:55\n종료"
+    },
+    {
+      "id": "UI13",
+      "role": "OPERATOR",
+      "task": "근무 편성과 지시사항 등록",
+      "level": "실제 UI 실행 확인",
+      "status": "통과",
+      "detail": ""
+    },
+    {
+      "id": "UI14",
+      "role": "VIEWER",
+      "task": "조회전용의 조회·지시 확인·AI·보고서",
+      "level": "실제 UI 실행 확인",
+      "status": "실패",
+      "detail": "TimeoutError: locator.waitFor: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByText(/AI 추천 ·/) to be visible\u001b[22m\n"
+    },
+    {
+      "id": "UI15",
+      "role": "ADMIN",
+      "task": "관리자 백업·알림·감사·마감",
+      "level": "실제 UI 실행 확인",
+      "status": "통과",
+      "detail": ""
+    },
+    {
+      "id": "UI16",
+      "role": "ADMIN",
+      "task": "화면 검색 결과 없음",
+      "level": "실제 UI 실행 확인",
+      "status": "통과",
+      "detail": ""
+    }
+  ],
+  "dialogs": [
+    {
+      "role": "OPERATOR",
+      "type": "alert",
+      "message": "인수인계 초안을 저장했습니다."
+    },
+    {
+      "role": "OPERATOR",
+      "type": "alert",
+      "message": "인수인계를 확정했습니다."
+    },
+    {
+      "role": "VIEWER",
+      "type": "alert",
+      "message": "권한이 없습니다."
+    },
+    {
+      "role": "ADMIN",
+      "type": "alert",
+      "message": "백업: C:\\Users\\admin\\alex\\alex_study\\military_project\\output\\pdf\\role-manuals-20261028\\evidence\\ui-profiles\\1793141699182\\backups\\omnis-20261027225610.db"
+    },
+    {
+      "role": "ADMIN",
+      "type": "confirm",
+      "message": "미해결 항목 15건을 관리자 예외로 마감하시겠습니까?"
+    },
+    {
+      "role": "ADMIN",
+      "type": "alert",
+      "message": "일일 마감을 완료했습니다."
+    }
+  ],
+  "screens": [
+    {
+      "id": "login",
+      "caption": "접속 구분과 로그인",
+      "role": "LOGIN",
+      "file": "screenshots/login.png",
+      "boxes": [
+        {
+          "label": "1 접속 구분",
+          "x": 1170,
+          "y": 372.09375,
+          "width": 380,
+          "height": 48
+        },
+        {
+          "label": "2 아이디",
+          "x": 1212,
+          "y": 464.171875,
+          "width": 338,
+          "height": 53.84375
+        },
+        {
+          "label": "3 비밀번호",
+          "x": 1212,
+          "y": 554.171875,
+          "width": 287,
+          "height": 53.84375
+        },
+        {
+          "label": "4 로그인",
+          "x": 1170,
+          "y": 630.09375,
+          "width": 380,
+          "height": 52
+        }
+      ]
+    },
+    {
+      "id": "signup-error",
+      "caption": "빈 신청서에서 표시된 입력 오류",
+      "role": "LOGIN",
+      "file": "screenshots/signup-error.png",
+      "boxes": []
+    },
+    {
+      "id": "signup",
+      "caption": "사용자 등록 신청서",
+      "role": "LOGIN",
+      "file": "screenshots/signup.png",
+      "boxes": []
+    },
+    {
+      "id": "USER-dashboard",
+      "caption": "USER 통합상황판",
+      "role": "USER",
+      "file": "screenshots/USER-dashboard.png",
+      "boxes": [
+        {
+          "label": "1 주 메뉴",
+          "x": 30,
+          "y": 98,
+          "width": 216,
+          "height": 449
+        },
+        {
+          "label": "2 로그아웃",
+          "x": 211.4375,
+          "y": 935.71875,
+          "width": 28.5625,
+          "height": 28.5625
+        }
+      ]
+    },
+    {
+      "id": "USER-operations",
+      "caption": "USER 운영현황",
+      "role": "USER",
+      "file": "screenshots/USER-operations.png",
+      "boxes": []
+    },
+    {
+      "id": "USER-incidents",
+      "caption": "USER 고장관리",
+      "role": "USER",
+      "file": "screenshots/USER-incidents.png",
+      "boxes": []
+    },
+    {
+      "id": "USER-maintenance",
+      "caption": "USER 정비관리",
+      "role": "USER",
+      "file": "screenshots/USER-maintenance.png",
+      "boxes": []
+    },
+    {
+      "id": "USER-control",
+      "caption": "USER 통제·일일마감",
+      "role": "USER",
+      "file": "screenshots/USER-control.png",
+      "boxes": []
+    },
+    {
+      "id": "USER-duty",
+      "caption": "USER 근무/지시사항",
+      "role": "USER",
+      "file": "screenshots/USER-duty.png",
+      "boxes": []
+    },
+    {
+      "id": "USER-ai",
+      "caption": "USER AI 지원",
+      "role": "USER",
+      "file": "screenshots/USER-ai.png",
+      "boxes": []
+    },
+    {
+      "id": "USER-reports",
+      "caption": "USER 보고서/통계",
+      "role": "USER",
+      "file": "screenshots/USER-reports.png",
+      "boxes": []
+    },
+    {
+      "id": "OPERATOR-dashboard",
+      "caption": "OPERATOR 통합상황판",
+      "role": "OPERATOR",
+      "file": "screenshots/OPERATOR-dashboard.png",
+      "boxes": [
+        {
+          "label": "1 주 메뉴",
+          "x": 30,
+          "y": 98,
+          "width": 216,
+          "height": 449
+        },
+        {
+          "label": "2 로그아웃",
+          "x": 211.4375,
+          "y": 935.71875,
+          "width": 28.5625,
+          "height": 28.5625
+        }
+      ]
+    },
+    {
+      "id": "OPERATOR-operations",
+      "caption": "OPERATOR 운영현황",
+      "role": "OPERATOR",
+      "file": "screenshots/OPERATOR-operations.png",
+      "boxes": []
+    },
+    {
+      "id": "OPERATOR-incidents",
+      "caption": "OPERATOR 고장관리",
+      "role": "OPERATOR",
+      "file": "screenshots/OPERATOR-incidents.png",
+      "boxes": []
+    },
+    {
+      "id": "OPERATOR-maintenance",
+      "caption": "OPERATOR 정비관리",
+      "role": "OPERATOR",
+      "file": "screenshots/OPERATOR-maintenance.png",
+      "boxes": []
+    },
+    {
+      "id": "OPERATOR-control",
+      "caption": "OPERATOR 통제·일일마감",
+      "role": "OPERATOR",
+      "file": "screenshots/OPERATOR-control.png",
+      "boxes": []
+    },
+    {
+      "id": "OPERATOR-duty",
+      "caption": "OPERATOR 근무/지시사항",
+      "role": "OPERATOR",
+      "file": "screenshots/OPERATOR-duty.png",
+      "boxes": []
+    },
+    {
+      "id": "OPERATOR-ai",
+      "caption": "OPERATOR AI 지원",
+      "role": "OPERATOR",
+      "file": "screenshots/OPERATOR-ai.png",
+      "boxes": []
+    },
+    {
+      "id": "OPERATOR-reports",
+      "caption": "OPERATOR 보고서/통계",
+      "role": "OPERATOR",
+      "file": "screenshots/OPERATOR-reports.png",
+      "boxes": []
+    },
+    {
+      "id": "MAINTAINER-dashboard",
+      "caption": "MAINTAINER 통합상황판",
+      "role": "MAINTAINER",
+      "file": "screenshots/MAINTAINER-dashboard.png",
+      "boxes": [
+        {
+          "label": "1 주 메뉴",
+          "x": 30,
+          "y": 98,
+          "width": 216,
+          "height": 449
+        },
+        {
+          "label": "2 로그아웃",
+          "x": 211.4375,
+          "y": 935.71875,
+          "width": 28.5625,
+          "height": 28.5625
+        }
+      ]
+    },
+    {
+      "id": "MAINTAINER-operations",
+      "caption": "MAINTAINER 운영현황",
+      "role": "MAINTAINER",
+      "file": "screenshots/MAINTAINER-operations.png",
+      "boxes": []
+    },
+    {
+      "id": "MAINTAINER-incidents",
+      "caption": "MAINTAINER 고장관리",
+      "role": "MAINTAINER",
+      "file": "screenshots/MAINTAINER-incidents.png",
+      "boxes": []
+    },
+    {
+      "id": "MAINTAINER-maintenance",
+      "caption": "MAINTAINER 정비관리",
+      "role": "MAINTAINER",
+      "file": "screenshots/MAINTAINER-maintenance.png",
+      "boxes": []
+    },
+    {
+      "id": "MAINTAINER-control",
+      "caption": "MAINTAINER 통제·일일마감",
+      "role": "MAINTAINER",
+      "file": "screenshots/MAINTAINER-control.png",
+      "boxes": []
+    },
+    {
+      "id": "MAINTAINER-duty",
+      "caption": "MAINTAINER 근무/지시사항",
+      "role": "MAINTAINER",
+      "file": "screenshots/MAINTAINER-duty.png",
+      "boxes": []
+    },
+    {
+      "id": "MAINTAINER-ai",
+      "caption": "MAINTAINER AI 지원",
+      "role": "MAINTAINER",
+      "file": "screenshots/MAINTAINER-ai.png",
+      "boxes": []
+    },
+    {
+      "id": "MAINTAINER-reports",
+      "caption": "MAINTAINER 보고서/통계",
+      "role": "MAINTAINER",
+      "file": "screenshots/MAINTAINER-reports.png",
+      "boxes": []
+    },
+    {
+      "id": "VIEWER-dashboard",
+      "caption": "VIEWER 통합상황판",
+      "role": "VIEWER",
+      "file": "screenshots/VIEWER-dashboard.png",
+      "boxes": [
+        {
+          "label": "1 주 메뉴",
+          "x": 30,
+          "y": 98,
+          "width": 216,
+          "height": 449
+        },
+        {
+          "label": "2 로그아웃",
+          "x": 211.4375,
+          "y": 935.71875,
+          "width": 28.5625,
+          "height": 28.5625
+        }
+      ]
+    },
+    {
+      "id": "VIEWER-operations",
+      "caption": "VIEWER 운영현황",
+      "role": "VIEWER",
+      "file": "screenshots/VIEWER-operations.png",
+      "boxes": []
+    },
+    {
+      "id": "VIEWER-incidents",
+      "caption": "VIEWER 고장관리",
+      "role": "VIEWER",
+      "file": "screenshots/VIEWER-incidents.png",
+      "boxes": []
+    },
+    {
+      "id": "VIEWER-maintenance",
+      "caption": "VIEWER 정비관리",
+      "role": "VIEWER",
+      "file": "screenshots/VIEWER-maintenance.png",
+      "boxes": []
+    },
+    {
+      "id": "VIEWER-control",
+      "caption": "VIEWER 통제·일일마감",
+      "role": "VIEWER",
+      "file": "screenshots/VIEWER-control.png",
+      "boxes": []
+    },
+    {
+      "id": "VIEWER-duty",
+      "caption": "VIEWER 근무/지시사항",
+      "role": "VIEWER",
+      "file": "screenshots/VIEWER-duty.png",
+      "boxes": []
+    },
+    {
+      "id": "VIEWER-ai",
+      "caption": "VIEWER AI 지원",
+      "role": "VIEWER",
+      "file": "screenshots/VIEWER-ai.png",
+      "boxes": []
+    },
+    {
+      "id": "VIEWER-reports",
+      "caption": "VIEWER 보고서/통계",
+      "role": "VIEWER",
+      "file": "screenshots/VIEWER-reports.png",
+      "boxes": []
+    },
+    {
+      "id": "ADMIN-dashboard",
+      "caption": "ADMIN 통합상황판",
+      "role": "ADMIN",
+      "file": "screenshots/ADMIN-dashboard.png",
+      "boxes": [
+        {
+          "label": "1 주 메뉴",
+          "x": 30,
+          "y": 98,
+          "width": 216,
+          "height": 578
+        },
+        {
+          "label": "2 로그아웃",
+          "x": 211.4375,
+          "y": 935.71875,
+          "width": 28.5625,
+          "height": 28.5625
+        }
+      ]
+    },
+    {
+      "id": "ADMIN-operations",
+      "caption": "ADMIN 운영현황",
+      "role": "ADMIN",
+      "file": "screenshots/ADMIN-operations.png",
+      "boxes": []
+    },
+    {
+      "id": "ADMIN-incidents",
+      "caption": "ADMIN 고장관리",
+      "role": "ADMIN",
+      "file": "screenshots/ADMIN-incidents.png",
+      "boxes": []
+    },
+    {
+      "id": "ADMIN-maintenance",
+      "caption": "ADMIN 정비관리",
+      "role": "ADMIN",
+      "file": "screenshots/ADMIN-maintenance.png",
+      "boxes": []
+    },
+    {
+      "id": "ADMIN-control",
+      "caption": "ADMIN 통제·일일마감",
+      "role": "ADMIN",
+      "file": "screenshots/ADMIN-control.png",
+      "boxes": []
+    },
+    {
+      "id": "ADMIN-duty",
+      "caption": "ADMIN 근무/지시사항",
+      "role": "ADMIN",
+      "file": "screenshots/ADMIN-duty.png",
+      "boxes": []
+    },
+    {
+      "id": "ADMIN-ai",
+      "caption": "ADMIN AI 지원",
+      "role": "ADMIN",
+      "file": "screenshots/ADMIN-ai.png",
+      "boxes": []
+    },
+    {
+      "id": "ADMIN-reports",
+      "caption": "ADMIN 보고서/통계",
+      "role": "ADMIN",
+      "file": "screenshots/ADMIN-reports.png",
+      "boxes": []
+    },
+    {
+      "id": "ADMIN-signup",
+      "caption": "ADMIN 사용자 신청현황",
+      "role": "ADMIN",
+      "file": "screenshots/ADMIN-signup.png",
+      "boxes": []
+    },
+    {
+      "id": "ADMIN-settings",
+      "caption": "ADMIN 시스템관리",
+      "role": "ADMIN",
+      "file": "screenshots/ADMIN-settings.png",
+      "boxes": []
+    },
+    {
+      "id": "approve",
+      "caption": "권한을 확인한 뒤 사용자 승인",
+      "role": "ADMIN",
+      "file": "screenshots/approve.png",
+      "boxes": []
+    },
+    {
+      "id": "incident-create",
+      "caption": "일반 사용자의 신규 접수",
+      "role": "USER",
+      "file": "screenshots/incident-create.png",
+      "boxes": [
+        {
+          "label": "1 제목",
+          "x": 24,
+          "y": 69.71875,
+          "width": 560,
+          "height": 38.34375
+        },
+        {
+          "label": "2 장애 증상",
+          "x": 38,
+          "y": 241.28125,
+          "width": 824,
+          "height": 63
+        },
+        {
+          "label": "3 저장",
+          "x": 816,
+          "y": 531.40625,
+          "width": 64,
+          "height": 34.75
+        }
+      ]
+    },
+    {
+      "id": "emergency",
+      "caption": "긴급 선조치 후 사후 접수",
+      "role": "USER",
+      "file": "screenshots/emergency.png",
+      "boxes": []
+    },
+    {
+      "id": "ai-review",
+      "caption": "AI 추천은 검토 후 반영",
+      "role": "OPERATOR",
+      "file": "screenshots/ai-review.png",
+      "boxes": []
+    },
+    {
+      "id": "incident-분류",
+      "caption": "분류 처리 창",
+      "role": "OPERATOR",
+      "file": "screenshots/incident-분류.png",
+      "boxes": [
+        {
+          "label": "1 처리 메모",
+          "x": 38,
+          "y": 78.21875,
+          "width": 524,
+          "height": 42
+        },
+        {
+          "label": "2 처리",
+          "x": 516,
+          "y": 161.71875,
+          "width": 64,
+          "height": 34.75
+        }
+      ]
+    },
+    {
+      "id": "assignment",
+      "caption": "정비반과 담당자를 선택한 배정",
+      "role": "OPERATOR",
+      "file": "screenshots/assignment.png",
+      "boxes": []
+    },
+    {
+      "id": "incident-원격조치",
+      "caption": "원격조치 처리 창",
+      "role": "MAINTAINER",
+      "file": "screenshots/incident-원격조치.png",
+      "boxes": [
+        {
+          "label": "1 처리 메모",
+          "x": 38,
+          "y": 78.21875,
+          "width": 524,
+          "height": 42
+        },
+        {
+          "label": "2 처리",
+          "x": 516,
+          "y": 161.71875,
+          "width": 64,
+          "height": 34.75
+        }
+      ]
+    },
+    {
+      "id": "incident-조치완료",
+      "caption": "조치완료 처리 창",
+      "role": "MAINTAINER",
+      "file": "screenshots/incident-조치완료.png",
+      "boxes": [
+        {
+          "label": "1 처리 메모",
+          "x": 38,
+          "y": 78.21875,
+          "width": 524,
+          "height": 42
+        },
+        {
+          "label": "2 처리",
+          "x": 516,
+          "y": 387.078125,
+          "width": 64,
+          "height": 34.75
+        }
+      ]
+    },
+    {
+      "id": "incident-검증",
+      "caption": "검증 처리 창",
+      "role": "OPERATOR",
+      "file": "screenshots/incident-검증.png",
+      "boxes": [
+        {
+          "label": "1 처리 메모",
+          "x": 38,
+          "y": 78.21875,
+          "width": 524,
+          "height": 42
+        },
+        {
+          "label": "2 처리",
+          "x": 516,
+          "y": 161.71875,
+          "width": 64,
+          "height": 34.75
+        }
+      ]
+    },
+    {
+      "id": "incident-close",
+      "caption": "사용자 확인 후 종결",
+      "role": "USER",
+      "file": "screenshots/incident-close.png",
+      "boxes": [
+        {
+          "label": "1 확인",
+          "x": 24,
+          "y": 144.71875,
+          "width": 40.28125,
+          "height": 40.28125
+        },
+        {
+          "label": "2 처리",
+          "x": 516,
+          "y": 218,
+          "width": 64,
+          "height": 34.75
+        }
+      ]
+    },
+    {
+      "id": "maintenance-create",
+      "caption": "정비 작업 등록",
+      "role": "MAINTAINER",
+      "file": "screenshots/maintenance-create.png",
+      "boxes": []
+    },
+    {
+      "id": "maintenance-result",
+      "caption": "완료 결과를 입력한 정비 작업",
+      "role": "MAINTAINER",
+      "file": "screenshots/maintenance-result.png",
+      "boxes": []
+    },
+    {
+      "id": "calendar",
+      "caption": "정비 캘린더",
+      "role": "MAINTAINER",
+      "file": "screenshots/calendar.png",
+      "boxes": []
+    },
+    {
+      "id": "plan-edit",
+      "caption": "소속 정비반 작업현황 입력",
+      "role": "MAINTAINER",
+      "file": "screenshots/plan-edit.png",
+      "boxes": []
+    },
+    {
+      "id": "handover",
+      "caption": "초안을 검토하고 인수인계 확정",
+      "role": "OPERATOR",
+      "file": "screenshots/handover.png",
+      "boxes": []
+    },
+    {
+      "id": "alert-create",
+      "caption": "상황경보 등록",
+      "role": "OPERATOR",
+      "file": "screenshots/alert-create.png",
+      "boxes": []
+    },
+    {
+      "id": "duty-create",
+      "caption": "근무자와 직책 등록",
+      "role": "OPERATOR",
+      "file": "screenshots/duty-create.png",
+      "boxes": []
+    },
+    {
+      "id": "directive-create",
+      "caption": "지시사항 등록",
+      "role": "OPERATOR",
+      "file": "screenshots/directive-create.png",
+      "boxes": []
+    },
+    {
+      "id": "notifications",
+      "caption": "긴급 고장 알림 확인",
+      "role": "ADMIN",
+      "file": "screenshots/notifications.png",
+      "boxes": []
+    },
+    {
+      "id": "audit",
+      "caption": "데이터 변경 감사 로그",
+      "role": "ADMIN",
+      "file": "screenshots/audit.png",
+      "boxes": []
+    },
+    {
+      "id": "close-check",
+      "caption": "마감 전 정합성 점검",
+      "role": "ADMIN",
+      "file": "screenshots/close-check.png",
+      "boxes": []
+    },
+    {
+      "id": "day-closed",
+      "caption": "일일 마감 완료",
+      "role": "ADMIN",
+      "file": "screenshots/day-closed.png",
+      "boxes": []
+    },
+    {
+      "id": "empty-search",
+      "caption": "검색 결과가 없을 때",
+      "role": "ADMIN",
+      "file": "screenshots/empty-search.png",
+      "boxes": []
+    }
+  ]
+}

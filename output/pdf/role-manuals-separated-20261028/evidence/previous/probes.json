@@ -1,0 +1,64 @@
+[
+  {
+    "id": "P01",
+    "ownListCount": 0,
+    "directGetDenied": true,
+    "dashboardExposesForeign": true,
+    "similarExposesForeign": true,
+    "handoverCount": 12
+  },
+  {
+    "id": "P02",
+    "userCsvContainsForeign": true
+  },
+  {
+    "id": "P03",
+    "fixtureTicket": "INC-20261028-0001",
+    "utcTime": "2032-01-01T16:00:00.000Z",
+    "koreanDate": "2032-01-02",
+    "dailyCount": 1,
+    "pdfFile": "probe-timezone.pdf",
+    "pdfQueryCount": 0
+  },
+  {
+    "id": "P04",
+    "editAfterCloseAccepted": true,
+    "closed": true,
+    "snapshotPlanned": 2,
+    "currentPlanned": 7
+  },
+  {
+    "id": "P05",
+    "systemIdSent": "728d8cff-533e-4c75-bcbd-d010b6dfa729",
+    "systemIdPersisted": null,
+    "occurredAtPersisted": "2026-10-27T22:50:39.638Z",
+    "requestedOccurredAt": "2032-01-02T03:00:00Z"
+  },
+  {
+    "id": "P06",
+    "resetWithLinkedMaintenanceAccepted": false,
+    "error": "FOREIGN KEY constraint failed"
+  },
+  {
+    "id": "P07",
+    "shortInputRejected": true,
+    "shortInputCode": "INVALID_INPUT",
+    "missingEmergencyRejected": true,
+    "missingEmergencyCode": "INVALID_INPUT"
+  },
+  {
+    "id": "P08",
+    "addedCount": 1,
+    "sha256Length": 64,
+    "afterDeleteCount": 0,
+    "backupCreated": true
+  },
+  {
+    "id": "P09",
+    "integrity": [
+      {
+        "integrity_check": "ok"
+      }
+    ]
+  }
+]

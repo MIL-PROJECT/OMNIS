@@ -1,0 +1,111 @@
+{
+  "status": "pass",
+  "errors": [],
+  "sourceRefsVerified": 131,
+  "sourceFingerprintsVerified": 108,
+  "nodes": 41,
+  "edges": 44,
+  "tables": 33,
+  "PDFPages": 6,
+  "slides": [
+    {
+      "slide": 1,
+      "editableShapes": 77,
+      "editableConnectors": 21,
+      "editableTextBoxes": 50,
+      "embeddedRasterPictures": 0,
+      "notesCharacters": 368,
+      "notesEditable": true,
+      "PNG": [
+        3840,
+        2160
+      ],
+      "PDFMissingText": [],
+      "PPTXMissingText": [],
+      "SVGTextMatches": true
+    },
+    {
+      "slide": 2,
+      "editableShapes": 48,
+      "editableConnectors": 18,
+      "editableTextBoxes": 28,
+      "embeddedRasterPictures": 0,
+      "notesCharacters": 403,
+      "notesEditable": true,
+      "PNG": [
+        3840,
+        2160
+      ],
+      "PDFMissingText": [],
+      "PPTXMissingText": [],
+      "SVGTextMatches": true
+    },
+    {
+      "slide": 3,
+      "editableShapes": 65,
+      "editableConnectors": 10,
+      "editableTextBoxes": 44,
+      "embeddedRasterPictures": 0,
+      "notesCharacters": 401,
+      "notesEditable": true,
+      "PNG": [
+        3840,
+        2160
+      ],
+      "PDFMissingText": [],
+      "PPTXMissingText": [],
+      "SVGTextMatches": true
+    },
+    {
+      "slide": 4,
+      "editableShapes": 83,
+      "editableConnectors": 25,
+      "editableTextBoxes": 54,
+      "embeddedRasterPictures": 0,
+      "notesCharacters": 469,
+      "notesEditable": true,
+      "PNG": [
+        3840,
+        2160
+      ],
+      "PDFMissingText": [],
+      "PPTXMissingText": [],
+      "SVGTextMatches": true
+    },
+    {
+      "slide": 5,
+      "editableShapes": 65,
+      "editableConnectors": 5,
+      "editableTextBoxes": 55,
+      "embeddedRasterPictures": 0,
+      "notesCharacters": 404,
+      "notesEditable": true,
+      "PNG": [
+        3840,
+        2160
+      ],
+      "PDFMissingText": [],
+      "PPTXMissingText": [],
+      "SVGTextMatches": true
+    },
+    {
+      "slide": 6,
+      "editableShapes": 68,
+      "editableConnectors": 9,
+      "editableTextBoxes": 49,
+      "embeddedRasterPictures": 0,
+      "notesCharacters": 498,
+      "notesEditable": true,
+      "PNG": [
+        3840,
+        2160
+      ],
+      "PDFMissingText": [],
+      "PPTXMissingText": [],
+      "SVGTextMatches": true
+    }
+  ],
+  "gitCommit": "ba829af630e080d9a078ea0ad9badfb28f4d2114",
+  "trackedDiff": "",
+  "claimBoundary": "Artifact/source verification only; no app regression, AI live request, installation or CI execution"
+}

@@ -1,0 +1,19 @@
+﻿기능,UI,Main 실제 검사,대표 채널
+운영현황 변경,ADMIN/OPERATOR/USER,"동일 역할, 삭제는 ADMIN",operations:create/update/updateStatus/delete
+고장 목록/상세,로그인 공통,"USER는 본인 reported_by, 나머지는 목록 조회",incidents:list/get
+고장 신규/수정,ADMIN/OPERATOR/USER,동일 역할; USER 수정은 본인 RECEIVED만,incidents:create/update
+부서/담당 배정,ADMIN/OPERATOR,가용 부서·활성 담당·소속 검사,incidents:assignTeam
+고장 조치·검증,ADMIN/OPERATOR/MAINTAINER,MAINTAINER는 배정 또는 가용 팀멤버; 전이·원인/결과 검사,incidents:updateStatus
+고장 종결,USER 본인 VERIFIED일 때 UI 제공,USER는 본인 CLOSED 요청만; 공통 전이 및 사용자 확인 검사,incidents:updateStatus
+정비 목록,로그인 공통 route/목록,로그인 목록 조회; 상세와 별개,maintenance:list
+정비 상세/수정,버튼과 상세 요청의 제한이 다를 수 있음,"USER 상세 불가, MAINTAINER는 본인 배정; 쓰기 ADMIN/MAINTAINER",maintenance:get/update/updateStatus
+반복 규칙·체크리스트 쓰기,ADMIN/MAINTAINER,담당·버전·마감·완료 상태 별도 검사,recurring:*/checklist:*
+상황경보/정합성 예외,ADMIN/OPERATOR,동일 역할; 마감은 ADMIN,control:createAlert/resolveIssue/closeDay
+일일 계획,ADMIN/MAINTAINER,MAINTAINER는 가용 팀멤버인 부서 계획만,control:upsertDailyPlan
+근무 편성,ADMIN/OPERATOR/USER,동일 역할; 각 담당 활성 사용자 확인,duty:create/update/delete
+지시 관리/확인,"관리 ADMIN/OPERATOR, 확인은 화면 기능",관리 ADMIN/OPERATOR; 확인은 로그인과 applicable 대상,directives:create/update/acknowledge
+AI 분류,AI route 공통; 고장 상세는 VIEWER 버튼 숨김,ADMIN/OPERATOR/MAINTAINER/USER; USER incidentId 본인 검사,ai:triageIncident
+AI 요약·추천·이력,AI route 공통,ADMIN/OPERATOR/MAINTAINER/VIEWER; USER 거부,ai:dailySummary/maintenanceRecommendations/listRuns
+AI 업무 반영,ADMIN/OPERATOR,동일 역할 별도 transaction,incidents:applyAi
+가입 승인/설정/백업,ADMIN route guard,ADMIN 재검사,admin:approveSignup/system:*
+매뉴얼 다운로드,로그인 사용자 공통,로그인 후 5개 역할 매뉴얼 선택,manuals:list/open/save

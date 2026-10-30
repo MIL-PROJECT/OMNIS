@@ -1,0 +1,1010 @@
+[
+  {
+    "id": "F01",
+    "name": "로그인·로그아웃·메모리 세션",
+    "module": "인증",
+    "channels": [
+      "auth:login",
+      "auth:logout",
+      "auth:me"
+    ],
+    "role": "로그인 전 사용 가능. 활성 계정만 로그인하며 UI에서 관리자/사용자 모드를 구분한다.",
+    "inputs": "username/password: 비어 있지 않은 문자열. 공개 시연 계정 demo_admin, demo_user의 비밀번호는 Demo!2026이다. 실제 비밀정보가 아니라 저장소에 공개된 데모 자격증명이다.",
+    "logic": "users.active=1 조회 → salt 기반 scrypt 64바이트 계산 → timingSafeEqual 비교 → PublicUser만 메모리 세션 저장. 미승인·반려 계정은 비밀번호 일치 시에만 해당 사유를 알려준다. 로그아웃과 전체 초기화 시 세션을 제거한다.",
+    "data": "users 및 signup_requests 읽기; SessionManager의 프로세스 전역 current 변경. 사용자 비밀번호를 Renderer에 반환하지 않는다.",
+    "steps": "1) 로그인 화면에서 관리자 또는 사용자를 선택한다. 2) 아이디와 비밀번호를 입력하고 관리자 로그인/사용자 로그인을 누른다. 3) 통합상황판과 좌측 역할명을 확인한다. 4) 좌측 하단 로그아웃으로 종료한다.",
+    "errors": "잘못된 자격증명은 공통 오류. 승인 대기·반려 사유 표시. 모드와 ADMIN 여부가 다르면 즉시 로그아웃한다.",
+    "limits": "자동 만료, 잠금·시도 제한, 비밀번호 변경/분실 복구, 로그인 성공·실패 감사 이벤트는 구현되어 있지 않다. UI의 접속기록 감사 문구와 실제 로그인 로깅 범위가 다르다.",
+    "refs": [
+      "src/main/services/AppService.ts:35",
+      "src/main/auth/SessionManager.ts:1",
+      "src/renderer/src/App.tsx:143"
+    ],
+    "test": "T06/T07/T08: UI 로그인, 로그아웃, 재시작 후 다시 로그인. 비밀번호 변경은 요구·구현 범위 밖.",
+    "status": "구현 완료",
+    "verification": "실행 검증 통과"
+  },
+  {
+    "id": "F02",
+    "name": "사용자 등록 신청·승인·반려",
+    "module": "인증",
+    "channels": [
+      "auth:register",
+      "admin:signupRequests",
+      "admin:approveSignup",
+      "admin:rejectSignup"
+    ],
+    "role": "신청은 비로그인 상태. 신청 조회와 심사는 ADMIN만 가능.",
+    "inputs": "군번 NN-숫자5~8자리, 계급 enum, 이름 2~20자, 소속 2~50자, 소문자로 시작하는 아이디 4~20자. 비밀번호 8~64자에 영문·숫자·특수문자 필요. 연락처 선택, 사유 최대 300자. 반려 사유 2~300자.",
+    "logic": "신청 시 users 및 PENDING 신청의 군번/아이디 중복 검사. 신청 테이블에 해시 저장, 알림·감사 기록. 승인 시 선택한 5종 역할로 계정을 만들고 신청의 해시/소금을 비운다. 이미 처리된 신청은 재처리 거부.",
+    "data": "signup_requests: PENDING → APPROVED/REJECTED. 승인 시 users 삽입. notifications, audit_logs 기록.",
+    "steps": "1) 사용자 등록 신청을 누른다. 2) 필수 항목과 비밀번호 확인을 입력해 등록 신청한다. 3) 관리자로 로그인해 사용자 신청현황을 연다. 4) 승인에서 권한을 선택하거나 반려 사유를 입력한다. 5) 신청자는 사용자 모드로 다시 로그인한다.",
+    "errors": "동일 아이디·군번의 대기 신청, 계정 중복, 짧은 반려 사유, 승인 전 로그인 차단. 서버 검증은 비밀번호 확인 필드를 받지 않으며 일치 확인은 UI 책임이다.",
+    "limits": "기존 사용자 계정의 활성/비활성 변경과 권한 편집 화면은 별도 제공되지 않는다. 반려 신청은 재신청 가능하다.",
+    "refs": [
+      "src/shared/contracts.ts:15",
+      "src/main/services/AppService.ts:52",
+      "src/renderer/src/SignupDialog.tsx:24",
+      "src/renderer/src/SignupRequests.tsx:22"
+    ],
+    "test": "T08: 신청 2건, 중복 차단, 대기 차단, OPERATOR 승인, 반려 이유, 신규 로그인 통과.",
+    "status": "구현 완료",
+    "verification": "실행 검증 통과"
+  },
+  {
+    "id": "F03",
+    "name": "역할·소유권 기반 접근 제어",
+    "module": "인증",
+    "channels": [],
+    "role": "ADMIN/OPERATOR/MAINTAINER/VIEWER/USER. 실제 권한표는 본 보고서의 역할별 행렬 참조.",
+    "inputs": "모든 IPC 호출의 세션 사용자와 요청 대상 ID. 시스템 정보·감사·백업·설정·초기화·체계 삭제·승인은 ADMIN 전용.",
+    "logic": "IPC 입력 검증 후 서비스에서 permit/소유권 검사를 수행한다. USER 고장 목록·상세는 본인 접수로 제한하고 MAINTAINER 상태변경은 본인 또는 팀 배정 기준으로 제한한다.",
+    "data": "users.role, incidents.reported_by/assigned_to/team_id, team_members.available, maintenance_tasks.assignee_id 활용.",
+    "steps": "1) 역할별 시연 계정으로 로그인한다. 2) 허용 메뉴와 버튼을 확인한다. 3) 본인 접수와 타인 접수의 조회 범위가 동일 정책을 따르는지 확인한다. 관리자 메뉴 숨김만으로 권한 검증 완료로 판단하지 않는다.",
+    "errors": "허용하지 않는 쓰기는 권한 오류. USER 직접 incidents:get은 타인 접수를 차단한다.",
+    "limits": "P01/P02에서 일반 사용자의 대시보드·유사 사례·CSV는 타인 접수 내용을 반환했다. VIEWER도 ai:markApplied 등 일부 쓰기 채널이 로그인 검사만 거치는 정적 위험이 있다. 전체 조회·쓰기 경로의 일관된 정책 적용이 필요하다.",
+    "refs": [
+      "src/main/services/AppService.ts:25",
+      "src/main/services/AppService.ts:95",
+      "src/main/services/AppService.ts:104",
+      "src/main/services/AppService.ts:135",
+      "src/main/services/AppService.ts:138"
+    ],
+    "test": "T07 기존 금지 작업은 통과. P01/P02는 조회 우회 재현. 소유권 모델 전체 통과를 의미하지 않는다.",
+    "status": "부분 구현",
+    "verification": "실행 검증 일부 통과"
+  },
+  {
+    "id": "F04",
+    "name": "통합상황판·지표 상세·화면 이동",
+    "module": "상황판",
+    "channels": [
+      "dashboard:getSummary"
+    ],
+    "role": "로그인 사용자 전체. 현재 데이터 조회는 역할별 필터 없이 공통이다.",
+    "inputs": "별도 입력 없음. 새로고침 버튼, 지표 카드·목록 행 클릭. 업무일자는 Asia/Seoul 기준.",
+    "logic": "전체/정상 체계, 긴급 미종결 고장, 진행 정비, 금일 접수·조치, 경보·SLA·작업판·근무 수 집계. 체계·고장·정비·지시 목록과 상세 팝업 제공. 정상 비율은 정상 체계 수/전체 수이며 수동 uptime_pct와 다른 지표다.",
+    "data": "DashboardRepository가 Drizzle count 및 수동 SQL로 여러 테이블을 읽는다. 최근 고장은 최대 30건, 초기 체계 목록 8건 등 반환 범위가 정해져 있다.",
+    "steps": "1) 로그인하면 통합상황판이 열린다. 2) 상단 지표를 눌러 구성 목록을 연다. 3) 행 클릭으로 상세를 읽고 전체 보기로 업무 메뉴로 이동한다. 4) 데이터 변경 후 새로고침한다.",
+    "errors": "데이터가 없으면 0 또는 빈 목록. UI 로딩 실패의 별도 복구 표현은 제한적이다.",
+    "limits": "실시간 장비 텔레메트리가 아니라 SQLite의 입력 데이터다. 자동 주기 갱신은 시계에만 적용되고 데이터는 진입/수동 새로고침 기준이다. USER에게 타인 접수 상세가 노출되는 D01이 있다.",
+    "refs": [
+      "src/main/repositories/DashboardRepository.ts:11",
+      "src/renderer/src/App.tsx:298",
+      "src/renderer/src/DashboardDetail.tsx:12"
+    ],
+    "test": "T06/T10 화면과 지표 상세 구조 확인. P01에서 타인 사건 반환 확인.",
+    "status": "부분 구현",
+    "verification": "실행 검증 일부 통과"
+  },
+  {
+    "id": "F05",
+    "name": "통신 체계 등록·검색·수정·삭제",
+    "module": "운영현황",
+    "channels": [
+      "operations:list",
+      "operations:create",
+      "operations:update",
+      "operations:delete"
+    ],
+    "role": "조회는 모든 로그인 사용자. 생성/수정은 ADMIN·OPERATOR·USER. 삭제는 ADMIN.",
+    "inputs": "code 2~30자, name 2자 이상, category 1자 이상, uptimePct 0~100, remarks 최대 1000자. 등록 시 5종 상태 선택. 코드 변경은 수정 UI에서 금지.",
+    "logic": "코드 UNIQUE로 중복 방지, 표시 순서 자동 추가. 생성/수정 시 상태 이력과 감사 기록. 삭제는 고장·정비 참조가 있으면 거부하고 이력부터 제거한다.",
+    "data": "communication_systems, communication_status_history, audit_logs. 외부 모니터링 장비와 연결하지 않는다.",
+    "steps": "1) 운영현황 → 체계 등록. 2) 코드 AUDIT-SYS-01, 체계명 가상 시험 체계, 분류·운용률 입력 후 저장. 3) 검색으로 찾고 수정한다. 4) 삭제는 상세 창에서 관리자만 수행한다.",
+    "errors": "없는 ID, 중복 코드, 100 초과 운용률, 연결 업무가 있는 삭제는 오류. 상황경보 참조는 별도 친절한 사전 오류 대신 FK 오류가 발생할 수 있다.",
+    "limits": "USER의 체계·근무 수정 권한은 현재 코드의 명시적 정책이나 운영개념 문서보다 넓다. 실제 운용 정책 확정 필요. 상태 이력 차트의 값은 사람이 입력한 수치다.",
+    "refs": [
+      "src/shared/contracts.ts:41",
+      "src/main/services/AppService.ts:96",
+      "src/renderer/src/OperationsManagement.tsx:18"
+    ],
+    "test": "T06 체계 등록·검색, T07 금지 상태변경/삭제 검사. 수정·참조 삭제의 모든 조합은 정적 확인만.",
+    "status": "구현 완료",
+    "verification": "실행 검증 일부 통과"
+  },
+  {
+    "id": "F06",
+    "name": "체계 상태 변경·운용률 이력",
+    "module": "운영현황",
+    "channels": [
+      "operations:updateStatus",
+      "operations:getHistory"
+    ],
+    "role": "조회 전체, 변경 ADMIN·OPERATOR·USER.",
+    "inputs": "id, status=NORMAL/WATCH/INSPECTION/FAULT/OFFLINE, remarks 선택. 이력 최대 최근 30건.",
+    "logic": "상태 변경과 이력·감사를 하나의 DB transaction으로 처리한다. 상태만 변경할 때 운용률을 자동 계산하지 않고 기존 값을 이력에 복사한다.",
+    "data": "communication_systems.status/updated_at, communication_status_history.recorded_at.",
+    "steps": "1) 운영현황에서 상세를 연다. 2) 상태 변경 목록에서 주의/장애 등을 선택하고 상태 저장한다. 3) 다시 상세를 열어 차트와 최근 변경 이력을 확인한다.",
+    "errors": "조회 전용 사용자·정비요원의 변경 거부. 대상 체계가 없으면 오류.",
+    "limits": "관측 기간별 가용성 계산, 자동 장애 감지, 외부 상태 수집은 없다. 업무 장애 접수와 체계 상태도 자동 동기화하지 않는다.",
+    "refs": [
+      "src/main/services/AppService.ts:100",
+      "src/renderer/src/OperationsManagement.tsx:24"
+    ],
+    "test": "T07 VIEWER 상태 변경 거부. 차트·이력 갱신 경로는 정적 확인.",
+    "status": "구현 완료",
+    "verification": "실행 검증 일부 통과"
+  },
+  {
+    "id": "F07",
+    "name": "고장 목록·검색·필터·상세·이력",
+    "module": "고장관리",
+    "channels": [
+      "incidents:list",
+      "incidents:get",
+      "incidents:getEvents"
+    ],
+    "role": "USER는 본인 접수. 그 외 역할은 전체 조회. 첨부 접근은 별도 제한.",
+    "inputs": "검색어(제목/번호), 상태, 긴급도, 접수 시작·종료일(ISO date), 담당자 ID. UI 상태 필터는 서버 반환 결과를 다시 필터링한다.",
+    "logic": "접수일 내림차순 검색, +9시간 보정 날짜 필터, 체계명 조인. 상세는 정비반·담당자명 포함. 이벤트는 작성 순으로 표시한다.",
+    "data": "incidents, communication_systems, maintenance_teams, users, incident_events.",
+    "steps": "1) 고장관리로 이동한다. 2) 검색·중요도·기간·담당자를 설정한다. 3) 접수/분류 등 상태 칩을 선택한다. 4) 상세에서 증상, SLA, 조치결과, 처리 이력을 확인한다.",
+    "errors": "USER 타인 상세/이력 조회는 거부. 존재하지 않는 상세 ID는 일부 경로에서 undefined가 반환될 수 있다.",
+    "limits": "목록 전체를 읽어 UI에서 페이지를 나눈다. DB 서버측 pagination은 없다. 시작일>종료일의 별도 사용자 안내는 없다.",
+    "refs": [
+      "src/shared/contracts.ts:47",
+      "src/main/services/AppService.ts:104",
+      "src/renderer/src/IncidentsManagement.tsx:26"
+    ],
+    "test": "T06 접수 검색·상세, T09 상태 확인, P01 본인 목록/직접 상세 제한 검증.",
+    "status": "구현 완료",
+    "verification": "실행 검증 통과"
+  },
+  {
+    "id": "F08",
+    "name": "일반 고장 접수·긴급 선조치 기록",
+    "module": "고장관리",
+    "channels": [
+      "incidents:create"
+    ],
+    "role": "ADMIN·OPERATOR·USER.",
+    "inputs": "제목/증상 각각 3자 이상, 분류, 중요도 NORMAL/URGENT. 접수수단 BOARD 기본값; PHONE/COMMAND/OPERATION_URGENT 가능. 체계, 부서, 신고자≤50, 장비≤100, 영향≤1000, 발생·희망시각 선택. 긴급 선조치는 사유와 실제 시작시각 필수.",
+    "logic": "접수번호 INC-한국날짜-일련번호, 초기 상태 RECEIVED, 접수시각 기준 SLA 기한(긴급 기본 60분/일반 480분) 계산. 긴급 접수는 알림 생성. 선조치 여부와 사유를 별도 이벤트에 기록한다.",
+    "data": "incidents, incident_events, audit_logs, notifications. 실제 장비 조작이나 자동 출동은 수행하지 않는다.",
+    "steps": "1) 신규 고장 접수. 2) 제목 가상 회선 장애, 장애 증상, 중요도, 대상 체계 입력. 3) 이미 조치했다면 긴급 선조치 후 사후 접수 체크 후 사유·시작시각 입력. 4) 저장 후 번호와 상태를 확인한다.",
+    "errors": "필수 문자열·시간 형식·선조치 조건을 Main Zod에서 검증. 짧은 입력 및 선조치 정보 누락은 INVALID_INPUT.",
+    "limits": "전화/게시판 입력은 사용자가 접수수단을 기록하는 기능이다. 실제 전화·게시판 서버 연동이 아니다. 번호는 count 기반이므로 삭제·재사용 시 충돌 회귀 검사가 필요하다.",
+    "refs": [
+      "src/shared/contracts.ts:49",
+      "src/main/services/AppService.ts:108",
+      "src/renderer/src/IncidentsManagement.tsx:64"
+    ],
+    "test": "T06 신규 접수와 재시작 지속성, T09 긴급 선조치, P07 잘못된 입력 차단.",
+    "status": "구현 완료",
+    "verification": "실행 검증 통과"
+  },
+  {
+    "id": "F09",
+    "name": "고장 접수 내용 수정",
+    "module": "고장관리",
+    "channels": [
+      "incidents:update"
+    ],
+    "role": "ADMIN·OPERATOR. USER는 본인이 접수한 RECEIVED 상태만 수정.",
+    "inputs": "제목, 분류, 중요도, 증상, 부서, 접수수단, 신고자, 장비, 서비스 영향, 조치 희망시각. 수정 계약에는 systemId와 occurredAt이 없다.",
+    "logic": "존재·소유권·상태 확인 후 내용 수정 및 UPDATED 이벤트·감사 기록. 중요도 수정으로 이미 계산된 sla_due_at을 재산정하지 않는다.",
+    "data": "incidents와 incident_events/audit_logs. 원래 발생시각과 대상 체계는 현재 update 계약에서 보존된다.",
+    "steps": "1) 목록의 수정 버튼을 누른다. 2) 증상 등 지원 항목을 바꾸고 저장한다. 3) 상세를 다시 열어 반영 여부를 확인한다. 현재 화면에 보이는 대상 체계/발생시각 수정은 저장되지 않으므로 사용 시 주의한다.",
+    "errors": "USER가 접수 이후 단계 또는 타인 건을 변경하면 거부. 입력 형식 검증은 정상 동작.",
+    "limits": "D04: UI에 대상 체계·발생 시각 필드가 있으나 editForm이 값을 온전히 채우지 않고 계약·SQL이 해당 변경을 누락한다. 희망시각 공란 해제도 undefined/COALESCE 정책과 구분해 검토 필요.",
+    "refs": [
+      "src/shared/contracts.ts:50",
+      "src/main/services/AppService.ts:110",
+      "src/renderer/src/IncidentsManagement.tsx:38",
+      "src/renderer/src/IncidentsManagement.tsx:44"
+    ],
+    "test": "T06 증상 수정 성공. P05 systemId/occurredAt 변경 무시 재현.",
+    "status": "부분 구현",
+    "verification": "실행 검증 일부 통과"
+  },
+  {
+    "id": "F10",
+    "name": "정비반 조회·담당자 및 정비반 배정",
+    "module": "고장관리",
+    "channels": [
+      "control:teams",
+      "incidents:assign",
+      "incidents:assignTeam"
+    ],
+    "role": "정비반 조회는 로그인 전체. 배정은 ADMIN·OPERATOR.",
+    "inputs": "접수 id, teamId, 선택 userId와 배정 메모≤500자. 레거시 개별 배정 채널은 userId와 선택 부서.",
+    "logic": "정비반은 가용성·전문분야·소속원·활성 고장수를 조회한다. 가용 팀/활성 사용자 검증 후 배정. TRIAGED 상태에서 정비반 배정하면 ASSIGNED로 전환, 다른 상태에서는 상태 보존.",
+    "data": "maintenance_teams/team_members 읽기, incidents.team_id/assigned_to/department/assigned_at 변경, 이벤트·감사.",
+    "steps": "1) 통제·일일마감 → 정비반에서 작업량 확인. 2) 고장 상세 → 분류 처리. 3) 정비반과 담당자를 선택해 정비반 배정을 누른다. 4) 배정 상태와 처리 이력을 확인한다.",
+    "errors": "비가용 팀·없는 담당자·권한 없는 배정 거부. 선택 담당자가 해당 팀 소속인지까지는 검증하지 않는다.",
+    "limits": "정비반 master와 구성원은 seed/DB에 존재하지만 이를 편집하는 UI/API는 없다. 개별 담당자 미지정으로 ASSIGNED 상태를 만드는 경로가 있어 담당자 필수 업무정책과 구분해야 한다.",
+    "refs": [
+      "src/main/services/OperationalControlService.ts:54",
+      "src/main/services/AppService.ts:112",
+      "src/renderer/src/IncidentsManagement.tsx:39"
+    ],
+    "test": "T09 팀 배정과 후속 조치 통과. 정비반 탭 실제 확인.",
+    "status": "구현 완료",
+    "verification": "실행 검증 통과"
+  },
+  {
+    "id": "F11",
+    "name": "고장 분류·원격/현장 조치·검증·종결",
+    "module": "고장관리",
+    "channels": [
+      "incidents:updateStatus"
+    ],
+    "role": "ADMIN·OPERATOR·배정 MAINTAINER. USER는 본인 VERIFIED 건의 CLOSED 전환만.",
+    "inputs": "상태 enum, 메모≤1000. RESOLVED에는 원인·조치결과 필수. 원격/현장, 재발 위험 LOW/MEDIUM/HIGH, 후속 점검일 선택. CLOSED는 사용자 확인 필요.",
+    "logic": "Main 상태전이표 검사 후 상태·착수/해결/검증/종결시각 갱신. 원격에서 현장 전환 가능, 해결 후 재조치 및 검증 후 해결로 되돌리기 가능. CLOSED/CANCELED는 종료 상태.",
+    "data": "incidents의 상태와 조치 필드; incident_events before/after·metadata; audit_logs. transaction으로 저장.",
+    "steps": "1) 접수 상세 → 분류. 2) 정비반 배정. 3) 원격조치 또는 현장출동 → 처리. 4) 조치완료에서 원인·결과 입력. 5) 검증 처리. 6) 요청부서 사용자 확인 완료 체크 후 종결 처리.",
+    "errors": "접수에서 바로 종결 등 불법 전이 차단. 미배정 정비요원 거부. 원인·결과/사용자 확인 누락 거부.",
+    "limits": "사용자 확인은 ADMIN·OPERATOR도 체크할 수 있으며 실제 요청자 전자서명은 아니다. 화면 전이표가 Main 전이표의 일부 전이를 노출하지 않는다. MAINTAINER에게 표시된 타인 건 버튼은 Main에서 거부될 수 있다.",
+    "refs": [
+      "src/main/services/Workflow.ts:1",
+      "src/main/services/AppService.ts:111",
+      "src/renderer/src/IncidentsManagement.tsx:42"
+    ],
+    "test": "T03 전이 불변조건, T09 접수부터 CLOSED 및 원격→현장 전체 경로.",
+    "status": "구현 완료",
+    "verification": "실행 검증 통과"
+  },
+  {
+    "id": "F12",
+    "name": "계획·비계획 정비 등록·수정·고장 연결",
+    "module": "정비관리",
+    "channels": [
+      "maintenance:list",
+      "maintenance:create",
+      "maintenance:update",
+      "maintenance:getEvents"
+    ],
+    "role": "조회 전체. 등록 ADMIN·MAINTAINER, 수정은 ADMIN 또는 본인 배정 MAINTAINER.",
+    "inputs": "작업명≥3, 작업유형≥1, 구분 PLANNED/UNPLANNED, 우선순위 NORMAL/HIGH, 부서 필수, ISO 예정일, 선택 incidentId/systemId, 설명≤2000.",
+    "logic": "MNT 번호와 PLANNED 상태 생성. 담당자는 생성 사용자. 연결 사건 존재 확인. 수정은 제목·유형·구분·일정·사건 연결·설명 변경. 검색은 제목/번호.",
+    "data": "maintenance_tasks, maintenance_events, audit_logs. incident_id 외래키로 고장과 연결.",
+    "steps": "1) 정비관리 → 작업 등록. 2) 작업명·유형·계획 구분·우선순위·부서·예정일 입력. 3) 필요하면 연계 고장 접수 선택. 4) 저장 후 검색해 상세와 수정 기능을 사용한다.",
+    "errors": "없는 연결 사건, 본인 외 작업 변경, 필수 입력 누락 거부. 예정일은 과거 날짜도 허용한다.",
+    "limits": "삭제 대신 취소 상태를 사용한다. 관리자 등록 작업은 관리자 본인에게 배정되며 별도 정비 담당자 재배정 API/UI가 없다. systemId는 생성 계약에만 있고 UI에는 직접 선택이 없다.",
+    "refs": [
+      "src/shared/contracts.ts:57",
+      "src/main/services/AppService.ts:115",
+      "src/renderer/src/MaintenanceManagement.tsx:24"
+    ],
+    "test": "T06 생성·검색, T09 고장 연결 비계획 정비. 수정 경계 전체는 정적 분석.",
+    "status": "구현 완료",
+    "verification": "실행 검증 일부 통과"
+  },
+  {
+    "id": "F13",
+    "name": "정비 진행·보류·완료·결과 기록",
+    "module": "정비관리",
+    "channels": [
+      "maintenance:updateStatus"
+    ],
+    "role": "ADMIN 또는 작업 assignee_id와 일치하는 MAINTAINER.",
+    "inputs": "progress 정수0~100, 상태 PLANNED/IN_PROGRESS/BLOCKED/COMPLETED/CANCELED. 완료 시 결과·원인·상세조치·방식 필수. 부품, 위험도, 후속 점검일 선택.",
+    "logic": "PLANNED→IN_PROGRESS, 진행↔보류, 진행→완료, 허용 상태에서 취소. 완료율은 100 고정. 연결 고장에는 정비 완료 이벤트만 추가하며 고장 상태를 자동 해결하지 않는다.",
+    "data": "maintenance_tasks 결과·완료시각, maintenance_events, 연결 incident_events, audit_logs.",
+    "steps": "1) 작업 상세에서 진행. 2) 필요하면 보류 후 다시 진행. 3) 원인 분석·상세 조치내용·작업 결과·조치 방식 입력. 4) 완료 클릭. 5) 연결 고장은 별도 조치완료/검증 절차를 수행한다.",
+    "errors": "완료 필수 항목 누락 및 완료 후 진행 복귀 거부. 권한 밖 작업 변경 거부.",
+    "limits": "UI의 진행 버튼은 진행률을 최소50으로 올린다. 연속적인 진행률 입력 슬라이더나 부품 재고 차감은 없다. started_at은 현재 상태 변경 SQL에서 새로 기록하지 않는다.",
+    "refs": [
+      "src/shared/contracts.ts:59",
+      "src/main/services/Workflow.ts:17",
+      "src/main/services/AppService.ts:119",
+      "src/renderer/src/MaintenanceManagement.tsx:115"
+    ],
+    "test": "T06 완료 입력 UI·일정 표시, T09 연결 정비 완료, T03 완료 후 불법 전이 거부.",
+    "status": "구현 완료",
+    "verification": "실행 검증 통과"
+  },
+  {
+    "id": "F14",
+    "name": "정비 캘린더",
+    "module": "정비관리",
+    "channels": [],
+    "role": "로그인 사용자 전체 조회.",
+    "inputs": "목록/캘린더 탭, 월 이동 및 작업 이벤트 선택.",
+    "logic": "FullCalendar dayGridMonth로 maintenance_tasks의 scheduled_date와 제목을 표시하고 이벤트 클릭 시 상세를 연다.",
+    "data": "maintenance:list 결과를 재사용하며 캘린더만의 저장 테이블은 없다.",
+    "steps": "1) 정비관리에서 캘린더 탭. 2) 작업 예정월로 이동. 3) 작업명을 눌러 상세를 확인한다. 4) 날짜 변경은 목록의 수정 폼에서 수행한다.",
+    "errors": "일정 없는 입력은 Zod에서 차단. 이벤트가 많은 날짜의 표시·좁은 창 추가 검증은 필요.",
+    "limits": "drag/drop 일정 이동과 리소스별 스케줄 최적화는 미구현이다. 실제 일정 배차·충돌 해결 엔진이 아니다.",
+    "refs": [
+      "src/renderer/src/MaintenanceManagement.tsx:52"
+    ],
+    "test": "T06 새로 등록한 정비가 캘린더에 표시되는지 검증. 상세 이벤트 클릭 경로는 정적 확인.",
+    "status": "구현 완료",
+    "verification": "실행 검증 일부 통과"
+  },
+  {
+    "id": "F15",
+    "name": "고장·정비 첨부자료 추가·조회·열기·삭제",
+    "module": "첨부자료",
+    "channels": [
+      "attachments:list",
+      "attachments:add",
+      "attachments:open",
+      "attachments:delete"
+    ],
+    "role": "고장 USER는 본인 건; MAINTAINER는 배정/소속팀 건; VIEWER는 읽기만. 정비 USER 추가 금지. 완료·종결 건 수정은 ADMIN만. 삭제는 ADMIN 또는 업로더.",
+    "inputs": "entityType INCIDENT/MAINTENANCE, entityId, 분류 PHOTO/LOG/REPORT/CHECKLIST/OTHER, 메모≤300. 한번에 최대5개, 개별25MiB, 빈 파일 금지. 이미지/PDF/문서/표/텍스트/로그/ZIP 확장자 허용.",
+    "logic": "Main 파일선택창 → 권한/확장자/크기 검증 → SHA-256 계산 → 전용 저장소 복사 → 메타데이터·이벤트·감사 transaction. 실패 시 신규 복사본 정리. 열기는 OS 연결 앱 사용.",
+    "data": "userData/attachments/<entity>/<id>/<UUID>.<ext>; attachments 메타데이터. 경로 탈출 검사. 삭제는 DB 처리 후 실제 파일 제거.",
+    "steps": "1) 고장 또는 정비 상세 → 첨부자료. 2) 자료 구분·설명 선택 후 파일 선택. 3) 파일명·등록자·크기를 확인. 4) 열기 아이콘으로 기본 앱 실행. 5) 허용된 삭제 아이콘과 확인창으로 제거.",
+    "errors": "금지 확장자·없는 파일·빈 파일·크기·개수 초과·접근 제한 오류. 파일 선택 취소는 빈 결과. 저장 중 실패는 복사본 롤백.",
+    "limits": "확장자 기반 검사이며 실제 MIME sniffing·악성코드 검사는 없다. SHA-256은 저장 시 무결성 식별자이며 열 때 재검증하지 않는다. 파일 삭제/백업과 SQLite는 단일 원자적 transaction이 아니다.",
+    "refs": [
+      "src/main/services/AttachmentStore.ts:13",
+      "src/main/services/AttachmentStore.ts:46",
+      "src/main/services/AttachmentService.ts:10",
+      "src/renderer/src/AttachmentsPanel.tsx:16"
+    ],
+    "test": "T03 실제 임시 파일 저장/해시/권한/삭제, P08 IPC 추가·백업·삭제. OS 파일선택은 테스트 대체, 기본 연결 앱 열기 미실행.",
+    "status": "구현 완료",
+    "verification": "실행 검증 일부 통과"
+  },
+  {
+    "id": "F16",
+    "name": "상황경보 등록·확인·종료",
+    "module": "운영통제",
+    "channels": [
+      "control:alerts",
+      "control:createAlert",
+      "control:updateAlert"
+    ],
+    "role": "조회 전체, 등록/확인/종료 ADMIN·OPERATOR.",
+    "inputs": "유형 GPS_INTERFERENCE/NETWORK_DEGRADATION/SERVER/CYBER/OTHER; 등급 INFO/WARNING/CRITICAL; 제목3~120, 내용3~2000, 발생시각 필수. 영향/지침/부서 선택.",
+    "logic": "ALT-한국날짜-번호, 초기 OPEN. 확인 시 ACKNOWLEDGED 및 확인자, 종료 시 RESOLVED 및 종료자 기록. CRITICAL이면 긴급 알림 생성.",
+    "data": "situation_alerts, notifications, audit_logs. 체계는 선택 연결.",
+    "steps": "1) 통제·일일마감 → 상황경보 등록. 2) 유형·등급·내용·발생시각 입력. 3) 등록 후 행의 확인, 종료를 순서대로 사용한다.",
+    "errors": "비권한 사용자·없는 경보·잘못된 입력 거부. UI는 이미 종료된 경보의 종료 버튼을 숨긴다.",
+    "limits": "GPS/망/서버 자동 센서 감지 기능은 없다. Main에는 엄격한 경보 상태전이표가 없어 직접 IPC로 종료 뒤 확인 상태를 재설정할 수 있는 정적 한계가 있다.",
+    "refs": [
+      "src/main/services/OperationalControlService.ts:58",
+      "src/renderer/src/ControlCenterManagement.tsx:36"
+    ],
+    "test": "T04 경보 등록 및 VIEWER 거부. T10 경보 목록 화면. 상태 전이 전체 조합은 미검증.",
+    "status": "구현 완료",
+    "verification": "실행 검증 일부 통과"
+  },
+  {
+    "id": "F17",
+    "name": "08:30·16:00 일일 작업판",
+    "module": "운영통제",
+    "channels": [
+      "control:overview",
+      "control:dailyPlans",
+      "control:upsertDailyPlan"
+    ],
+    "role": "조회 전체. 입력 ADMIN 또는 해당 팀 MAINTAINER.",
+    "inputs": "기준일, teamId, 계획/비계획/완료/이월 수: 각각 정수0~999, 완료≤계획+비계획. 미완료 사유≤1000자. 계획 기준08:30·완료 기준16:00은 설정 가능.",
+    "logic": "팀·일자 unique upsert. 완료율=완료/(계획+비계획)×100, 분모0은0. 작업 수는 정비 레코드 자동 합계가 아니라 별도 수동 입력 데이터다.",
+    "data": "maintenance_daily_plans; overview는 당일 계획과 현재 열린 경보/SLA 지표를 조합한다.",
+    "steps": "1) 통제·일일마감에서 기준일 선택. 2) 작업판 탭 → 팀 행 입력. 3) 네 가지 건수와 사유 입력 후 저장. 4) 정합성·마감 전에 실제 작업 목록과 대조한다.",
+    "errors": "다른 팀 입력, 완료 건수 초과 거부. 미완료 사유는 저장을 차단하지 않고 정합성 검사에서 검출한다.",
+    "limits": "D03: 마감 후 UI는 입력을 숨기지만 IPC upsert는 마감 확인 없이 변경한다. 기준시각은 안내 값이며 자동 알람·스케줄러·입력 차단 기준이 아니다. 이월은 건수만 저장되고 다음날 자동 복제하지 않는다.",
+    "refs": [
+      "src/shared/contracts.ts:91",
+      "src/main/services/OperationalControlService.ts:79",
+      "src/renderer/src/ControlCenterManagement.tsx:62"
+    ],
+    "test": "T04 팀 제한/저장, T09 완료·마감, P04 마감 후 수정 허용 재현.",
+    "status": "부분 구현",
+    "verification": "실행 검증 일부 통과"
+  },
+  {
+    "id": "F18",
+    "name": "고장·정비·작업판 정합성 검사",
+    "module": "운영통제",
+    "channels": [
+      "control:reconciliation",
+      "control:resolveIssue"
+    ],
+    "role": "조회 전체. 저장된 검사 항목의 검토는 ADMIN·OPERATOR.",
+    "inputs": "검사 기준일. 검토 API는 저장된 id와 선택 예외 사유2~1000자.",
+    "logic": "해결/검증/종결 고장의 결과 누락, 완료 정비와 미해결 고장 상태 불일치, 미완료 작업판 사유 누락을 검사한다. 조회는 계산 결과와 이미 검토된 저장 결과를 합친다.",
+    "data": "incidents, maintenance_tasks, maintenance_daily_plans 읽기. reconciliation_results는 마감 시 생성; resolveIssue는 기존 행 상태를 변경.",
+    "steps": "1) 통제·일일마감 → 정합성·마감. 2) 검사유형과 점검 결과를 읽는다. 3) 해당 업무 화면에서 원인을 수정하고 다시 확인한다. 4) 남은 예외는 관리자 마감 절차로 처리한다.",
+    "errors": "resolveIssue에 존재하지 않는 ID 입력 시 오류. 자동 검출 행에는 영속 ID가 없어 바로 resolveIssue 호출이 불가능하다.",
+    "limits": "항목별 예외 검토 UI는 없고 일반 마감 전 검사 결과도 저장되지 않는다. 현재 기능은 검출·마감 snapshot 중심의 부분 검토 흐름이다. 결과 누락 날짜 비교는 UTC 부분문자열을 사용한다.",
+    "refs": [
+      "src/main/services/OperationalControlService.ts:25",
+      "src/main/services/OperationalControlService.ts:93",
+      "src/renderer/src/ControlCenterManagement.tsx:68"
+    ],
+    "test": "T04/T09 검사 목록과 마감 연결 검증. 개별 해결 UI는 미구현.",
+    "status": "부분 구현",
+    "verification": "실행 검증 일부 통과"
+  },
+  {
+    "id": "F19",
+    "name": "일일 마감·예외 snapshot",
+    "module": "운영통제",
+    "channels": [
+      "control:closeDay"
+    ],
+    "role": "ADMIN 전용.",
+    "inputs": "ISO date, allowExceptions 기본 false. UI는 미해결 행이 있으면 예외 마감 확인창을 띄운다.",
+    "logic": "이미 마감한 날짜 거부. 미해결 검사 항목이 있으면 일반 마감 차단, 예외 승인 시 일괄 EXCEPTION으로 저장. 계획/비계획/완료/이월 summary JSON과 issue/exception 수 저장.",
+    "data": "daily_closures, reconciliation_results, maintenance_daily_plans.closed_by/closed_at, audit_logs.",
+    "steps": "1) 기준일과 작업판 검토. 2) 정합성·마감에서 문제 수정. 3) 일일 마감 클릭. 4) 불가피한 항목은 확인창에서 예외 처리 여부 확인. 5) 마감 완료 표시를 확인한다.",
+    "errors": "중복 마감 거부. 예외 허용하지 않은 미해결 상태 거부. transaction으로 snapshot과 계획 마감 표식을 함께 기록한다.",
+    "limits": "D03: 마감 snapshot은 유지되지만 이후 IPC 계획 수정으로 현재 수치와 달라진다. 예외 사유는 관리자 예외 마감이라는 공통 문자열이며 항목별 근거 입력/재개방 UI가 없다.",
+    "refs": [
+      "src/main/services/OperationalControlService.ts:106",
+      "src/renderer/src/ControlCenterManagement.tsx:40"
+    ],
+    "test": "T04 중복 마감 차단, T09 마감 저장. P04 snapshot2/현재7 불일치 재현.",
+    "status": "부분 구현",
+    "verification": "실행 검증 일부 통과"
+  },
+  {
+    "id": "F20",
+    "name": "근무 인수인계 초안·저장·확정",
+    "module": "운영통제",
+    "channels": [
+      "control:handoverDraft",
+      "control:saveHandover"
+    ],
+    "role": "초안 조회 로그인 전체. 저장/확정 ADMIN·OPERATOR·MAINTAINER·USER; VIEWER 거부.",
+    "inputs": "기준일, 교대 DAY/NIGHT/DUTY, 본문10~10000자, confirm 기본 false, 업데이트용 id 선택.",
+    "logic": "미종결 고장 최대12, 진행 정비 최대10, 미완료 지시 최대8건을 문자열 템플릿으로 결합. 저장은 DRAFT, 확정은 CONFIRMED. 기존 id가 있으면 본문·확정자 변경.",
+    "data": "handover_notes.draft_text/final_text, 작성·확정자/시각, audit_logs.",
+    "steps": "1) 통제·일일마감 → 근무 인수인계. 2) 기준일·교대 선택. 3) 업무현황에서 초안 생성. 4) 내용을 수정해 초안 저장 또는 인수인계 확정.",
+    "errors": "본문 10자 미만 거부. VIEWER에게 저장 버튼은 보일 수 있지만 Main은 거부한다.",
+    "limits": "저장된 인수인계를 검색·재열기하는 API/UI가 없어 화면 재진입 시 문서 복원이 안 된다. 표시 건수는 전체가 아닌 제한된 목록 길이이다. 선택 날짜는 제목용이며 과거시점 데이터 snapshot을 생성하지 않는다. USER 조회 범위도 전체 업무 기반이다.",
+    "refs": [
+      "src/main/services/OperationalControlService.ts:122",
+      "src/renderer/src/ControlCenterManagement.tsx:38"
+    ],
+    "test": "T04/T09 초안·확정 저장 확인. 재조회 경로 부재는 정적 확인.",
+    "status": "부분 구현",
+    "verification": "실행 검증 일부 통과"
+  },
+  {
+    "id": "F21",
+    "name": "근무표 등록·복수 담당자·수정·삭제",
+    "module": "근무/지시사항",
+    "channels": [
+      "duty:list",
+      "duty:create",
+      "duty:update",
+      "duty:delete",
+      "users:list"
+    ],
+    "role": "조회 전체. 생성/수정/삭제 ADMIN·OPERATOR·USER.",
+    "inputs": "근무일 ISO date, 교대 DAY/NIGHT/DUTY, 담당자1~20명, 각 직책 필수. 한 요청 안의 동일 담당자 중복 금지.",
+    "logic": "활성 사용자 검증 후 담당자별 duty_roster 행을 transaction으로 생성한다. 수정은 단일 행, 삭제는 확인 후 단일 행 삭제. 감사 기록.",
+    "data": "duty_roster와 users 조인. 시작/종료시각·가용상태 컬럼은 있으나 현재 등록폼의 주 입력은 날짜·교대·담당·직책이다.",
+    "steps": "1) 근무/지시사항 → 근무현황 → 근무 등록. 2) 일자·교대 선택. 3) 담당자 추가로 복수 인원·직책 입력. 4) 저장 후 목록 확인. 5) 행 수정/삭제 버튼 사용.",
+    "errors": "없는·비활성 사용자 및 한 요청 내 중복 담당자 차단. 별도 등록 요청끼리 같은 일자·교대·인원을 중복 등록하는 것은 막지 않는다.",
+    "limits": "근무시간 충돌 탐지, 자동 편성, 휴가·자격·연속근무 제약은 없다. USER도 타인 근무표를 변경할 수 있는 현재 정책을 권한 문서에 명확히 해야 한다.",
+    "refs": [
+      "src/shared/contracts.ts:66",
+      "src/main/services/AppService.ts:120",
+      "src/renderer/src/DutyManagement.tsx:24"
+    ],
+    "test": "T06 복수 담당자 등록 후 IPC 재조회. 수정/삭제 및 중복 교대 경계는 정적 분석.",
+    "status": "구현 완료",
+    "verification": "실행 검증 일부 통과"
+  },
+  {
+    "id": "F22",
+    "name": "지시사항 등록·수정·삭제·이행·확인",
+    "module": "근무/지시사항",
+    "channels": [
+      "directives:list",
+      "directives:create",
+      "directives:update",
+      "directives:delete",
+      "directives:acknowledge"
+    ],
+    "role": "조회/확인은 로그인 전체. 지시 생성/수정/삭제 ADMIN·OPERATOR.",
+    "inputs": "제목·내용 각각3자 이상, URGENT/GENERAL/NOTICE, 선택 기한·부서·담당자. 수정 시 OPEN/IN_PROGRESS/COMPLETED 상태 지정.",
+    "logic": "고정/긴급 우선 정렬. 확인은 사용자별 INSERT OR IGNORE로 중복 인원 증가 방지. 지시 상태와 확인 여부는 독립 개념이다.",
+    "data": "directives, directive_acknowledgements, audit_logs. 담당자 FK, 확인 행 삭제 cascade는 runtime migration 기준.",
+    "steps": "1) 근무/지시사항 → 지시사항 → 지시사항 등록. 2) 제목·내용·등급·기한·담당 입력 후 저장. 3) 수신자는 확인을 누른다. 4) 관리 담당자는 수정에서 이행 상태를 바꾼다.",
+    "errors": "조회전용·정비요원·USER 생성 거부. 없는 지시 확인/수정 거부. 이미 확인한 사용자는 확인 버튼이 사라진다.",
+    "limits": "실시간 푸시·외부 메신저 발송은 없다. 담당자 개인의 완료 보고/승인 체계가 아니라 ADMIN/OPERATOR의 상태 편집이다.",
+    "refs": [
+      "src/shared/contracts.ts:70",
+      "src/main/services/AppService.ts:125",
+      "src/renderer/src/DutyManagement.tsx:64"
+    ],
+    "test": "T06 생성·표시, T07 정비요원/USER 생성 거부. 확인 중복·삭제 상세는 정적 분석.",
+    "status": "구현 완료",
+    "verification": "실행 검증 일부 통과"
+  },
+  {
+    "id": "F23",
+    "name": "AI 고장 분류·Ollama fallback",
+    "module": "AI",
+    "channels": [
+      "ai:triageIncident"
+    ],
+    "role": "ADMIN·OPERATOR·MAINTAINER·USER. USER가 incidentId를 지정하면 본인 사건 검사.",
+    "inputs": "제목·설명 문자열, 선택 서비스 영향≤1000, systemId/incidentId. 출력: 분류·긴급도·confidence·권장조치·근거·정비반코드·예상분·질문.",
+    "logic": "기본 Local Rule은 키워드 규칙. 선택 Ollama는 loopback /api/generate, JSON envelope/출력 Zod 검증, 8초 AbortController timeout. 호출·파싱·검증 실패 시 Local Rule 대체. 분류는 업무 데이터를 자동 변경하지 않는다.",
+    "data": "ai_interactions와 ai_runs에 provider/model/prompt_version/latency/fallback/출력을 기록. 실제 입력 전문 대신 제목 앞100자를 input_summary로 저장.",
+    "steps": "1) AI 지원에서 제목·내용 입력 → 분석 및 유사 고장 조회. 또는 관리자 고장 상세에서 AI 분류. 2) 분류·우선순위·근거·팀 추천 확인. 3) 업무 반영은 별도 검토 후 반영 절차.",
+    "errors": "비허용 역할/타인 사건, invalid JSON/잘못된 타입/HTTP 오류/timeout을 처리한다. 외부 URL 설정은 거부된다.",
+    "limits": "0.78/0.62 confidence는 고정 규칙값이며 보정된 확률이나 모델 성능이 아니다. live Ollama 성공 응답은 이번에 호출하지 않았다. 단위 테스트의 fetch는 mock이며 fallback E2E는 닫힌 로컬 포트를 사용했다.",
+    "refs": [
+      "src/main/ai/LocalRuleProvider.ts:3",
+      "src/main/ai/OllamaProvider.ts:9",
+      "src/main/services/AppService.ts:136"
+    ],
+    "test": "T03 구조 검증·mock Ollama, T09 실제 호출 실패 후 fallback, rules-v2/triage-v2 기록.",
+    "status": "구현 완료",
+    "verification": "실행 검증 일부 통과"
+  },
+  {
+    "id": "F24",
+    "name": "AI 추천 검토 후 고장 반영",
+    "module": "AI",
+    "channels": [
+      "incidents:applyAi"
+    ],
+    "role": "ADMIN·OPERATOR.",
+    "inputs": "id, category1~50자, severity, 선택 teamId, rationale1~1000, confidence0~1, 선택 runId.",
+    "logic": "선택 사건 분류·중요도·추천팀·근거·confidence를 저장한다. AI_APPLIED 이벤트/감사 및 ai_runs.applied 표식. 업무 상태는 그대로 유지한다.",
+    "data": "incidents.ai_*와 실제 category/severity/team_id, incident_events, audit_logs, ai_runs.",
+    "steps": "1) 고장 상세 → AI 분류. 2) 추천과 근거를 읽는다. 3) 검토 후 반영 클릭. 4) 상세를 다시 열어 분류·중요도·정비반 및 이력을 확인한다.",
+    "errors": "사건 없는 경우 및 비권한 역할 거부. 팀 가용성·runId 소유권/해당 사건 연관성은 이 경로에서 충분히 검증하지 않는다.",
+    "limits": "검토 패널에 추천값 편집 컨트롤이 없어 문서의 수정 후 반영과 다르다. 적용 시 user_modified를 기록하지 않는다. 중요도 변경 후 SLA 기한도 재산정되지 않는다. 사람의 적용 클릭은 있으나 수정·출처 일치 검증은 부분적이다.",
+    "refs": [
+      "src/shared/contracts.ts:54",
+      "src/main/services/AppService.ts:114",
+      "src/renderer/src/IncidentsManagement.tsx:41",
+      "src/renderer/src/IncidentsManagement.tsx:69"
+    ],
+    "test": "T09 분류/팀 추천 적용과 업무 흐름 통과. 수정 가능성은 UI 정적 분석.",
+    "status": "부분 구현",
+    "verification": "실행 검증 일부 통과"
+  },
+  {
+    "id": "F25",
+    "name": "유사 고장 검색",
+    "module": "AI",
+    "channels": [
+      "ai:similarIncidents"
+    ],
+    "role": "로그인 전체. 현재 USER 소유권 필터가 없다.",
+    "inputs": "제목3자 이상. 공백으로 나눈 2자 이상 토큰 최대3개.",
+    "logic": "제목 LIKE OR로 후보20개를 최근순 조회. Local Rule은 앞5개 반환, Ollama는 제공된 ticket_no 중 최대5개 선택하고 없는 번호는 제거한다.",
+    "data": "incidents.ticket_no/title/status/action_summary 읽기. 벡터 DB·embedding 없음.",
+    "steps": "1) AI 지원에서 제목·내용 입력. 2) 분석 및 유사 고장 조회. 3) 유사 고장의 번호·제목·조치내용 확인. 정확한 동일 사건 여부는 담당자가 판단한다.",
+    "errors": "토큰이 없으면 빈 결과. 모델 오류 시 Local Rule 후보 목록 반환.",
+    "limits": "D01: USER에게 다른 사용자의 사건과 조치결과 반환. 유사도 점수/의미 검색/정답 평가 데이터셋은 없다. 한국어 복합어·동의어 검색 성능은 측정하지 않았다.",
+    "refs": [
+      "src/main/services/AppService.ts:140",
+      "src/main/ai/LocalRuleProvider.ts:14",
+      "src/renderer/src/AiManagement.tsx:39"
+    ],
+    "test": "P01 타인 사례 반환 재현. 모델 기반 재정렬은 mock 외 미검증.",
+    "status": "부분 구현",
+    "verification": "실행 검증 일부 통과"
+  },
+  {
+    "id": "F26",
+    "name": "AI 일일 요약·정비 우선순위 추천",
+    "module": "AI",
+    "channels": [
+      "ai:dailySummary",
+      "ai:maintenanceRecommendations"
+    ],
+    "role": "로그인 사용자 전체.",
+    "inputs": "입력 없음. 현재 미종결 고장 수와 예정/진행/보류 정비 후보20건을 내부 조회.",
+    "logic": "기본 요약은 미종결 건수를 포함한 한 문장 템플릿. 정비 추천은 HIGH 우선 후 예정일 오름차순 상위5건. Ollama는 구조화 summary/ticketNos를 검증하고 실패 시 규칙으로 대체한다.",
+    "data": "incidents/maintenance_tasks 읽기. 이 두 기능은 분류와 달리 ai_runs 상세 실행 로그를 저장하지 않는다.",
+    "steps": "1) AI 지원 → 일일 요약 생성. 2) 요약을 검토한다. 3) 정비 우선순위 조회로 추천5건을 읽는다. 4) 실제 계획 변경은 정비관리에서 사람이 수행한다.",
+    "errors": "모델 오류 fallback. 정비 후보0이면 빈 목록. 업무 상태 자동 변경 없음.",
+    "limits": "일일 요약은 선택 날짜별 보고서가 아니라 현재 전체 미종결 건수다. UI는 summary 문자열만 보관해 provider/fallback 표시를 충분히 전달하지 못한다. 자동 계획 최적화·LLM 품질평가 기능이 아니다.",
+    "refs": [
+      "src/main/services/AppService.ts:139",
+      "src/main/ai/LocalRuleProvider.ts:11",
+      "src/renderer/src/AiManagement.tsx:37"
+    ],
+    "test": "정적 분석. 공통 provider 단위 테스트만으로 각 기능의 실제 UI 동작 전체를 입증하지 않는다.",
+    "status": "구현 완료",
+    "verification": "정적 분석만 수행"
+  },
+  {
+    "id": "F27",
+    "name": "설명 가능한 SLA 위험 표시",
+    "module": "AI",
+    "channels": [
+      "ai:slaRisk"
+    ],
+    "role": "로그인 전체, USER는 본인 사건.",
+    "inputs": "incidentId. 기준 변수: 기한까지 잔여분 R, 팀 평균 처리분 A, 활성 고장 수 W.",
+    "logic": "예상시간 E=A×(1+0.15W). HIGH: R≤0 또는 E>R. MEDIUM: HIGH가 아니면서 A>0.7R. 그 외 LOW. 팀 없는 경우 긴급60/일반240분을 기본 평균으로 사용.",
+    "data": "incidents.sla_due_at/team_id/severity와 maintenance_teams.average_resolution_minutes. 응답은 읽기 계산이며 별도 예측 모델 저장 없음.",
+    "steps": "1) 고장 상세를 연다. 2) SLA 위험 카드의 등급·잔여시간·작업량·권고를 읽는다. 3) 고위험이면 담당자 진행 상황과 재배정을 검토한다.",
+    "errors": "없는 사건·USER 타인 사건 차단. SLA 없는 기존 사건은 현재시각+8시간을 가정해 계산.",
+    "limits": "docs/AI_DESIGN.md의 MEDIUM 조건 E>0.7R와 코드 A>0.7R가 다르다. 임계치 성능·calibration 미평가. 종결/해결 상태에서도 동일 계산을 하며 실제 지연 예측 확률이 아니다.",
+    "refs": [
+      "src/main/services/AppService.ts:137",
+      "docs/AI_DESIGN.md:21",
+      "src/renderer/src/IncidentsManagement.tsx:37"
+    ],
+    "test": "상세 화면에서 카드 확인, 계산식 정적 대조. 위험등급 경계값 회귀테스트는 없다.",
+    "status": "부분 구현",
+    "verification": "실행 검증 일부 통과"
+  },
+  {
+    "id": "F28",
+    "name": "AI 실행 이력·반영 추적",
+    "module": "AI",
+    "channels": [
+      "ai:markApplied"
+    ],
+    "role": "분류 로그는 해당 호출 권한. markApplied는 로그인 검사만 적용.",
+    "inputs": "runId, userModified 기본 false. 저장 로그는 feature/provider/model/prompt_version/latency/confidence/fallback/applied/user_modified 등.",
+    "logic": "분류 성공 또는 fallback 성공 후 SUCCESS를 기록하고 runId 반환. applyAi 또는 markApplied로 반영 표식을 업데이트한다.",
+    "data": "ai_runs, ai_interactions, audit_logs. Local Rule rules-v2, prompt triage-v2.",
+    "steps": "1) 고장 분류 후 검토 반영한다. 2) 감사 로그에서 APPLY_AI를 확인한다. 3) 상세 AI 실행 필드는 전용 조회 UI가 없어 읽기 전용 DB 점검으로 확인해야 한다.",
+    "errors": "존재하지 않는 runId는 거부. runId 작성자·역할별 소유권 확인은 없다.",
+    "limits": "분류 외 요약·유사·추천 호출은 동일 상세 로그 범위에 포함되지 않는다. 사용자 수정률·실패율·토큰 비용 대시보드와 재현 평가셋은 없다. 실패한 provider 정보 대신 fallback 성공 로그만 남을 수 있다.",
+    "refs": [
+      "src/main/services/AppService.ts:136",
+      "src/main/services/AppService.ts:138",
+      "src/main/database/migrate.ts:161"
+    ],
+    "test": "T09 runId와 적용 경로. 전용 로그 UI 없음, 무단 markApplied는 정적 위험으로만 기록.",
+    "status": "부분 구현",
+    "verification": "실행 검증 일부 통과"
+  },
+  {
+    "id": "F29",
+    "name": "일일·주간 통계 조회",
+    "module": "보고서",
+    "channels": [
+      "reports:daily",
+      "reports:weekly"
+    ],
+    "role": "로그인 전체. 전사 집계이며 개인 범위 설정 없음.",
+    "inputs": "일일 date 문자열, 주간 startDate ISO date. 주간 구간은 시작일 포함·7일 후 날짜 제외.",
+    "logic": "일일: 한국 날짜 접수 기준 고장 상태별 수, 예정일 기준 정비 상태별 수. 주간: 날짜별 접수/예정 건수와 합계·일평균. 과거 상태 snapshot이 아니라 현재 상태로 집계한다.",
+    "data": "incidents.reported_at/status, maintenance_tasks.scheduled_date/status. 별도 보고서 저장 테이블 없음.",
+    "steps": "1) 보고서/통계 → 일일 또는 주간. 2) 조회일/시작일 설정 후 조회. 3) 상태 막대 또는7일 차트를 확인한다. 날짜만 바꾸면 조회 버튼을 눌러야 한다.",
+    "errors": "일일 계약은 문자열만 검사하여 엄격한 ISO 날짜 검증이 주간보다 약하다. 데이터0은 빈 안내.",
+    "limits": "정비 완료 실적이 아니라 해당일 예정된 작업의 현재 상태다. 월간 추세·장기간 분석은 없다. 선택 일일 화면과 PDF 대상 일자가 다를 수 있다(D02).",
+    "refs": [
+      "src/main/services/AppService.ts:133",
+      "src/renderer/src/ReportsManagement.tsx:36"
+    ],
+    "test": "T06 주간 UI 조회, P03 한국 날짜 일일 건수1 확인.",
+    "status": "구현 완료",
+    "verification": "실행 검증 통과"
+  },
+  {
+    "id": "F30",
+    "name": "고장·정비 CSV 내보내기",
+    "module": "보고서",
+    "channels": [
+      "reports:exportCsv"
+    ],
+    "role": "현재 로그인 사용자 전체. 조회 범위에 따른 제한 없음.",
+    "inputs": "kind incidents/maintenance. 네이티브 저장창에서 파일 경로 선택.",
+    "logic": "고장: 번호·제목·긴급도·상태·접수시각. 정비: 번호·제목·상태·예정일·진행률. BOM UTF-8, 따옴표 escape, CRLF로 전체 데이터 저장한다.",
+    "data": "테이블 전체 읽기. 선택 화면의 날짜·검색·역할 필터는 내보내기에 적용되지 않는다.",
+    "steps": "1) 보고서/통계 상단 고장 CSV 또는 정비 CSV. 2) 저장 위치 선택. 3) 표 편집기로 열어 헤더·행 수 확인. 화면 필터 결과만 저장된다고 가정하지 않는다.",
+    "errors": "저장 취소는 null. 파일 쓰기 오류는 IPC 오류. 빈 데이터는 헤더 키가 없어 BOM과 빈 줄만 생성될 수 있다.",
+    "limits": "D01: USER가 자신의 목록은0건이어도 타인 사건이 포함된 CSV를 저장할 수 있다. 식 형태의 셀 내용 중화도 없다(정적 검토). 업무 데이터가 운영자료로 바뀌기 전에 접근 정책과 셀 안전 처리가 필요하다.",
+    "refs": [
+      "src/main/services/AppService.ts:135",
+      "src/renderer/src/ReportsManagement.tsx:43"
+    ],
+    "test": "P02 실제 가상 CSV에서 타인 접수번호 포함 확인. 네이티브 저장창은 테스트로 대체.",
+    "status": "부분 구현",
+    "verification": "실행 검증 일부 통과"
+  },
+  {
+    "id": "F31",
+    "name": "일일 고장 PDF 내보내기",
+    "module": "보고서",
+    "channels": [
+      "reports:exportPdf"
+    ],
+    "role": "로그인 전체.",
+    "inputs": "ISO date, 저장 경로. 대상은 해당 날짜 고장 목록만이다.",
+    "logic": "HTML escape 후 숨겨진 BrowserWindow에서 printToPDF 수행. 접수번호/제목/중요도/상태와 가상 시연 안내 출력. finally로 숨긴 창을 닫는다.",
+    "data": "incidents 읽기와 사용자가 선택한 PDF 파일 생성. 정비 통계·일일마감 snapshot은 포함하지 않는다.",
+    "steps": "1) 보고서/통계 → 일일에서 조회일 선택. 2) 일일 PDF 클릭. 3) 파일 저장 후 열어 실제 행과 한글을 확인한다. 현재 날짜 경계 오류가 있어 일일 화면과 대조해야 한다.",
+    "errors": "저장 취소 null, HTML 특수문자 escape. PDF 파일 생성은 기존 테스트가 헤더 %PDF만 검사한다.",
+    "limits": "D02: SQL은 reported_at UTC 앞10글자를 쓰므로 한국시각00:00~08:59 사건이 전날로 분류된다. 실제 PDF 렌더링에서 한글 표시는 정상이고 해당 사건 행은 누락됨을 확인했다. 기존 E2E 성공은 내용 정확성 증명이 아니다.",
+    "refs": [
+      "src/main/services/AppService.ts:142",
+      "src/renderer/src/ReportsManagement.tsx:51"
+    ],
+    "test": "T06 파일 생성. P03 일일 화면1건/PDF0건 재현 및 실제 PDF 렌더 검토.",
+    "status": "부분 구현",
+    "verification": "실행 검증 일부 통과"
+  },
+  {
+    "id": "F32",
+    "name": "알림 조회·읽음 처리",
+    "module": "시스템관리",
+    "channels": [
+      "system:notifications",
+      "system:markNotificationRead"
+    ],
+    "role": "IPC는 로그인 전체. 실제 알림 화면은 ADMIN 전용 시스템관리 내부.",
+    "inputs": "읽음 처리 알림 id. 최근100건 반환.",
+    "logic": "긴급 고장·긴급 경보·등록 신청 때 생성. read_at이 없을 때 현재시각 설정, 이미 읽은 경우 보존.",
+    "data": "notifications 테이블의 단일 read_at. 사용자별 read receipt 테이블은 없다.",
+    "steps": "1) 관리자 → 시스템관리 → 알림. 2) 알림 내용을 확인한다. 3) 읽음을 눌러 확인함 표시로 바꾼다.",
+    "errors": "없는 알림 id는 변경0건이어도 true를 반환한다. 네트워크 알림 서비스 장애와 무관한 로컬 기능이다.",
+    "limits": "일반 역할은 UI에 접근할 수 없고 읽음 상태도 모든 사용자 공통이다. 개인별 수신·권한 범위·푸시 알림은 제공하지 않는다.",
+    "refs": [
+      "src/main/services/AppService.ts:153",
+      "src/renderer/src/SystemManagement.tsx:32",
+      "src/renderer/src/App.tsx:283"
+    ],
+    "test": "T06 긴급 접수 후 알림 읽음 UI 확인.",
+    "status": "부분 구현",
+    "verification": "실행 검증 일부 통과"
+  },
+  {
+    "id": "F33",
+    "name": "시스템 정보·AI·운영 설정·감사 조회",
+    "module": "시스템관리",
+    "channels": [
+      "system:getInfo",
+      "system:setAiSettings",
+      "system:setOperationsSettings",
+      "system:auditLogs",
+      "system:openDataFolder"
+    ],
+    "role": "ADMIN 전용.",
+    "inputs": "AI provider LOCAL/OLLAMA, HTTP loopback endpoint, 모델명 영숫자/_.:- 1~80자. 기준시간 HH:mm. 긴급SLA10~10080분, 일반10~43200분. 감사 limit1~500 기본100.",
+    "logic": "설정 저장은 app_settings upsert와 감사 transaction. 시스템정보는 버전/DB경로/크기/schema4/백업경로를 표시. 데이터 폴더 열기는 DB 상위 폴더를 OS로 연다.",
+    "data": "app_settings, audit_logs, 실제 DB 파일 stat. 설정은 재실행 이후 유지된다.",
+    "steps": "1) 시스템관리 → 정보. 2) AI 제공자와 모델 또는 운영 기준시간/SLA 수정 후 해당 저장 버튼. 3) 감사 로그 탭에서 최근 변경 확인. 4) 데이터 폴더 열기로 DB 위치 확인.",
+    "errors": "외부 도메인/HTTPS/인증정보 포함 endpoint 거부. 비ADMIN 직접 IPC 거부. OS 폴더 열기 반환 오류의 사용자 표시 경로는 제한적이다.",
+    "limits": "SLA 설정은 신규 접수에 적용하며 기존 기한을 일괄 갱신하지 않는다. 모델 설치/다운로드 기능은 없다. endpoint 후행 슬래시와 generate 경로 결합에 대한 실제 Ollama 호환성은 미검증.",
+    "refs": [
+      "src/shared/contracts.ts:101",
+      "src/main/services/AppService.ts:149",
+      "src/renderer/src/SystemManagement.tsx:19"
+    ],
+    "test": "T07 관리자 경계, T09 설정 변경/fallback/복귀, T03 URL 거부. OS 폴더 열기 미실행.",
+    "status": "구현 완료",
+    "verification": "실행 검증 일부 통과"
+  },
+  {
+    "id": "F34",
+    "name": "자동·수동 DB 및 첨부 백업",
+    "module": "데이터 관리",
+    "channels": [
+      "system:backup"
+    ],
+    "role": "수동 ADMIN. 자동은 앱 준비 후 당일 marker가 없을 때.",
+    "inputs": "입력 없음. userData/backups/omnis-YYYYMMDDhhmmss.db 및 동명 -attachments 폴더.",
+    "logic": "SQLite backup API 완료 후 첨부폴더 복사. 이름 역순으로 최근10개 DB와 대응 첨부 세트만 보존. 성공하면 감사 기록, 자동 백업은 날짜 marker 생성.",
+    "data": "SQLite 파일·attachments 폴더·backups·backup-한국날짜.marker. 백업 파일명 시각 자체는 ISO UTC 기반.",
+    "steps": "1) 시스템관리 → 정보 → DB 백업. 2) 알림창 경로 확인. 3) 필요 시 해당 백업 파일과 -attachments 폴더를 함께 보관한다. 복원 버튼은 현재 없다.",
+    "errors": "SQLite/복사 실패는 예외. 자동 실패는 로그에 기록, marker를 남기지 않아 이후 실행에서 재시도한다.",
+    "limits": "DB 백업과 첨부복사는 같은 원자적 snapshot이 아니고 초 단위 이름은 연속 호출 시 충돌 가능성이 있다. 완전 복원·중간 실패 주입·10세트 정리 경계는 미검증. 일반 수동 복원 UI는 미구현이다.",
+    "refs": [
+      "src/main/services/AppService.ts:161",
+      "src/main/index.ts:53"
+    ],
+    "test": "T06 백업 파일 존재, P08 첨부 후 백업 경로 확인. 복원까지 검증했다고 주장하지 않는다.",
+    "status": "구현 완료",
+    "verification": "실행 검증 일부 통과"
+  },
+  {
+    "id": "F35",
+    "name": "전체 Demo 데이터 초기화·실패 복구",
+    "module": "데이터 관리",
+    "channels": [
+      "system:resetDemo"
+    ],
+    "role": "ADMIN 전용.",
+    "inputs": "confirm은 정확히 RESET DEMO. UI는 2단계 확인.",
+    "logic": "seed 존재 확인 → 백업 → DB닫기 → DB/WAL/SHM 및 첨부 제거 → seed복사 → 재연결 → 감사 → 세션제거. 실패 시 저장한 DB/첨부백업으로 복구 시도.",
+    "data": "userData/data/omnis.db, attachments, backups. 운영 입력을 모두 대체하는 기능이다.",
+    "steps": "1) 필요한 백업 보관. 2) 시스템관리 → Demo 데이터 초기화 → 다음 → 초기화 실행. 3) 로그인 화면 복귀 후 다시 로그인. 4) 사용자 입력이 제거되고 가상 기본 데이터가 보이는지 확인한다.",
+    "errors": "비ADMIN 또는 seed 미존재 거부. 백업 실패면 초기화 전에 중단한다.",
+    "limits": "현재 실행 검증은 새로 만든 격리 DB에서만 수행했다. 실제 사용자 DB 초기화는 실행하지 않았다. 복구 분기의 파일 I/O 고장 주입은 미검증이다.",
+    "refs": [
+      "src/shared/contracts.ts:99",
+      "src/main/services/AppService.ts:157",
+      "src/renderer/src/SystemManagement.tsx:93"
+    ],
+    "test": "T06 임시 DB 접수 생성→초기화→해당 접수 부재 및 재로그인. T07 USER 거부.",
+    "status": "구현 완료",
+    "verification": "실행 검증 통과"
+  },
+  {
+    "id": "F36",
+    "name": "평가 시나리오 준비·선택 초기화",
+    "module": "Demo Mode",
+    "channels": [
+      "demo:prepare",
+      "demo:reset"
+    ],
+    "role": "ADMIN 전용.",
+    "inputs": "scenario=EVALUATION 고정.",
+    "logic": "준비는 팀/담당/SLA가 있는 가상 장애1건과 이벤트를 생성하고 생성 ID를 demo_scenarios에 기록. READY가 있으면 재사용. 초기화는 기록된 ID만 제거.",
+    "data": "incidents, incident_events, demo_scenarios, audit_logs, 해당 첨부. 일반 업무 전체 초기화와 다르다.",
+    "steps": "1) 통제·일일마감 → 평가 시나리오 준비. 2) 고장관리에서 가상 지휘통신 회선 사건을 확인. 3) 시연 초기화로 자동 생성한 행만 제거한다.",
+    "errors": "없는 시나리오는 removed=false. 기본 준비→초기화는 transaction으로 성공한다.",
+    "limits": "D05: 준비한 고장에 정비를 연결하면 entity_ids_json에 새 maintenanceId가 반영되지 않아 초기화가 FK 오류로 실패한다. 첨부 파일은 DB transaction과 별도 삭제되어 실패 복구도 추가 검증이 필요하다.",
+    "refs": [
+      "src/main/services/OperationalControlService.ts:136",
+      "src/main/services/OperationalControlService.ts:152"
+    ],
+    "test": "T09 기본 lifecycle 성공. P06 연결 정비가 있을 때 FOREIGN KEY constraint failed 재현.",
+    "status": "부분 구현",
+    "verification": "실행 검증 일부 통과"
+  },
+  {
+    "id": "F37",
+    "name": "SQLite 초기화·마이그레이션·보존",
+    "module": "기반 기능",
+    "channels": [],
+    "role": "앱 Main Process 내부. DB 조회를 위한 HTTP 서버 없음.",
+    "inputs": "기본 %APPDATA%/OMNIS/data/omnis.db. OMNIS_E2E_DATA가 있으면 테스트 userData 경로. schema user_version4.",
+    "logic": "최초 seed복사 또는 생성. foreign_keys ON, WAL, synchronous NORMAL, busy_timeout5000. runtime v1→v4 migration은 transaction. 매번 seed를 호출하며 부족한 데모 USER/팀/경보/계획을 보충한다.",
+    "data": "25개 runtime 테이블과 인덱스. 기존 AFCCS data/backups가 있고 OMNIS가 없으면 임시 복사 후 이름 변경; 원본 AFCCS는 보존.",
+    "steps": "1) 정상 설치본/소스 앱을 실행하면 자동 준비된다. 2) 시스템 정보의 schema4와 데이터 경로를 확인한다. 3) 수동 migration은 pnpm db:migrate <existing-db-path>로 명시한 기존 DB를 백업한 후 수행한다. 이번에는 실제 사용자 DB에 실행하지 않았다.",
+    "errors": "현재보다 높은 schema는 거부. migration 실패 시 연결닫기. 기존 데이터는 버전별 추가 migration으로 보존.",
+    "limits": "Drizzle schema는 signup_requests/demo_scenarios 등과 일부 필드가 누락되고 생성 migration은 runtime v4와 별개다. 서비스 SQL 대부분 수동. 기존 실제 DB 전체 migration·legacy 복사 실패/파일잠금은 미검증.",
+    "refs": [
+      "src/main/database/connection.ts:9",
+      "src/main/database/migrate.ts:3",
+      "src/main/database/seed.ts:47",
+      "src/main/database/schema.ts:1",
+      "src/main/index.ts:12"
+    ],
+    "test": "T03 v2→v4 기존행 보존·seed멱등·무결성·1000+조회. P09 추가 검증 DB integrity ok.",
+    "status": "부분 구현",
+    "verification": "실행 검증 일부 통과"
+  },
+  {
+    "id": "F38",
+    "name": "Electron 실행·IPC·창 보안",
+    "module": "기반 기능",
+    "channels": [],
+    "role": "등록된 IPC는 세션·입력 정책에 따라 처리. 단일 로컬 프로세스 중심.",
+    "inputs": "HashRouter 10개 경로. 최소 창1366×768, 기본1600×950. Main/preload/renderer 분리.",
+    "logic": "contextIsolation/sandbox/webSecurity 활성, nodeIntegration 비활성, 새 창·외부 탐색 차단. mainFrame 요청만 처리. 각 schema.parse 후 Result 형태 응답. macOS activate 재생성 코드는 고정 스냅샷에 포함.",
+    "data": "75개 채널 등록. preload는 named API와 generic invoke 노출. invoke의 Channel 타입은 TypeScript 수준이고 런타임 whitelist 자체는 Main 등록 핸들러가 담당.",
+    "steps": "1) pnpm dev 또는 빌드 앱 실행. 2) 로그인 후 좌측 메뉴로 이동. 3) 앱 종료 후 다시 실행해 데이터 유지 확인. 오류는 UI 알림 또는 electron-log에서 점검한다.",
+    "errors": "잘못된 입력 INVALID_INPUT, 기타 REQUEST_FAILED. 미등록 channel은 ipcRenderer 레벨 오류 가능. SQLite 바쁨은5초 timeout, 일반 IPC 자동 retry는 없다.",
+    "limits": "앱 sandbox는 로컬 관리자에 대한 데이터 암호화나 변조 방지를 뜻하지 않는다. 로그인 감사·세션 만료는 별도 미구현. macOS 창 lifecycle은 Windows에서 실제 검증할 수 없다.",
+    "refs": [
+      "src/main/ipc/registerIpc.ts:7",
+      "src/preload/index.ts:4",
+      "src/renderer/src/App.tsx:274",
+      "src/main/index.ts:32"
+    ],
+    "test": "T06 재시작 저장, T10 두 해상도 body overflow 및 console 검사. macOS 동작은 정적 분석.",
+    "status": "구현 완료",
+    "verification": "실행 검증 통과"
+  },
+  {
+    "id": "F39",
+    "name": "빌드·Windows/macOS 배포",
+    "module": "배포",
+    "channels": [],
+    "role": "개발/배포 담당자. 현재 환경 Windows.",
+    "inputs": "Node22.18~24, pnpm11~12 선언. scripts: build/dist:win/dist:mac/x64/arm64. NSIS 설치 폴더 선택, mac DMG/ZIP 설정.",
+    "logic": "build는 seed 생성 후 Main/preload/Renderer 번들. electron-builder는 seed를 extraResources로 포함하고 better-sqlite3를 asarUnpack. mac workflow는 두 아키텍처 검사/E2E/산출물 업로드 정의.",
+    "data": "out, release, resources/db. 소스 스냅샷에서 생성한 번들과 테스트 증거를 본 보고서에 사용했다.",
+    "steps": "1) 소스 환경에서 pnpm install(설치 필요 시) → pnpm typecheck/lint/test → pnpm build. 2) Windows는 pnpm dist:win. 3) 생성 설치 파일은 별도 깨끗한 VM에서 설치·업그레이드·삭제를 검증한다.",
+    "errors": "현재 스냅샷 폴더에서 pnpm12 자동설치가 네트워크를 시도해 중단하고, 이미 설치된 로컬 CLI를 직접 호출해 검증했다. 의존성 재다운로드는 완료하지 않았다.",
+    "limits": "이번 작업은 최신 고정 소스의 build/E2E를 검증했다. Windows 설치파일 재생성, clean VM 설치, 코드서명/업데이트, mac 실행/공증/CI 성공은 이번 검증 범위 밖이다. 기존 release 파일은 최신 검증본으로 간주하지 않는다.",
+    "refs": [
+      "package.json:9",
+      "electron-builder.yml:1",
+      ".github/workflows/macos-build.yml:1"
+    ],
+    "test": "T01~T10 빌드·소스 Electron 검증. 배포 완료 판정은 보류.",
+    "status": "부분 구현",
+    "verification": "실행 검증 일부 통과"
+  },
+  {
+    "id": "F40",
+    "name": "외부 정비체계 파일/네트워크 연동",
+    "module": "계획 범위",
+    "channels": [],
+    "role": "향후 Main adapter로 설계됨. 현재 사용자 기능 없음.",
+    "inputs": "문서에 Uint8Array preview/import/export와 idempotencyKey 인터페이스 제안만 존재.",
+    "logic": "dry run, 행별 오류, source ID, 원본 hash, 중복방지, 감사 경계가 문서화돼 있다. src에 실행 adapter·import IPC·UI는 없다.",
+    "data": "현재 연결 데이터 없음. CSV 내보내기는 별도 단순 export로 외부체계 동기화가 아니다.",
+    "steps": "현재 실행 절차 없음. DELIIS 등 실제 체계와 연결되어 있다고 설명하면 안 된다. 향후 승인된 가상 파일 계약과 dry-run부터 구현할 수 있다.",
+    "errors": "미구현이므로 실제 외부 오류 처리/롤백/재시도 검증 없음.",
+    "limits": "문서의 향후 제안 범위를 구현 완료로 계산하지 않는다. 사용자 요청 없이 외부 시스템 접속을 시도하지 않았다.",
+    "refs": [
+      "docs/OPERATION_CONCEPT.md:24",
+      "PROJECT_STATUS.md:29"
+    ],
+    "test": "소스 검색 및 문서 대조.",
+    "status": "미구현",
+    "verification": "정적 분석만 수행"
+  },
+  {
+    "id": "F41",
+    "name": "월간 추세·편집 가능한 AI 보고서 초안",
+    "module": "계획 범위",
+    "channels": [],
+    "role": "PROJECT_STATUS Remaining에 명시된 후속 범위.",
+    "inputs": "월간 기간/편집 초안에 대한 실행 계약 없음.",
+    "logic": "현재 일일·주간 통계와 한 문장 AI 요약만 제공. 월간 지표·보고서 초안 편집/저장/버전 기능 없음.",
+    "data": "월간 보고서/AI 보고서 draft 전용 모델 없음.",
+    "steps": "현재는 일일·주간 조회와 CSV만 사용 가능하다. 편집 가능한 AI 문서 기능으로 안내하지 않는다.",
+    "errors": "미구현으로 입력 검증·오류 처리·검증 결과 없음.",
+    "limits": "근무 인수인계 본문 편집은 존재하지만 AI 보고서 초안 편집과 동일 기능이 아니다.",
+    "refs": [
+      "PROJECT_STATUS.md:28",
+      "src/renderer/src/ReportsManagement.tsx:36"
+    ],
+    "test": "소스·Remaining 대조.",
+    "status": "미구현",
+    "verification": "정적 분석만 수행"
+  },
+  {
+    "id": "F42",
+    "name": "캘린더 끌어놓기 일정 변경",
+    "module": "계획 범위",
+    "channels": [],
+    "role": "PROJECT_STATUS Remaining에 명시.",
+    "inputs": "현재 FullCalendar는 조회·클릭만 지원.",
+    "logic": "editable/eventDrop 등의 일정 저장 처리 없음. 날짜 변경은 작업 수정 폼을 사용한다.",
+    "data": "별도 구현 없음. scheduled_date는 기존 수정 API로 변경 가능.",
+    "steps": "현재 작업을 다른 날짜로 드래그해 저장할 수 없다. 목록 수정 → 예정일 → 저장을 사용한다.",
+    "errors": "drag/drop 실패 복구·충돌 검사가 구현되어 있지 않다.",
+    "limits": "캘린더 표시 기능 F14와 구분한 후속 기능이다.",
+    "refs": [
+      "PROJECT_STATUS.md:27",
+      "src/renderer/src/MaintenanceManagement.tsx:56"
+    ],
+    "test": "소스·Remaining 대조.",
+    "status": "미구현",
+    "verification": "정적 분석만 수행"
+  },
+  {
+    "id": "F43",
+    "name": "다중 PC 실시간 정비상황 공유",
+    "module": "원문 대비 범위 차이",
+    "channels": [],
+    "role": "원본 PDF9~11쪽의 인트라넷 기반 운영개념에 해당. 현재 앱은 독립 PC 오프라인 시연 범위.",
+    "inputs": "공유 서버/노드/충돌처리/동기화 설정 없음.",
+    "logic": "현 구현은 로컬 SQLite 단일 인스턴스. 실시간 업무 서버, 장비 이벤트 수집, 여러 PC 간 push/sync가 없다.",
+    "data": "각 PC userData에 별도 DB. 네트워크 공유 폴더에서 SQLite를 공동 운용하는 설계로 해석하지 않는다.",
+    "steps": "한 PC에서 역할을 바꿔 업무 흐름을 시연한다. 다른 PC의 변경이 자동 반영되는 방법은 없다.",
+    "errors": "다중 사용자 동시편집, 네트워크 단절 복구, 충돌·중복처리는 미검증/미구현.",
+    "limits": "현재 오프라인 시연 범위의 의도적 제한으로 분류한다. 원문 운영개념의 전체 배치 요구를 충족했다는 의미는 아니다.",
+    "refs": [
+      "README.md:3",
+      "docs/ARCHITECTURE.md:1",
+      "src/main/database/connection.ts:9"
+    ],
+    "test": "원본 PDF9~11쪽 시각 판독 및 코드 구조 대조.",
+    "status": "미구현",
+    "verification": "정적 분석만 수행"
+  }
+]

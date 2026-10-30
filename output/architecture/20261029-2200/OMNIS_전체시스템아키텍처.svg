@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="3840" height="2160" viewBox="0 0 1600 900">
+<title>OMNIS 전체 시스템 아키텍처</title>
+<desc>업무는 PC 안에서 처리하고, AI는 사용자가 요청한 범위만 선택적으로 실행합니다.</desc>
+<g font-family="Malgun Gothic">
+<rect id="s1-1" x="0" y="0" width="1600" height="900" rx="0" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="1.5"/>
+<rect id="s1-2" x="56" y="35" width="8" height="49" rx="0" fill="#26386D" stroke="#26386D" stroke-width="1.5"/>
+<text id="s1-3" x="82" y="72" font-size="42" font-weight="700" fill="#26386D" text-anchor="start">OMNIS 전체 시스템 아키텍처</text>
+<text id="s1-4" x="56" y="118" font-size="24" font-weight="400" fill="#58677F" text-anchor="start">업무는 PC 안에서 처리하고, AI는 사용자가 요청한 범위만 선택적으로 실행합니다.</text>
+<path id="s1-5" d="M 56,137 L 1544,137" fill="none" stroke="#CBD3E0" stroke-width="2.4" stroke-linejoin="round"/>
+<text id="s1-6" x="56" y="878" font-size="16" font-weight="400" fill="#58677F" text-anchor="start">OMNIS 1.0.1 · schema 8 · ba829af | 구현: 소스 확인 / 배포·외부 응답: 별도 검증</text>
+<text id="s1-7" x="1545" y="876" font-size="18" font-weight="700" fill="#26386D" text-anchor="end">01 / 06</text>
+<rect id="s1-8" x="40" y="152" width="1240" height="570" rx="14" fill="#FAFBFD" stroke="#CBD3E0" stroke-width="1.5"/>
+<text id="s1-9" x="58" y="185" font-size="23" font-weight="700" fill="#172442" text-anchor="start">사용자 PC</text>
+<text id="s1-10" x="280" y="185" font-size="20" font-weight="400" fill="#26386D" text-anchor="start">ADMIN · OPERATOR · MAINTAINER · USER · VIEWER</text>
+<rect id="s1-11" x="62" y="198" width="1195" height="369" rx="14" fill="#F8FAFE" stroke="#CBD3E0" stroke-width="1.5"/>
+<text id="s1-12" x="80" y="231" font-size="23" font-weight="700" fill="#172442" text-anchor="start">Electron 애플리케이션 · Renderer / Preload / Main</text>
+<rect id="s1-13" x="635" y="242" width="597" height="291" rx="14" fill="#F1F3FA" stroke="#26386D" stroke-width="1.5"/>
+<text id="s1-14" x="653" y="275" font-size="23" font-weight="700" fill="#26386D" text-anchor="start">Main 업무 처리</text>
+<rect id="s1-15" x="86" y="250" width="300" height="252" rx="9" fill="#FFFFFF" stroke="#336AC1" stroke-width="1.5"/>
+<rect id="s1-16" x="86" y="250" width="5" height="252" rx="0" fill="#336AC1" stroke="#336AC1" stroke-width="1.5"/>
+<text id="s1-17" x="104" y="287.0" font-size="25" font-weight="700" fill="#336AC1" text-anchor="start">React Renderer</text>
+<text id="s1-18" x="104" y="320.5" font-size="22" font-weight="400" fill="#172442" text-anchor="start">상황판 · 운용 · 고장</text>
+<text id="s1-19" x="104" y="350.86" font-size="22" font-weight="400" fill="#172442" text-anchor="start">정비 · 통제 · 근무</text>
+<text id="s1-20" x="104" y="381.22" font-size="22" font-weight="400" fill="#172442" text-anchor="start">보고서 · AI · 관리</text>
+<text id="s1-21" x="104" y="411.58" font-size="22" font-weight="400" fill="#172442" text-anchor="start">React state · 재조회</text>
+<rect id="s1-22" x="427" y="324" width="168" height="124" rx="9" fill="#FFFFFF" stroke="#26386D" stroke-width="1.5"/>
+<rect id="s1-23" x="427" y="324" width="5" height="124" rx="0" fill="#26386D" stroke="#26386D" stroke-width="1.5"/>
+<text id="s1-24" x="445" y="359.0" font-size="23" font-weight="700" fill="#26386D" text-anchor="start">Preload</text>
+<text id="s1-25" x="445" y="387.06" font-size="23" font-weight="700" fill="#26386D" text-anchor="start">bridge</text>
+<text id="s1-26" x="583" y="352" font-size="16" font-weight="400" fill="#26386D" text-anchor="end">P</text>
+<text id="s1-27" x="445" y="416.12" font-size="18" font-weight="400" fill="#172442" text-anchor="start">window.omnis</text>
+<rect id="s1-28" x="658" y="294" width="550" height="76" rx="9" fill="#FFFFFF" stroke="#9A6620" stroke-width="1.5"/>
+<rect id="s1-29" x="658" y="294" width="5" height="76" rx="0" fill="#9A6620" stroke="#9A6620" stroke-width="1.5"/>
+<text id="s1-30" x="676" y="329.0" font-size="23" font-weight="700" fill="#9A6620" text-anchor="start">IPC 검증·접근 검사</text>
+<text id="s1-31" x="676" y="361.06" font-size="21" font-weight="400" fill="#172442" text-anchor="start">mainFrame · Zod · 세션 · 역할 · 업무 대상</text>
+<rect id="s1-32" x="658" y="397" width="285" height="113" rx="9" fill="#FFFFFF" stroke="#26386D" stroke-width="1.5"/>
+<rect id="s1-33" x="658" y="397" width="5" height="113" rx="0" fill="#26386D" stroke="#26386D" stroke-width="1.5"/>
+<text id="s1-34" x="676" y="434.0" font-size="25" font-weight="700" fill="#26386D" text-anchor="start">AppService</text>
+<text id="s1-35" x="931" y="425" font-size="16" font-weight="400" fill="#26386D" text-anchor="end">S</text>
+<text id="s1-36" x="676" y="465.5" font-size="20" font-weight="400" fill="#172442" text-anchor="start">고장·정비 · 통제·근무</text>
+<text id="s1-37" x="676" y="493.1" font-size="20" font-weight="400" fill="#172442" text-anchor="start">실용 기능 · 보고서</text>
+<rect id="s1-38" x="971" y="397" width="237" height="113" rx="9" fill="#FFFFFF" stroke="#7554A5" stroke-width="1.5"/>
+<rect id="s1-39" x="971" y="397" width="5" height="113" rx="0" fill="#7554A5" stroke="#7554A5" stroke-width="1.5"/>
+<text id="s1-40" x="989" y="430.0" font-size="21" font-weight="700" fill="#7554A5" text-anchor="start">선택형 AI 업무 지원</text>
+<text id="s1-41" x="989" y="460.62" font-size="20" font-weight="400" fill="#172442" text-anchor="start">LOCAL 기본</text>
+<text id="s1-42" x="989" y="488.22" font-size="20" font-weight="400" fill="#172442" text-anchor="start">선택형 Provider</text>
+<rect id="s1-43" x="86" y="609" width="390" height="88" rx="9" fill="#FFFFFF" stroke="#087C7B" stroke-width="1.5"/>
+<rect id="s1-44" x="86" y="609" width="5" height="88" rx="0" fill="#087C7B" stroke="#087C7B" stroke-width="1.5"/>
+<text id="s1-45" x="104" y="646.0" font-size="25" font-weight="700" fill="#087C7B" text-anchor="start">SQLite 사용자 DB</text>
+<text id="s1-46" x="104" y="678.5" font-size="21" font-weight="400" fill="#172442" text-anchor="start">data/omnis.db · WAL</text>
+<rect id="s1-47" x="502" y="609" width="354" height="88" rx="9" fill="#FFFFFF" stroke="#087C7B" stroke-width="1.5"/>
+<rect id="s1-48" x="502" y="609" width="5" height="88" rx="0" fill="#087C7B" stroke="#087C7B" stroke-width="1.5"/>
+<text id="s1-49" x="520" y="646.0" font-size="25" font-weight="700" fill="#087C7B" text-anchor="start">로컬 파일 보존</text>
+<text id="s1-50" x="520" y="677.5" font-size="20" font-weight="400" fill="#172442" text-anchor="start">첨부 · 백업 · 암호화 Key</text>
+<rect id="s1-51" x="883" y="609" width="350" height="88" rx="9" fill="#FFFFFF" stroke="#7554A5" stroke-width="1.5"/>
+<rect id="s1-52" x="883" y="609" width="5" height="88" rx="0" fill="#7554A5" stroke="#7554A5" stroke-width="1.5"/>
+<text id="s1-53" x="901" y="646.0" font-size="25" font-weight="700" fill="#7554A5" text-anchor="start">Ollama 별도 프로세스</text>
+<text id="s1-54" x="901" y="677.5" font-size="20" font-weight="400" fill="#172442" text-anchor="start">별도 설치 · loopback HTTP</text>
+<rect id="s1-55" x="1320" y="152" width="240" height="570" rx="14" fill="#F4F0FA" stroke="#7554A5" stroke-width="1.5"/>
+<text id="s1-56" x="1338" y="185" font-size="23" font-weight="700" fill="#7554A5" text-anchor="start">인터넷 서비스</text>
+<rect id="s1-57" x="1340" y="266" width="200" height="108" rx="9" fill="#FFFFFF" stroke="#7554A5" stroke-width="1.5"/>
+<rect id="s1-58" x="1340" y="266" width="5" height="108" rx="0" fill="#7554A5" stroke="#7554A5" stroke-width="1.5"/>
+<text id="s1-59" x="1358" y="301.0" font-size="23" font-weight="700" fill="#7554A5" text-anchor="start">OpenAI</text>
+<text id="s1-60" x="1358" y="329.06" font-size="23" font-weight="700" fill="#7554A5" text-anchor="start">서비스</text>
+<text id="s1-61" x="1358" y="358.12" font-size="18" font-weight="400" fill="#172442" text-anchor="start">SDK Responses</text>
+<rect id="s1-62" x="1340" y="415" width="200" height="108" rx="9" fill="#FFFFFF" stroke="#7554A5" stroke-width="1.5"/>
+<rect id="s1-63" x="1340" y="415" width="5" height="108" rx="0" fill="#7554A5" stroke="#7554A5" stroke-width="1.5"/>
+<text id="s1-64" x="1358" y="450.0" font-size="23" font-weight="700" fill="#7554A5" text-anchor="start">Anthropic</text>
+<text id="s1-65" x="1358" y="478.06" font-size="23" font-weight="700" fill="#7554A5" text-anchor="start">서비스</text>
+<text id="s1-66" x="1358" y="507.12" font-size="18" font-weight="400" fill="#172442" text-anchor="start">SDK Messages</text>
+<text id="s1-67" x="1340" y="583" font-size="18" font-weight="400" fill="#7554A5" text-anchor="start">활성화·동의·Key·한도</text>
+<text id="s1-68" x="1340" y="613" font-size="18" font-weight="400" fill="#7554A5" text-anchor="start">최소 입력 · 마스킹</text>
+<text id="s1-69" x="1340" y="643" font-size="18" font-weight="400" fill="#7554A5" text-anchor="start">실제 외부 호출 미검증</text>
+<path id="s1-70" d="M 386,385 L 427,385" fill="none" stroke="#58677F" stroke-width="2.4" stroke-linejoin="round"/>
+<polygon points="427,385 417.8691105968769,389.0776045305957 417.8691105968769,380.9223954694043" fill="#58677F"/>
+<text id="s1-71" x="382" y="309" font-size="18" font-weight="400" fill="#58677F" text-anchor="start">① 입력</text>
+<path id="s1-72" d="M 595,385 L 623,385 L 623,332 L 658,332" fill="none" stroke="#58677F" stroke-width="2.4" stroke-linejoin="round"/>
+<polygon points="658,332 648.8691105968769,336.0776045305957 648.8691105968769,327.9223954694043" fill="#58677F"/>
+<text id="s1-73" x="532" y="307" font-size="18" font-weight="400" fill="#58677F" text-anchor="start">② IPC</text>
+<path id="s1-74" d="M 800,370 L 800,397" fill="none" stroke="#58677F" stroke-width="2.4" stroke-linejoin="round"/>
+<polygon points="800,397 795.9223954694043,387.8691105968769 804.0776045305957,387.8691105968769" fill="#58677F"/>
+<text id="s1-75" x="838" y="390" font-size="18" font-weight="400" fill="#58677F" text-anchor="start">③ 검사</text>
+<path id="s1-76" d="M 800,510 L 800,552 L 280,552 L 280,609" fill="none" stroke="#58677F" stroke-width="2.4" stroke-linejoin="round"/>
+<polygon points="280,609 275.9223954694043,599.8691105968769 284.0776045305957,599.8691105968769" fill="#58677F"/>
+<text id="s1-77" x="367" y="542" font-size="18" font-weight="400" fill="#58677F" text-anchor="start">④ SQL·파일 처리</text>
+<path id="s1-78" d="M 658,473 L 386,473" fill="none" stroke="#58677F" stroke-width="2.4" stroke-linejoin="round"/>
+<polygon points="386,473 395.1308894031231,468.9223954694043 395.1308894031231,477.0776045305957" fill="#58677F"/>
+<text id="s1-79" x="428" y="497" font-size="18" font-weight="400" fill="#58677F" text-anchor="start">⑥ 응답·재조회</text>
+<path id="s1-80" d="M 900,510 L 900,580 L 678,580 L 678,609" fill="none" stroke="#087C7B" stroke-width="2.4" stroke-linejoin="round"/>
+<polygon points="678,609 673.9223954694043,599.8691105968769 682.0776045305957,599.8691105968769" fill="#087C7B"/>
+<path id="s1-81" d="M 943,453 L 971,453" fill="none" stroke="#7554A5" stroke-width="2.4" stroke-linejoin="round" stroke-dasharray="8 6"/>
+<polygon points="971,453 961.8691105968769,457.0776045305957 961.8691105968769,448.9223954694043" fill="#7554A5"/>
+<path id="s1-82" d="M 1089,510 L 1089,609" fill="none" stroke="#7554A5" stroke-width="2.4" stroke-linejoin="round" stroke-dasharray="8 6"/>
+<polygon points="1089,609 1084.9223954694044,599.8691105968769 1093.0776045305956,599.8691105968769" fill="#7554A5"/>
+<text id="s1-83" x="1095" y="577" font-size="18" font-weight="400" fill="#7554A5" text-anchor="start">⑤ 선택 요청</text>
+<path id="s1-84" d="M 1208,431 L 1294,431 L 1294,320 L 1340,320" fill="none" stroke="#7554A5" stroke-width="2.4" stroke-linejoin="round" stroke-dasharray="8 6"/>
+<polygon points="1340,320 1330.869110596877,324.0776045305957 1330.869110596877,315.9223954694043" fill="#7554A5"/>
+<path id="s1-85" d="M 1208,481 L 1303,481 L 1303,469 L 1340,469" fill="none" stroke="#7554A5" stroke-width="2.4" stroke-linejoin="round" stroke-dasharray="8 6"/>
+<polygon points="1340,469 1330.869110596877,473.0776045305957 1330.869110596877,464.9223954694043" fill="#7554A5"/>
+<rect id="s1-86" x="40" y="752" width="1520" height="63" rx="10" fill="#F1F3FA" stroke="#CBD3E0" stroke-width="1.5"/>
+<text id="s1-87" x="60" y="789" font-size="22" font-weight="400" fill="#26386D" text-anchor="start">개발·배포   소스 · Node.js/pnpm  →  검사·시험  →  electron-vite  →  electron-builder  →  NSIS EXE / macOS DMG·ZIP</text>
+<text id="s1-88" x="56" y="842" font-size="17" font-weight="400" fill="#58677F" text-anchor="start">실선: 현재 호출·저장 / 점선: 조건부·선택 경로  |  파랑 UI · 남색 Main · 청록 저장 · 보라 AI · 황토 보안</text>
+</g></svg>

@@ -1,0 +1,29 @@
+{
+  "08-prompt": {
+    "file": "docs/OMNIS_FIVE_FEATURES_IMPLEMENTATION_PROMPT.md",
+    "lines": [
+      3,
+      9
+    ],
+    "sha256": "ddd5d535ef663f2856ed50c914e34e311559de50d094586d4e1f864090adbd6c",
+    "kind": "actual source excerpt rendered for evidence; not an AI chat screenshot"
+  },
+  "09-source": {
+    "file": "src/renderer/src/InputAssist.tsx",
+    "lines": [
+      65,
+      73
+    ],
+    "sha256": "e17304162128d4a0a155fd48343b98c80a662f06f3e0da5d685a873be3f828b4",
+    "kind": "actual source excerpt rendered for evidence; not an AI chat screenshot"
+  },
+  "10-test": {
+    "file": "tests/e2e/ai-settings-flow.mjs",
+    "lines": [
+      36,
+      42
+    ],
+    "sha256": "4e9b0aa316de3835496f56aa521a550384aadb473ed419f7c6c95ff7d43fbeb0",
+    "kind": "actual source excerpt rendered for evidence; not an AI chat screenshot"
+  }
+}

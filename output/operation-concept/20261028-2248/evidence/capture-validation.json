@@ -1,0 +1,84 @@
+{
+  "version": "1.0.1",
+  "profile": "isolated-synthetic",
+  "externalAiEnabled": false,
+  "runProviders": [
+    "LOCAL"
+  ],
+  "externalTransmissions": 0,
+  "errors": [],
+  "results": [
+    {
+      "name": "01-dashboard",
+      "viewport": {
+        "width": 1366,
+        "height": 768
+      },
+      "horizontalOverflow": false
+    },
+    {
+      "name": "02-incidents",
+      "viewport": {
+        "width": 1366,
+        "height": 768
+      },
+      "horizontalOverflow": false
+    },
+    {
+      "name": "03-intake",
+      "viewport": {
+        "width": 1366,
+        "height": 768
+      },
+      "horizontalOverflow": false
+    },
+    {
+      "name": "04-maintenance",
+      "viewport": {
+        "width": 1366,
+        "height": 768
+      },
+      "horizontalOverflow": false
+    },
+    {
+      "name": "05-recurring",
+      "viewport": {
+        "width": 1366,
+        "height": 768
+      },
+      "horizontalOverflow": false
+    },
+    {
+      "name": "06-control",
+      "viewport": {
+        "width": 1366,
+        "height": 768
+      },
+      "horizontalOverflow": false
+    },
+    {
+      "name": "07-duty",
+      "viewport": {
+        "width": 1366,
+        "height": 768
+      },
+      "horizontalOverflow": false
+    },
+    {
+      "name": "08-ai-local",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "horizontalOverflow": false
+    },
+    {
+      "name": "09-ai-local-1366",
+      "viewport": {
+        "width": 1366,
+        "height": 768
+      },
+      "horizontalOverflow": false
+    }
+  ]
+}

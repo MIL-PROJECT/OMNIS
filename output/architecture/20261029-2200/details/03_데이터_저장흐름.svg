@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="3840" height="2160" viewBox="0 0 1600 900">
+<title>데이터 구조와 저장 흐름</title>
+<desc>SQLite 파일 하나에 업무 관계를 저장하고, 첨부 원본·백업·seed·매뉴얼은 별도 파일로 보존합니다.</desc>
+<g font-family="Malgun Gothic">
+<rect id="s3-1" x="0" y="0" width="1600" height="900" rx="0" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="1.5"/>
+<rect id="s3-2" x="56" y="35" width="8" height="49" rx="0" fill="#26386D" stroke="#26386D" stroke-width="1.5"/>
+<text id="s3-3" x="82" y="72" font-size="42" font-weight="700" fill="#26386D" text-anchor="start">데이터 구조와 저장 흐름</text>
+<text id="s3-4" x="56" y="118" font-size="24" font-weight="400" fill="#58677F" text-anchor="start">SQLite 파일 하나에 업무 관계를 저장하고, 첨부 원본·백업·seed·매뉴얼은 별도 파일로 보존합니다.</text>
+<path id="s3-5" d="M 56,137 L 1544,137" fill="none" stroke="#CBD3E0" stroke-width="2.4" stroke-linejoin="round"/>
+<text id="s3-6" x="56" y="878" font-size="16" font-weight="400" fill="#58677F" text-anchor="start">OMNIS 1.0.1 · schema 8 · ba829af | 구현: 소스 확인 / 배포·외부 응답: 별도 검증</text>
+<text id="s3-7" x="1545" y="876" font-size="18" font-weight="700" fill="#26386D" text-anchor="end">03 / 06</text>
+<rect id="s3-8" x="56" y="175" width="370" height="85" rx="9" fill="#FFFFFF" stroke="#087C7B" stroke-width="1.5"/>
+<rect id="s3-9" x="56" y="175" width="5" height="85" rx="0" fill="#087C7B" stroke="#087C7B" stroke-width="1.5"/>
+<text id="s3-10" x="74" y="210.0" font-size="23" font-weight="700" fill="#087C7B" text-anchor="start">users</text>
+<text id="s3-11" x="74" y="240.06" font-size="19" font-weight="400" fill="#172442" text-anchor="start">id PK · role · active</text>
+<rect id="s3-12" x="610" y="175" width="370" height="85" rx="9" fill="#FFFFFF" stroke="#087C7B" stroke-width="1.5"/>
+<rect id="s3-13" x="610" y="175" width="5" height="85" rx="0" fill="#087C7B" stroke="#087C7B" stroke-width="1.5"/>
+<text id="s3-14" x="628" y="210.0" font-size="23" font-weight="700" fill="#087C7B" text-anchor="start">communication_systems</text>
+<text id="s3-15" x="628" y="240.06" font-size="19" font-weight="400" fill="#172442" text-anchor="start">id PK · status · uptime_pct</text>
+<rect id="s3-16" x="1160" y="175" width="370" height="85" rx="9" fill="#FFFFFF" stroke="#087C7B" stroke-width="1.5"/>
+<rect id="s3-17" x="1160" y="175" width="5" height="85" rx="0" fill="#087C7B" stroke="#087C7B" stroke-width="1.5"/>
+<text id="s3-18" x="1178" y="210.0" font-size="23" font-weight="700" fill="#087C7B" text-anchor="start">recurring_rules</text>
+<text id="s3-19" x="1178" y="240.06" font-size="19" font-weight="400" fill="#172442" text-anchor="start">id PK · version · definition_json</text>
+<rect id="s3-20" x="56" y="350" width="370" height="140" rx="9" fill="#FFFFFF" stroke="#087C7B" stroke-width="1.5"/>
+<rect id="s3-21" x="56" y="350" width="5" height="140" rx="0" fill="#087C7B" stroke="#087C7B" stroke-width="1.5"/>
+<text id="s3-22" x="74" y="385.0" font-size="23" font-weight="700" fill="#087C7B" text-anchor="start">incidents</text>
+<text id="s3-23" x="74" y="415.06" font-size="19" font-weight="400" fill="#172442" text-anchor="start">id PK · system_id FK · reported_by FK</text>
+<text id="s3-24" x="74" y="441.28" font-size="19" font-weight="400" fill="#172442" text-anchor="start">department: 요청부서 문자열</text>
+<text id="s3-25" x="74" y="467.5" font-size="19" font-weight="400" fill="#172442" text-anchor="start">team_id: 조치부서 논리 관계</text>
+<rect id="s3-26" x="610" y="350" width="370" height="140" rx="9" fill="#FFFFFF" stroke="#087C7B" stroke-width="1.5"/>
+<rect id="s3-27" x="610" y="350" width="5" height="140" rx="0" fill="#087C7B" stroke="#087C7B" stroke-width="1.5"/>
+<text id="s3-28" x="628" y="385.0" font-size="23" font-weight="700" fill="#087C7B" text-anchor="start">maintenance_tasks</text>
+<text id="s3-29" x="628" y="415.06" font-size="19" font-weight="400" fill="#172442" text-anchor="start">id PK · incident_id FK · assignee_id FK</text>
+<text id="s3-30" x="628" y="441.28" font-size="19" font-weight="400" fill="#172442" text-anchor="start">상태 · 일정 · 결과</text>
+<text id="s3-31" x="628" y="467.5" font-size="19" font-weight="400" fill="#172442" text-anchor="start">정비 완료 전 체크리스트 검사</text>
+<rect id="s3-32" x="1160" y="350" width="370" height="140" rx="9" fill="#FFFFFF" stroke="#087C7B" stroke-width="1.5"/>
+<rect id="s3-33" x="1160" y="350" width="5" height="140" rx="0" fill="#087C7B" stroke="#087C7B" stroke-width="1.5"/>
+<text id="s3-34" x="1178" y="385.0" font-size="23" font-weight="700" fill="#087C7B" text-anchor="start">recurring_occurrences</text>
+<text id="s3-35" x="1178" y="415.06" font-size="19" font-weight="400" fill="#172442" text-anchor="start">PK(rule_id, occurrence_date)</text>
+<text id="s3-36" x="1178" y="441.28" font-size="19" font-weight="400" fill="#172442" text-anchor="start">rule_id FK · task_id FK</text>
+<text id="s3-37" x="1178" y="467.5" font-size="19" font-weight="400" fill="#172442" text-anchor="start">기존 회차 skip + transaction</text>
+<rect id="s3-38" x="56" y="568" width="370" height="87" rx="9" fill="#FFFFFF" stroke="#087C7B" stroke-width="1.5"/>
+<rect id="s3-39" x="56" y="568" width="5" height="87" rx="0" fill="#087C7B" stroke="#087C7B" stroke-width="1.5"/>
+<text id="s3-40" x="74" y="603.0" font-size="23" font-weight="700" fill="#087C7B" text-anchor="start">incident_events</text>
+<text id="s3-41" x="74" y="633.06" font-size="19" font-weight="400" fill="#172442" text-anchor="start">id PK · incident_id FK · actor_id FK</text>
+<rect id="s3-42" x="610" y="568" width="370" height="100" rx="9" fill="#FFFFFF" stroke="#087C7B" stroke-width="1.5"/>
+<rect id="s3-43" x="610" y="568" width="5" height="100" rx="0" fill="#087C7B" stroke="#087C7B" stroke-width="1.5"/>
+<text id="s3-44" x="628" y="603.0" font-size="23" font-weight="700" fill="#087C7B" text-anchor="start">task_checklists</text>
+<text id="s3-45" x="628" y="633.06" font-size="19" font-weight="400" fill="#172442" text-anchor="start">task_id PK/FK · template_id FK</text>
+<text id="s3-46" x="628" y="659.28" font-size="19" font-weight="400" fill="#172442" text-anchor="start">템플릿 snapshot · revision</text>
+<rect id="s3-47" x="1160" y="568" width="370" height="100" rx="9" fill="#FFFFFF" stroke="#087C7B" stroke-width="1.5"/>
+<rect id="s3-48" x="1160" y="568" width="5" height="100" rx="0" fill="#087C7B" stroke="#087C7B" stroke-width="1.5"/>
+<text id="s3-49" x="1178" y="603.0" font-size="23" font-weight="700" fill="#087C7B" text-anchor="start">work_templates</text>
+<text id="s3-50" x="1178" y="633.06" font-size="19" font-weight="400" fill="#172442" text-anchor="start">id PK · kind · version</text>
+<text id="s3-51" x="1178" y="659.28" font-size="19" font-weight="400" fill="#172442" text-anchor="start">접수 질문 / 정비 점검 정의</text>
+<path id="s3-52" d="M 241,260 L 241,350" fill="none" stroke="#087C7B" stroke-width="2.4" stroke-linejoin="round"/>
+<polygon points="241,350 236.9223954694043,340.8691105968769 245.0776045305957,340.8691105968769" fill="#087C7B"/>
+<text id="s3-53" x="79" y="310" font-size="18" font-weight="400" fill="#087C7B" text-anchor="start">reported_by 1:N</text>
+<path id="s3-54" d="M 795,260 L 795,350" fill="none" stroke="#087C7B" stroke-width="2.4" stroke-linejoin="round"/>
+<polygon points="795,350 790.9223954694043,340.8691105968769 799.0776045305957,340.8691105968769" fill="#087C7B"/>
+<text id="s3-55" x="632" y="310" font-size="18" font-weight="400" fill="#087C7B" text-anchor="start">system_id 1:N</text>
+<path id="s3-56" d="M 1345,260 L 1345,350" fill="none" stroke="#087C7B" stroke-width="2.4" stroke-linejoin="round"/>
+<polygon points="1345,350 1340.9223954694044,340.8691105968769 1349.0776045305956,340.8691105968769" fill="#087C7B"/>
+<text id="s3-57" x="1194" y="310" font-size="18" font-weight="400" fill="#087C7B" text-anchor="start">rule_id 1:N</text>
+<path id="s3-58" d="M 426,409 L 610,409" fill="none" stroke="#087C7B" stroke-width="2.4" stroke-linejoin="round"/>
+<polygon points="610,409 600.8691105968769,413.0776045305957 600.8691105968769,404.9223954694043" fill="#087C7B"/>
+<text id="s3-59" x="447" y="389" font-size="18" font-weight="400" fill="#087C7B" text-anchor="start">incident_id</text>
+<text id="s3-60" x="485" y="434" font-size="18" font-weight="400" fill="#087C7B" text-anchor="start">1:N</text>
+<path id="s3-61" d="M 980,409 L 1160,409" fill="none" stroke="#087C7B" stroke-width="2.4" stroke-linejoin="round"/>
+<polygon points="1160,409 1150.869110596877,413.0776045305957 1150.869110596877,404.9223954694043" fill="#087C7B"/>
+<text id="s3-62" x="991" y="389" font-size="18" font-weight="400" fill="#087C7B" text-anchor="start">task_id 1:N</text>
+<path id="s3-63" d="M 241,490 L 241,568" fill="none" stroke="#087C7B" stroke-width="2.4" stroke-linejoin="round"/>
+<polygon points="241,568 236.9223954694043,558.8691105968769 245.0776045305957,558.8691105968769" fill="#087C7B"/>
+<text id="s3-64" x="76" y="540" font-size="18" font-weight="400" fill="#087C7B" text-anchor="start">incident_id 1:N</text>
+<path id="s3-65" d="M 795,490 L 795,568" fill="none" stroke="#087C7B" stroke-width="2.4" stroke-linejoin="round"/>
+<polygon points="795,568 790.9223954694043,558.8691105968769 799.0776045305957,558.8691105968769" fill="#087C7B"/>
+<text id="s3-66" x="629" y="540" font-size="18" font-weight="400" fill="#087C7B" text-anchor="start">task_id 1:0..1</text>
+<path id="s3-67" d="M 1160,618 L 980,618" fill="none" stroke="#087C7B" stroke-width="2.4" stroke-linejoin="round"/>
+<polygon points="980,618 989.1308894031231,613.9223954694043 989.1308894031231,622.0776045305957" fill="#087C7B"/>
+<text id="s3-68" x="988" y="596" font-size="18" font-weight="400" fill="#087C7B" text-anchor="start">template_id 1:N</text>
+<text id="s3-69" x="56" y="706" font-size="20" font-weight="400" fill="#172442" text-anchor="start">F03 반복 정비: 규칙·기간 미리보기 → 생성 시 재검증 → 기존 회차 skip → 작업·회차 transaction 저장</text>
+<text id="s3-70" x="56" y="742" font-size="20" font-weight="400" fill="#172442" text-anchor="start">논리 관계: incidents.team_id → maintenance_teams.id (FK 없음) · 첨부/AI 이력은 entity_type + entity_id</text>
+<path id="s3-71" d="M 70,768 L 180,768" fill="none" stroke="#9A6620" stroke-width="2.4" stroke-linejoin="round" stroke-dasharray="8 6"/>
+<text id="s3-72" x="195" y="774" font-size="18" font-weight="400" fill="#9A6620" text-anchor="start">점선: 서비스가 관리하는 논리 관계  |  실선: 실제 FK (부모 → 자식)</text>
+<rect id="s3-73" x="56" y="790" width="1488" height="39" rx="10" fill="#ECF7F5" stroke="#ECF7F5" stroke-width="1.5"/>
+<text id="s3-74" x="72" y="813" font-size="20" font-weight="400" fill="#087C7B" text-anchor="start">seed → 최초 사용자 DB  |  첨부: 원본 + DB metadata  |  백업: DB + 첨부  |  매뉴얼: 번들 복사  |  보고서: SQL → PDF/CSV</text>
+<text id="s3-75" x="56" y="849" font-size="17" font-weight="400" fill="#58677F" text-anchor="start">33개 테이블·FK·필드 사전: evidence/전체테이블_필드사전.csv  |  세션: Main 메모리 / work:mine: 기존 업무 조회</text>
+</g></svg>

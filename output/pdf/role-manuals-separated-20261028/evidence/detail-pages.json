@@ -1,0 +1,68 @@
+[
+  {
+    "role": "ADMIN",
+    "page": 1,
+    "key": "cover",
+    "file": "rendered-final/details/ADMIN-cover.png"
+  },
+  {
+    "role": "ADMIN",
+    "page": 81,
+    "key": "A02-screen",
+    "file": "rendered-final/details/ADMIN-A02-screen.png"
+  },
+  {
+    "role": "ADMIN",
+    "page": 82,
+    "key": "external-ai",
+    "file": "rendered-final/details/ADMIN-external-ai.png"
+  },
+  {
+    "role": "ADMIN",
+    "page": 101,
+    "key": "validation",
+    "file": "rendered-final/details/ADMIN-validation.png"
+  },
+  {
+    "role": "OPERATOR",
+    "page": 49,
+    "key": "T07-screen",
+    "file": "rendered-final/details/OPERATOR-T07-screen.png"
+  },
+  {
+    "role": "MAINTAINER",
+    "page": 44,
+    "key": "T12-screen",
+    "file": "rendered-final/details/MAINTAINER-T12-screen.png"
+  },
+  {
+    "role": "USER",
+    "page": 23,
+    "key": "C07",
+    "file": "rendered-final/details/USER-C07.png"
+  },
+  {
+    "role": "USER",
+    "page": 24,
+    "key": "C07-screen",
+    "file": "rendered-final/details/USER-C07-screen.png"
+  },
+  {
+    "role": "USER",
+    "page": 45,
+    "key": "T10",
+    "file": "rendered-final/details/USER-T10.png"
+  },
+  {
+    "role": "VIEWER",
+    "page": 19,
+    "key": "C05",
+    "file": "rendered-final/details/VIEWER-C05.png"
+  },
+  {
+    "role": "VIEWER",
+    "page": 24,
+    "key": "C08-screen",
+    "file": "rendered-final/details/VIEWER-C08-screen.png"
+  }
+]

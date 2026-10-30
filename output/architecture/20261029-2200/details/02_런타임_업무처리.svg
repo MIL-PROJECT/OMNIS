@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="3840" height="2160" viewBox="0 0 1600 900">
+<title>런타임 구성과 업무 처리</title>
+<desc>IPC 검증과 업무 권한을 통과한 요청만 저장하며, 화면은 응답 후 다시 조회합니다.</desc>
+<g font-family="Malgun Gothic">
+<rect id="s2-1" x="0" y="0" width="1600" height="900" rx="0" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="1.5"/>
+<rect id="s2-2" x="56" y="35" width="8" height="49" rx="0" fill="#26386D" stroke="#26386D" stroke-width="1.5"/>
+<text id="s2-3" x="82" y="72" font-size="42" font-weight="700" fill="#26386D" text-anchor="start">런타임 구성과 업무 처리</text>
+<text id="s2-4" x="56" y="118" font-size="24" font-weight="400" fill="#58677F" text-anchor="start">IPC 검증과 업무 권한을 통과한 요청만 저장하며, 화면은 응답 후 다시 조회합니다.</text>
+<path id="s2-5" d="M 56,137 L 1544,137" fill="none" stroke="#CBD3E0" stroke-width="2.4" stroke-linejoin="round"/>
+<text id="s2-6" x="56" y="878" font-size="16" font-weight="400" fill="#58677F" text-anchor="start">OMNIS 1.0.1 · schema 8 · ba829af | 구현: 소스 확인 / 배포·외부 응답: 별도 검증</text>
+<text id="s2-7" x="1545" y="876" font-size="18" font-weight="700" fill="#26386D" text-anchor="end">02 / 06</text>
+<rect id="s2-8" x="70" y="170" width="220" height="67" rx="9" fill="#FFFFFF" stroke="#336AC1" stroke-width="1.5"/>
+<rect id="s2-9" x="70" y="170" width="5" height="67" rx="0" fill="#336AC1" stroke="#336AC1" stroke-width="1.5"/>
+<text id="s2-10" x="88" y="203.0" font-size="21" font-weight="700" fill="#336AC1" text-anchor="start">React Renderer</text>
+<path id="s2-11" d="M 180,237 L 180,528" fill="none" stroke="#CBD3E0" stroke-width="2.4" stroke-linejoin="round" stroke-dasharray="8 6"/>
+<rect id="s2-12" x="360" y="170" width="220" height="67" rx="9" fill="#FFFFFF" stroke="#26386D" stroke-width="1.5"/>
+<rect id="s2-13" x="360" y="170" width="5" height="67" rx="0" fill="#26386D" stroke="#26386D" stroke-width="1.5"/>
+<text id="s2-14" x="378" y="203.0" font-size="21" font-weight="700" fill="#26386D" text-anchor="start">Preload bridge</text>
+<path id="s2-15" d="M 470,237 L 470,528" fill="none" stroke="#CBD3E0" stroke-width="2.4" stroke-linejoin="round" stroke-dasharray="8 6"/>
+<rect id="s2-16" x="640" y="170" width="220" height="67" rx="9" fill="#FFFFFF" stroke="#9A6620" stroke-width="1.5"/>
+<rect id="s2-17" x="640" y="170" width="5" height="67" rx="0" fill="#9A6620" stroke="#9A6620" stroke-width="1.5"/>
+<text id="s2-18" x="658" y="203.0" font-size="21" font-weight="700" fill="#9A6620" text-anchor="start">IPC 검증·접근 검사</text>
+<path id="s2-19" d="M 750,237 L 750,528" fill="none" stroke="#CBD3E0" stroke-width="2.4" stroke-linejoin="round" stroke-dasharray="8 6"/>
+<rect id="s2-20" x="940" y="170" width="220" height="67" rx="9" fill="#FFFFFF" stroke="#26386D" stroke-width="1.5"/>
+<rect id="s2-21" x="940" y="170" width="5" height="67" rx="0" fill="#26386D" stroke="#26386D" stroke-width="1.5"/>
+<text id="s2-22" x="958" y="203.0" font-size="21" font-weight="700" fill="#26386D" text-anchor="start">AppService</text>
+<text id="s2-23" x="1148" y="198" font-size="16" font-weight="400" fill="#26386D" text-anchor="end">S</text>
+<path id="s2-24" d="M 1050,237 L 1050,528" fill="none" stroke="#CBD3E0" stroke-width="2.4" stroke-linejoin="round" stroke-dasharray="8 6"/>
+<rect id="s2-25" x="1270" y="170" width="220" height="67" rx="9" fill="#FFFFFF" stroke="#087C7B" stroke-width="1.5"/>
+<rect id="s2-26" x="1270" y="170" width="5" height="67" rx="0" fill="#087C7B" stroke="#087C7B" stroke-width="1.5"/>
+<text id="s2-27" x="1288" y="203.0" font-size="21" font-weight="700" fill="#087C7B" text-anchor="start">SQLite 사용자 DB</text>
+<path id="s2-28" d="M 1380,237 L 1380,528" fill="none" stroke="#CBD3E0" stroke-width="2.4" stroke-linejoin="round" stroke-dasharray="8 6"/>
+<path id="s2-29" d="M 180,263 L 470,263" fill="none" stroke="#58677F" stroke-width="2.4" stroke-linejoin="round"/>
+<polygon points="470,263 460.8691105968769,267.0776045305957 460.8691105968769,258.9223954694043" fill="#58677F"/>
+<text id="s2-30" x="192" y="257" font-size="18" font-weight="400" fill="#58677F" text-anchor="start">F01.1  create payload</text>
+<path id="s2-31" d="M 470,304 L 750,304" fill="none" stroke="#58677F" stroke-width="2.4" stroke-linejoin="round"/>
+<polygon points="750,304 740.8691105968769,308.0776045305957 740.8691105968769,299.9223954694043" fill="#58677F"/>
+<text id="s2-32" x="476" y="298" font-size="18" font-weight="400" fill="#58677F" text-anchor="start">F01.2  invoke · frame · Zod</text>
+<path id="s2-33" d="M 750,345 L 1050,345" fill="none" stroke="#58677F" stroke-width="2.4" stroke-linejoin="round"/>
+<polygon points="1050,345 1040.869110596877,349.0776045305957 1040.869110596877,340.9223954694043" fill="#58677F"/>
+<text id="s2-34" x="760" y="339" font-size="18" font-weight="400" fill="#58677F" text-anchor="start">F01.3  역할·검증된 입력</text>
+<path id="s2-35" d="M 1050,386 L 1380,386" fill="none" stroke="#58677F" stroke-width="2.4" stroke-linejoin="round"/>
+<polygon points="1380,386 1370.869110596877,390.0776045305957 1370.869110596877,381.9223954694043" fill="#58677F"/>
+<text id="s2-36" x="1060" y="380" font-size="18" font-weight="400" fill="#58677F" text-anchor="start">F01.4  SQL transaction</text>
+<path id="s2-37" d="M 1380,439 L 180,439" fill="none" stroke="#58677F" stroke-width="2.4" stroke-linejoin="round"/>
+<polygon points="180,439 189.1308894031231,434.9223954694043 189.1308894031231,443.0776045305957" fill="#58677F"/>
+<text id="s2-38" x="430" y="427" font-size="18" font-weight="400" fill="#58677F" text-anchor="start">F01.5  id·접수번호 → Result ok → incidents:list → setRows</text>
+<path id="s2-39" d="M 750,505 L 180,505" fill="none" stroke="#9A6620" stroke-width="2.4" stroke-linejoin="round" stroke-dasharray="8 6"/>
+<polygon points="180,505 189.1308894031231,500.9223954694043 189.1308894031231,509.0776045305957" fill="#9A6620"/>
+<text id="s2-40" x="237" y="494" font-size="18" font-weight="400" fill="#9A6620" text-anchor="start">검증/권한 실패 → ok:false → Error 안내</text>
+<text id="s2-41" x="56" y="576" font-size="25" font-weight="700" fill="#26386D" text-anchor="start">F02  부서·담당 배정과 처리 상태 — 각각 별도의 사용자 요청</text>
+<rect id="s2-42" x="56" y="600" width="185" height="62" rx="10" fill="#F1F3FA" stroke="#26386D" stroke-width="1.5"/>
+<text id="s2-43" x="148.5" y="636" font-size="25" font-weight="700" fill="#26386D" text-anchor="middle">접수</text>
+<path id="s2-44" d="M 241,631 L 269,631" fill="none" stroke="#58677F" stroke-width="2.4" stroke-linejoin="round"/>
+<polygon points="269,631 259.8691105968769,635.0776045305957 259.8691105968769,626.9223954694043" fill="#58677F"/>
+<rect id="s2-45" x="269" y="600" width="185" height="62" rx="10" fill="#F1F3FA" stroke="#26386D" stroke-width="1.5"/>
+<text id="s2-46" x="361.5" y="636" font-size="25" font-weight="700" fill="#26386D" text-anchor="middle">분류</text>
+<path id="s2-47" d="M 454,631 L 482,631" fill="none" stroke="#58677F" stroke-width="2.4" stroke-linejoin="round"/>
+<polygon points="482,631 472.8691105968769,635.0776045305957 472.8691105968769,626.9223954694043" fill="#58677F"/>
+<rect id="s2-48" x="482" y="600" width="185" height="62" rx="10" fill="#F1F3FA" stroke="#26386D" stroke-width="1.5"/>
+<text id="s2-49" x="574.5" y="636" font-size="25" font-weight="700" fill="#26386D" text-anchor="middle">배정</text>
+<path id="s2-50" d="M 667,631 L 695,631" fill="none" stroke="#58677F" stroke-width="2.4" stroke-linejoin="round"/>
+<polygon points="695,631 685.8691105968769,635.0776045305957 685.8691105968769,626.9223954694043" fill="#58677F"/>
+<rect id="s2-51" x="695" y="600" width="185" height="62" rx="10" fill="#F1F3FA" stroke="#26386D" stroke-width="1.5"/>
+<text id="s2-52" x="787.5" y="636" font-size="25" font-weight="700" fill="#26386D" text-anchor="middle">원격 / 현장</text>
+<path id="s2-53" d="M 880,631 L 908,631" fill="none" stroke="#58677F" stroke-width="2.4" stroke-linejoin="round"/>
+<polygon points="908,631 898.8691105968769,635.0776045305957 898.8691105968769,626.9223954694043" fill="#58677F"/>
+<rect id="s2-54" x="908" y="600" width="185" height="62" rx="10" fill="#F1F3FA" stroke="#26386D" stroke-width="1.5"/>
+<text id="s2-55" x="1000.5" y="636" font-size="25" font-weight="700" fill="#26386D" text-anchor="middle">조치완료</text>
+<path id="s2-56" d="M 1093,631 L 1121,631" fill="none" stroke="#58677F" stroke-width="2.4" stroke-linejoin="round"/>
+<polygon points="1121,631 1111.869110596877,635.0776045305957 1111.869110596877,626.9223954694043" fill="#58677F"/>
+<rect id="s2-57" x="1121" y="600" width="185" height="62" rx="10" fill="#F1F3FA" stroke="#26386D" stroke-width="1.5"/>
+<text id="s2-58" x="1213.5" y="636" font-size="25" font-weight="700" fill="#26386D" text-anchor="middle">검증</text>
+<path id="s2-59" d="M 1306,631 L 1334,631" fill="none" stroke="#58677F" stroke-width="2.4" stroke-linejoin="round"/>
+<polygon points="1334,631 1324.869110596877,635.0776045305957 1324.869110596877,626.9223954694043" fill="#58677F"/>
+<rect id="s2-60" x="1334" y="600" width="185" height="62" rx="10" fill="#F1F3FA" stroke="#26386D" stroke-width="1.5"/>
+<text id="s2-61" x="1426.5" y="636" font-size="25" font-weight="700" fill="#26386D" text-anchor="middle">종결</text>
+<text id="s2-62" x="56" y="707" font-size="21" font-weight="400" fill="#172442" text-anchor="start">ADMIN/OPERATOR: 분류·배정  |  MAINTAINER: 배정 작업 조치  |  USER: 본인 VERIFIED → CLOSED + 확인</text>
+<text id="s2-63" x="56" y="743" font-size="21" font-weight="400" fill="#172442" text-anchor="start">보류·취소: Workflow의 조건 분기  |  조치완료: 원인·결과 필수  |  종결: 사용자 확인 필수</text>
+<rect id="s2-64" x="56" y="775" width="1488" height="39" rx="10" fill="#FFF6E7" stroke="#FFF6E7" stroke-width="1.5"/>
+<text id="s2-65" x="72" y="800" font-size="21" font-weight="400" fill="#9A6620" text-anchor="start">검증 상태 입력과 데이터 정합성 검사는 실물·장비 검증을 자동 수행했다는 의미가 아닙니다.</text>
+<text id="s2-66" x="56" y="842" font-size="17" font-weight="400" fill="#58677F" text-anchor="start">실선: 순차 요청·반환 / 점선: 실패 분기 또는 실행 위치를 표시하는 lifeline</text>
+</g></svg>

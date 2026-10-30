@@ -1,0 +1,61 @@
+{
+  "docxOOXML": true,
+  "editableParagraphs": 138,
+  "editableTables": 17,
+  "inlineImages": 10,
+  "blankAuthorRows": 3,
+  "wordMissingParagraphs": [],
+  "word": {
+    "inlineShapeCount": 10,
+    "pageCount": 18,
+    "applicationVersion": "16.0",
+    "readOnly": true,
+    "tableCount": 17,
+    "opened": true
+  },
+  "layoutHelper": "render_docx.py attempted: LibreOffice absent; native Hancom + Poppler fallback selected",
+  "actualLiveApiCalled": false,
+  "originalPdfSha256": "30ff0b8468cd7b27c09474885fbb9fa9b805b5e74258690bab347853ff59c76e",
+  "hwpFormat": {
+    "signature": "HWP Document File",
+    "versionHex": "0x5010100",
+    "namedStreamsVerified": true,
+    "compressed": true,
+    "docInfoBytes": 12202,
+    "bodySection0Bytes": 82592
+  },
+  "hwpMissingParagraphs": [],
+  "hwpConversion": {
+    "hwpOpen": true,
+    "textEqual": true,
+    "reopenedPageCount": 18,
+    "pdfExport": true,
+    "pageCount": 18,
+    "at": "2026-10-29T00:41:00.7197066+09:00",
+    "hwpReopen": true,
+    "application": "Hancom HWP 2022"
+  },
+  "pdfPages": 18,
+  "pdfMissingParagraphs": [],
+  "pdfReplacementCharacters": 0,
+  "pdfPageCharacters": [
+    676,
+    708,
+    790,
+    720,
+    1051,
+    822,
+    838,
+    1098,
+    939,
+    1228,
+    656,
+    877,
+    1145,
+    898,
+    898,
+    884,
+    954,
+    1310
+  ]
+}

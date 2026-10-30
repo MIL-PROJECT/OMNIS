@@ -1,0 +1,119 @@
+[
+  {
+    "file": "01_관리자_ADMIN_사용자매뉴얼.pdf",
+    "role": "ADMIN",
+    "pages": 105,
+    "textCharacters": 76237,
+    "emptyPages": [],
+    "missingTasks": [],
+    "outsideMargins": [],
+    "bodyFooterCollisions": [],
+    "replacementCharacters": 0,
+    "fonts": {
+      "/Helvetica": false,
+      "/AAAAAA+MalgunGothic": true,
+      "/AAAAAB+MalgunGothic": true,
+      "/AAAAAC+MalgunGothic": true,
+      "/AAAAAA+MalgunGothicBold": true,
+      "/AAAAAB+MalgunGothicBold": true
+    },
+    "links": 240,
+    "badLinks": [],
+    "invalidAnchorPages": [],
+    "koreanPresent": true,
+    "rendered": true
+  },
+  {
+    "file": "02_운용요원_OPERATOR_사용자매뉴얼.pdf",
+    "role": "OPERATOR",
+    "pages": 81,
+    "textCharacters": 58445,
+    "emptyPages": [],
+    "missingTasks": [],
+    "outsideMargins": [],
+    "bodyFooterCollisions": [],
+    "replacementCharacters": 0,
+    "fonts": {
+      "/Helvetica": false,
+      "/AAAAAA+MalgunGothic": true,
+      "/AAAAAB+MalgunGothic": true,
+      "/AAAAAC+MalgunGothic": true,
+      "/AAAAAA+MalgunGothicBold": true,
+      "/AAAAAB+MalgunGothicBold": true
+    },
+    "links": 183,
+    "badLinks": [],
+    "invalidAnchorPages": [],
+    "koreanPresent": true,
+    "rendered": true
+  },
+  {
+    "file": "03_정비요원_MAINTAINER_사용자매뉴얼.pdf",
+    "role": "MAINTAINER",
+    "pages": 65,
+    "textCharacters": 48873,
+    "emptyPages": [],
+    "missingTasks": [],
+    "outsideMargins": [],
+    "bodyFooterCollisions": [],
+    "replacementCharacters": 0,
+    "fonts": {
+      "/Helvetica": false,
+      "/AAAAAA+MalgunGothic": true,
+      "/AAAAAB+MalgunGothic": true,
+      "/AAAAAA+MalgunGothicBold": true,
+      "/AAAAAB+MalgunGothicBold": true
+    },
+    "links": 149,
+    "badLinks": [],
+    "invalidAnchorPages": [],
+    "koreanPresent": true,
+    "rendered": true
+  },
+  {
+    "file": "04_일반사용자_USER_사용자매뉴얼.pdf",
+    "role": "USER",
+    "pages": 68,
+    "textCharacters": 49691,
+    "emptyPages": [],
+    "missingTasks": [],
+    "outsideMargins": [],
+    "bodyFooterCollisions": [],
+    "replacementCharacters": 0,
+    "fonts": {
+      "/Helvetica": false,
+      "/AAAAAA+MalgunGothic": true,
+      "/AAAAAB+MalgunGothic": true,
+      "/AAAAAA+MalgunGothicBold": true,
+      "/AAAAAB+MalgunGothicBold": true
+    },
+    "links": 153,
+    "badLinks": [],
+    "invalidAnchorPages": [],
+    "koreanPresent": true,
+    "rendered": true
+  },
+  {
+    "file": "05_조회전용_VIEWER_사용자매뉴얼.pdf",
+    "role": "VIEWER",
+    "pages": 51,
+    "textCharacters": 35932,
+    "emptyPages": [],
+    "missingTasks": [],
+    "outsideMargins": [],
+    "bodyFooterCollisions": [],
+    "replacementCharacters": 0,
+    "fonts": {
+      "/Helvetica": false,
+      "/AAAAAA+MalgunGothic": true,
+      "/AAAAAB+MalgunGothic": true,
+      "/AAAAAA+MalgunGothicBold": true,
+      "/AAAAAB+MalgunGothicBold": true
+    },
+    "links": 114,
+    "badLinks": [],
+    "invalidAnchorPages": [],
+    "koreanPresent": true,
+    "rendered": true
+  }
+]

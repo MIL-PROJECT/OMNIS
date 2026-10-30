@@ -1,0 +1,7 @@
+import { describe,expect,it } from 'vitest'
+import Database from 'better-sqlite3'
+import { migrate,migrateV1,migrateV2,migrateV3,migrateV4,SCHEMA_VERSION } from '../../src/main/database/migrate'
+
+describe('external AI additive migration',()=>{
+  it('preserves v4 settings, users, and AI run rows',()=>{const db=new Database(':memory:');migrateV1(db);migrateV2(db);migrateV3(db);migrateV4(db);db.pragma('user_version=4');const now=new Date().toISOString();db.prepare('INSERT INTO users (id,username,display_name,role,password_hash,password_salt,active,created_at,updated_at) VALUES (?,?,?,?,?,?,?,?,?)').run('u','tester','Tester','ADMIN','h','s',1,now,now);db.prepare('INSERT INTO app_settings VALUES (?,?,?)').run('ollama_model','legacy-model',now);db.prepare('INSERT INTO ai_runs (id,feature,provider,model,prompt_version,input_summary,latency_ms,status,fallback_used,user_modified,applied,created_by,created_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)').run('run','incident_triage','LOCAL','rules-v2','v2','existing',1,'SUCCESS',0,0,0,'u',now);migrate(db);expect(db.pragma('user_version',{simple:true})).toBe(SCHEMA_VERSION);expect(db.prepare("SELECT value FROM app_settings WHERE key='ollama_model'").pluck().get()).toBe('legacy-model');expect(db.prepare("SELECT request_id,input_tokens,external_transmission,selected_provider FROM ai_runs WHERE id='run'").get()).toEqual({request_id:null,input_tokens:null,external_transmission:0,selected_provider:null});expect(db.pragma('integrity_check',{simple:true})).toBe('ok');db.close()})
+})

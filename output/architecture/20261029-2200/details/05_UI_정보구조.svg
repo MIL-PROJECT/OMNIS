@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="3840" height="2160" viewBox="0 0 1600 900">
+<title>UI 정보구조와 사용자 동선</title>
+<desc>화면 접근·버튼 노출과 Main의 실제 권한 검사를 구분하며, 5개 실용 기능을 기존 업무에 배치합니다.</desc>
+<g font-family="Malgun Gothic">
+<rect id="s5-1" x="0" y="0" width="1600" height="900" rx="0" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="1.5"/>
+<rect id="s5-2" x="56" y="35" width="8" height="49" rx="0" fill="#26386D" stroke="#26386D" stroke-width="1.5"/>
+<text id="s5-3" x="82" y="72" font-size="42" font-weight="700" fill="#26386D" text-anchor="start">UI 정보구조와 사용자 동선</text>
+<text id="s5-4" x="56" y="118" font-size="24" font-weight="400" fill="#58677F" text-anchor="start">화면 접근·버튼 노출과 Main의 실제 권한 검사를 구분하며, 5개 실용 기능을 기존 업무에 배치합니다.</text>
+<path id="s5-5" d="M 56,137 L 1544,137" fill="none" stroke="#CBD3E0" stroke-width="2.4" stroke-linejoin="round"/>
+<text id="s5-6" x="56" y="878" font-size="16" font-weight="400" fill="#58677F" text-anchor="start">OMNIS 1.0.1 · schema 8 · ba829af | 구현: 소스 확인 / 배포·외부 응답: 별도 검증</text>
+<text id="s5-7" x="1545" y="876" font-size="18" font-weight="700" fill="#26386D" text-anchor="end">05 / 06</text>
+<rect id="s5-8" x="56" y="175" width="310" height="112" rx="9" fill="#FFFFFF" stroke="#336AC1" stroke-width="1.5"/>
+<rect id="s5-9" x="56" y="175" width="5" height="112" rx="0" fill="#336AC1" stroke="#336AC1" stroke-width="1.5"/>
+<text id="s5-10" x="74" y="212.0" font-size="25" font-weight="700" fill="#336AC1" text-anchor="start">인증·가입 흐름</text>
+<text id="s5-11" x="74" y="244.5" font-size="21" font-weight="400" fill="#172442" text-anchor="start">로그인 · 가입 신청</text>
+<text id="s5-12" x="74" y="273.48" font-size="21" font-weight="400" fill="#172442" text-anchor="start">ADMIN이 가입 승인</text>
+<rect id="s5-13" x="56" y="322" width="310" height="427" rx="10" fill="#FFF6E7" stroke="#9A6620" stroke-width="1.5"/>
+<text id="s5-14" x="76" y="363" font-size="25" font-weight="700" fill="#9A6620" text-anchor="start">실제 역할 5종</text>
+<text id="s5-15" x="76" y="412" font-size="23" font-weight="700" fill="#26386D" text-anchor="start">ADMIN</text>
+<text id="s5-16" x="76" y="439" font-size="20" font-weight="400" fill="#58677F" text-anchor="start">승인·설정·백업</text>
+<text id="s5-17" x="76" y="479" font-size="23" font-weight="700" fill="#26386D" text-anchor="start">OPERATOR</text>
+<text id="s5-18" x="76" y="506" font-size="20" font-weight="400" fill="#58677F" text-anchor="start">통제·분류·배정</text>
+<text id="s5-19" x="76" y="546" font-size="23" font-weight="700" fill="#26386D" text-anchor="start">MAINTAINER</text>
+<text id="s5-20" x="76" y="573" font-size="20" font-weight="400" fill="#58677F" text-anchor="start">배정 조치·정비</text>
+<text id="s5-21" x="76" y="613" font-size="23" font-weight="700" fill="#26386D" text-anchor="start">USER</text>
+<text id="s5-22" x="76" y="640" font-size="20" font-weight="400" fill="#58677F" text-anchor="start">본인 접수·확인·종결</text>
+<text id="s5-23" x="76" y="680" font-size="23" font-weight="700" fill="#26386D" text-anchor="start">VIEWER</text>
+<text id="s5-24" x="76" y="707" font-size="20" font-weight="400" fill="#58677F" text-anchor="start">조회 중심·일부 확인</text>
+<rect id="s5-25" x="420" y="175" width="1114" height="93" rx="10" fill="#EDF3FD" stroke="#336AC1" stroke-width="1.5"/>
+<text id="s5-26" x="442" y="213" font-size="27" font-weight="700" fill="#336AC1" text-anchor="start">통합상황판  /</text>
+<text id="s5-27" x="442" y="248" font-size="22" font-weight="400" fill="#172442" text-anchor="start">집계 → 목록·상세 이동  ·  F2 내 업무 (?view=mine)</text>
+<path id="s5-28" d="M 366,227 L 420,227" fill="none" stroke="#336AC1" stroke-width="2.4" stroke-linejoin="round"/>
+<polygon points="420,227 410.8691105968769,231.0776045305957 410.8691105968769,222.9223954694043" fill="#336AC1"/>
+<rect id="s5-29" x="420" y="328" width="354" height="378" rx="10" fill="#FFFFFF" stroke="#336AC1" stroke-width="1.5"/>
+<text id="s5-30" x="438" y="366" font-size="26" font-weight="700" fill="#336AC1" text-anchor="start">운용 현황</text>
+<text id="s5-31" x="438" y="410" font-size="24" font-weight="700" fill="#172442" text-anchor="start">운영현황</text>
+<text id="s5-32" x="438" y="433" font-size="17" font-weight="400" fill="#58677F" text-anchor="start">/operations</text>
+<text id="s5-33" x="438" y="457" font-size="18" font-weight="400" fill="#58677F" text-anchor="start">체계 상태·운용률·이력</text>
+<text id="s5-34" x="438" y="487" font-size="24" font-weight="700" fill="#172442" text-anchor="start">고장관리</text>
+<text id="s5-35" x="438" y="510" font-size="17" font-weight="400" fill="#58677F" text-anchor="start">/incidents</text>
+<text id="s5-36" x="438" y="534" font-size="18" font-weight="400" fill="#58677F" text-anchor="start">F1 접수 템플릿 · F5 입력 보완</text>
+<text id="s5-37" x="438" y="564" font-size="24" font-weight="700" fill="#172442" text-anchor="start">정비관리</text>
+<text id="s5-38" x="438" y="587" font-size="17" font-weight="400" fill="#58677F" text-anchor="start">/maintenance</text>
+<text id="s5-39" x="438" y="611" font-size="18" font-weight="400" fill="#58677F" text-anchor="start">F3 체크리스트 · F4 반복 정비</text>
+<text id="s5-40" x="438" y="641" font-size="24" font-weight="700" fill="#172442" text-anchor="start">통제·일일마감</text>
+<text id="s5-41" x="438" y="664" font-size="17" font-weight="400" fill="#58677F" text-anchor="start">/control</text>
+<text id="s5-42" x="438" y="688" font-size="18" font-weight="400" fill="#58677F" text-anchor="start">경보·계획·정합성·인수인계</text>
+<path id="s5-43" d="M 597,268 L 597,328" fill="none" stroke="#336AC1" stroke-width="2.4" stroke-linejoin="round"/>
+<polygon points="597,328 592.9223954694043,318.8691105968769 601.0776045305957,318.8691105968769" fill="#336AC1"/>
+<rect id="s5-44" x="800" y="328" width="354" height="378" rx="10" fill="#FFFFFF" stroke="#336AC1" stroke-width="1.5"/>
+<text id="s5-45" x="818" y="366" font-size="26" font-weight="700" fill="#336AC1" text-anchor="start">업무 지원</text>
+<text id="s5-46" x="818" y="410" font-size="24" font-weight="700" fill="#172442" text-anchor="start">근무/지시사항</text>
+<text id="s5-47" x="818" y="433" font-size="17" font-weight="400" fill="#58677F" text-anchor="start">/duty</text>
+<text id="s5-48" x="818" y="457" font-size="18" font-weight="400" fill="#58677F" text-anchor="start">가상 명부·다중 편성·확인/이행</text>
+<text id="s5-49" x="818" y="487" font-size="24" font-weight="700" fill="#172442" text-anchor="start">AI 지원</text>
+<text id="s5-50" x="818" y="510" font-size="17" font-weight="400" fill="#58677F" text-anchor="start">/ai</text>
+<text id="s5-51" x="818" y="534" font-size="18" font-weight="400" fill="#58677F" text-anchor="start">F5 입력 보완 · 분류·요약·추천</text>
+<text id="s5-52" x="818" y="564" font-size="24" font-weight="700" fill="#172442" text-anchor="start">보고서/통계</text>
+<text id="s5-53" x="818" y="587" font-size="17" font-weight="400" fill="#58677F" text-anchor="start">/reports</text>
+<text id="s5-54" x="818" y="611" font-size="18" font-weight="400" fill="#58677F" text-anchor="start">일/주 집계·CSV·일일 고장 PDF</text>
+<path id="s5-55" d="M 977,268 L 977,328" fill="none" stroke="#336AC1" stroke-width="2.4" stroke-linejoin="round"/>
+<polygon points="977,328 972.9223954694043,318.8691105968769 981.0776045305957,318.8691105968769" fill="#336AC1"/>
+<rect id="s5-56" x="1180" y="328" width="354" height="378" rx="10" fill="#FFFFFF" stroke="#336AC1" stroke-width="1.5"/>
+<text id="s5-57" x="1198" y="366" font-size="26" font-weight="700" fill="#336AC1" text-anchor="start">관리 · 도움말</text>
+<text id="s5-58" x="1198" y="410" font-size="24" font-weight="700" fill="#172442" text-anchor="start">사용자 신청현황</text>
+<text id="s5-59" x="1198" y="433" font-size="17" font-weight="400" fill="#58677F" text-anchor="start">/signups</text>
+<text id="s5-60" x="1198" y="457" font-size="18" font-weight="400" fill="#58677F" text-anchor="start">ADMIN: 가입 승인·반려</text>
+<text id="s5-61" x="1198" y="487" font-size="24" font-weight="700" fill="#172442" text-anchor="start">시스템관리</text>
+<text id="s5-62" x="1198" y="510" font-size="17" font-weight="400" fill="#58677F" text-anchor="start">/settings</text>
+<text id="s5-63" x="1198" y="534" font-size="18" font-weight="400" fill="#58677F" text-anchor="start">ADMIN: 설정·Key·백업·감사</text>
+<text id="s5-64" x="1198" y="564" font-size="24" font-weight="700" fill="#172442" text-anchor="start">사용자 매뉴얼</text>
+<text id="s5-65" x="1198" y="587" font-size="17" font-weight="400" fill="#58677F" text-anchor="start">/manuals</text>
+<text id="s5-66" x="1198" y="611" font-size="18" font-weight="400" fill="#58677F" text-anchor="start">로그인 후 5종 PDF 열기·복사</text>
+<path id="s5-67" d="M 1357,268 L 1357,328" fill="none" stroke="#336AC1" stroke-width="2.4" stroke-linejoin="round"/>
+<polygon points="1357,328 1352.9223954694044,318.8691105968769 1361.0776045305956,318.8691105968769" fill="#336AC1"/>
+<rect id="s5-68" x="420" y="743" width="1114" height="55" rx="10" fill="#F4F0FA" stroke="#F4F0FA" stroke-width="1.5"/>
+<text id="s5-69" x="438" y="776" font-size="21" font-weight="700" fill="#7554A5" text-anchor="start">F1 접수 템플릿 · F2 내 업무 · F3 체크리스트 · F4 반복 정비 · F5 로컬 입력 보완</text>
+<text id="s5-70" x="56" y="833" font-size="17" font-weight="400" fill="#58677F" text-anchor="start">UI 노출 ≠ Main 호출 허용: USER 정비 목록 조회와 상세 접근은 다름 / VIEWER의 AI 분류는 Main에서 거부</text>
+</g></svg>

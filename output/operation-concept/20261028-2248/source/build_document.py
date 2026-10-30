@@ -1,0 +1,422 @@
+from pathlib import Path
+import sys, json, re, hashlib, subprocess, textwrap
+from datetime import datetime, timezone, timedelta
+from PIL import Image, ImageDraw, ImageFont
+from docx import Document
+from docx.shared import Cm, Pt, RGBColor
+from docx.enum.text import WD_ALIGN_PARAGRAPH
+from docx.enum.table import WD_TABLE_ALIGNMENT, WD_CELL_VERTICAL_ALIGNMENT
+from docx.oxml import OxmlElement
+from docx.oxml.ns import qn
+from xml.sax.saxutils import escape
+
+sys.stdout.reconfigure(encoding='utf-8')
+ROOT=Path(__file__).resolve().parent.parent
+REPO=ROOT.parents[2]
+FIG=ROOT/'evidence/figures'; FIG.mkdir(exist_ok=True)
+FONT='C:/Windows/Fonts/malgun.ttf'
+BOLD='C:/Windows/Fonts/malgunbd.ttf'
+commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=REPO,text=True).strip()
+now=datetime.now(timezone(timedelta(hours=9))).strftime('%Y-%m-%d %H:%M KST')
+tests=json.loads((ROOT/'evidence/unit-results.json').read_text(encoding='utf-8'))
+
+def wrap_px(text,font,width):
+    lines=[]
+    for line in text.split('\n'):
+        current=''
+        for char in line:
+            if current and font.getlength(current+char)>width: lines.append(current);current=''
+            current+=char
+        lines.append(current)
+    return lines
+
+def diagram(name,w,h,boxes,arrows):
+    im=Image.new('RGB',(w,h),'white');d=ImageDraw.Draw(im)
+    svg=[f'<svg xmlns="http://www.w3.org/2000/svg" width="{w}" height="{h}" viewBox="0 0 {w} {h}"><rect width="100%" height="100%" fill="white"/>']
+    for x1,y1,x2,y2 in arrows:
+        d.line((x1,y1,x2,y2),fill='#424B5D',width=5)
+        import math
+        a=math.atan2(y2-y1,x2-x1);pts=[(x2,y2),(x2-20*math.cos(a-.42),y2-20*math.sin(a-.42)),(x2-20*math.cos(a+.42),y2-20*math.sin(a+.42))]
+        d.polygon(pts,fill='#424B5D')
+        svg.append(f'<path d="M{x1},{y1} L{x2},{y2}" stroke="#424B5D" stroke-width="5" fill="none"/><polygon points="'+ ' '.join(f'{x},{y}' for x,y in pts)+'" fill="#424B5D"/>')
+    for x,y,bw,bh,title,body in boxes:
+        d.rounded_rectangle((x,y,x+bw,y+bh),radius=16,fill='#F5F6F8',outline='#7B8493',width=3)
+        svg.append(f'<rect x="{x}" y="{y}" width="{bw}" height="{bh}" rx="16" fill="#F5F6F8" stroke="#7B8493" stroke-width="3"/>')
+        for yy,txt,size,bold in [(y+20,title,42,True),(y+83,body,35,False)]:
+            f=ImageFont.truetype(BOLD if bold else FONT,size)
+            for line in wrap_px(txt,f,bw-38):
+                d.text((x+19,yy),line,font=f,fill='#171C25')
+                svg.append(f'<text x="{x+19}" y="{yy+size}" font-family="Malgun Gothic, sans-serif" font-size="{size}" font-weight="'+('700' if bold else '400')+'">'+escape(line)+'</text>');yy+=size+10
+    im.save(FIG/(name+'.png'));(FIG/(name+'.svg')).write_text(''.join(svg)+'</svg>',encoding='utf-8')
+
+diagram('01-workflow',1800,575,[
+ (20,40,390,200,'기존 접수','전화·게시판 접수\n분산된 기록'),(475,40,390,200,'조정과 조치','BNOC 분류·전파\n원격 또는 현장 조치'),(930,40,390,200,'별도 실적 대조','결과 회신·누락 확인\nDELIIS 별도 확인'),(1385,40,390,200,'업무상 불편','중복 기록·상황 파악\n인수인계 부담'),
+ (20,335,390,200,'OMNIS 접수','양식·입력 보완\n요청부서 분리'),(475,335,390,200,'분류와 담당 지정','조치부서·담당자\n계획·비계획 구분'),(930,335,390,200,'조치와 확인','원격·현장 기록\n검증·종결'),(1385,335,390,200,'통제와 인계','일일 대조·미완료 사유\n다음 근무자 인계')],
+ [(410,140,475,140),(865,140,930,140),(1320,140,1385,140),(410,435,475,435),(865,435,930,435),(1320,435,1385,435)])
+diagram('02-architecture',1800,1210,[
+ (40,20,1720,160,'사용자','등록자 · 정비 담당자 · 관리자 · 조회자'),
+ (40,245,500,200,'Renderer 화면','React 19 · TypeScript\nMUI · 사용자 입력'),(650,245,500,200,'Preload 경계','contextBridge · IPC\n허용된 업무 요청'),(1260,245,500,200,'Main 검증','Zod 입력 검증\n역할·접근 범위 확인'),
+ (40,590,910,200,'Main 업무 서비스','상태 전이 · 배정 · 정비 · 일일 통제\nAI 실행 · 이력 · 첨부 검증'),(1060,590,700,200,'PC 내부 저장','SQLite · 로컬 첨부\n백업 파일 · 암호화 자격정보'),
+ (40,940,1720,220,'선택형 AI 처리','LOCAL 기본 규칙 | OLLAMA 별도 설치형 로컬 모델\nOPENAI · ANTHROPIC: 명시적 활성화·동의 후 HTTPS 요청\n외부 장애 시 LOCAL 대체 · 결과는 사람 검토 후 반영')],
+ [(290,180,290,245),(540,345,650,345),(1150,345,1260,345),(1500,445,1500,510),(1500,510,495,510),(495,510,495,590),(950,690,1060,690),(495,790,495,940)])
+diagram('07-ai-flow',1800,630,[
+ (20,30,390,210,'업무 입력','제목·증상·영향\n후보·실제 집계값'),(475,30,390,210,'외부 전송 전','길이 제한·최소화\n개인정보 패턴 마스킹'),(930,30,390,210,'선택한 Provider','구조화 출력 요청\n응답·오류 처리'),(1385,30,390,210,'결과 검증','Zod·후보 ID 검증\n허용 결과만 제시'),
+ (20,385,845,190,'실패 시 LOCAL 대체','선택·실제 Provider와 실패 분류를 기록'),(930,385,845,190,'사람이 검토 후 반영','근거·확인 질문·이력을 확인하고 결정')],
+ [(410,135,475,135),(865,135,930,135),(1320,135,1385,135),(1125,240,1125,300),(1125,300,440,300),(440,300,440,385),(1580,240,1580,385),(865,480,930,480)])
+
+def panel(name,path,start,end,title):
+    lines=Path(REPO/path).read_text(encoding='utf-8-sig').splitlines()
+    f=ImageFont.truetype(FONT,30);fb=ImageFont.truetype(BOLD,31)
+    rendered=[]
+    for i in range(start-1,min(end,len(lines))):
+        text=f'{i+1:03}  '+lines[i]
+        rendered.extend(wrap_px(text,f,1135))
+    hh=150+len(rendered)*42
+    im=Image.new('RGB',(1200,hh),'white');d=ImageDraw.Draw(im)
+    d.text((24,16),title,font=fb,fill='black');d.text((24,65),path,font=ImageFont.truetype(FONT,25),fill='#444444')
+    d.line((24,111,1176,111),fill='#D9D9D9',width=2)
+    for i,line in enumerate(rendered):d.text((24,128+i*42),line,font=f,fill='black')
+    im.save(FIG/(name+'.png'))
+    return {'file':path,'lines':[start,end],'sha256':hashlib.sha256(Path(REPO/path).read_bytes()).hexdigest(),'kind':'actual source excerpt rendered for evidence; not an AI chat screenshot'}
+
+panels={
+ '08-prompt':panel('08-prompt','docs/OMNIS_FIVE_FEATURES_IMPLEMENTATION_PROMPT.md',3,9,'보존된 개발 요청 프롬프트 발췌'),
+ '09-source':panel('09-source','src/renderer/src/InputAssist.tsx',65,73,'현재 구현 소스 발췌'),
+ '10-test':panel('10-test','tests/e2e/ai-settings-flow.mjs',36,42,'현재 회귀 시험 소스 발췌')}
+(ROOT/'evidence/source-panels.json').write_text(json.dumps(panels,ensure_ascii=False,indent=2),encoding='utf-8')
+
+shots=ROOT/'evidence/screenshots'
+Image.open(shots/'03-intake.png').crop((245,100,1115,605)).save(FIG/'03-intake-crop.png')
+Image.open(shots/'06-control.png').crop((280,75,1345,680)).save(FIG/'04-control-crop.png')
+Image.open(shots/'05-recurring.png').crop((232,220,1134,565)).save(FIG/'06-recurring-crop.png')
+Image.open(shots/'08-ai-local.png').crop((290,140,1085,775)).save(FIG/'05-ai-crop.png')
+Image.open(shots/'08-ai-local.png').crop((1100,205,1890,355)).save(FIG/'11-ai-summary.png')
+
+# Canonical narrative and table records. All prose and tables remain editable.
+pages=[]
+def page(): pages.append([])
+def h(text,level=2):pages[-1].append({'type':'heading','text':text,'level':level})
+def p(text):pages[-1].append({'type':'paragraph','text':text})
+def table(headers,rows,widths=None):pages[-1].append({'type':'table','headers':headers,'rows':rows,'widths':widths})
+def fig(name,caption,width=17.0):pages[-1].append({'type':'figure','file':name+'.png','caption':caption,'width':width})
+
+page()
+pages[-1].append({'type':'title','text':'운용개념 기술서'})
+p('OMNIS 정보통신 운용·정비 통합체계\n기준: 앱 1.0.1 · 소스 '+commit[:7]+' · 조사 2026-10-28~29 KST')
+table(['소속','계급','성명','군번'],[['','','',''],['','','',''],['','','','']],[4.2,3.3,4.2,5.3])
+h('1. 현행 업무 분석',1);h('가. 업무 처리 절차')
+p('1) 분석 범위  원문 9~11쪽의 BNOC 중심 참고 사례를 업무 분석의 출발점으로 삼았다. 전화·게시판으로 접수한 고장을 분류하여 담당 정비반에 전달하고, 원격 또는 현장 조치 후 결과를 회신한다. 08:30 계획 확인과 16:00 실적 대조 과정에서 계획·비계획 작업 및 미완료 사유를 정리한다. 이는 참고 사례의 재구성이며 특정 부대의 현행 실태를 현장 조사한 결과는 아니다.')
+p('2) 개선 방향  접수·배정·조치·검증·일일 마감을 한 PC의 동일 업무 기록으로 연결한다. 요청부서는 신고 주체로 유지하고 조치부서·담당자는 별도 지정한다. 단순 현황 표시를 넘어 담당자와 처리 근거가 남도록 구성한다.')
+fig('01-workflow','그림 1. 참고 사례와 OMNIS 절차 비교. 원문 9~11쪽 및 현행 상태 전이를 바탕으로 재구성한 개념도이다.')
+table(['문제와 원인','필요 요구사항 및 OMNIS 대응'],[
+ ['분산 접수와 누락 가능성','공통 접수 양식·입력 보완·첨부·처리 이력으로 기록을 연결한다.'],
+ ['담당 및 작업 상태 파악 지연','조치부서·담당자·원격/현장·계획/비계획 상태를 구분한다.'],
+ ['별도 실적 취합과 인계 부담','일일 작업 대조·미완료 사유·확정 인수인계를 지원한다.']],[4.3,12.7])
+
+page();h('2. 체계 개념',1);h('가. 체계 소개')
+p('OMNIS는 독립 PC에서 운용현황·고장·정비·근무·지시사항을 관리하는 데스크톱 앱이다. 기존 업무의 접수 누락과 상태 확인 부담을 줄이는 것이 목적이다. 현재는 사용자 입력과 로컬 DB의 갱신을 공유하며, 군 내부망 다중 PC 동시 공유나 장비 자동 수집 서버가 구현된 구성은 아니다.')
+h('1) 개발스택',3)
+table(['구분','적용 기술 및 선택 이유'],[
+ ['가) 프론트엔드','React 19·TypeScript·MUI. 동일 디자인의 카드·목록·입력 양식을 제공한다.'],
+ ['나) 백엔드','Electron 44 Main·Preload·검증된 IPC. 별도 웹 서버 설치 없이 PC에서 업무를 처리한다.'],
+ ['다) DB','SQLite·better-sqlite3·Drizzle 기반 구조와 migration. 로컬 데이터·첨부·백업을 관리한다.']],[3.3,13.7])
+fig('02-architecture','그림 2. 현행 소스 기준 시스템 구성도. PC 내부 처리와 선택형 외부 AI 전송 경계를 구분한 재구성 도면이다.',16.8)
+p('2) 운용 및 데이터 경계  Renderer는 허용된 IPC만 호출하고 Main에서 입력·권한·업무 상태를 검증한다. contextIsolation·sandbox를 적용하고 nodeIntegration을 끈다. 기존 DB에는 추가 migration을 적용한다. 백업·복구는 관리 권한으로 수행하고 복구 전 대상·영향 범위를 확인한다. 원문의 Spring Boot·MySQL은 권장 예시이며, 본 체계의 실제 적용 기술은 위 표와 같다.')
+
+page();h('나. 체계 주요기능')
+h('① 정보통신 운영현황 입력 및 시현',3)
+p('관리자는 체계·상태·운용률·비고를 등록·변경하고 사용자는 통합상황판에서 집계와 상세 목록을 확인한다. 상황경보는 종류·중요도·발생시각·영향·조치 안내를 입력하여 관리한다. GPS 전파교란 유형도 수동 등록하는 상황 항목이며, 센서가 실제 전파를 탐지하는 기능을 뜻하지 않는다. 화면 집계는 저장된 가상 자료를 반영하며 실부대 운용률이나 실측 가용도를 증명하지 않는다.')
+h('② 고장 접수부터 검증 및 종결까지 관리',3)
+p('등록자는 제목·증상·접수수단·중요도·대상 체계·요청부서·신고자·장비·서비스 영향·발생시각을 입력한다. 접수수단의 게시판은 게시판으로 접수된 건임을 구분하는 값이다. 외부 게시판을 자동 수집하거나 연동하는 기능은 아니다. 입력 점검과 템플릿으로 확인할 질문을 제시하며 저장 전 작성자가 내용을 수정할 수 있다.')
+p('관리자는 분류 후 조치부서와 담당자를 별도로 지정한다. 부서 미지정은 요청부서로 대체하지 않고 미지정 상태로 표시한다. 정비 담당자는 원격 또는 현장 조치를 선택하여 원인·조치·결과를 기록하고, 검증 후 종결로 진행한다. 허용되지 않은 상태 이동은 차단하며 보류·취소·재조치도 이력으로 남긴다.')
+fig('03-intake-crop','그림 3. 최신 Windows 패키징 앱의 신규 접수 화면 일부. 별도 가상 프로필로 촬영했으며 편집 가능한 입력과 로컬 보완 기능을 확인한다.',16.5)
+p('긴급 선조치 건은 사유와 실제 조치 시작시각을 사후 기록하여 접수시각과 구분한다. 이는 앱이 장비를 직접 복구했다는 의미가 아니다. 고장 결과 검증도 입력된 결과의 업무 확인이며 실물 시험의 대체가 아니다.')
+
+page();h('③ 정비 등록과 일정 및 실적 관리',3)
+p('관리자·정비 담당자는 정비 종류, 우선순위, 예정일·기한, 대상 체계, 담당자 및 내용을 등록한다. 고장에 연결한 비계획 작업과 정기 계획 작업을 구분하고 목록·캘린더에서 진행 상황을 확인한다. 착수·보류·완료 기록과 결과를 남기므로 예정 건수와 완료 건수를 같은 것으로 집계하지 않는다.')
+p('등록·편집 과정은 기존 역할 정책을 따른다. 필수 체크리스트가 남은 완료 요청은 검증으로 막고, 보류된 작업은 재개 후 완료하도록 상태 전이를 통제한다. 월 단위 일정 조회와 일일·주간 실적 보고는 구분한다. 별도 정비 요청의 관리자 승인 단계와 월간 보고 완결성은 보완 대상이다.')
+h('④ 계획 및 비계획 작업 통제와 일일 마감',3)
+p('통제 담당자는 08:30에 계획·비계획 작업 수를 확인하고 업무 중 변동을 반영한다. 16:00에는 실제 작업 상태와 보고 수치를 대조하여 완료·미완료·이월 사유를 정리한다. 정합성 확인 뒤 일일 마감과 인수인계 초안을 작성하고 담당자가 확정한다. 숫자를 입력하는 행위와 실제 조치 완료를 분리하여 미종결 건의 은폐를 줄인다.')
+fig('04-control-crop','그림 4. 통제·일일마감 화면 일부. 격리된 가상 DB의 계획·실적 대조 화면이며 참고 사례의 실제 군 시스템 화면은 아니다.',16.5)
+p('제한 사항  DELIIS 자료의 직접 읽기·쓰기나 자동 정산은 구현되지 않았다. 원문 사례의 대조 절차를 로컬 앱에서 지원하는 수준이며, 타 체계의 공식 기록을 대체한다고 주장하지 않는다.')
+
+page();h('⑤ 근무 편성과 지시사항 관리',3)
+p('관리자는 근무 일자·교대·직책·담당자를 등록·수정·삭제하고 다중 담당자를 편성한다. 소속 조직을 선택하면 해당 조직의 가상 담당자 명부를 조회하고 근무 등록으로 연결한다. 명부는 오늘 근무 등록 여부와 독립적으로 조회하므로 편성 전 담당자 확인이 가능하다. 명부 인원과 당일 근무 인원을 동일하게 표시하지 않는다.')
+p('지시사항은 내용·발행·기한·중요도·담당·상태와 확인 기록으로 관리한다. 확인하지 않은 지시는 내 업무에서 확인 대상으로 제시한다. 다만 전체 정원·현원·휴가·파견 등을 집계하는 병력 현황 체계가 구현된 것은 아니다. 실제 편제·인원 자료는 사용하지 않고 가상 조직과 가상 담당자로 시연한다.')
+h('⑥ 보고서와 사용자 지원',3)
+p('일일·주간 업무 현황을 집계하고 CSV/PDF 내보내기를 제공한다. 보고서의 범위와 기준일은 저장된 업무 자료에 따른다. 현재 월 단위 캘린더를 월간 보고서 전체 구현의 근거로 대신하지 않는다. 사이드바에서 역할별 사용자 매뉴얼 PDF를 내려받을 수 있다. 기존 매뉴얼은 보존된 작성 시점의 자료이며 최신 화면과 차이가 있을 수 있다.')
+h('⑦ 권한과 기록 및 데이터 보존',3)
+table(['역할','주요 책임과 통제'],[
+ ['ADMIN','사용자 승인·역할, 조직·조치부서, 시스템·AI 설정과 관리 기능을 담당한다.'],
+ ['MAINTAINER','허용된 고장·정비의 배정 및 조치·결과 기록을 수행한다.'],
+ ['USER','기존 정책에 따라 고장을 등록하고 허용된 업무를 조회한다.'],
+ ['VIEWER','조회 중심으로 사용하며 관리 설정과 임의 변경은 차단한다.']],[3.5,13.5])
+p('화면 버튼을 숨기는 것에 그치지 않고 Main 서비스에서도 역할과 대상 접근을 검증한다. 사용자 가입 승인과 정비 요청 승인은 다른 업무이다. 감사·상태 이력, 로컬 백업 및 복구 기능을 통해 누가 어떤 처리 상태를 변경했는지 확인한다. 복구가 모든 PC·모든 장애 상황에서 검증되었다고 확대 해석하지 않는다.')
+p('저장과 배포  현재 Windows 1.0.1 설치본은 생성되었고 패키징 앱 시험 기록이 있다. 설치 파일은 미서명이다. 새 PC의 모든 보안 정책·설치 업그레이드 및 macOS 실기기 동작을 이번 문서 작성으로 재검증한 것은 아니다.')
+
+page();h('다. 운용개념 및 운용 시나리오')
+h('1) 일반 고장 접수와 조치 및 종결',3)
+p('입력 예시: 제목은 “체계1 장비A 연결 불가”, 증상은 “가상 화면 응답이 없고 재시도 후에도 동일함”, 영향은 “가상 단말 한 대”로 한다. 실제 망 구성·위치·인증정보는 입력하지 않는다. 요청부서는 가상 A조직으로 두고 조치부서는 접수 단계에서 미지정으로 둘 수 있다.')
+table(['단계','담당 역할','화면 및 처리','확인 기록'],[
+ ['접수','등록자','템플릿 또는 직접 입력 후 증상·영향을 확인하여 저장','접수번호·시각·원본 내용'],
+ ['분류','관리자','일반/긴급 및 업무 분류를 확인한다. AI는 선택 사항이다.','분류·근거·검토 여부'],
+ ['배정','관리자','소속 조직→조치부서→담당자를 선택하여 명시적으로 배정','요청부서와 별도 배정값'],
+ ['조치','정비 담당','원격/현장 작업과 원인·조치 내용을 기록','시작·결과·상태 이력'],
+ ['확인','권한 있는 담당','조치 결과를 검증하고 필요하면 재조치','검증 시각·확인 내용'],
+ ['종결','권한 있는 담당','검증 상태에서 종결하고 미완료 건과 분리','종결 시각·처리 이력']],[1.5,2.3,8.2,5])
+h('2) 긴급 선조치 후 사후 접수',3)
+p('업무 영향으로 선조치가 필요했던 상황을 가정한다. 담당자는 실제 수행한 행위만 기록하고 긴급 사유와 실제 조치 시작시각을 입력한다. 관리자는 사후 접수 내용과 중복 건을 확인하여 담당과 후속 작업을 정리한다. 필요하면 비계획 정비로 연결하고, 결과 검증과 종결 절차를 생략하지 않는다.')
+p('예외와 책임  미지정 건은 미지정으로 남기며 임의 담당자를 추정하지 않는다. 조치가 끝나지 않으면 완료로 바꾸지 않고 보류·추가 조치 또는 인계 사유를 기록한다. 앱의 기록 시간은 현장에서 실제 확인한 시간과 구분하여 입력한다. 상태 전이 검증은 허용되지 않은 지름길 처리를 차단하는 통제이다.')
+
+page();h('3) 계획 및 비계획 정비와 일일 통제',3)
+table(['시점','역할과 행위','남기는 자료 및 확인'],[
+ ['업무 전','관리자가 반복 규칙의 다음 회차를 미리 보고 생성한다.','중복 없는 예정 작업·담당·기한'],
+ ['08:30','통제 담당자가 계획 건수와 비계획 건수를 등록·확인한다.','일일 계획·작업 분류'],
+ ['업무 중','정비 담당자는 고장 연계 비계획 작업과 점검 결과를 갱신한다.','작업 상태·필수 체크 항목'],
+ ['16:00','통제 담당자는 실제 작업과 완료 수치를 대조한다.','불일치 확인·미완료 사유·이월'],
+ ['근무 교대','인수자가 미종결·기한·후속 조치를 확인하고 인계 기록을 확정한다.','초안과 확정 기록 구분']],[2,8.5,6.5])
+p('반복 작업의 미리보기는 실제 작업 생성과 다르다. 생성 후에도 체크리스트 수행과 완료 확인이 필요하다. 정기 작업이 존재한다는 이유로 완료 수를 늘리지 않는다. 정합성이 맞지 않으면 원인을 확인하고 정정한 뒤 마감한다.')
+h('4) 선택형 AI 지원과 사람 검토',3)
+p('기본 시연은 LOCAL로 진행한다. 담당자가 제목·증상·영향을 작성하면 입력 보완 도우미가 먼저 질문을 제시한다. 확인한 답변을 추가하거나 미확인으로 표시한 뒤 분류를 실행한다. 결과의 분류·긴급도·추천 팀·추정 시간·근거를 읽고 실제 적용 여부를 결정한다.')
+p('외부 Provider를 사용할 때는 관리자가 별도 활성화와 동의를 저장한 상태여야 한다. 현재 입력을 최소화·마스킹한 뒤 요청하고 구조화 출력 및 후보 ID를 검증한다. 실패하면 LOCAL 결과를 반환하며 선택한 Provider, 실제 Provider, 대체 여부를 함께 보여준다. AI가 업무 상태를 스스로 완료·종결하지 않는다.')
+fig('07-ai-flow','그림 5. 현행 AI 업무 데이터 처리 흐름의 재구성도. 프롬프트와 업무 데이터를 분리하고 사람의 최종 판단을 유지한다.',17)
+
+page();h('3. 추가기능 구현',1)
+h('① 고장 접수 템플릿',3)
+p('현장 문제  자주 발생하는 유형도 접수자마다 증상 표현과 확인 항목이 달라 분류 전에 재질의가 발생한다. 실제 동작  유형을 선택하면 예시와 질문을 제시하고 빈 항목 채우기로 작성 부담을 줄인다. 기존에 작성한 제목·증상은 보존하며 저장 전 자유롭게 수정한다.')
+p('사용 단계  신규 고장 접수→자주 발생하는 고장 선택→빈 항목 채우기→증상·질문 확인→사용자 수정→저장 순으로 진행한다. 적용한 템플릿과 답변을 접수 당시의 스냅샷으로 남겨 템플릿이 나중에 바뀌어도 당시 입력의 의미를 유지한다. 업무 유형이 바뀌면 승인된 가상 서식을 추가하는 방향으로 확장할 수 있다.')
+h('② 내 업무 모아보기',3)
+p('현장 문제  배정 고장, 오늘 정비, 확인할 지시사항이 서로 다른 메뉴에 있어 빠뜨리기 쉽다. 실제 동작  로그인 사용자 기준으로 세 범주를 모아 보여주고 각 항목을 누르면 해당 상세 화면으로 이동한다. 역할과 대상 접근 범위를 서버 역할의 Main에서도 확인한다.')
+p('사용 단계  상황판의 내 업무→배정 고장 또는 오늘 정비 확인→상세 처리→미확인 지시 확인 순으로 점검한다. 다른 사람의 권한 밖 업무를 가져오지 않는 것이 통제 조건이다. 향후 기한 초과나 인계 확인 범주로 확장할 수 있으나 현재 구현과 구분한다.')
+h('③ 정비 체크리스트',3)
+p('현장 문제  완료 버튼만으로는 필수 점검 항목의 누락을 알기 어렵다. 실제 동작  작업 유형에 맞는 체크리스트를 연결하고 각 항목의 결과와 메모를 저장한다. 필수 항목이 남으면 완료 요청을 막아 확인하도록 한다. 체크 완료가 장비 실물 검증의 자동 증명이 되는 것은 아니다.')
+p('사용 단계  작업 상세→체크리스트 연결→항목별 확인 결과·메모 저장→필수 누락 확인→정비 결과 입력→완료 요청으로 진행한다. 작업에 붙인 항목의 스냅샷으로 추적성을 보존한다. 네트워크·시설·교육 장비 점검 등에도 동일한 항목 구조를 적용할 수 있다.')
+table(['추가 기능','현행 구현 및 검증 연결'],[
+ ['템플릿','UsabilityService·공유 계약·템플릿/접수 스냅샷·usability E2E'],
+ ['내 업무','work:mine·사용자 범위 조회·상세 이동·권한 시험'],
+ ['체크리스트','checklist:get/attach/save·필수 항목 완료 검증·usability 단위 시험']],[3.4,13.6])
+
+page();h('④ 반복 정비 등록',3)
+p('현장 문제  매주·매월 같은 점검을 수동으로 등록하면 누락과 중복이 생긴다. 실제 동작  주·월 반복 규칙을 저장하고 조회 기간의 다음 작업을 미리 보여준다. 사용자가 생성할 회차를 확인한 후 등록하며 동일 규칙·회차의 중복 생성을 방지한다. 월말·윤년과 존재하지 않는 날짜의 처리도 시험한다.')
+p('사용 단계  정비관리→반복 정비→규칙·담당·주기 등록→생성 미리보기→대상 확인→생성 결과 확인 순으로 사용한다. 자동 상시 스케줄러가 시작과 동시에 외부 요청이나 작업을 만들도록 한 구성은 아니다. 다른 반복 업무로 확장할 때도 생성 전 검토와 중복 방지 원칙을 유지한다.')
+fig('06-recurring-crop','그림 6. 최신 패키징 앱의 반복 정비 화면 일부. 격리된 가상 프로필의 실제 화면이며 예정 회차와 실제 생성은 구분한다.',15.5)
+h('⑤ 로컬 AI 입력 보완 도우미',3)
+p('현장 문제  정보가 부족한 입력으로 즉시 AI를 호출하면 추정이 늘고 외부 호출 비용도 낭비할 수 있다. 실제 동작  로컬 규칙으로 증상·범위·시점·선행 조치 등에 대한 보완 질문을 먼저 제시한다. 답변 또는 미확인 표시를 보존하고 기존 분류 입력에 연결한다. 보완 질문을 여는 단계 자체는 외부 AI 호출이 아니다.')
+p('사용 단계  입력 내용 점검→확인한 답변 입력→보완 내용 반영 또는 보완 후 분석→추천 근거 검토 순이다. 확인하지 못한 사실을 채우라고 요구하지 않는다. 입력을 수정하면 이전 분석 결과를 무효화하는 처리로 오래된 추천의 오용을 줄인다.')
+p('그 밖의 보완  파일 유형·최대 25MB·SHA-256 및 대상 접근을 확인하는 첨부 관리, 설명 가능한 SLA 위험 표시, AI 실행 이력, 매뉴얼 다운로드를 제공한다. SLA는 목표 처리 기한이며 위험 등급은 잔여 시간·업무량·평균 처리 시간 등을 비교하는 규칙이다. 실측 장애 확률이나 LLM의 위험 예측값은 아니다. 기본 기능과 같은 항목을 추가기능 점수로 중복 계산하지 않는다.')
+
+page();h('4. AI 활용도',1);h('가. 활용 AI체계')
+p('개발 지원과 운용 지원을 구분한다. 개발 과정에서는 요구사항 프롬프트, 구현 소스, 오류 수정 및 회귀 시험을 함께 남겨 결과를 검토했다. 보존된 5개 실용 기능 구현 프롬프트와 최신 설정 저장 오류 수정 기록을 구체적인 사례로 제시한다. 사용자 진술에 있는 Claude의 개별 기여 범위는 대화 원문·파일별 이력이 확보된 범위에서만 확정해야 한다.')
+table(['구분','적용 내용','확인 수준'],[
+ ['개발 지원','Codex를 통한 요구 분석·설계·구현·수정·검증 지원','프롬프트·소스·시험·수정 commit 확인'],
+ ['LOCAL','결정적 로컬 규칙. 인터넷·모델 설치 없이 기본 분류와 요약 지원','현재 가상 패키징 앱 실행 확인'],
+ ['OLLAMA','별도 로컬 서버·모델을 통한 선택형 응답','연동 코드와 대체 시험. 설치·모델 응답 별도 확인'],
+ ['OPENAI','Main의 Responses API·JSON Schema 구조화 출력','SDK/mock 검증. 실제 유료 호출 미검증'],
+ ['ANTHROPIC','Main의 Messages API·구조화 출력','SDK/mock 검증. 실제 유료 호출 미검증']],[2.7,8.7,5.6])
+p('운용 지원 범위  고장 분류·추천, 일일 요약, 제공된 유사 고장 후보의 재정렬, 정비 후보의 우선순위를 지원한다. 외부 모델은 업무 요청에 포함한 데이터만 본다. 소스코드·전체 DB·첨부 원문을 자동으로 읽거나 실시간 장비를 감시하지 않는다. RAG, 임베딩, 벡터 DB는 적용하지 않았다.')
+p('안전장치  기본 Provider는 LOCAL이다. 외부 사용은 관리자 활성화·동의 후 수동 실행하며 API 비용은 별도이다. 자격정보는 OS safeStorage로 암호화하거나 환경변수로 받으며 저장 후 조회에는 configured·source·masked만 제공한다. 암호화를 사용할 수 없으면 평문 파일에 저장하지 않는다. 입력 길이·후보 수·출력량·일일 요청 한도를 제한하고 응답을 Zod로 재검증한다.')
+p('장애 대응  기본 시도당 timeout은 15초이며 5~30초 범위로 설정한다. 재시도 가능한 오류는 최대 2회 재시도하므로 전체 대기시간은 시도당 제한보다 길어질 수 있다. 인증·권한 오류는 무조건 반복하지 않는다. 실패하면 LOCAL로 대체하고 provider·model·latency·token·실패 분류를 기록한다. 마스킹은 완전한 비식별화나 군 보안 승인을 뜻하지 않는다.')
+fig('11-ai-summary','그림 7. 최신 패키징 앱의 LOCAL 일일 요약. 가상 집계값으로 실행한 실제 화면이며 외부 전송 없음 표시를 확인한다. 유료 API 호출 성공 증빙은 아니다.',16.5)
+
+page();h('나. AI 활용 SW 구현정도')
+p('산정 보류  현재 자료만으로 전체 코드의 AI 작성 비율 또는 기능별 AI 기여도를 수치로 확정할 수 없다. 기능 완성도, 운용 중 LLM 사용 여부, AI 지원 개발 기여도는 서로 다른 지표이다. 구현된 코드 줄 수나 외부 Provider 수를 근거로 100%라고 계산하지 않는다.')
+p('산정 방법  기능 단위를 먼저 확정하고 각 단위의 원본 요청→AI 제안→사람 검토·수정→통합 commit→시험을 연결한다. 확인된 AI 지원 단위 수를 전체 산정 대상 기능 수로 나누되, 공동 수정과 출처 미확인 항목을 별도로 기록한다. 분자·분모와 제외 기준은 작성자가 대화 원문을 확인한 뒤 확정한다.')
+pages[-1].append({'type':'ai-evidence-table'})
+p('그림 8과 9는 보존된 프롬프트와 실제 소스를 증빙용으로 렌더링한 발췌이다. AI 대화 화면을 촬영한 자료가 아니며 생성형 모델의 실제 응답 캡처로 제시하지 않는다. 원문의 “소스코드 직접 입력 금지” 취지를 따라 표에는 소스 이미지를 넣고 전체 코드는 저장소에서 확인하도록 했다.')
+
+page();h('AI 결과 확인과 수정 및 프로그램 반영')
+p('구체 사례  외부 사용 활성화·동의가 화면에서 선택되어 있어도 연결 시험이 “외부 AI 사용 동의와 활성화가 필요합니다”로 실패하는 현상이 제기되었다. 미저장 화면 값과 저장된 설정이 달랐고, 키 저장 뒤 전체 설정을 다시 읽으면서 작성 중 값이 덮이는 흐름이 원인이었다. 단순히 동의를 자동 활성화하는 방식으로 처리하지 않았다.')
+p('수정한 흐름  키 저장 후 자격정보 상태만 갱신하여 작성 중 설정을 보존했다. 저장된 Provider와 현재 선택을 구분하고 “저장 후 연결 시험”은 현재 설정의 유효성 검사와 저장이 성공한 다음에만 시험하도록 연결했다. 미동의·잘못된 모델명·저장 실패 시에는 연결 요청을 막는다. 앱 시작이나 단순 새로고침으로 외부 시험이 실행되지 않도록 확인한다.')
+table(['단계','개발 증빙과 검토 내용'],[
+ ['구체 요구','동의·설정 저장·시험 순서, 키 미노출, 기존 기능 보존을 조건으로 제시'],
+ ['결과 확인','사용자가 보고한 오류와 화면 초안/DB 설정 차이를 대조'],
+ ['보완·통합','SystemManagement·Factory 등 수정. commit '+commit[:7]+' 확인'],
+ ['회귀 확인','ai-settings E2E의 값 보존·미동의 차단·저장 실패 차단·새로고침 검증'],
+ ['현재 재시험','단위/통합 '+str(tests['numPassedTests'])+'개 통과. 별도 가상 프로필 화면 확인']],[3.2,13.8])
+fig('10-test','그림 10. API Key 저장 뒤 설정 초안을 유지하는 회귀 시험 소스 발췌의 증빙용 렌더. 실제 API 성공 응답이나 AI 개발 대화 캡처는 아니다.',15)
+p('검증 범위  실제 OpenAI·Claude의 인증·결제·모델 접근 성공은 이번 시험에 포함하지 않았다. 과거 mock/패키징 시험 기록은 기록 시점과 버전을 명시하여 재인용한다. 사람이 모든 생성 코드를 줄 단위 검토했다는 증거가 없는 범위는 작성자 확인 대상으로 남긴다.')
+
+page();h('5. 타 체계 연동방안(제안)',1)
+p('현재 구현은 독립 PC의 로컬 업무 관리이다. 외부 군 체계의 인증·API·규격·데이터 접근 권한이 제공된 연동은 구현하지 않았다. 아래 내용은 승인된 인터페이스가 확보될 경우의 제안이며 DELIIS 등의 실제 연동 성공을 뜻하지 않는다.')
+h('가. 승인된 자료 교환 절차')
+p('초기 단계는 임의 샘플 기반 CSV 또는 합의된 JSON 스키마의 수동 교환으로 제한한다. 필수 필드는 외부 식별자, 발생시각, 업무 유형, 상태, 담당 조직 코드, 결과 요약과 버전으로 제안한다. 반입 전에 자료 보안·권한·스키마를 확인하고 미리보기에서 누락·형식·중복을 검증한 뒤 담당자가 승인한다. 잘못된 행은 격리하고 한 건의 오류로 전체 업무 데이터를 덮어쓰지 않는다.')
+p('중복 방지와 추적  외부 식별자·버전·교환 배치의 조합으로 중복 처리를 방지하고, 가져오기 전후 값과 승인자를 감사 기록에 남긴다. 적용 전 백업과 취소 가능한 배치 단위를 두고, 부분 실패 시 원복 또는 재처리 대상을 보여준다. 외부 체계의 정정 권한과 OMNIS의 로컬 수정 권한을 혼동하지 않는다.')
+h('나. 다중 PC 운용으로의 확장')
+p('여러 PC가 동일 자료를 사용하려면 별도 승인된 서버, 중앙 DB, 사용자 인증, 전송 암호화, 동시 수정 충돌 처리, 장애 복구 및 감사를 설계해야 한다. SQLite 파일을 공유 폴더에 복사하는 방식만으로 동시 운용을 보장하지 않는다. 현재의 계약·서비스 계층은 향후 어댑터를 분리하는 기반이며, 중앙 서버가 이미 배포된 상태는 아니다.')
+h('다. 단계별 적용 조건')
+table(['단계','제안 범위','검증 및 승인 조건'],[
+ ['1단계','독립 PC 가상 시연·LOCAL 사용','보안 점검·업무 담당자 시나리오 검토'],
+ ['2단계','비민감 샘플의 수동 반입·미리보기','스키마·중복·취소·감사 시험'],
+ ['3단계','승인된 내부 API 어댑터와 중앙 운용','체계 소유자 승인·망/계정/접근 통제'],
+ ['4단계','업무 확대와 지속 개선','성능·동시성·복구·사용자 수용성 검증']],[2,8,7])
+p('외부 AI 동의는 군 자료의 외부 전송 승인이 아니다. 시연 기본은 LOCAL·임의 자료이며, 실제 보안 정책이 외부 API를 허용하지 않으면 해당 기능을 사용하지 않는다. 개발 산출물의 외부 클라우드·SNS·서버 업로드 제한, 보안담당 확인 및 행사 후 처리 조건은 원문과 주관부서 지침에 따라 별도로 확인한다. 이번 작업은 제출이나 삭제를 실행하지 않는다.')
+
+page();h('부록 1 요구사항과 구현 근거')
+p('판정 기준  “구현”은 현행 코드와 대응 기능이 존재한다는 뜻이다. “부분”은 요구 범위 중 일부만 제공한다는 뜻이며, 실제 군 적용 승인이나 장비 실측 검증을 포함하지 않는다. 원문 3·5쪽과 사례 9~11쪽을 기준으로 대응했다.')
+table(['원문 요구 또는 절차','현재 대응과 근거','판정 및 남은 확인'],[
+ ['운용현황 입력·수정·삭제·시현','운영현황·상황판·AppService·시스템 DB','구현. 자유 대분류 확대 범위는 확인'],
+ ['GPS 등 상황정보 관리','상황경보 CRUD·이력·수동 입력','구현. 센서 자동 탐지는 아님'],
+ ['일일 병력·근무·지시 관리','근무 편성·명부·지시 확인·일정','부분. 정원/현원/휴가 집계 미포함'],
+ ['정비 신청과 관리자 승인','고장·정비 등록·역할별 배정·상태 통제','부분. 별도 정비 승인 단계 보완'],
+ ['일반/긴급·일정·지시·담당','중요도·예정/기한·담당·지시 상태','구현. 가상 자료 기준'],
+ ['예정/완료 상태와 계획 수정','정비 상태 전이·관리 권한·캘린더','구현. 상태와 실물 결과 구분'],
+ ['일/주/월 일정 모니터링','캘린더와 일일/주간 보고','부분. 월간 보고 범위 확인'],
+ ['접수 및 상태 알림','앱 내 알림·배지·조회 연결','구현. 외부 메시지·SMS 연동 아님'],
+ ['08:30 계획·16:00 대조','OperationalControlService·작업판·마감','구현. DELIIS 직접 연동 없음'],
+ ['긴급 선조치 사후 기록','사유·실제 시작시각·후속 상태 이력','구현. 실제 복구를 수행하지 않음'],
+ ['AI 협업개발 증빙','보존 프롬프트·수정 commit·시험 자료','부분. 전체 기여율·대화 원문 확인'],
+ ['보안 및 제출 운용','가상 캡처·LOCAL·최소화·키 암호화','담당자 최종 보안 확인 필요']],[4,7.8,5.2])
+p('요구사항을 충족시키기 위해 새 기능을 구현한 문서 작업은 아니다. 본문에 기술한 부분 충족 항목은 현재 상태를 공개한 보완 목록이다. 미구현 기능을 제안으로 적었다는 이유만으로 완료로 판정하지 않는다.')
+
+page();h('부록 2 평가항목과 증빙 대응')
+p('원문 2·6쪽의 배점을 그대로 연결했다. 본 표는 심사자가 근거를 찾도록 돕는 대응표이며 자체 예상 점수나 최고점 보장이 아니다. AI 활용도는 운용 AI의 모델 수가 아니라 개발 과정의 활용·검토·반영 근거로 설명한다.')
+table(['평가항목 및 배점','본문과 자료','증빙 수준 및 남은 확인'],[
+ ['실제 업무 절차 기반 15','1·2다 / 그림 1 / 원문 9~11쪽','참고 사례 반영. 실제 현장 검증 별도'],
+ ['군 내 적용/운용 구성 15','2가·5 / 그림 2 / 설치·로컬 저장','독립 PC 가상 운용. 보안·실배포 승인 별도'],
+ ['주요기능 정상 구현 10','2나·부록 1 / 현재 코드·시험','구현과 부분 충족을 구분'],
+ ['친화성·사용성·안정성 10','3·부록 5 / 화면 1366·1920 / 83개 시험','가상 자료와 해당 시나리오 범위'],
+ ['구체 프롬프트 작성 10','4나 / 그림 8 / 보존 프롬프트','조건·오류·권한·검증 요구 확인'],
+ ['AI 결과 확인 및 보완 10','4 / 연결 시험 오류 수정 사례','재현·보완 기록. 전체 대화 원문은 작성자 확인'],
+ ['검토·수정·프로그램 반영 10','4 / 그림 9·10 / commit '+commit[:7],'실제 소스·수정·시험. 전체 기여율 보류'],
+ ['요구 외 추가 구현 10','3 / 5개 실용 기능 / 그림 3·6','유형별 동작·통제·시험을 연결'],
+ ['타 업무 확대·지속 활용 5','3·5 / 템플릿·반복·계약 계층','현재 기반과 향후 제안을 구분'],
+ ['논리적·이해 가능한 시연 2.5','부록 3 / 15분 동선','계획. 리허설 소요시간 미측정'],
+ ['기존 업무·체계 설명 기술서 2','1~5 / 양식·그림·출처','원문 양식에 따른 상세 작성본'],
+ ['질의 답변 0.5','부록 4 / 핵심 문답','예상 질의. 실제 심사 결과 아님']],[4.2,6.3,6.5])
+p('최종 점수는 심사 판단에 달린다. 병력 집계·별도 정비 승인·월간 보고·실제 배포 승인 등 남은 항목은 설명 또는 개선 계획으로 제시하며 구현된 것으로 숨기지 않는다.')
+
+page();h('부록 3 15분 시연 동선')
+p('원문에서 강조한 2나·2다·3을 중심으로 구성한 시연 계획이다. 총 15분이며 실제 리허설 측정값이 아니다. 외부 인터넷이나 유료 API가 없어도 진행할 수 있도록 LOCAL과 임의 가상 자료를 기본으로 한다.')
+table(['시간','화면과 행위','설명 및 예상 확인 결과'],[
+ ['0~1분','통합상황판과 구조 소개','독립 PC·가상 자료·처리 흐름과 화면 집계를 설명'],
+ ['1~3분','신규 접수·템플릿·입력 보완','증상·영향을 보완하고 원래 입력을 보존한 채 저장'],
+ ['3~5분','고장 상세·부서/담당 배정','요청부서와 조치부서를 구분하고 미지정도 확인'],
+ ['5~7분','원격/현장·결과·검증·종결','허용 상태 전이와 누락·재조치 통제를 설명'],
+ ['7~9분','정비·체크리스트·반복 규칙','필수 미완료 차단과 미리보기·중복 방지 확인'],
+ ['9~11분','08:30 계획·16:00 대조·인계','계획/비계획·미완료 사유·확정 인계 설명'],
+ ['11~13분','내 업무·지시·LOCAL AI','할 일 상세 이동과 근거 확인 후 검토 원칙 설명'],
+ ['13~15분','보고·매뉴얼·검증 증빙·질의','현재 한계와 제안을 분리하고 핵심 질문에 답변']],[2,6.2,8.8])
+p('사전 준비  독립 시연 PC에 설치본과 매뉴얼을 준비하고 실행·화면 크기·가상 프로필·LOCAL 설정을 확인한다. 예시 접수 1건, 미완료 체크 항목 1건, 반복 규칙 1개와 인계 초안을 준비한다. 시연 도중 원본 사용자 DB를 초기화하지 않는다. 비민감 가상 입력 외 자료를 사용하려면 주관부서 지침과 보안 확인을 먼저 충족해야 한다.')
+p('장애 시 대안  외부 API나 Ollama가 준비되지 않으면 LOCAL로 시연한다. 제출용 화면과 캡처를 함께 보존하되 실제 실패를 성공으로 말하지 않는다. 실행 불가나 권한 오류가 발생하면 해당 조건과 오류 분류를 설명하고 저장된 증빙으로 범위를 한정한다. 녹화·외부 업로드·실제 제출은 이번 작성 작업에 포함하지 않았다.')
+
+page();h('부록 4 기대효과와 예상 질의')
+p('기대효과는 접수 재질의 감소, 담당 파악 개선, 필수 점검 누락 방지, 반복 등록의 중복 감소 및 일일 대조의 추적성 향상이다. 절감 시간·오류 감소율·운용률 향상치를 실측한 자료는 없다. 향후 동일한 가상 업무를 기존 절차와 OMNIS에서 수행하여 비교하고, 실제 운용 평가는 승인된 시험에서 별도로 진행한다.')
+table(['측정 지표','측정 방법과 판단'],[
+ ['접수 작성·배정 소요시간','동일 시나리오의 시작~저장/배정 시간을 반복 측정'],
+ ['누락·재질의·중복 건수','질문 재발행·필수 체크 누락·반복 회차 중복을 계수'],
+ ['일일 대조 불일치·인계 누락','계획/실적 불일치와 다음 근무자 미확인 항목 비교'],
+ ['AI 유효 추천·대기·대체 비율','정답 기준표로 검토율, latency, 실패·fallback을 구분']],[5.2,11.8])
+h('예상 질의와 답변')
+p('Q. 로컬 앱에서 API는 어떻게 쓰는가?  A. Main에서 선택한 공식 HTTPS API로 필요한 입력만 보낸다. 로컬 DB 자체가 외부 서버로 바뀌는 구성은 아니다.')
+p('Q. 인터넷이 없으면 AI와 업무가 멈추는가?  A. LOCAL 규칙과 기존 업무는 동작한다. Ollama는 별도 설치·모델 준비가 필요하고 외부 실패는 LOCAL로 대체한다.')
+p('Q. AI는 체계 전체를 알고 실시간 분석하는가?  A. 코드에 정의한 업무 규칙과 요청 데이터만 받는다. 전체 DB·장비를 자동 조회하거나 RAG로 문서를 검색하지 않는다.')
+p('Q. 외부 AI 동의만 받으면 군 자료를 보낼 수 있는가?  A. 아니다. 앱 동의와 보안 승인은 다르다. 실제 민감자료를 입력하지 않고 시연 기본은 LOCAL이다.')
+p('Q. AI가 분류하면 바로 배정·완료되는가?  A. 추천으로 제시하며 근거를 확인한 사람이 반영한다. SLA·권한·상태 전이는 결정적 규칙으로 유지한다.')
+p('Q. 기존 체계 연동과 AI 개발 기여율은 확정됐는가?  A. 실제 군 체계 연동은 제안이다. AI 기여율은 원본 대화와 기능별 검토 근거를 추가 확인한 뒤 산정한다.')
+
+page();h('부록 5 출처와 검증 및 작성자 확인')
+p('문서 기준  '+now+' / 앱 1.0.1 / commit '+commit[:7]+' / DB schema 8. 문서는 현행 구현을 설명하며 이번 작성 과정에서 프로그램 기능을 추가하거나 원격 저장소에 제출물을 업로드하지 않았다.')
+table(['근거 번호','출처 및 사용 범위'],[
+ ['E01','AI활용체계개발.pdf 11쪽 원문. 2·6쪽 평가, 3·5쪽 요구·보안, 7~8쪽 양식, 9~11쪽 사례를 육안 확인'],
+ ['E02','현행 AppService·Workflow·UsabilityService·OperationalControlService·조직 서비스·공유 계약·DB migration'],
+ ['E03','현재 다시 실행한 Vitest 결과: '+str(tests['numPassedTests'])+'개 통과, 실패 '+str(tests['numFailedTests'])+'개. JSON 결과와 기능별 파일 보존'],
+ ['E04','1.0.1 패키징 앱·격리 가상 프로필. 1366×768 및 1920×1080 캡처·LOCAL 응답·화면 오류 확인'],
+ ['E05','docs/EXTERNAL_AI.md의 1.0.1 검증 기록·미서명 설치본 SHA-256. 과거 mock/패키징 시험 기록은 재인용으로 구분'],
+ ['E06','설정 보존·저장 후 연결 시험 수정 commit '+commit[:7]+' 및 ai-settings-flow E2E 소스'],
+ ['E07','보존된 5개 실용 기능 구현 프롬프트. 증빙용 실제 소스 발췌 이미지. 생성형 응답 대화 캡처와 구분']],[2,15])
+p('현재 확인한 시험의 한계  83개 단위/통합 시험은 SDK·transport mock 및 가상 자료를 사용한다. 화면 캡처는 지정 시나리오의 표시·LOCAL 응답을 확인한 것으로 모든 업무 조합의 회귀 성공이나 외부 API live 성공을 의미하지 않는다. 전체 프로그램 검사 명령을 이번 문서 작업에서 모두 재실행했다고 쓰지 않는다.')
+table(['작성자 및 담당자 확인사항','상태'],[
+ ['참가자 소속·계급·성명·군번 3개 행','사용자 미제공으로 공란 유지'],
+ ['AI 지원 개발의 원본 대화·사람 검토 범위·기여율','추가 증빙 확인 후 확정'],
+ ['병력 집계·정비 승인·월간 보고의 제출 범위','부분 충족 사항 검토'],
+ ['공개 실부대명 카탈로그 포함 여부와 제출 보안','가상 캡처와 별개로 배포본 보안담당 확인 필요'],
+ ['실제 API·Ollama·신규 PC·macOS·서명/공증','각 환경의 별도 시험·승인 필요'],
+ ['주관부서 양식·분량·제출·행사 후 자료 처리','원문과 최신 주관부서 지침 최종 확인']],[12.8,4.2])
+p('제출 전 점검  HWP·DOCX·PDF의 제목·목차·표·그림 일치, 실제 편집 가능 여부, 모든 페이지의 잘림·겹침·한글 표시와 빈 페이지를 확인한다. 파일별 페이지 수·크기·SHA-256 및 상세 변환 결과는 함께 보존한 검증결과와 manifest에서 확인한다. 인적사항 공란과 산정 보류 항목을 작성자가 확인한 뒤 제출한다.')
+
+(ROOT/'source/content.json').write_text(json.dumps({'subject':'OMNIS 운용개념 기술서','basis':{'commit':commit,'version':'1.0.1','asOf':now},'pages':pages},ensure_ascii=False,indent=2),encoding='utf-8')
+
+doc=Document();sec=doc.sections[0]
+sec.page_width=Cm(21);sec.page_height=Cm(29.7)
+sec.top_margin=Cm(1.8);sec.bottom_margin=Cm(1.7);sec.left_margin=Cm(2);sec.right_margin=Cm(2)
+sec.header_distance=Cm(.75);sec.footer_distance=Cm(.7)
+for name,size in [('Normal',10.5),('Title',19),('Heading 1',15),('Heading 2',12),('Heading 3',11)]:
+    st=doc.styles[name];st.font.name='맑은 고딕';st.font.size=Pt(size);st.font.color.rgb=RGBColor(0,0,0)
+    st.element.get_or_add_rPr().rFonts.set(qn('w:eastAsia'),'맑은 고딕')
+    st.paragraph_format.line_spacing=Pt(size+5);st.paragraph_format.space_after=Pt(6)
+    snap=OxmlElement('w:snapToGrid');snap.set(qn('w:val'),'0');st.element.get_or_add_pPr().append(snap)
+    if name!='Normal':st.font.bold=True;st.paragraph_format.space_before=Pt(6)
+    for b in list(st.element.xpath('.//w:pBdr')):b.getparent().remove(b)
+normal=doc.styles['Normal'];normal.paragraph_format.widow_control=True
+header=sec.header.paragraphs[0];header.text=''
+footer=sec.footer.paragraphs[0];footer.alignment=WD_ALIGN_PARAGRAPH.CENTER
+field=OxmlElement('w:fldSimple');field.set(qn('w:instr'),'PAGE');footer._p.append(field)
+doc.core_properties.title='운용개념 기술서';doc.core_properties.subject='OMNIS 정보통신 운용·정비 통합체계';doc.core_properties.author=''
+
+def style_table(t,widths):
+    t.alignment=WD_TABLE_ALIGNMENT.CENTER;t.autofit=False
+    widths=widths or [17/len(t.columns)]*len(t.columns)
+    for col,w in zip(t.columns,widths):col.width=Cm(w)
+    for ri,row in enumerate(t.rows):
+        pr=row._tr.get_or_add_trPr();cs=OxmlElement('w:cantSplit');pr.append(cs)
+        if ri==0:
+            repeat=OxmlElement('w:tblHeader');pr.append(repeat)
+        seen=set()
+        for ci,cell in enumerate(row.cells):
+            if cell._tc in seen: continue
+            seen.add(cell._tc)
+            span=int(cell._tc.get_or_add_tcPr().gridSpan.val) if cell._tc.get_or_add_tcPr().gridSpan is not None else 1
+            cell.width=Cm(sum(widths[ci:ci+span]));cell.vertical_alignment=WD_CELL_VERTICAL_ALIGNMENT.CENTER
+            cp=cell._tc.get_or_add_tcPr();m=OxmlElement('w:tcMar')
+            for side,val in [('top',80),('bottom',80),('left',90),('right',90)]:
+                node=OxmlElement('w:'+side);node.set(qn('w:w'),str(val));node.set(qn('w:type'),'dxa');m.append(node)
+            cp.append(m)
+            sh=OxmlElement('w:shd');sh.set(qn('w:fill'),'EDEFF2' if ri==0 else ('FFFFFF' if ri%2 else 'F9FAFB'));cp.append(sh)
+            for pp in cell.paragraphs:
+                pp.paragraph_format.space_after=Pt(2);pp.paragraph_format.space_before=Pt(1)
+                pp.paragraph_format.line_spacing=1.0 if pp._p.xpath('.//w:drawing') else Pt(13)
+                for rr in pp.runs:rr.font.size=Pt(9.2);rr.bold=ri==0
+    borders=OxmlElement('w:tblBorders')
+    for side in ['top','left','bottom','right','insideH','insideV']:
+        b=OxmlElement('w:'+side);b.set(qn('w:val'),'single');b.set(qn('w:sz'),'4');b.set(qn('w:color'),'D9D9D9');borders.append(b)
+    t._tbl.tblPr.append(borders)
+
+for pi,nodes in enumerate(pages):
+    page_start=len(doc.paragraphs)
+    for node in nodes:
+        typ=node['type']
+        if typ=='title':
+            pp=doc.add_paragraph(node['text'],'Title');pp.alignment=WD_ALIGN_PARAGRAPH.CENTER
+        elif typ=='heading':doc.add_paragraph(node['text'],'Heading '+str(node['level']))
+        elif typ=='paragraph':doc.add_paragraph(node['text'])
+        elif typ=='table':
+            t=doc.add_table(rows=1,cols=len(node['headers']))
+            for c,v in zip(t.rows[0].cells,node['headers']):c.text=v
+            for row in node['rows']:
+                for c,v in zip(t.add_row().cells,row):c.text=str(v)
+            style_table(t,node['widths'])
+            doc.add_paragraph().paragraph_format.space_after=Pt(0)
+        elif typ=='figure':
+            pp=doc.add_paragraph();pp.alignment=WD_ALIGN_PARAGRAPH.CENTER;pp.paragraph_format.keep_with_next=True;pp.paragraph_format.line_spacing=1.0
+            pp.add_run().add_picture(str(FIG/node['file']),width=Cm(node['width']))
+            pp=doc.add_paragraph(node['caption']);pp.paragraph_format.space_after=Pt(7)
+            for rr in pp.runs:rr.font.size=Pt(8.5)
+        elif typ=='ai-evidence-table':
+            t=doc.add_table(rows=2,cols=4)
+            for c,v in zip(t.rows[0].cells,['주요/추가기능','바이브 코딩 사용','입력 프롬프트','활용 소스코드']):c.text=v
+            for c,v in zip(t.rows[1].cells,['실용 기능 5종·AI 결과 검증','지원 활용\n기여율 산정 보류','보존 요청: 그림 8','현행 구현: 그림 9']):c.text=v
+            row=t.add_row();row.cells[0].text='자료교환용 발췌';row.cells[1].text='요청과 소스의\n증빙 렌더'
+            cell=row.cells[2].merge(row.cells[3]);cell.text=''
+            for name,caption in [('08-prompt','그림 8. 개발 요청 프롬프트 발췌'),('09-source','그림 9. 입력 보완 분석 연결 소스 발췌')]:
+                pp=cell.add_paragraph(caption);pp.add_run().add_break();pp.add_run().add_picture(str(FIG/(name+'.png')),width=Cm(11.7))
+            style_table(t,[2.6,2.2,6.1,6.1])
+            for row in t.rows[2:]:
+                for c in row.cells:
+                    for pp in c.paragraphs:
+                        for rr in pp.runs:rr.font.size=Pt(8.5)
+    if pi:doc.paragraphs[page_start].paragraph_format.page_break_before=True
+
+out=ROOT/'OMNIS_운용개념기술서_제출본.docx';doc.save(out)
+(ROOT/'source/artifact.md').write_text('# 문서 작성 기준\n\n원문 7~8쪽의 5개 항목과 인적사항 표를 유지한 상세 운용개념 기술서. A4, 맑은 고딕, 흑백 중심.\n본문·표는 편집 가능하고 그림은 가상 앱 캡처와 출처 표시된 개념도/실제 소스 발췌로 구성.\n원본 PDF는 변경하지 않으며 한글 변환 후 전체 페이지를 렌더링하여 확인한다.\n',encoding='utf-8')
+print(json.dumps({'docx':str(out),'designedPages':len(pages),'paragraphs':len(doc.paragraphs),'tables':len(doc.tables),'asOf':now},ensure_ascii=False))
+

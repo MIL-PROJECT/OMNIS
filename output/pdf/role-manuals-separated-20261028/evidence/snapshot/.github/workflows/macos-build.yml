@@ -1,0 +1,143 @@
+name: macOS build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: macos-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-test:
+    name: macOS ${{ matrix.arch }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: arm64
+            binary_arch: arm64
+            runner: macos-15
+          - arch: x64
+            binary_arch: x86_64
+            runner: macos-15-intel
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 45
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: 11
+          run_install: false
+
+      - name: Install Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - name: Configure optional Apple signing
+        shell: bash
+        env:
+          MACOS_CSC_LINK_SECRET: ${{ secrets.MACOS_CSC_LINK }}
+          MACOS_CSC_KEY_PASSWORD_SECRET: ${{ secrets.MACOS_CSC_KEY_PASSWORD }}
+          APPLE_API_KEY_SECRET: ${{ secrets.APPLE_API_KEY }}
+          APPLE_API_KEY_ID_SECRET: ${{ secrets.APPLE_API_KEY_ID }}
+          APPLE_API_ISSUER_SECRET: ${{ secrets.APPLE_API_ISSUER }}
+        run: |
+          if [[ -n "$MACOS_CSC_LINK_SECRET" ]]; then
+            printf 'CSC_LINK=%s\n' "$MACOS_CSC_LINK_SECRET" >> "$GITHUB_ENV"
+            printf 'CSC_KEY_PASSWORD=%s\n' "$MACOS_CSC_KEY_PASSWORD_SECRET" >> "$GITHUB_ENV"
+          else
+            printf 'CSC_IDENTITY_AUTO_DISCOVERY=false\n' >> "$GITHUB_ENV"
+          fi
+
+          if [[ -n "$APPLE_API_KEY_SECRET" || -n "$APPLE_API_KEY_ID_SECRET" || -n "$APPLE_API_ISSUER_SECRET" ]]; then
+            if [[ -z "$APPLE_API_KEY_SECRET" || -z "$APPLE_API_KEY_ID_SECRET" || -z "$APPLE_API_ISSUER_SECRET" ]]; then
+              echo 'APPLE_API_KEY, APPLE_API_KEY_ID and APPLE_API_ISSUER must be configured together.' >&2
+              exit 1
+            fi
+
+            API_KEY_PATH="$RUNNER_TEMP/app-store-connect-api-key.p8"
+            if [[ "$APPLE_API_KEY_SECRET" == *'BEGIN PRIVATE KEY'* ]]; then
+              printf '%s\n' "$APPLE_API_KEY_SECRET" > "$API_KEY_PATH"
+            else
+              printf '%s' "$APPLE_API_KEY_SECRET" | openssl base64 -d -A -out "$API_KEY_PATH"
+            fi
+            grep -q 'BEGIN PRIVATE KEY' "$API_KEY_PATH"
+            chmod 600 "$API_KEY_PATH"
+
+            printf 'APPLE_API_KEY=%s\n' "$API_KEY_PATH" >> "$GITHUB_ENV"
+            printf 'APPLE_API_KEY_ID=%s\n' "$APPLE_API_KEY_ID_SECRET" >> "$GITHUB_ENV"
+            printf 'APPLE_API_ISSUER=%s\n' "$APPLE_API_ISSUER_SECRET" >> "$GITHUB_ENV"
+          fi
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Static checks and tests
+        run: |
+          pnpm typecheck
+          pnpm lint
+          pnpm test
+
+      - name: Build application
+        run: pnpm build
+
+      - name: Source Electron E2E
+        run: |
+          pnpm test:e2e
+          pnpm test:e2e:roles
+          pnpm test:e2e:signup
+          pnpm test:e2e:operations
+          pnpm test:e2e:visual
+
+      - name: Package DMG and ZIP
+        run: pnpm exec electron-builder --mac dmg zip --${{ matrix.arch }} --publish never
+
+      - name: Verify packaged application
+        shell: bash
+        run: |
+          APP_BUNDLE="$(find release -type d -path '*/OMNIS.app' -print -quit)"
+          APP_EXECUTABLE="$APP_BUNDLE/Contents/MacOS/OMNIS"
+          test -x "$APP_EXECUTABLE"
+          lipo -archs "$APP_EXECUTABLE" | grep -qw "${{ matrix.binary_arch }}"
+          OMNIS_E2E_EXE="$APP_EXECUTABLE" OMNIS_E2E_PROFILE="tests/.tmp/packaged-${{ matrix.arch }}" pnpm test:e2e
+          if [[ -n "${CSC_LINK:-}" ]]; then
+            codesign --verify --deep --strict --verbose=2 "$APP_BUNDLE"
+          else
+            echo "Apple Developer certificate is not configured; build is unsigned."
+          fi
+          if [[ -n "${APPLE_API_KEY:-}" && -n "${APPLE_API_KEY_ID:-}" && -n "${APPLE_API_ISSUER:-}" ]]; then
+            xcrun stapler validate "$APP_BUNDLE"
+            spctl --assess --type execute --verbose=2 "$APP_BUNDLE"
+          else
+            echo "Apple notarization credentials are not configured; Gatekeeper assessment is skipped."
+          fi
+
+      - name: Create checksums
+        shell: bash
+        run: |
+          find release -maxdepth 1 -type f \( -name '*.dmg' -o -name '*.zip' \) -exec shasum -a 256 {} \; > "release/SHA256-macos-${{ matrix.arch }}.txt"
+          test -s "release/SHA256-macos-${{ matrix.arch }}.txt"
+
+      - name: Upload macOS artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: omnis-macos-${{ matrix.arch }}
+          path: |
+            release/*.dmg
+            release/*.zip
+            release/SHA256-macos-${{ matrix.arch }}.txt
+          if-no-files-found: error
+          retention-days: 14

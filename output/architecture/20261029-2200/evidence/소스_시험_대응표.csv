@@ -1,0 +1,13 @@
+﻿구성요소ID,시험파일,근거행,범위,이번작업상태
+AUTH G W,tests/e2e/roles.mjs,1,UI 역할 및 Main 접근 제한 E2E 소스,소스 확인; 이번 실행하지 않음
+AUTH,tests/e2e/signup.mjs,1,가입 승인/반려 E2E 소스,소스 확인; 이번 실행하지 않음
+DB,tests/integration/database.test.ts,16,migration/seed/SQL·첨부 시험 소스,소스 확인; 이번 실행하지 않음
+U,tests/integration/usability.test.ts,71,snapshot·체크리스트·내 업무·반복 중복/rollback 시험 소스,소스 확인; 이번 실행하지 않음
+C W,tests/integration/organization.test.ts,33,부서 배정·요청부서 보존 시험 소스,소스 확인; 이번 실행하지 않음
+C W,tests/integration/organization-contacts.test.ts,20,가상 명부·소속 담당 검증 시험 소스,소스 확인; 이번 실행하지 않음
+C,tests/integration/operational-control.test.ts,10,상황경보·정합성·마감 시험 소스,소스 확인; 이번 실행하지 않음
+AI F O GUARD LIMIT SECRET,tests/unit/external-ai.test.ts,18,SDK mock·retry/fallback·마스킹·한도·암호화 adapter 시험 소스,소스 확인; 이번 실행하지 않음
+AI PROMPT,tests/unit/prompt-catalog.test.ts,89,prompt/schema 계약 시험 소스,소스 확인; 이번 실행하지 않음
+OLLAMA,tests/unit/ai-provider.test.ts,5,mock fetch/출력 검증 소스,소스 확인; 이번 실행하지 않음
+MANUAL,tests/manuals.test.ts,30,번들 PDF 열기/저장 로컬 시험 소스,소스 확인; 이번 실행하지 않음
+MANUAL,tests/e2e/manuals.mjs,1,격리 profile 매뉴얼 다운로드 E2E 소스,소스 확인; 이번 실행하지 않음

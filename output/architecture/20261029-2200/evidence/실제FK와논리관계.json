@@ -1,0 +1,442 @@
+{
+  "actualForeignKeys": [
+    {
+      "fromTable": "ai_runs",
+      "fromColumn": "created_by",
+      "toTable": "users",
+      "toColumn": "id",
+      "kind": "FK",
+      "onDelete": "NO ACTION",
+      "parentToChildCardinality": "1:N"
+    },
+    {
+      "fromTable": "attachments",
+      "fromColumn": "uploaded_by",
+      "toTable": "users",
+      "toColumn": "id",
+      "kind": "FK",
+      "onDelete": "NO ACTION",
+      "parentToChildCardinality": "1:N"
+    },
+    {
+      "fromTable": "communication_status_history",
+      "fromColumn": "system_id",
+      "toTable": "communication_systems",
+      "toColumn": "id",
+      "kind": "FK",
+      "onDelete": "NO ACTION",
+      "parentToChildCardinality": "1:N"
+    },
+    {
+      "fromTable": "daily_closures",
+      "fromColumn": "closed_by",
+      "toTable": "users",
+      "toColumn": "id",
+      "kind": "FK",
+      "onDelete": "NO ACTION",
+      "parentToChildCardinality": "1:N"
+    },
+    {
+      "fromTable": "demo_scenarios",
+      "fromColumn": "created_by",
+      "toTable": "users",
+      "toColumn": "id",
+      "kind": "FK",
+      "onDelete": "NO ACTION",
+      "parentToChildCardinality": "1:N"
+    },
+    {
+      "fromTable": "directive_acknowledgements",
+      "fromColumn": "user_id",
+      "toTable": "users",
+      "toColumn": "id",
+      "kind": "FK",
+      "onDelete": "NO ACTION",
+      "parentToChildCardinality": "1:N"
+    },
+    {
+      "fromTable": "directive_acknowledgements",
+      "fromColumn": "directive_id",
+      "toTable": "directives",
+      "toColumn": "id",
+      "kind": "FK",
+      "onDelete": "CASCADE",
+      "parentToChildCardinality": "1:N"
+    },
+    {
+      "fromTable": "directives",
+      "fromColumn": "assignee_id",
+      "toTable": "users",
+      "toColumn": "id",
+      "kind": "FK",
+      "onDelete": "NO ACTION",
+      "parentToChildCardinality": "1:N"
+    },
+    {
+      "fromTable": "duty_roster",
+      "fromColumn": "user_id",
+      "toTable": "users",
+      "toColumn": "id",
+      "kind": "FK",
+      "onDelete": "NO ACTION",
+      "parentToChildCardinality": "1:N"
+    },
+    {
+      "fromTable": "handover_notes",
+      "fromColumn": "confirmed_by",
+      "toTable": "users",
+      "toColumn": "id",
+      "kind": "FK",
+      "onDelete": "NO ACTION",
+      "parentToChildCardinality": "1:N"
+    },
+    {
+      "fromTable": "handover_notes",
+      "fromColumn": "created_by",
+      "toTable": "users",
+      "toColumn": "id",
+      "kind": "FK",
+      "onDelete": "NO ACTION",
+      "parentToChildCardinality": "1:N"
+    },
+    {
+      "fromTable": "incident_events",
+      "fromColumn": "actor_id",
+      "toTable": "users",
+      "toColumn": "id",
+      "kind": "FK",
+      "onDelete": "NO ACTION",
+      "parentToChildCardinality": "1:N"
+    },
+    {
+      "fromTable": "incident_events",
+      "fromColumn": "incident_id",
+      "toTable": "incidents",
+      "toColumn": "id",
+      "kind": "FK",
+      "onDelete": "NO ACTION",
+      "parentToChildCardinality": "1:N"
+    },
+    {
+      "fromTable": "incident_intakes",
+      "fromColumn": "template_id",
+      "toTable": "work_templates",
+      "toColumn": "id",
+      "kind": "FK",
+      "onDelete": "NO ACTION",
+      "parentToChildCardinality": "1:N"
+    },
+    {
+      "fromTable": "incident_intakes",
+      "fromColumn": "incident_id",
+      "toTable": "incidents",
+      "toColumn": "id",
+      "kind": "FK",
+      "onDelete": "CASCADE",
+      "parentToChildCardinality": "1:0..1"
+    },
+    {
+      "fromTable": "incidents",
+      "fromColumn": "assigned_to",
+      "toTable": "users",
+      "toColumn": "id",
+      "kind": "FK",
+      "onDelete": "NO ACTION",
+      "parentToChildCardinality": "1:N"
+    },
+    {
+      "fromTable": "incidents",
+      "fromColumn": "reported_by",
+      "toTable": "users",
+      "toColumn": "id",
+      "kind": "FK",
+      "onDelete": "NO ACTION",
+      "parentToChildCardinality": "1:N"
+    },
+    {
+      "fromTable": "incidents",
+      "fromColumn": "system_id",
+      "toTable": "communication_systems",
+      "toColumn": "id",
+      "kind": "FK",
+      "onDelete": "NO ACTION",
+      "parentToChildCardinality": "1:N"
+    },
+    {
+      "fromTable": "maintenance_daily_plans",
+      "fromColumn": "closed_by",
+      "toTable": "users",
+      "toColumn": "id",
+      "kind": "FK",
+      "onDelete": "NO ACTION",
+      "parentToChildCardinality": "1:N"
+    },
+    {
+      "fromTable": "maintenance_daily_plans",
+      "fromColumn": "created_by",
+      "toTable": "users",
+      "toColumn": "id",
+      "kind": "FK",
+      "onDelete": "NO ACTION",
+      "parentToChildCardinality": "1:N"
+    },
+    {
+      "fromTable": "maintenance_daily_plans",
+      "fromColumn": "team_id",
+      "toTable": "maintenance_teams",
+      "toColumn": "id",
+      "kind": "FK",
+      "onDelete": "NO ACTION",
+      "parentToChildCardinality": "1:N"
+    },
+    {
+      "fromTable": "maintenance_events",
+      "fromColumn": "actor_id",
+      "toTable": "users",
+      "toColumn": "id",
+      "kind": "FK",
+      "onDelete": "NO ACTION",
+      "parentToChildCardinality": "1:N"
+    },
+    {
+      "fromTable": "maintenance_events",
+      "fromColumn": "task_id",
+      "toTable": "maintenance_tasks",
+      "toColumn": "id",
+      "kind": "FK",
+      "onDelete": "NO ACTION",
+      "parentToChildCardinality": "1:N"
+    },
+    {
+      "fromTable": "maintenance_tasks",
+      "fromColumn": "incident_id",
+      "toTable": "incidents",
+      "toColumn": "id",
+      "kind": "FK",
+      "onDelete": "NO ACTION",
+      "parentToChildCardinality": "1:N"
+    },
+    {
+      "fromTable": "maintenance_tasks",
+      "fromColumn": "assignee_id",
+      "toTable": "users",
+      "toColumn": "id",
+      "kind": "FK",
+      "onDelete": "NO ACTION",
+      "parentToChildCardinality": "1:N"
+    },
+    {
+      "fromTable": "maintenance_tasks",
+      "fromColumn": "system_id",
+      "toTable": "communication_systems",
+      "toColumn": "id",
+      "kind": "FK",
+      "onDelete": "NO ACTION",
+      "parentToChildCardinality": "1:N"
+    },
+    {
+      "fromTable": "organization_members",
+      "fromColumn": "unit_id",
+      "toTable": "organization_units",
+      "toColumn": "id",
+      "kind": "FK",
+      "onDelete": "NO ACTION",
+      "parentToChildCardinality": "1:N"
+    },
+    {
+      "fromTable": "organization_members",
+      "fromColumn": "user_id",
+      "toTable": "users",
+      "toColumn": "id",
+      "kind": "FK",
+      "onDelete": "NO ACTION",
+      "parentToChildCardinality": "1:0..1"
+    },
+    {
+      "fromTable": "reconciliation_results",
+      "fromColumn": "reviewed_by",
+      "toTable": "users",
+      "toColumn": "id",
+      "kind": "FK",
+      "onDelete": "NO ACTION",
+      "parentToChildCardinality": "1:N"
+    },
+    {
+      "fromTable": "recurring_occurrences",
+      "fromColumn": "task_id",
+      "toTable": "maintenance_tasks",
+      "toColumn": "id",
+      "kind": "FK",
+      "onDelete": "SET NULL",
+      "parentToChildCardinality": "1:N"
+    },
+    {
+      "fromTable": "recurring_occurrences",
+      "fromColumn": "rule_id",
+      "toTable": "recurring_rules",
+      "toColumn": "id",
+      "kind": "FK",
+      "onDelete": "NO ACTION",
+      "parentToChildCardinality": "1:N"
+    },
+    {
+      "fromTable": "recurring_rules",
+      "fromColumn": "created_by",
+      "toTable": "users",
+      "toColumn": "id",
+      "kind": "FK",
+      "onDelete": "NO ACTION",
+      "parentToChildCardinality": "1:N"
+    },
+    {
+      "fromTable": "signup_requests",
+      "fromColumn": "reviewed_by",
+      "toTable": "users",
+      "toColumn": "id",
+      "kind": "FK",
+      "onDelete": "NO ACTION",
+      "parentToChildCardinality": "1:N"
+    },
+    {
+      "fromTable": "signup_requests",
+      "fromColumn": "user_id",
+      "toTable": "users",
+      "toColumn": "id",
+      "kind": "FK",
+      "onDelete": "NO ACTION",
+      "parentToChildCardinality": "1:N"
+    },
+    {
+      "fromTable": "situation_alerts",
+      "fromColumn": "created_by",
+      "toTable": "users",
+      "toColumn": "id",
+      "kind": "FK",
+      "onDelete": "NO ACTION",
+      "parentToChildCardinality": "1:N"
+    },
+    {
+      "fromTable": "situation_alerts",
+      "fromColumn": "resolved_by",
+      "toTable": "users",
+      "toColumn": "id",
+      "kind": "FK",
+      "onDelete": "NO ACTION",
+      "parentToChildCardinality": "1:N"
+    },
+    {
+      "fromTable": "situation_alerts",
+      "fromColumn": "acknowledged_by",
+      "toTable": "users",
+      "toColumn": "id",
+      "kind": "FK",
+      "onDelete": "NO ACTION",
+      "parentToChildCardinality": "1:N"
+    },
+    {
+      "fromTable": "situation_alerts",
+      "fromColumn": "system_id",
+      "toTable": "communication_systems",
+      "toColumn": "id",
+      "kind": "FK",
+      "onDelete": "NO ACTION",
+      "parentToChildCardinality": "1:N"
+    },
+    {
+      "fromTable": "task_checklists",
+      "fromColumn": "template_id",
+      "toTable": "work_templates",
+      "toColumn": "id",
+      "kind": "FK",
+      "onDelete": "NO ACTION",
+      "parentToChildCardinality": "1:N"
+    },
+    {
+      "fromTable": "task_checklists",
+      "fromColumn": "task_id",
+      "toTable": "maintenance_tasks",
+      "toColumn": "id",
+      "kind": "FK",
+      "onDelete": "CASCADE",
+      "parentToChildCardinality": "1:0..1"
+    },
+    {
+      "fromTable": "team_members",
+      "fromColumn": "user_id",
+      "toTable": "users",
+      "toColumn": "id",
+      "kind": "FK",
+      "onDelete": "NO ACTION",
+      "parentToChildCardinality": "1:N"
+    },
+    {
+      "fromTable": "team_members",
+      "fromColumn": "team_id",
+      "toTable": "maintenance_teams",
+      "toColumn": "id",
+      "kind": "FK",
+      "onDelete": "CASCADE",
+      "parentToChildCardinality": "1:N"
+    },
+    {
+      "fromTable": "team_organizations",
+      "fromColumn": "unit_id",
+      "toTable": "organization_units",
+      "toColumn": "id",
+      "kind": "FK",
+      "onDelete": "NO ACTION",
+      "parentToChildCardinality": "1:N"
+    },
+    {
+      "fromTable": "team_organizations",
+      "fromColumn": "team_id",
+      "toTable": "maintenance_teams",
+      "toColumn": "id",
+      "kind": "FK",
+      "onDelete": "NO ACTION",
+      "parentToChildCardinality": "1:0..1"
+    }
+  ],
+  "logicalRelationships": [
+    {
+      "fromTable": "incidents",
+      "fromColumn": "team_id",
+      "toTable": "maintenance_teams",
+      "toColumn": "id",
+      "kind": "service-managed",
+      "sourceRefs": [
+        "S019"
+      ]
+    },
+    {
+      "fromTable": "attachments",
+      "fromColumn": "entity_type/entity_id",
+      "toTable": "incidents|maintenance_tasks",
+      "toColumn": "id",
+      "kind": "polymorphic-service-managed",
+      "sourceRefs": [
+        "S045"
+      ]
+    },
+    {
+      "fromTable": "ai_runs",
+      "fromColumn": "entity_type/entity_id",
+      "toTable": "incidents",
+      "toColumn": "id",
+      "kind": "service-managed-optional",
+      "sourceRefs": [
+        "S018"
+      ]
+    },
+    {
+      "fromTable": "reconciliation_results",
+      "fromColumn": "entity_type/entity_id",
+      "toTable": "incidents|maintenance_tasks|maintenance_daily_plans",
+      "toColumn": "id",
+      "kind": "polymorphic-service-managed",
+      "sourceRefs": [
+        "S029"
+      ]
+    }
+  ]
+}

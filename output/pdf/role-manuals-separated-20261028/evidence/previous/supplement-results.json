@@ -1,0 +1,121 @@
+{
+  "results": [
+    {
+      "id": "UI17",
+      "role": "VIEWER",
+      "task": "조회전용 AI 분류 거부와 요약·주간 통계",
+      "status": "통과",
+      "level": "실제 UI 실행 확인",
+      "detail": {
+        "classificationDenied": true
+      }
+    },
+    {
+      "id": "UI18",
+      "role": "OPERATOR",
+      "task": "운용요원 AI 분석·요약·추천",
+      "status": "통과",
+      "level": "실제 UI 실행 확인"
+    },
+    {
+      "id": "UI19",
+      "role": "OPERATOR",
+      "task": "운용요원 체계 등록·상태 변경",
+      "status": "통과",
+      "level": "실제 UI 실행 확인",
+      "detail": "WATCH"
+    },
+    {
+      "id": "UI20",
+      "role": "USER",
+      "task": "첨부 UI 추가·삭제 (OS 선택창 대체)",
+      "status": "실패",
+      "level": "실제 UI 실행 확인",
+      "detail": "TimeoutError: locator.click: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('radio', { name: '사용자', exact: true })\u001b[22m\n"
+    },
+    {
+      "id": "UI21",
+      "role": "ADMIN",
+      "task": "UI에서 CSV·PDF 내보내기 (저장창 대체)",
+      "status": "통과",
+      "level": "실제 UI 실행 확인",
+      "detail": "UI 버튼과 실제 파일 생성, OS 저장창은 stub"
+    },
+    {
+      "id": "UI22",
+      "role": "USER",
+      "task": "재시작 후 사용자 접수 보존 확인",
+      "status": "통과",
+      "level": "실제 UI 실행 확인",
+      "detail": {
+        "status": "CLOSED",
+        "restartedBeforeThisScript": true
+      }
+    }
+  ],
+  "screens": [
+    {
+      "id": "viewer-ai-read",
+      "caption": "조회전용은 분류 불가, 요약과 추천 조회 가능",
+      "role": "VIEWER",
+      "file": "screenshots/viewer-ai-read.png",
+      "boxes": []
+    },
+    {
+      "id": "weekly-report",
+      "caption": "조회전용의 주간 통계",
+      "role": "VIEWER",
+      "file": "screenshots/weekly-report.png",
+      "boxes": []
+    },
+    {
+      "id": "ai-result",
+      "caption": "운용요원의 Local Rule 분석과 참고 결과",
+      "role": "OPERATOR",
+      "file": "screenshots/ai-result.png",
+      "boxes": []
+    },
+    {
+      "id": "system-create",
+      "caption": "가상 체계 등록",
+      "role": "OPERATOR",
+      "file": "screenshots/system-create.png",
+      "boxes": []
+    },
+    {
+      "id": "system-status",
+      "caption": "체계 상태 변경",
+      "role": "OPERATOR",
+      "file": "screenshots/system-status.png",
+      "boxes": []
+    },
+    {
+      "id": "failure-UI20",
+      "caption": "첨부 UI 추가·삭제 (OS 선택창 대체)",
+      "role": "USER",
+      "file": "screenshots/failure-UI20.png",
+      "boxes": []
+    },
+    {
+      "id": "daily-report",
+      "caption": "관리자의 일일 조회와 내보내기",
+      "role": "ADMIN",
+      "file": "screenshots/daily-report.png",
+      "boxes": []
+    }
+  ],
+  "dialogs": [
+    {
+      "role": "VIEWER",
+      "message": "권한이 없습니다."
+    },
+    {
+      "role": "ADMIN",
+      "message": "저장됨: C:\\Users\\admin\\alex\\alex_study\\military_project\\output\\pdf\\role-manuals-20261028\\evidence\\manual-incidents.csv"
+    },
+    {
+      "role": "ADMIN",
+      "message": "저장됨: C:\\Users\\admin\\alex\\alex_study\\military_project\\output\\pdf\\role-manuals-20261028\\evidence\\manual-daily.pdf"
+    }
+  ]
+}

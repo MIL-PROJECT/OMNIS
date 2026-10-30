@@ -1,0 +1,59 @@
+{
+  "reviewedAt": "2026-10-29T22:36:35.110992+09:00",
+  "resolution": [
+    1920,
+    1080
+  ],
+  "pages": [
+    {
+      "slide": 1,
+      "SVG": "육안 확인",
+      "PowerPointPDF": "육안 확인",
+      "cutoff": "없음",
+      "overlap": "의도하지 않은 겹침 없음",
+      "glyphs": "한글·영문·화살표 확인"
+    },
+    {
+      "slide": 2,
+      "SVG": "육안 확인",
+      "PowerPointPDF": "육안 확인",
+      "cutoff": "없음",
+      "overlap": "의도하지 않은 겹침 없음",
+      "glyphs": "한글·영문·화살표 확인"
+    },
+    {
+      "slide": 3,
+      "SVG": "육안 확인",
+      "PowerPointPDF": "육안 확인",
+      "cutoff": "없음",
+      "overlap": "의도하지 않은 겹침 없음",
+      "glyphs": "한글·영문·화살표 확인"
+    },
+    {
+      "slide": 4,
+      "SVG": "육안 확인",
+      "PowerPointPDF": "육안 확인",
+      "cutoff": "없음",
+      "overlap": "의도하지 않은 겹침 없음",
+      "glyphs": "한글·영문·화살표 확인"
+    },
+    {
+      "slide": 5,
+      "SVG": "육안 확인",
+      "PowerPointPDF": "육안 확인",
+      "cutoff": "없음",
+      "overlap": "의도하지 않은 겹침 없음",
+      "glyphs": "한글·영문·화살표 확인"
+    },
+    {
+      "slide": 6,
+      "SVG": "육안 확인",
+      "PowerPointPDF": "육안 확인",
+      "cutoff": "없음",
+      "overlap": "의도하지 않은 겹침 없음",
+      "glyphs": "한글·영문·화살표 확인"
+    }
+  ],
+  "method": "Final SVG render and all six final native PowerPoint PDF page PNGs inspected individually; source1 final one-arrow refinement rechecked in PDF1; content equivalent across SVG/PPTX/PDF",
+  "limits": "human visual review and structural checks; not a military security or whole-program regression approval"
+}

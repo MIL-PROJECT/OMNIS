@@ -1,0 +1,1469 @@
+{
+  "capturedAt": "2026-10-28T00:54:12.707Z",
+  "profile": "C:\\Users\\admin\\alex\\alex_study\\military_project\\output\\pdf\\role-manuals-separated-20261028\\evidence\\current-ui-profile",
+  "results": [
+    {
+      "id": "NEW-ADMIN-SETTINGS",
+      "role": "ADMIN",
+      "task": "현재 AI 설정 화면과 Local Rule 저장",
+      "status": "통과",
+      "level": "실제 UI 실행 확인",
+      "detail": {
+        "provider": "LOCAL",
+        "externalEnabled": false,
+        "timeout": 15
+      }
+    },
+    {
+      "id": "NEW-ADMIN-GUARD",
+      "role": "ADMIN",
+      "task": "외부 활성화 동의 누락 저장 거부",
+      "status": "통과",
+      "level": "실제 UI 실행 확인",
+      "detail": {
+        "message": "외부 AI Provider 선택 전에 외부 전송·비용·최종 검토 안내에 동의해야 합니다.",
+        "externalRequests": 0
+      }
+    },
+    {
+      "id": "NEW-ADMIN-READ",
+      "role": "ADMIN",
+      "task": "현재 역할 메뉴·목록·상세 확인",
+      "status": "통과",
+      "level": "실제 UI 실행 확인",
+      "detail": [
+        {
+          "name": "운영현황",
+          "buttons": [
+            "",
+            "체계 등록",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ]
+        },
+        {
+          "name": "고장관리",
+          "buttons": [
+            "",
+            "신규 고장 접수",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ]
+        },
+        {
+          "name": "정비관리",
+          "buttons": [
+            "",
+            "작업 등록",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ]
+        },
+        {
+          "name": "통제·일일마감",
+          "buttons": [
+            "",
+            "평가 시나리오 준비",
+            "시연 초기화",
+            "상황경보 등록",
+            "확인",
+            "종료",
+            "",
+            "",
+            "",
+            ""
+          ]
+        },
+        {
+          "name": "근무/지시사항",
+          "buttons": [
+            "",
+            "근무 등록",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ]
+        },
+        {
+          "name": "보고서/통계",
+          "buttons": [
+            "",
+            "고장 CSV",
+            "정비 CSV",
+            "조회",
+            "일일 PDF"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "NEW-ADMIN-AI",
+      "role": "ADMIN",
+      "task": "변경된 AI 화면과 역할별 실행 경계",
+      "status": "통과",
+      "level": "실제 UI 실행 확인",
+      "detail": {
+        "matrix": {
+          "ai:triageIncident": {
+            "ok": true,
+            "provider": "LOCAL",
+            "externalTransmission": false
+          },
+          "ai:similarIncidents": {
+            "ok": true,
+            "provider": "LOCAL",
+            "externalTransmission": false
+          },
+          "ai:dailySummary": {
+            "ok": true,
+            "provider": "LOCAL",
+            "externalTransmission": false
+          },
+          "ai:maintenanceRecommendations": {
+            "ok": true,
+            "provider": "LOCAL",
+            "externalTransmission": false
+          }
+        },
+        "uiErrors": [
+          "AI 설정을 저장했습니다.",
+          "외부 AI Provider 선택 전에 외부 전송·비용·최종 검토 안내에 동의해야 합니다.",
+          "AI 설정을 저장했습니다."
+        ]
+      }
+    },
+    {
+      "id": "NEW-OPERATOR-READ",
+      "role": "OPERATOR",
+      "task": "현재 역할 메뉴·목록·상세 확인",
+      "status": "통과",
+      "level": "실제 UI 실행 확인",
+      "detail": [
+        {
+          "name": "운영현황",
+          "buttons": [
+            "",
+            "체계 등록",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ]
+        },
+        {
+          "name": "고장관리",
+          "buttons": [
+            "",
+            "신규 고장 접수",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ]
+        },
+        {
+          "name": "정비관리",
+          "buttons": [
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ]
+        },
+        {
+          "name": "통제·일일마감",
+          "buttons": [
+            "",
+            "상황경보 등록",
+            "확인",
+            "종료",
+            "",
+            "",
+            "",
+            ""
+          ]
+        },
+        {
+          "name": "근무/지시사항",
+          "buttons": [
+            "",
+            "근무 등록",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ]
+        },
+        {
+          "name": "보고서/통계",
+          "buttons": [
+            "",
+            "고장 CSV",
+            "정비 CSV",
+            "조회",
+            "일일 PDF"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "NEW-OPERATOR-AI",
+      "role": "OPERATOR",
+      "task": "변경된 AI 화면과 역할별 실행 경계",
+      "status": "통과",
+      "level": "실제 UI 실행 확인",
+      "detail": {
+        "matrix": {
+          "ai:triageIncident": {
+            "ok": true,
+            "provider": "LOCAL",
+            "externalTransmission": false
+          },
+          "ai:similarIncidents": {
+            "ok": true,
+            "provider": "LOCAL",
+            "externalTransmission": false
+          },
+          "ai:dailySummary": {
+            "ok": true,
+            "provider": "LOCAL",
+            "externalTransmission": false
+          },
+          "ai:maintenanceRecommendations": {
+            "ok": true,
+            "provider": "LOCAL",
+            "externalTransmission": false
+          }
+        },
+        "uiErrors": []
+      }
+    },
+    {
+      "id": "NEW-MAINTAINER-READ",
+      "role": "MAINTAINER",
+      "task": "현재 역할 메뉴·목록·상세 확인",
+      "status": "통과",
+      "level": "실제 UI 실행 확인",
+      "detail": [
+        {
+          "name": "운영현황",
+          "buttons": [
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ]
+        },
+        {
+          "name": "고장관리",
+          "buttons": [
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ]
+        },
+        {
+          "name": "정비관리",
+          "buttons": [
+            "",
+            "작업 등록",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ]
+        },
+        {
+          "name": "통제·일일마감",
+          "buttons": [
+            "",
+            "",
+            "",
+            "",
+            ""
+          ]
+        },
+        {
+          "name": "근무/지시사항",
+          "buttons": [
+            "",
+            "",
+            "",
+            "",
+            ""
+          ]
+        },
+        {
+          "name": "보고서/통계",
+          "buttons": [
+            "",
+            "고장 CSV",
+            "정비 CSV",
+            "조회",
+            "일일 PDF"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "NEW-MAINTAINER-AI",
+      "role": "MAINTAINER",
+      "task": "변경된 AI 화면과 역할별 실행 경계",
+      "status": "통과",
+      "level": "실제 UI 실행 확인",
+      "detail": {
+        "matrix": {
+          "ai:triageIncident": {
+            "ok": true,
+            "provider": "LOCAL",
+            "externalTransmission": false
+          },
+          "ai:similarIncidents": {
+            "ok": true,
+            "provider": "LOCAL",
+            "externalTransmission": false
+          },
+          "ai:dailySummary": {
+            "ok": true,
+            "provider": "LOCAL",
+            "externalTransmission": false
+          },
+          "ai:maintenanceRecommendations": {
+            "ok": true,
+            "provider": "LOCAL",
+            "externalTransmission": false
+          }
+        },
+        "uiErrors": []
+      }
+    },
+    {
+      "id": "NEW-USER-READ",
+      "role": "USER",
+      "task": "현재 역할 메뉴·목록·상세 확인",
+      "status": "통과",
+      "level": "실제 UI 실행 확인",
+      "detail": [
+        {
+          "name": "운영현황",
+          "buttons": [
+            "",
+            "체계 등록",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ]
+        },
+        {
+          "name": "고장관리",
+          "buttons": [
+            "",
+            "신규 고장 접수",
+            "",
+            "",
+            "",
+            ""
+          ]
+        },
+        {
+          "name": "정비관리",
+          "buttons": [
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ]
+        },
+        {
+          "name": "통제·일일마감",
+          "buttons": [
+            "",
+            "",
+            "",
+            "",
+            ""
+          ]
+        },
+        {
+          "name": "근무/지시사항",
+          "buttons": [
+            "",
+            "근무 등록",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ]
+        },
+        {
+          "name": "보고서/통계",
+          "buttons": [
+            "",
+            "고장 CSV",
+            "정비 CSV",
+            "조회",
+            "일일 PDF"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "NEW-USER-AI",
+      "role": "USER",
+      "task": "변경된 AI 화면과 역할별 실행 경계",
+      "status": "통과",
+      "level": "실제 UI 실행 확인",
+      "detail": {
+        "matrix": {
+          "ai:triageIncident": {
+            "ok": true,
+            "provider": "LOCAL",
+            "externalTransmission": false
+          },
+          "ai:similarIncidents": {
+            "ok": true,
+            "provider": "LOCAL",
+            "externalTransmission": false
+          },
+          "ai:dailySummary": {
+            "ok": false,
+            "error": "권한이 없습니다."
+          },
+          "ai:maintenanceRecommendations": {
+            "ok": false,
+            "error": "권한이 없습니다."
+          }
+        },
+        "uiErrors": [
+          "권한이 없습니다.",
+          "권한이 없습니다."
+        ]
+      }
+    },
+    {
+      "id": "NEW-VIEWER-READ",
+      "role": "VIEWER",
+      "task": "현재 역할 메뉴·목록·상세 확인",
+      "status": "통과",
+      "level": "실제 UI 실행 확인",
+      "detail": [
+        {
+          "name": "운영현황",
+          "buttons": [
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ]
+        },
+        {
+          "name": "고장관리",
+          "buttons": [
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ]
+        },
+        {
+          "name": "정비관리",
+          "buttons": [
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ]
+        },
+        {
+          "name": "통제·일일마감",
+          "buttons": [
+            "",
+            "",
+            "",
+            "",
+            ""
+          ]
+        },
+        {
+          "name": "근무/지시사항",
+          "buttons": [
+            "",
+            "",
+            "",
+            "",
+            ""
+          ]
+        },
+        {
+          "name": "보고서/통계",
+          "buttons": [
+            "",
+            "고장 CSV",
+            "정비 CSV",
+            "조회",
+            "일일 PDF"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "NEW-VIEWER-AI",
+      "role": "VIEWER",
+      "task": "변경된 AI 화면과 역할별 실행 경계",
+      "status": "통과",
+      "level": "실제 UI 실행 확인",
+      "detail": {
+        "matrix": {
+          "ai:triageIncident": {
+            "ok": false,
+            "error": "권한이 없습니다."
+          },
+          "ai:similarIncidents": {
+            "ok": false,
+            "error": "권한이 없습니다."
+          },
+          "ai:dailySummary": {
+            "ok": true,
+            "provider": "LOCAL",
+            "externalTransmission": false
+          },
+          "ai:maintenanceRecommendations": {
+            "ok": true,
+            "provider": "LOCAL",
+            "externalTransmission": false
+          }
+        },
+        "uiErrors": [
+          "권한이 없습니다."
+        ]
+      }
+    },
+    {
+      "id": "NEW-VIEWER-ACK",
+      "role": "VIEWER",
+      "task": "조회전용 지시 읽음 확인과 재조회",
+      "status": "통과",
+      "level": "실제 UI 실행 확인",
+      "detail": {
+        "before": [
+          {
+            "id": "3f096360-2a66-4aa7-b0ef-efdb27a30265",
+            "level": "URGENT",
+            "title": "가상 운용 공지 1",
+            "content": "정기 점검 결과를 확인하고 필요한 내용을 기록하십시오.",
+            "issuer": "김정보",
+            "issued_at": "2026-10-27T22:27:57.805Z",
+            "expires_at": null,
+            "pinned": 1,
+            "due_at": null,
+            "department": null,
+            "assignee_id": null,
+            "status": "OPEN",
+            "assignee_name": null,
+            "acknowledgement_count": 0,
+            "acknowledged_by_me": 0
+          },
+          {
+            "id": "2be878ef-5619-49cc-9a09-7b904fa1fb0e",
+            "level": "GENERAL",
+            "title": "가상 운용 공지 2",
+            "content": "정기 점검 결과를 확인하고 필요한 내용을 기록하십시오.",
+            "issuer": "김정보",
+            "issued_at": "2026-10-26T22:27:57.805Z",
+            "expires_at": null,
+            "pinned": 0,
+            "due_at": null,
+            "department": null,
+            "assignee_id": null,
+            "status": "OPEN",
+            "assignee_name": null,
+            "acknowledgement_count": 0,
+            "acknowledged_by_me": 0
+          },
+          {
+            "id": "1c347bb1-6e4e-4ea6-b070-34108836142f",
+            "level": "GENERAL",
+            "title": "가상 운용 공지 3",
+            "content": "정기 점검 결과를 확인하고 필요한 내용을 기록하십시오.",
+            "issuer": "김정보",
+            "issued_at": "2026-10-25T22:27:57.805Z",
+            "expires_at": null,
+            "pinned": 0,
+            "due_at": null,
+            "department": null,
+            "assignee_id": null,
+            "status": "OPEN",
+            "assignee_name": null,
+            "acknowledgement_count": 0,
+            "acknowledged_by_me": 0
+          },
+          {
+            "id": "caf50169-f5af-44e3-bda8-2b06e7144be8",
+            "level": "NOTICE",
+            "title": "가상 운용 공지 4",
+            "content": "정기 점검 결과를 확인하고 필요한 내용을 기록하십시오.",
+            "issuer": "김정보",
+            "issued_at": "2026-10-24T22:27:57.805Z",
+            "expires_at": null,
+            "pinned": 0,
+            "due_at": null,
+            "department": null,
+            "assignee_id": null,
+            "status": "OPEN",
+            "assignee_name": null,
+            "acknowledgement_count": 0,
+            "acknowledged_by_me": 0
+          },
+          {
+            "id": "f90d3ec5-0a1c-447b-8e49-109639c34c29",
+            "level": "GENERAL",
+            "title": "가상 운용 공지 5",
+            "content": "정기 점검 결과를 확인하고 필요한 내용을 기록하십시오.",
+            "issuer": "김정보",
+            "issued_at": "2026-10-23T22:27:57.805Z",
+            "expires_at": null,
+            "pinned": 0,
+            "due_at": null,
+            "department": null,
+            "assignee_id": null,
+            "status": "OPEN",
+            "assignee_name": null,
+            "acknowledgement_count": 0,
+            "acknowledged_by_me": 0
+          },
+          {
+            "id": "4df0df34-001c-4887-9625-012b9f7e49ab",
+            "level": "GENERAL",
+            "title": "가상 운용 공지 6",
+            "content": "정기 점검 결과를 확인하고 필요한 내용을 기록하십시오.",
+            "issuer": "김정보",
+            "issued_at": "2026-10-22T22:27:57.805Z",
+            "expires_at": null,
+            "pinned": 0,
+            "due_at": null,
+            "department": null,
+            "assignee_id": null,
+            "status": "OPEN",
+            "assignee_name": null,
+            "acknowledgement_count": 0,
+            "acknowledged_by_me": 0
+          },
+          {
+            "id": "621b4f25-157f-4219-8738-78104f99c846",
+            "level": "NOTICE",
+            "title": "가상 운용 공지 7",
+            "content": "정기 점검 결과를 확인하고 필요한 내용을 기록하십시오.",
+            "issuer": "김정보",
+            "issued_at": "2026-10-21T22:27:57.805Z",
+            "expires_at": null,
+            "pinned": 0,
+            "due_at": null,
+            "department": null,
+            "assignee_id": null,
+            "status": "OPEN",
+            "assignee_name": null,
+            "acknowledgement_count": 0,
+            "acknowledged_by_me": 0
+          },
+          {
+            "id": "946505d2-38e5-43e8-941c-c95dbceb4c86",
+            "level": "GENERAL",
+            "title": "가상 운용 공지 8",
+            "content": "정기 점검 결과를 확인하고 필요한 내용을 기록하십시오.",
+            "issuer": "김정보",
+            "issued_at": "2026-10-20T22:27:57.805Z",
+            "expires_at": null,
+            "pinned": 0,
+            "due_at": null,
+            "department": null,
+            "assignee_id": null,
+            "status": "OPEN",
+            "assignee_name": null,
+            "acknowledgement_count": 0,
+            "acknowledged_by_me": 0
+          }
+        ],
+        "after": [
+          {
+            "id": "3f096360-2a66-4aa7-b0ef-efdb27a30265",
+            "level": "URGENT",
+            "title": "가상 운용 공지 1",
+            "content": "정기 점검 결과를 확인하고 필요한 내용을 기록하십시오.",
+            "issuer": "김정보",
+            "issued_at": "2026-10-27T22:27:57.805Z",
+            "expires_at": null,
+            "pinned": 1,
+            "due_at": null,
+            "department": null,
+            "assignee_id": null,
+            "status": "OPEN",
+            "assignee_name": null,
+            "acknowledgement_count": 1,
+            "acknowledged_by_me": 1
+          },
+          {
+            "id": "2be878ef-5619-49cc-9a09-7b904fa1fb0e",
+            "level": "GENERAL",
+            "title": "가상 운용 공지 2",
+            "content": "정기 점검 결과를 확인하고 필요한 내용을 기록하십시오.",
+            "issuer": "김정보",
+            "issued_at": "2026-10-26T22:27:57.805Z",
+            "expires_at": null,
+            "pinned": 0,
+            "due_at": null,
+            "department": null,
+            "assignee_id": null,
+            "status": "OPEN",
+            "assignee_name": null,
+            "acknowledgement_count": 0,
+            "acknowledged_by_me": 0
+          },
+          {
+            "id": "1c347bb1-6e4e-4ea6-b070-34108836142f",
+            "level": "GENERAL",
+            "title": "가상 운용 공지 3",
+            "content": "정기 점검 결과를 확인하고 필요한 내용을 기록하십시오.",
+            "issuer": "김정보",
+            "issued_at": "2026-10-25T22:27:57.805Z",
+            "expires_at": null,
+            "pinned": 0,
+            "due_at": null,
+            "department": null,
+            "assignee_id": null,
+            "status": "OPEN",
+            "assignee_name": null,
+            "acknowledgement_count": 0,
+            "acknowledged_by_me": 0
+          },
+          {
+            "id": "caf50169-f5af-44e3-bda8-2b06e7144be8",
+            "level": "NOTICE",
+            "title": "가상 운용 공지 4",
+            "content": "정기 점검 결과를 확인하고 필요한 내용을 기록하십시오.",
+            "issuer": "김정보",
+            "issued_at": "2026-10-24T22:27:57.805Z",
+            "expires_at": null,
+            "pinned": 0,
+            "due_at": null,
+            "department": null,
+            "assignee_id": null,
+            "status": "OPEN",
+            "assignee_name": null,
+            "acknowledgement_count": 0,
+            "acknowledged_by_me": 0
+          },
+          {
+            "id": "f90d3ec5-0a1c-447b-8e49-109639c34c29",
+            "level": "GENERAL",
+            "title": "가상 운용 공지 5",
+            "content": "정기 점검 결과를 확인하고 필요한 내용을 기록하십시오.",
+            "issuer": "김정보",
+            "issued_at": "2026-10-23T22:27:57.805Z",
+            "expires_at": null,
+            "pinned": 0,
+            "due_at": null,
+            "department": null,
+            "assignee_id": null,
+            "status": "OPEN",
+            "assignee_name": null,
+            "acknowledgement_count": 0,
+            "acknowledged_by_me": 0
+          },
+          {
+            "id": "4df0df34-001c-4887-9625-012b9f7e49ab",
+            "level": "GENERAL",
+            "title": "가상 운용 공지 6",
+            "content": "정기 점검 결과를 확인하고 필요한 내용을 기록하십시오.",
+            "issuer": "김정보",
+            "issued_at": "2026-10-22T22:27:57.805Z",
+            "expires_at": null,
+            "pinned": 0,
+            "due_at": null,
+            "department": null,
+            "assignee_id": null,
+            "status": "OPEN",
+            "assignee_name": null,
+            "acknowledgement_count": 0,
+            "acknowledged_by_me": 0
+          },
+          {
+            "id": "621b4f25-157f-4219-8738-78104f99c846",
+            "level": "NOTICE",
+            "title": "가상 운용 공지 7",
+            "content": "정기 점검 결과를 확인하고 필요한 내용을 기록하십시오.",
+            "issuer": "김정보",
+            "issued_at": "2026-10-21T22:27:57.805Z",
+            "expires_at": null,
+            "pinned": 0,
+            "due_at": null,
+            "department": null,
+            "assignee_id": null,
+            "status": "OPEN",
+            "assignee_name": null,
+            "acknowledgement_count": 0,
+            "acknowledged_by_me": 0
+          },
+          {
+            "id": "946505d2-38e5-43e8-941c-c95dbceb4c86",
+            "level": "GENERAL",
+            "title": "가상 운용 공지 8",
+            "content": "정기 점검 결과를 확인하고 필요한 내용을 기록하십시오.",
+            "issuer": "김정보",
+            "issued_at": "2026-10-20T22:27:57.805Z",
+            "expires_at": null,
+            "pinned": 0,
+            "due_at": null,
+            "department": null,
+            "assignee_id": null,
+            "status": "OPEN",
+            "assignee_name": null,
+            "acknowledgement_count": 0,
+            "acknowledged_by_me": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "NEW-ADMIN-REVIEW",
+      "role": "ADMIN",
+      "task": "현재 고장 AI 검토창 확인",
+      "status": "통과",
+      "level": "실제 UI 실행 확인",
+      "detail": "AI 추천 조회만 수행, 검토 후 반영은 이전 UI 검증 + 현 소스 대조"
+    },
+    {
+      "id": "NEW-ADMIN-NETWORK-GUARD",
+      "role": "ADMIN",
+      "task": "비활성 외부 Provider 연결 시험 방어 (내부 호출)",
+      "status": "통과",
+      "level": "실제 UI 실행 확인",
+      "detail": {
+        "success": false,
+        "at": "2026-10-28T00:54:12.704Z",
+        "provider": "OPENAI",
+        "errorCode": "EXTERNAL_DISABLED",
+        "message": "외부 AI 사용 동의와 활성화가 필요합니다."
+      }
+    }
+  ],
+  "screens": [
+    {
+      "id": "current-settings-top",
+      "caption": "현재 시스템 정보와 AI Provider 설정",
+      "role": "ADMIN",
+      "file": "screenshots/current-settings-top.png",
+      "boxes": []
+    },
+    {
+      "id": "current-settings-provider",
+      "caption": "AI Provider 기본 설정",
+      "role": "ADMIN",
+      "file": "screenshots/current-settings-provider.png",
+      "boxes": []
+    },
+    {
+      "id": "current-settings-external",
+      "caption": "외부 Provider 선택 시 안내 (연결·전송 미실행)",
+      "role": "ADMIN",
+      "file": "screenshots/current-settings-external.png",
+      "boxes": []
+    },
+    {
+      "id": "current-ADMIN-dashboard",
+      "caption": "ADMIN의 현재 역할 표시",
+      "role": "ADMIN",
+      "file": "screenshots/current-ADMIN-dashboard.png",
+      "boxes": []
+    },
+    {
+      "id": "current-ADMIN-operations",
+      "caption": "ADMIN의 운영현황 조회 화면",
+      "role": "ADMIN",
+      "file": "screenshots/current-ADMIN-operations.png",
+      "boxes": []
+    },
+    {
+      "id": "current-ADMIN-incidents",
+      "caption": "ADMIN의 고장관리 조회 화면",
+      "role": "ADMIN",
+      "file": "screenshots/current-ADMIN-incidents.png",
+      "boxes": []
+    },
+    {
+      "id": "current-ADMIN-maintenance",
+      "caption": "ADMIN의 정비관리 조회 화면",
+      "role": "ADMIN",
+      "file": "screenshots/current-ADMIN-maintenance.png",
+      "boxes": []
+    },
+    {
+      "id": "current-ADMIN-control",
+      "caption": "ADMIN의 통제·일일마감 조회 화면",
+      "role": "ADMIN",
+      "file": "screenshots/current-ADMIN-control.png",
+      "boxes": []
+    },
+    {
+      "id": "current-ADMIN-duty",
+      "caption": "ADMIN의 근무/지시사항 조회 화면",
+      "role": "ADMIN",
+      "file": "screenshots/current-ADMIN-duty.png",
+      "boxes": []
+    },
+    {
+      "id": "current-ADMIN-reports",
+      "caption": "ADMIN의 보고서/통계 조회 화면",
+      "role": "ADMIN",
+      "file": "screenshots/current-ADMIN-reports.png",
+      "boxes": []
+    },
+    {
+      "id": "current-ADMIN-ai",
+      "caption": "ADMIN의 현재 AI 결과와 허용 범위",
+      "role": "ADMIN",
+      "file": "screenshots/current-ADMIN-ai.png",
+      "boxes": []
+    },
+    {
+      "id": "current-OPERATOR-dashboard",
+      "caption": "OPERATOR의 현재 역할 표시",
+      "role": "OPERATOR",
+      "file": "screenshots/current-OPERATOR-dashboard.png",
+      "boxes": []
+    },
+    {
+      "id": "current-OPERATOR-operations",
+      "caption": "OPERATOR의 운영현황 조회 화면",
+      "role": "OPERATOR",
+      "file": "screenshots/current-OPERATOR-operations.png",
+      "boxes": []
+    },
+    {
+      "id": "current-OPERATOR-incidents",
+      "caption": "OPERATOR의 고장관리 조회 화면",
+      "role": "OPERATOR",
+      "file": "screenshots/current-OPERATOR-incidents.png",
+      "boxes": []
+    },
+    {
+      "id": "current-OPERATOR-maintenance",
+      "caption": "OPERATOR의 정비관리 조회 화면",
+      "role": "OPERATOR",
+      "file": "screenshots/current-OPERATOR-maintenance.png",
+      "boxes": []
+    },
+    {
+      "id": "current-OPERATOR-control",
+      "caption": "OPERATOR의 통제·일일마감 조회 화면",
+      "role": "OPERATOR",
+      "file": "screenshots/current-OPERATOR-control.png",
+      "boxes": []
+    },
+    {
+      "id": "current-OPERATOR-duty",
+      "caption": "OPERATOR의 근무/지시사항 조회 화면",
+      "role": "OPERATOR",
+      "file": "screenshots/current-OPERATOR-duty.png",
+      "boxes": []
+    },
+    {
+      "id": "current-OPERATOR-reports",
+      "caption": "OPERATOR의 보고서/통계 조회 화면",
+      "role": "OPERATOR",
+      "file": "screenshots/current-OPERATOR-reports.png",
+      "boxes": []
+    },
+    {
+      "id": "current-OPERATOR-ai",
+      "caption": "OPERATOR의 현재 AI 결과와 허용 범위",
+      "role": "OPERATOR",
+      "file": "screenshots/current-OPERATOR-ai.png",
+      "boxes": []
+    },
+    {
+      "id": "current-MAINTAINER-dashboard",
+      "caption": "MAINTAINER의 현재 역할 표시",
+      "role": "MAINTAINER",
+      "file": "screenshots/current-MAINTAINER-dashboard.png",
+      "boxes": []
+    },
+    {
+      "id": "current-MAINTAINER-operations",
+      "caption": "MAINTAINER의 운영현황 조회 화면",
+      "role": "MAINTAINER",
+      "file": "screenshots/current-MAINTAINER-operations.png",
+      "boxes": []
+    },
+    {
+      "id": "current-MAINTAINER-incidents",
+      "caption": "MAINTAINER의 고장관리 조회 화면",
+      "role": "MAINTAINER",
+      "file": "screenshots/current-MAINTAINER-incidents.png",
+      "boxes": []
+    },
+    {
+      "id": "current-MAINTAINER-maintenance",
+      "caption": "MAINTAINER의 정비관리 조회 화면",
+      "role": "MAINTAINER",
+      "file": "screenshots/current-MAINTAINER-maintenance.png",
+      "boxes": []
+    },
+    {
+      "id": "current-MAINTAINER-control",
+      "caption": "MAINTAINER의 통제·일일마감 조회 화면",
+      "role": "MAINTAINER",
+      "file": "screenshots/current-MAINTAINER-control.png",
+      "boxes": []
+    },
+    {
+      "id": "current-MAINTAINER-duty",
+      "caption": "MAINTAINER의 근무/지시사항 조회 화면",
+      "role": "MAINTAINER",
+      "file": "screenshots/current-MAINTAINER-duty.png",
+      "boxes": []
+    },
+    {
+      "id": "current-MAINTAINER-reports",
+      "caption": "MAINTAINER의 보고서/통계 조회 화면",
+      "role": "MAINTAINER",
+      "file": "screenshots/current-MAINTAINER-reports.png",
+      "boxes": []
+    },
+    {
+      "id": "current-MAINTAINER-ai",
+      "caption": "MAINTAINER의 현재 AI 결과와 허용 범위",
+      "role": "MAINTAINER",
+      "file": "screenshots/current-MAINTAINER-ai.png",
+      "boxes": []
+    },
+    {
+      "id": "current-USER-dashboard",
+      "caption": "USER의 현재 역할 표시",
+      "role": "USER",
+      "file": "screenshots/current-USER-dashboard.png",
+      "boxes": []
+    },
+    {
+      "id": "current-USER-operations",
+      "caption": "USER의 운영현황 조회 화면",
+      "role": "USER",
+      "file": "screenshots/current-USER-operations.png",
+      "boxes": []
+    },
+    {
+      "id": "current-USER-incidents",
+      "caption": "USER의 고장관리 조회 화면",
+      "role": "USER",
+      "file": "screenshots/current-USER-incidents.png",
+      "boxes": []
+    },
+    {
+      "id": "current-USER-maintenance",
+      "caption": "USER의 정비관리 조회 화면",
+      "role": "USER",
+      "file": "screenshots/current-USER-maintenance.png",
+      "boxes": []
+    },
+    {
+      "id": "current-USER-control",
+      "caption": "USER의 통제·일일마감 조회 화면",
+      "role": "USER",
+      "file": "screenshots/current-USER-control.png",
+      "boxes": []
+    },
+    {
+      "id": "current-USER-duty",
+      "caption": "USER의 근무/지시사항 조회 화면",
+      "role": "USER",
+      "file": "screenshots/current-USER-duty.png",
+      "boxes": []
+    },
+    {
+      "id": "current-USER-reports",
+      "caption": "USER의 보고서/통계 조회 화면",
+      "role": "USER",
+      "file": "screenshots/current-USER-reports.png",
+      "boxes": []
+    },
+    {
+      "id": "current-USER-ai",
+      "caption": "USER의 현재 AI 결과와 허용 범위",
+      "role": "USER",
+      "file": "screenshots/current-USER-ai.png",
+      "boxes": []
+    },
+    {
+      "id": "current-VIEWER-dashboard",
+      "caption": "VIEWER의 현재 역할 표시",
+      "role": "VIEWER",
+      "file": "screenshots/current-VIEWER-dashboard.png",
+      "boxes": []
+    },
+    {
+      "id": "current-VIEWER-operations",
+      "caption": "VIEWER의 운영현황 조회 화면",
+      "role": "VIEWER",
+      "file": "screenshots/current-VIEWER-operations.png",
+      "boxes": []
+    },
+    {
+      "id": "current-VIEWER-incidents",
+      "caption": "VIEWER의 고장관리 조회 화면",
+      "role": "VIEWER",
+      "file": "screenshots/current-VIEWER-incidents.png",
+      "boxes": []
+    },
+    {
+      "id": "current-VIEWER-maintenance",
+      "caption": "VIEWER의 정비관리 조회 화면",
+      "role": "VIEWER",
+      "file": "screenshots/current-VIEWER-maintenance.png",
+      "boxes": []
+    },
+    {
+      "id": "current-VIEWER-control",
+      "caption": "VIEWER의 통제·일일마감 조회 화면",
+      "role": "VIEWER",
+      "file": "screenshots/current-VIEWER-control.png",
+      "boxes": []
+    },
+    {
+      "id": "current-VIEWER-duty",
+      "caption": "VIEWER의 근무/지시사항 조회 화면",
+      "role": "VIEWER",
+      "file": "screenshots/current-VIEWER-duty.png",
+      "boxes": []
+    },
+    {
+      "id": "current-VIEWER-reports",
+      "caption": "VIEWER의 보고서/통계 조회 화면",
+      "role": "VIEWER",
+      "file": "screenshots/current-VIEWER-reports.png",
+      "boxes": []
+    },
+    {
+      "id": "current-VIEWER-ai",
+      "caption": "VIEWER의 현재 AI 결과와 허용 범위",
+      "role": "VIEWER",
+      "file": "screenshots/current-VIEWER-ai.png",
+      "boxes": []
+    },
+    {
+      "id": "current-VIEWER-directives",
+      "caption": "조회전용 지시 읽음 확인 후",
+      "role": "VIEWER",
+      "file": "screenshots/current-VIEWER-directives.png",
+      "boxes": []
+    },
+    {
+      "id": "current-incident-ai",
+      "caption": "고장 상세의 현재 AI 결과와 검토 후 반영",
+      "role": "ADMIN",
+      "file": "screenshots/current-incident-ai.png",
+      "boxes": []
+    }
+  ],
+  "dialogs": [
+    {
+      "role": "ADMIN",
+      "message": "AI 설정을 저장했습니다."
+    },
+    {
+      "role": "ADMIN",
+      "message": "외부 AI Provider 선택 전에 외부 전송·비용·최종 검토 안내에 동의해야 합니다."
+    },
+    {
+      "role": "ADMIN",
+      "message": "AI 설정을 저장했습니다."
+    },
+    {
+      "role": "USER",
+      "message": "권한이 없습니다."
+    },
+    {
+      "role": "USER",
+      "message": "권한이 없습니다."
+    },
+    {
+      "role": "VIEWER",
+      "message": "권한이 없습니다."
+    }
+  ]
+}
