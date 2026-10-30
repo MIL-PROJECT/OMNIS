@@ -1,0 +1,48 @@
+﻿technology,packageRange,lockResolved,actualRole
+@anthropic-ai/sdk,^1.3.0,1.3.0,src import: src/main/ai/AnthropicProvider.ts
+better-sqlite3,13.0.3,13.0.3,Main의 동기 native SQLite/transaction/backup 직접 SQL
+drizzle-orm,0.45.2,0.45.2,"schema.ts 선언, DashboardRepository의 count 쿼리; 나머지는 주로 직접 SQL"
+electron-log,5.4.4,5.4.4,Main 시작/IPC 오류 기록
+openai,^7.45.0,7.45.0,src import: src/main/ai/OpenAIProvider.ts
+zod,4.6.5,4.6.5,IPC payload 및 비결정적 AI 결과 검증
+@electron/rebuild,4.2.0,4.2.0,src 직접 import 미확인; 개발·시험 용도는 설정/시험 파일 별도 확인
+@emotion/react,11.14.0,11.14.0,src 직접 import 미확인; 개발·시험 용도는 설정/시험 파일 별도 확인
+@emotion/styled,11.14.1,11.14.1,src 직접 import 미확인; 개발·시험 용도는 설정/시험 파일 별도 확인
+@fullcalendar/core,6.1.21,6.1.21,src import: src/renderer/src/MaintenanceManagement.tsx
+@fullcalendar/daygrid,6.1.21,6.1.21,src import: src/renderer/src/MaintenanceManagement.tsx
+@fullcalendar/interaction,6.1.21,6.1.21,src 직접 import 미확인; 개발·시험 용도는 설정/시험 파일 별도 확인
+@fullcalendar/react,6.1.21,6.1.21,src import: src/renderer/src/MaintenanceManagement.tsx
+@hookform/resolvers,5.9.1,5.9.1,설치됨; src import/사용 미확인
+@mui/icons-material,9.4.0,9.4.0,"src import: src/renderer/src/ActionDepartmentManagement.tsx, src/renderer/src/AiManagement.tsx, src/renderer/src/App.tsx, src/renderer/src/AttachmentsPanel.tsx"
+@mui/material,9.4.0,9.4.0,"src import: src/renderer/src/ActionDepartmentManagement.tsx, src/renderer/src/ActionDepartmentPicker.tsx, src/renderer/src/AiManagement.tsx, src/renderer/src/App.tsx"
+@mui/x-data-grid,9.13.0,9.13.0,"src import: src/renderer/src/ActionDepartmentManagement.tsx, src/renderer/src/AiManagement.tsx, src/renderer/src/App.tsx, src/renderer/src/ControlCenterManagement.tsx"
+@tanstack/react-query,5.103.0,5.103.0,"설치됨; src import/사용 미확인, 화면 캐시 계층으로 배치하지 않음"
+@testing-library/jest-dom,7.0.1,7.0.1,src 직접 import 미확인; 개발·시험 용도는 설정/시험 파일 별도 확인
+@testing-library/react,16.3.3,16.3.3,src 직접 import 미확인; 개발·시험 용도는 설정/시험 파일 별도 확인
+@types/better-sqlite3,9.6.0,9.6.0,src 직접 import 미확인; 개발·시험 용도는 설정/시험 파일 별도 확인
+@types/node,22.20.3,22.20.3,src 직접 import 미확인; 개발·시험 용도는 설정/시험 파일 별도 확인
+@types/react,19.3.0,19.3.0,src 직접 import 미확인; 개발·시험 용도는 설정/시험 파일 별도 확인
+@types/react-dom,19.3.0,19.3.0,src 직접 import 미확인; 개발·시험 용도는 설정/시험 파일 별도 확인
+@typescript-eslint/eslint-plugin,8.70.0,8.70.0,src 직접 import 미확인; 개발·시험 용도는 설정/시험 파일 별도 확인
+@typescript-eslint/parser,8.70.0,8.70.0,src 직접 import 미확인; 개발·시험 용도는 설정/시험 파일 별도 확인
+@vitejs/plugin-react,5.1.1,5.1.1,src 직접 import 미확인; 개발·시험 용도는 설정/시험 파일 별도 확인
+date-fns,4.4.0,4.4.0,src 직접 import 미확인; 개발·시험 용도는 설정/시험 파일 별도 확인
+drizzle-kit,0.31.10,0.31.10,db:generate 설정; runtime migration은 자체 migrate.ts SQL
+electron,44.4.1,44.4.1,Main/Preload/BrowserWindow·IPC·safeStorage·native dialog
+electron-builder,26.15.3,26.15.3,NSIS/DMG/ZIP 및 native dependency packaging
+electron-vite,5.0.0,5.0.0,Main/Preload/Renderer 개발·번들링
+eslint,9.39.3,9.39.3,src 직접 import 미확인; 개발·시험 용도는 설정/시험 파일 별도 확인
+jsdom,30.0.1,30.0.1,src 직접 import 미확인; 개발·시험 용도는 설정/시험 파일 별도 확인
+playwright,1.63.0,1.63.0,tests/e2e의 Electron/UI 자동화 소스 (이번 미실행)
+pretendard,1.3.9,1.3.9,src import: src/renderer/src/main.tsx
+prettier,3.9.7,3.9.7,src 직접 import 미확인; 개발·시험 용도는 설정/시험 파일 별도 확인
+react,^19.3.0,19.3.0,Renderer의 useState/useEffect/useRef 및 JSX 화면
+react-dom,^19.3.0,19.3.0,src import: src/renderer/src/main.tsx
+react-hook-form,7.88.0,7.88.0,설치됨; src import/사용 미확인
+react-router-dom,7.18.4,7.18.4,HashRouter·Route·Navigate·검색 파라미터로 메뉴/상세 이동
+recharts,3.10.1,3.10.1,"src import: src/renderer/src/OperationsManagement.tsx, src/renderer/src/ReportsManagement.tsx"
+tsx,4.23.13,4.23.13,src 직접 import 미확인; 개발·시험 용도는 설정/시험 파일 별도 확인
+typescript,5.9.3,5.9.3,타입 계약 및 tsc --noEmit 정적 검사 (package scripts)
+vite,7.3.1,7.3.1,"electron-vite Renderer 개발/번들 기반, 포트 명시 없음"
+vitest,5.0.1,5.0.1,tests/unit·integration 시험 소스 (이번 미실행)
+zustand,5.0.15,5.0.15,설치됨; src import/사용 미확인

@@ -1,0 +1,10 @@
+{
+  "openIncidents": 12,
+  "urgentIncidents": 2,
+  "activeMaintenance": 4,
+  "delayedMaintenance": 1,
+  "slaRiskCount": 2,
+  "majorAlerts": [
+    "가상 통신 일부 연결 지연"
+  ]
+}

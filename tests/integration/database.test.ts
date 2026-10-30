@@ -1,7 +1,8 @@
 import { describe, it, expect } from 'vitest'
 import Database from 'better-sqlite3'
-import { migrate, migrateV1, migrateV2 } from '../../src/main/database/migrate'
+import { migrate, migrateV1, migrateV2, SCHEMA_VERSION } from '../../src/main/database/migrate'
 import { seed } from '../../src/main/database/seed'
+import { organizationCatalog } from '../../src/main/database/organizationCatalog'
 import { assertTransition, incidentTransitions, maintenanceTransitions } from '../../src/main/services/Workflow'
 import { triageIncident } from '../../src/main/ai/LocalRuleProvider'
 import { DashboardRepository } from '../../src/main/repositories/DashboardRepository'
@@ -22,7 +23,7 @@ describe('offline database', () => {
     db.pragma('foreign_keys = ON')
     migrate(db); seed(db); seed(db)
     const count = (table: string) => (db.prepare(`SELECT count(*) n FROM ${table}`).get() as { n: number }).n
-    expect(count('users')).toBe(11)
+    expect(count('users')).toBe(11+organizationCatalog.length*10)
     expect(db.prepare("SELECT role FROM users WHERE username='demo_user'").get()).toEqual({ role: 'USER' })
     expect(count('communication_systems')).toBe(38)
     expect(count('incidents')).toBe(52)
@@ -30,10 +31,10 @@ describe('offline database', () => {
     expect(count('duty_roster')).toBe(28)
     expect(count('directives')).toBe(8)
     expect(count('signup_requests')).toBe(2)
-    expect(count('maintenance_teams')).toBe(3)
+    expect(count('maintenance_teams')).toBe(3+organizationCatalog.length)
     expect(count('situation_alerts')).toBe(1)
     expect(count('maintenance_daily_plans')).toBe(3)
-    expect(db.pragma('user_version', { simple: true })).toBe(4)
+    expect(db.pragma('user_version', { simple: true })).toBe(SCHEMA_VERSION)
     expect(count('attachments')).toBe(0)
     const dashboard = new DashboardRepository(db).summary()
     expect(dashboard.systemCount).toBe(38)
@@ -65,7 +66,7 @@ describe('offline database', () => {
     expect(incidentColumns).toContain('team_id')
     expect(db.prepare("SELECT username FROM users").get()).toEqual({ username: 'old_user' })
     expect(db.prepare("SELECT count(*) n FROM sqlite_master WHERE name='attachments'").get()).toEqual({ n: 1 })
-    expect(db.pragma('user_version', { simple: true })).toBe(4)
+    expect(db.pragma('user_version', { simple: true })).toBe(SCHEMA_VERSION)
     db.close()
   })
   it('stores, hashes, audits, and deletes an incident attachment', () => {

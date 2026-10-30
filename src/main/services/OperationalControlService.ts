@@ -4,6 +4,7 @@ import { resolve, sep } from 'node:path'
 import type Database from 'better-sqlite3'
 import type { Channel, PublicUser } from '../../shared/contracts'
 import { koreaDate } from '../../shared/date'
+import { listActionDepartments } from './OrganizationService'
 
 type Row = Record<string, unknown>
 const now = () => new Date().toISOString()
@@ -51,10 +52,7 @@ export async function runOperationalChannel(db: Database.Database, channel: Chan
       lastUpdatedAt: now()
     }
   }
-  if (channel === 'control:teams') return all(db, `SELECT t.*,GROUP_CONCAT(u.display_name, ', ') member_names,
-      (SELECT count(*) FROM incidents i WHERE i.team_id=t.id AND i.status NOT IN ('CLOSED','CANCELED')) active_count
-      FROM maintenance_teams t LEFT JOIN team_members tm ON tm.team_id=t.id AND tm.available=1 LEFT JOIN users u ON u.id=tm.user_id
-      GROUP BY t.id ORDER BY t.display_order`)
+  if (channel === 'control:teams') return listActionDepartments(db)
   if (channel === 'control:alerts') return all(db, `SELECT a.*,c.name system_name,creator.display_name creator_name
       FROM situation_alerts a LEFT JOIN communication_systems c ON c.id=a.system_id LEFT JOIN users creator ON creator.id=a.created_by
       WHERE (? IS NULL OR a.status=?) ORDER BY CASE a.severity WHEN 'CRITICAL' THEN 0 WHEN 'WARNING' THEN 1 ELSE 2 END,a.occurred_at DESC`,p.status ?? null,p.status ?? null)

@@ -8,6 +8,9 @@ files:
 extraResources:
   - from: resources/db/omnis-seed.db
     to: db/omnis-seed.db
+  - from: resources/manuals
+    to: manuals
+    filter: ["*.pdf", "README.md"]
 asarUnpack:
   - node_modules/better-sqlite3/**/*
 win:

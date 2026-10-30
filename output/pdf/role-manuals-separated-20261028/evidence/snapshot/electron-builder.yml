@@ -1,0 +1,43 @@
+appId: com.demo.omnis.desktop
+productName: OMNIS
+directories:
+  output: release
+files:
+  - out/**/*
+  - package.json
+extraResources:
+  - from: resources/db/omnis-seed.db
+    to: db/omnis-seed.db
+asarUnpack:
+  - node_modules/better-sqlite3/**/*
+win:
+  icon: build/icon.svg
+  target:
+    - target: nsis
+      arch: [x64]
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+mac:
+  icon: build/icon.icns
+  category: public.app-category.business
+  minimumSystemVersion: "13.0"
+  hardenedRuntime: true
+  entitlements: build/entitlements.mac.plist
+  artifactName: "${productName}-${version}-${os}-${arch}.${ext}"
+  target:
+    - dmg
+    - zip
+dmg:
+  title: "${productName} ${version}"
+  iconSize: 96
+  window:
+    width: 540
+    height: 380
+  contents:
+    - x: 140
+      y: 190
+    - x: 400
+      y: 190
+      type: link
+      path: /Applications

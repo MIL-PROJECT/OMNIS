@@ -1,0 +1,103 @@
+{
+  "checkedAt": "2026-10-28T10:07:01.437253+09:00",
+  "snapshotHead": "482b16c66c6a5bc3b5e522644bd86ce916c004fd",
+  "currentHead": "d4df7861047eb56b978968f3a4a8d995a37b156e",
+  "changedSinceSnapshot": [
+    {
+      "path": ".github/workflows/macos-build.yml",
+      "snapshotHash": "f08cf4454b9d02e0a37c2589d31d2e7c391898187172897351c5481337b733fa",
+      "currentHash": "090d24e1e9aae6802a74f4cfc531201e34b3d42c038b757893bf7cdeddc06be5"
+    },
+    {
+      "path": "PROJECT_STATUS.md",
+      "snapshotHash": "76f2501512a166c7e5602ef50e4ff739a86b433e3585ae6e728f220ba472c5bb",
+      "currentHash": "118832bab9f6b4c4972a9386c8999626156cb1209de4cd605e3885a52d55c174"
+    },
+    {
+      "path": "README.md",
+      "snapshotHash": "21fe76d2357439271af773bc9ce30f5f9039b52584e3b2d6a3876775adc72d72",
+      "currentHash": "56b126c3ff355e189528d0695428996dc0f8d78be02113de56bbc02ccd3e336b"
+    },
+    {
+      "path": "docs/AI_DESIGN.md",
+      "snapshotHash": "03dec162551b490d9e5d376d0b886ba6f7dc17988ed908a2094a4a0d1adad584",
+      "currentHash": "13536675e9408c1523801a8b8589ddc1a34a59b45e84605660575ca23210c8d8"
+    },
+    {
+      "path": "docs/DEMO_SCENARIO.md",
+      "snapshotHash": "164b6b9462f2bbd2995c670c5c97916d98b7f40ed25e8e93ed68169e755f7844",
+      "currentHash": "2b9a0a7579fa0f5d12a86721cd4833b3a7cde9ab8a76656cb96f7dcb44ea6e6b"
+    },
+    {
+      "path": "docs/EVALUATION_EVIDENCE.md",
+      "snapshotHash": "47be27faf360bf6af0fb57fab1f7d10f610ad276b2e037eafc8a3a741fd40088",
+      "currentHash": "9948a484f8433665e0198a8027f4aed9c839dabb697103842fc0051d37a809a2"
+    },
+    {
+      "path": "docs/REQUIREMENTS_TRACEABILITY.md",
+      "snapshotHash": "391573245287a21c198bf6fab791ace247e22bc2e2e96d5c07dcdfe1388ea395",
+      "currentHash": "c6042fa1b1956b2683ebddb0d0b5f1442692ad245cf484a76b5c1a94830eaccb"
+    },
+    {
+      "path": "eslint.config.js",
+      "snapshotHash": "4551bb20ee0b454371099e262e8b66837fec5fcc1c681fb7f5a915f52bb8ab81",
+      "currentHash": "b92251c802eed721e8f3d23da22b6a476dc3d018145acdc84ab69dc900ea7dce"
+    },
+    {
+      "path": "package.json",
+      "snapshotHash": "6cf131eac8aadf0c6ceedca7280159a5022e78b8ba9ff17693dd6cb10bfa1c48",
+      "currentHash": "df07b1f47eccb3faf245a21ef68d9f1b138a798c33d8a529be5e70690b4e3d6d"
+    },
+    {
+      "path": "src/main/ai/AIProviderFactory.ts",
+      "snapshotHash": "7627dd9afcdcee176d7edd8ff8e94de2d5decbe951748d98a2f74a50014b9201",
+      "currentHash": "245ee85effb5f81c9421c42b5f7b7ac4a58fc4afe7f94769c615443ce5dd2776"
+    },
+    {
+      "path": "src/main/ai/AISecretStore.ts",
+      "snapshotHash": "a82cbb3181c4b5534151723045ca8d9af93c1e8072ed08d3a1c0347b97b69550",
+      "currentHash": "d20d50e5e9841d3b07355c8c58aad88fc361f35012621bfb5fd79d2284bed77d"
+    },
+    {
+      "path": "src/main/ai/OpenAIProvider.ts",
+      "snapshotHash": "a7dd7a846b2090ec19f2d8b0e54bf8014ffc08bb7eeabc3839d61818a4705e13",
+      "currentHash": "4abe00568bdfb6437a1b6d79c98b890cd388dc0ca67116c89d2d12de5ded752f"
+    },
+    {
+      "path": "src/main/services/AppService.ts",
+      "snapshotHash": "a8a17cc375b0aa7c947509a5156643486062ea1905f6828c8d950a89634a816b",
+      "currentHash": "a09ad942fca2953ebae808d15c0103b6fdcdaa63811c47a83cc3555f185b90a8"
+    },
+    {
+      "path": "src/renderer/src/AiManagement.tsx",
+      "snapshotHash": "819f44ac9288cdd380ba5a049c0632195fecf5b6c4493094d72bbf5bdc3ee8c9",
+      "currentHash": "d9bad03cb015d21f1097fbdeddb81c4d9b61ef20472cf69c2e90d60874b2a601"
+    },
+    {
+      "path": "src/renderer/src/SystemManagement.tsx",
+      "snapshotHash": "7b7fadc32b24e582bcffbd5f3ad77ee9efe3f0b47b9ab368b3b009396c5d6fdf",
+      "currentHash": "801d321346a23ce74b591059bb17ee3544eef9290d397d3fff1ae5825370d725"
+    },
+    {
+      "path": "tests/e2e/operations-flow.mjs",
+      "snapshotHash": "7e6294396701788827582e66f8895c196789c3edb5216145167fb666570bf17e",
+      "currentHash": "46f6216d67810fe4f3a8bfb647e8396591334f677336ae1df75b3c34f28db950"
+    },
+    {
+      "path": "tests/e2e/roles.mjs",
+      "snapshotHash": "3692384162a7c5d26aee7de6fe6cdc56b55a9438b1da5cd5e81fa1ef14f7c919",
+      "currentHash": "1f8c2a801b3455f75e899d4229e4c8379d2c9091a7749df4782e133c9ab87b70"
+    },
+    {
+      "path": "tests/integration/database.test.ts",
+      "snapshotHash": "2c7f46897c2fd613248759825f9229d8135262dca98c1d184c5aa2ba240ae48c",
+      "currentHash": "6e76cbae672b17b1bb1154d6bf1fedc3acb4f19a28f24b057eca43fd738ed574"
+    },
+    {
+      "path": "vitest.config.ts",
+      "snapshotHash": "1bc896aa5cecbe6c8c75bc2eebf73c6109b36ec5465ce23a8290676ab2556475",
+      "currentHash": "2846a3fb91ba7a4b1ba36d2eb225dcda2b46bb0f9b9369d8347c89ddb7e247d5"
+    }
+  ],
+  "policy": "Application source was not modified; frozen snapshot remains the document baseline."
+}

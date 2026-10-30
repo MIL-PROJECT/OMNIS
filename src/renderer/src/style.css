@@ -646,3 +646,42 @@ main:has(> .dash) { min-height: 0; display: flex; flex-direction: column; paddin
 .maintenance-result-form { margin-top:18px;padding:0 0 2px; }
 .directive-meta { display:flex;align-items:center;gap:8px;margin-top:3px; }.directive-meta .spacer { flex:1; }.directive-meta small { margin:0!important; }
 @media(max-width:1200px){.team-board{grid-template-columns:1fr}.control-metrics{grid-template-columns:repeat(2,1fr)}}
+
+/* 근무 명부: 10명을 균등한 두 줄로 배치하고 상태·동작을 고정 정렬한다. */
+.duty-roster-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; padding: 10px 20px 20px; }
+.duty-roster-person { min-width: 0; padding: 14px 14px 10px; border: 1px solid var(--line); border-radius: 12px; background: var(--white, #fff); }
+.duty-roster-identity { display: flex; align-items: center; gap: 10px; }
+.duty-roster-name { min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+.duty-roster-name strong { color: var(--ink); font-size: 14px; line-height: 1.4; font-weight: 700; white-space: nowrap; }
+.duty-roster-name span { color: var(--steel); font-size: 11px; line-height: 1.4; white-space: nowrap; }
+.duty-roster-footer { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 12px; padding-top: 8px; border-top: 1px solid var(--line); }
+.duty-roster-status { display: inline-flex; align-items: center; gap: 5px; color: var(--steel); font-size: 11px; white-space: nowrap; }
+.duty-roster-status i { width: 5px; height: 5px; border-radius: 50%; background: var(--stone); }
+.duty-roster-status.is-scheduled { color: #21845d; }
+.duty-roster-status.is-scheduled i { background: #27ae79; }
+.duty-roster-footer .MuiButton-root { min-width: 0; padding: 3px 6px; font-size: 11px; line-height: 1.6; white-space: nowrap; }
+.duty-date-cell { display: flex; align-items: center; gap: 8px; height: 100%; white-space: nowrap; }
+.duty-date-cell > span { flex-shrink: 0; }
+.duty-date-cell .today-tag { white-space: nowrap; }
+@media (max-width: 1100px) { .duty-roster-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+.sb-manual-link { display: flex; align-items: center; gap: 10px; padding: 10px 12px; margin-bottom: 10px; color: var(--slate); text-decoration: none; font-size: 13px; font-weight: 600; border-radius: 10px; }
+.sb-manual-link svg { font-size: 20px; }
+.sb-manual-link:hover, .sb-manual-link.active { color: var(--primary); background: var(--navy-tint); }
+.manual-list { list-style: none; padding: 6px 20px 20px; margin: 0; }
+.manual-row { display: flex; align-items: center; gap: 16px; padding: 20px 16px; border-bottom: 1px solid var(--line); }
+.manual-row:last-child { border-bottom: 0; }
+.manual-row.is-current { background: var(--surface-soft); border-radius: 12px; }
+.manual-icon { display: flex; align-items: center; justify-content: center; flex-shrink: 0; width: 44px; height: 44px; border-radius: 12px; color: var(--primary); background: var(--navy-tint); }
+.manual-copy { flex: 1; min-width: 0; }
+.manual-title { display: flex; align-items: center; gap: 10px; }
+.manual-title strong { font-size: 15px; color: var(--ink); }
+.manual-copy p { margin: 6px 0; font-size: 12px; color: var(--slate); }
+.manual-copy small { font-size: 11px; color: var(--steel); }
+.manual-actions { display: flex; gap: 10px; flex-shrink: 0; }
+@media (max-width: 1200px) { .manual-row { flex-wrap: wrap; } .manual-actions { margin-left: 60px; } }
+
+/* 하단 매뉴얼·접속 상태·로그아웃은 고정하고 메뉴 목록만 스크롤한다. */
+.sidebar { overflow: hidden; }
+.sb-brand, .sb-foot { flex-shrink: 0; }
+.sb-nav { flex: 1; min-height: 0; overflow-y: auto; }

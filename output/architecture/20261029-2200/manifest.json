@@ -1,0 +1,338 @@
+{
+  "schema": "omnis.architecture-manifest.v1",
+  "generatedAt": "2026-10-29T22:39:46.970618+09:00",
+  "timeZone": "Asia/Seoul",
+  "scope": "Final artifacts, regeneration sources and evidence only. Excludes intermediate revisions, runtime dependency junction, and this manifest itself.",
+  "files": [
+    {
+      "filename": "OMNIS_전체시스템아키텍처.svg",
+      "size": 13094,
+      "sha256": "d314e7a235b421fdf818fc4537879367a9521a0fa70a7167a1c61a0f44d96e2e"
+    },
+    {
+      "filename": "OMNIS_전체시스템아키텍처.png",
+      "size": 446460,
+      "sha256": "0f0deb7094afc64f22cb8a05f5bce2eeda6c14997c5fae1f9469d95131d14713"
+    },
+    {
+      "filename": "OMNIS_시스템아키텍처_발표자료.pptx",
+      "size": 90229,
+      "sha256": "72d5d5520f1cc4ca3ab5ac7adf228bafc2fffc70eebed85a52efba2ad67ddf09"
+    },
+    {
+      "filename": "OMNIS_시스템아키텍처_발표자료.pdf",
+      "size": 243777,
+      "sha256": "937c673b90db716152c578e0016eca2f3333d30a810b33a3d8c5466f34659bdc"
+    },
+    {
+      "filename": "OMNIS_시스템아키텍처.drawio",
+      "size": 144562,
+      "sha256": "12a6d91d4dd68b36e9ef41215f41481bd57e68d6f031da6e585b35f759138f61"
+    },
+    {
+      "filename": "README.md",
+      "size": 8152,
+      "sha256": "f7ffeb32612a3eae48d76b2706128c502d209f206ff3b73b562719bed352d890"
+    },
+    {
+      "filename": "details/02_런타임_업무처리.png",
+      "size": 323351,
+      "sha256": "319e344e6bf56cd1389837452e7dda6a8cdb545b72c7bba3d43c1062a88f01cf"
+    },
+    {
+      "filename": "details/02_런타임_업무처리.svg",
+      "size": 10533,
+      "sha256": "bef769cdbad0f994997b614a1447162547e8490118044987209b2a396668cbd8"
+    },
+    {
+      "filename": "details/03_데이터_저장흐름.png",
+      "size": 392032,
+      "sha256": "6204a1a7a0b663bbd037d236bc0231451574dac564ca27a4a0a46e2fbac5e435"
+    },
+    {
+      "filename": "details/03_데이터_저장흐름.svg",
+      "size": 11473,
+      "sha256": "d22dfef3f519a5a11b615fff996deeb86329b785410d1eb07af4d8c3f9473495"
+    },
+    {
+      "filename": "details/04_AI_보안경계.png",
+      "size": 457413,
+      "sha256": "612916d603bd4429cfb9d068c7d841b6e57e7116a1eaa5fd71c7c5887e043929"
+    },
+    {
+      "filename": "details/04_AI_보안경계.svg",
+      "size": 14746,
+      "sha256": "bc8a01c61bbac65012018242e18c56a38d4cbe8e3539b016384350fc1290528f"
+    },
+    {
+      "filename": "details/05_UI_정보구조.png",
+      "size": 384238,
+      "sha256": "44b3c20c44791dca37ea544e3bec258910418064b896c18d38dd53f26f6acf7c"
+    },
+    {
+      "filename": "details/05_UI_정보구조.svg",
+      "size": 10089,
+      "sha256": "2f20d0399d7557e00b00a08ce96471968c988f736d3259bb17fd41761bdb27cd"
+    },
+    {
+      "filename": "details/06_개발_배포운영.png",
+      "size": 446730,
+      "sha256": "4737657dc51c9ae8f4c96e8dcb3916d62ee3e0ebe5118bd89e780df21ab77d8c"
+    },
+    {
+      "filename": "details/06_개발_배포운영.svg",
+      "size": 11674,
+      "sha256": "dee1f051a37514199ee4b89bf26a19820c5d57b8c1d859eda682e936d8beb46d"
+    },
+    {
+      "filename": "evidence/powerpoint-export.json",
+      "size": 778,
+      "sha256": "206b4081fd227c80ad0147ce87b85ac0c42af1e9746fd0c859263a39f9670651"
+    },
+    {
+      "filename": "evidence/pptx-structural-summary.json",
+      "size": 1890,
+      "sha256": "464c6aaad7efffacf72ae95291a9af063ea56d305096c0e9e1a048cd29a1f5a8"
+    },
+    {
+      "filename": "evidence/readonly-seed-queries.json",
+      "size": 1223,
+      "sha256": "40ce9d6810b940986216614903d8ff31b16fea2aec1b30d64631042f741a6535"
+    },
+    {
+      "filename": "evidence/schema-probe.json",
+      "size": 1362,
+      "sha256": "39c03c96dc9053178e8e1695d6e4736a3c052d3e232277b4782084235bf6f815"
+    },
+    {
+      "filename": "evidence/source-refs.md",
+      "size": 84128,
+      "sha256": "49c79c44d0412d16bb7b882c0f7d4065ebd62793d47f0aa205a42f8d6c2389b5"
+    },
+    {
+      "filename": "evidence/svg-render.json",
+      "size": 386,
+      "sha256": "15ae5c2610dda441cb2091003ad2fcd599ab5cceeb49190ed419b66d64b804c5"
+    },
+    {
+      "filename": "evidence/text-fit.json",
+      "size": 2,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "filename": "evidence/UI_라우트_기능.csv",
+      "size": 4986,
+      "sha256": "a2ae0369c6c5dfc9cbdea8f7a37edff59123e0665d728c40c19c8b8e1fe35623"
+    },
+    {
+      "filename": "evidence/verification.json",
+      "size": 2613,
+      "sha256": "1f101b7d0783446872156c0e653eb3a61e37032fbf0aa4551461b03a9d33ac25"
+    },
+    {
+      "filename": "evidence/visual-review.json",
+      "size": 1881,
+      "sha256": "c7d7465016dec01bb39992dd1fa5429cbc7f5efb4696fad776d09942c78cb8ad"
+    },
+    {
+      "filename": "evidence/검증결과.md",
+      "size": 4439,
+      "sha256": "d9b4a4c9a5c64286943074db5e2088d8c9a247e2fdaf132ba54828f53024f456"
+    },
+    {
+      "filename": "evidence/구성요소_소스근거표.csv",
+      "size": 15511,
+      "sha256": "f4274ded5e5232f8724b5db21f699a2df8508b126f735d0cd2efb0337e4eb04e"
+    },
+    {
+      "filename": "evidence/기술스택_사용범위.csv",
+      "size": 4967,
+      "sha256": "ff75e49523c16fca6787d46a022334b4059b97faa696cb05e4f314efb9b32897"
+    },
+    {
+      "filename": "evidence/데이터흐름_추적표.csv",
+      "size": 7305,
+      "sha256": "9ab1353fb930bd9bc4ff4249e652a8ac005d69cfe5427ac67f7dde449c732066"
+    },
+    {
+      "filename": "evidence/분석_주요판단.md",
+      "size": 14675,
+      "sha256": "efae41e329c6f6a378cffd1e367a5098fea2f2999e180e4dbde96cee9691d66f"
+    },
+    {
+      "filename": "evidence/소스_시험_대응표.csv",
+      "size": 1664,
+      "sha256": "f708b25675ade119550a09f75c7d2ec85e09064b2393e0d6e329814f4943ddda"
+    },
+    {
+      "filename": "evidence/실제FK와논리관계.json",
+      "size": 11679,
+      "sha256": "ded8e3037c56d7d57eb8e4995857030ba4925575c06137fc8bd386835e48d832"
+    },
+    {
+      "filename": "evidence/역할_권한_대조.csv",
+      "size": 2309,
+      "sha256": "8d902d255fb2c78ac9cbe1de4a3d2ebf90bb0fe5a33cc766131f25c43bc6a3fc"
+    },
+    {
+      "filename": "evidence/전체테이블_필드사전.csv",
+      "size": 13851,
+      "sha256": "a66b6ba41091a2e2a06636cb3da5b00cb64e2bea36e6e29612e460e62ab6aed0"
+    },
+    {
+      "filename": "evidence/rendered/pdf-1.png",
+      "size": 249188,
+      "sha256": "2a5c2b2a95fdacade83c0b3dd683b7d16214a64da688da8d29a6bed69312f37f"
+    },
+    {
+      "filename": "evidence/rendered/pdf-2.png",
+      "size": 190233,
+      "sha256": "fe0ea681e279baef1fb60d30713a637f8a62ebfe6fab6241a3334bd15e5521d2"
+    },
+    {
+      "filename": "evidence/rendered/pdf-3.png",
+      "size": 234999,
+      "sha256": "94d3fdaa0251f3eeec305dbd8b76074f3e029d218290081f4495e837a9fea6f3"
+    },
+    {
+      "filename": "evidence/rendered/pdf-4.png",
+      "size": 271558,
+      "sha256": "79fa496817ae8b2c12076e4fa4cc481c051a492adfe1965d723fa7e39804832f"
+    },
+    {
+      "filename": "evidence/rendered/pdf-5.png",
+      "size": 234295,
+      "sha256": "0fa225a1263644e72447e13171a79c11a8f0bc74321ed325a900957076787fb1"
+    },
+    {
+      "filename": "evidence/rendered/pdf-6.png",
+      "size": 274631,
+      "sha256": "5e05fdc865cb2dde47ca60356ab9b598dbda3d860137d51a2ea3a7e548101f82"
+    },
+    {
+      "filename": "evidence/rendered/powerpoint-1.png",
+      "size": 284108,
+      "sha256": "e50f3e03c5ba6130957db2e7d3b78100a399476fc49bb1313b06d22bac8d5743"
+    },
+    {
+      "filename": "evidence/rendered/powerpoint-2.png",
+      "size": 227276,
+      "sha256": "64d313f4f186fe8c3d326b4670ff84800483607017244d056f15ba91df07c95c"
+    },
+    {
+      "filename": "evidence/rendered/powerpoint-3.png",
+      "size": 294367,
+      "sha256": "34a60657b801a6fff98b08bf701882431ca854e84766d2b253263a7393eb9e18"
+    },
+    {
+      "filename": "evidence/rendered/powerpoint-4.png",
+      "size": 307541,
+      "sha256": "dd2e5714e13c1aa4ba1959cce7d0b68c1ee643bfa0cbaf41bcef7a0f3b614fd2"
+    },
+    {
+      "filename": "evidence/rendered/powerpoint-5.png",
+      "size": 257907,
+      "sha256": "ed739ef09590c7efbc7cb5606c8d1e877e23409e2a391d74100d449675a2d1cc"
+    },
+    {
+      "filename": "evidence/rendered/powerpoint-6.png",
+      "size": 310605,
+      "sha256": "17e0d6c386c3b298f5493d4ecdb46f6655904da137de344f94f9b32f34c67247"
+    },
+    {
+      "filename": "evidence/rendered/svg-1.png",
+      "size": 188462,
+      "sha256": "ae197ec71a33df364c503e385a2b9187f0b3aff7de09221c49f8bd9c4929b668"
+    },
+    {
+      "filename": "evidence/rendered/svg-2.png",
+      "size": 139497,
+      "sha256": "e2813e1f608e3f83cbee3760a42f888bc66e2bee77248059645b761c6292a60e"
+    },
+    {
+      "filename": "evidence/rendered/svg-3.png",
+      "size": 171841,
+      "sha256": "2886468cda5e10a96a3b388a3d7d2c126ea3aa6e7412e4892c7ba3f3b5f6b040"
+    },
+    {
+      "filename": "evidence/rendered/svg-4.png",
+      "size": 204580,
+      "sha256": "4889e92d93241472a8d25a8b61b77b91a14c01342434de4d36c9055d81af9aa3"
+    },
+    {
+      "filename": "evidence/rendered/svg-5.png",
+      "size": 165348,
+      "sha256": "f19e6824ae35ac6df2455466edbb05916ddb09a8ffd2a7a5d85e879635fe5d18"
+    },
+    {
+      "filename": "evidence/rendered/svg-6.png",
+      "size": 194111,
+      "sha256": "8b4ff2dc17ac6e72dba20e4daf453c363a53c6718f5ad2f6a1a8f4dad82aee18"
+    },
+    {
+      "filename": "source/architecture-model.json",
+      "size": 275630,
+      "sha256": "e09b60e56a09da0be5764331896111c40c1f4452e9c023f3ccb99afffa75fcb1"
+    },
+    {
+      "filename": "source/scenes.json",
+      "size": 186004,
+      "sha256": "777e1f9fb9df19b4caac0d25b513b3453f2d50c2dae6dd696a08b3b082d0c56c"
+    },
+    {
+      "filename": "source/source-refs.json",
+      "size": 96593,
+      "sha256": "88ee6847f0d7454723740d0bd1b3f40fac7ef64f488999881b58a07b7ff0a755"
+    },
+    {
+      "filename": "source/analyze.py",
+      "size": 38624,
+      "sha256": "7cd637db58d648906843210d5e1e40f0467c01081fcbb51e59f4583fff64dd01"
+    },
+    {
+      "filename": "source/make_scenes.py",
+      "size": 30472,
+      "sha256": "6a7c26d793af5021970b18afcddae3c0b49fc4d076365adc8694753100d94e85"
+    },
+    {
+      "filename": "source/verify.py",
+      "size": 6634,
+      "sha256": "b8053c9e76da2fef5511b676313db5c5daf5c1ce066dbaad2d0747f9db47186f"
+    },
+    {
+      "filename": "source/write_notes.py",
+      "size": 16792,
+      "sha256": "bcb7cb9c75faae34f7663731b0d6826f5e3117b2b4d8098d5eb4d5579b363b09"
+    },
+    {
+      "filename": "source/finalize_docs.py",
+      "size": 16209,
+      "sha256": "ed6ce5f8b3ecdd6e07baa24a70e59ab57a3773d8cbf5f6e182ce53ee7f648d30"
+    },
+    {
+      "filename": "source/export_powerpoint.ps1",
+      "size": 1380,
+      "sha256": "266a7845391ec63a3dd93fb12f124e3f571ad480b5badd469b89acab742edec5"
+    },
+    {
+      "filename": "source/rebuild.ps1",
+      "size": 3077,
+      "sha256": "4c72f8a2c98fa7c7fa4af13aeb8c6c354da9766a9061e2954a2ee313a95d6a6e"
+    },
+    {
+      "filename": "source/package.py",
+      "size": 2532,
+      "sha256": "c7a82154a1ef1fb820e2f05fd5137754d7573c6328fcb758c03a27bbdcdb91b8"
+    },
+    {
+      "filename": "source/build/build.mjs",
+      "size": 3663,
+      "sha256": "e5109404dc230fe928db2004ae2ac44181b4e075ce749e000e1f44f34a81ad68"
+    },
+    {
+      "filename": "source/build/render_svg.mjs",
+      "size": 1489,
+      "sha256": "35521742e98b2773a4fd0be0e8593a4207524352a66605aa96fdb6124f2f3048"
+    }
+  ]
+}

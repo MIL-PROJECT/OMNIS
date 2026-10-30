@@ -1,0 +1,27 @@
+{
+  "results": [
+    {
+      "id": "UI20",
+      "role": "USER",
+      "task": "첨부 UI 추가·삭제 (OS 선택창 대체)",
+      "status": "통과",
+      "level": "실제 UI 실행 확인",
+      "detail": "UI 클릭·실제 복사/삭제 검증, OS picker는 stub, 기본 앱 열기 미실행"
+    }
+  ],
+  "screens": [
+    {
+      "id": "attachments",
+      "caption": "고장에 첨부된 가상 로그",
+      "role": "USER",
+      "file": "screenshots/attachments.png",
+      "boxes": []
+    }
+  ],
+  "dialogs": [
+    {
+      "role": "USER",
+      "message": "첨부자료 '교육용점검.txt'을 삭제하시겠습니까?"
+    }
+  ]
+}

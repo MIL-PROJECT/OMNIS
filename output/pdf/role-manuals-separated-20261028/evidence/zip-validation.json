@@ -1,0 +1,9 @@
+{
+  "file": "역할별_독립_사용자매뉴얼_전체자료.zip",
+  "files": 348,
+  "bytes": 45823615,
+  "sha256": "a7354f719853082d5889818bc2cb2c215983b0d5f2b058b9e30e8e506c2044b1",
+  "crc": "pass",
+  "pdfHashes": "pass",
+  "excluded": "DB, profiles, cache, node_modules, build bundles"
+}

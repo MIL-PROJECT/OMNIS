@@ -3,6 +3,8 @@ out/
 dist/
 release/
 .env
+secrets/
+ai-credentials.json
 *.log
 coverage/
 playwright-report/
@@ -16,3 +18,8 @@ omnis-*.db
 afccs.db
 afccs-*.db
 .pnpm-store/
+
+# Local runtimes used to capture manual evidence; keep deliverables and screenshots.
+/output/pdf/**/evidence/*profile*/
+__pycache__/
+*.py[cod]

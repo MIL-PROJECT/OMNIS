@@ -1,0 +1,16 @@
+{
+  "reviewDate": "2026-10-28",
+  "method": "전체 PDF를 45dpi로 렌더링한 접촉 시트 25장을 육안 검수하고 핵심 페이지를 120dpi로 확대 확인. 이후 T12 정비 결과 화면 확대 수정 후 전체 452쪽 재렌더링 및 변경된 통합 70쪽, 관리자 52쪽, 정비요원 37쪽을 재확인.",
+  "pages": {"ALL":116,"ADMIN":98,"OPERATOR":73,"MAINTAINER":59,"USER":61,"VIEWER":45},
+  "totalPages":452,
+  "contactSheetsReviewed":25,
+  "detailPagesInIntegrated":[7,32,52,70,104],
+  "fixedDuringReview":[
+    "입력 규칙의 물결표가 구분자로 해석되어 표 열이 늘어나던 문제를 수정",
+    "로그인 화면 확대 및 확인 범위 문장의 고립 페이지 해소",
+    "정비 결과 화면의 작은 글자를 입력 영역과 완료 버튼의 두 확대 이미지로 개선"
+  ],
+  "observedRemainingLayoutDefects":[],
+  "limits":"접촉 시트는 전체 배치 검사용이며 모든 스크린샷의 모든 글자를 OCR로 전수 대조한 것은 아님. 주요 입력과 버튼은 확대 페이지 및 원본 PNG로 대조. 자동 검사는 별도 pdf-quality.json 참조.",
+  "automationIsNotHumanReview":true
+}

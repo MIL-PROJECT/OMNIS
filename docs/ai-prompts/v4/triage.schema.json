@@ -1,0 +1,65 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "category",
+    "priority",
+    "confidence",
+    "recommendation",
+    "rationale",
+    "recommendedTeamCode",
+    "estimatedMinutes",
+    "questions"
+  ],
+  "properties": {
+    "category": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 50
+    },
+    "priority": {
+      "type": "string",
+      "enum": [
+        "URGENT",
+        "NORMAL"
+      ]
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "recommendation": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 500
+    },
+    "rationale": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 500
+    },
+    "recommendedTeamCode": {
+      "type": "string",
+      "enum": [
+        "TEAM-WIRE",
+        "TEAM-RADIO",
+        "TEAM-CYBER"
+      ]
+    },
+    "estimatedMinutes": {
+      "type": "integer",
+      "minimum": 10,
+      "maximum": 2880
+    },
+    "questions": {
+      "type": "array",
+      "maxItems": 5,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 200
+      }
+    }
+  }
+}

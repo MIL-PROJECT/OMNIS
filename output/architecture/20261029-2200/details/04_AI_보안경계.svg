@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="3840" height="2160" viewBox="0 0 1600 900">
+<title>AI 업무 지원과 보안 경계</title>
+<desc>LOCAL 규칙이 기본이며, 비결정적 추천은 검증·이력·사람 검토를 거쳐 명시적으로 반영합니다.</desc>
+<g font-family="Malgun Gothic">
+<rect id="s4-1" x="0" y="0" width="1600" height="900" rx="0" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="1.5"/>
+<rect id="s4-2" x="56" y="35" width="8" height="49" rx="0" fill="#26386D" stroke="#26386D" stroke-width="1.5"/>
+<text id="s4-3" x="82" y="72" font-size="42" font-weight="700" fill="#26386D" text-anchor="start">AI 업무 지원과 보안 경계</text>
+<text id="s4-4" x="56" y="118" font-size="24" font-weight="400" fill="#58677F" text-anchor="start">LOCAL 규칙이 기본이며, 비결정적 추천은 검증·이력·사람 검토를 거쳐 명시적으로 반영합니다.</text>
+<path id="s4-5" d="M 56,137 L 1544,137" fill="none" stroke="#CBD3E0" stroke-width="2.4" stroke-linejoin="round"/>
+<text id="s4-6" x="56" y="878" font-size="16" font-weight="400" fill="#58677F" text-anchor="start">OMNIS 1.0.1 · schema 8 · ba829af | 구현: 소스 확인 / 배포·외부 응답: 별도 검증</text>
+<text id="s4-7" x="1545" y="876" font-size="18" font-weight="700" fill="#26386D" text-anchor="end">04 / 06</text>
+<rect id="s4-8" x="40" y="155" width="1160" height="665" rx="14" fill="#FAFBFD" stroke="#CBD3E0" stroke-width="1.5"/>
+<text id="s4-9" x="58" y="188" font-size="23" font-weight="700" fill="#172442" text-anchor="start">사용자 PC</text>
+<text id="s4-10" x="800" y="188" font-size="19" font-weight="400" fill="#7554A5" text-anchor="start">F04 선택형 AI 요청과 명시적 반영</text>
+<rect id="s4-11" x="340" y="197" width="814" height="520" rx="14" fill="#F1F3FA" stroke="#26386D" stroke-width="1.5"/>
+<text id="s4-12" x="358" y="230" font-size="23" font-weight="700" fill="#26386D" text-anchor="start">Main 업무 처리</text>
+<rect id="s4-13" x="64" y="245" width="240" height="155" rx="9" fill="#FFFFFF" stroke="#336AC1" stroke-width="1.5"/>
+<rect id="s4-14" x="64" y="245" width="5" height="155" rx="0" fill="#336AC1" stroke="#336AC1" stroke-width="1.5"/>
+<text id="s4-15" x="82" y="281.0" font-size="24" font-weight="700" fill="#336AC1" text-anchor="start">React Renderer</text>
+<text id="s4-16" x="82" y="311.28" font-size="19" font-weight="400" fill="#172442" text-anchor="start">InputAssist: 로컬 규칙</text>
+<text id="s4-17" x="82" y="337.5" font-size="19" font-weight="400" fill="#172442" text-anchor="start">분석은 별도 버튼</text>
+<rect id="s4-18" x="64" y="493" width="240" height="207" rx="9" fill="#FFFFFF" stroke="#336AC1" stroke-width="1.5"/>
+<rect id="s4-19" x="64" y="493" width="5" height="207" rx="0" fill="#336AC1" stroke="#336AC1" stroke-width="1.5"/>
+<text id="s4-20" x="82" y="528.0" font-size="23" font-weight="700" fill="#336AC1" text-anchor="start">담당자 검토·</text>
+<text id="s4-21" x="82" y="556.06" font-size="23" font-weight="700" fill="#336AC1" text-anchor="start">명시적 반영</text>
+<text id="s4-22" x="82" y="585.12" font-size="18" font-weight="400" fill="#172442" text-anchor="start">추천·근거 확인</text>
+<text id="s4-23" x="82" y="609.96" font-size="18" font-weight="400" fill="#172442" text-anchor="start">ADMIN/OPERATOR 버튼</text>
+<text id="s4-24" x="82" y="634.8" font-size="18" font-weight="400" fill="#172442" text-anchor="start">incidents:applyAi</text>
+<rect id="s4-25" x="370" y="246" width="350" height="87" rx="9" fill="#FFFFFF" stroke="#7554A5" stroke-width="1.5"/>
+<rect id="s4-26" x="370" y="246" width="5" height="87" rx="0" fill="#7554A5" stroke="#7554A5" stroke-width="1.5"/>
+<text id="s4-27" x="388" y="282.0" font-size="24" font-weight="700" fill="#7554A5" text-anchor="start">AIProviderFactory</text>
+<text id="s4-28" x="388" y="313.28" font-size="20" font-weight="400" fill="#172442" text-anchor="start">활성화 · 동의 · 자격정보</text>
+<rect id="s4-29" x="370" y="382" width="350" height="125" rx="9" fill="#FFFFFF" stroke="#7554A5" stroke-width="1.5"/>
+<rect id="s4-30" x="370" y="382" width="5" height="125" rx="0" fill="#7554A5" stroke="#7554A5" stroke-width="1.5"/>
+<text id="s4-31" x="388" y="418.0" font-size="24" font-weight="700" fill="#7554A5" text-anchor="start">AIOrchestrator</text>
+<text id="s4-32" x="388" y="447.28" font-size="18" font-weight="400" fill="#172442" text-anchor="start">AIUsagePolicy: 각 시도 한도</text>
+<text id="s4-33" x="388" y="472.11999999999995" font-size="18" font-weight="400" fill="#172442" text-anchor="start">시도당 timeout · 조건부 retry</text>
+<text id="s4-34" x="388" y="496.96" font-size="18" font-weight="400" fill="#172442" text-anchor="start">실패 → LOCAL fallback</text>
+<rect id="s4-35" x="770" y="246" width="350" height="87" rx="9" fill="#FFFFFF" stroke="#9A6620" stroke-width="1.5"/>
+<rect id="s4-36" x="770" y="246" width="5" height="87" rx="0" fill="#9A6620" stroke="#9A6620" stroke-width="1.5"/>
+<text id="s4-37" x="788" y="282.0" font-size="24" font-weight="700" fill="#9A6620" text-anchor="start">ExternalDataGuard</text>
+<text id="s4-38" x="788" y="313.28" font-size="20" font-weight="400" fill="#172442" text-anchor="start">PromptCatalog: 기능별 계약</text>
+<rect id="s4-39" x="770" y="382" width="350" height="105" rx="9" fill="#FFFFFF" stroke="#7554A5" stroke-width="1.5"/>
+<rect id="s4-40" x="770" y="382" width="5" height="105" rx="0" fill="#7554A5" stroke="#7554A5" stroke-width="1.5"/>
+<text id="s4-41" x="788" y="418.0" font-size="24" font-weight="700" fill="#7554A5" text-anchor="start">LOCAL 규칙</text>
+<text id="s4-42" x="788" y="449.28" font-size="20" font-weight="400" fill="#172442" text-anchor="start">기본 결정적 규칙 · LLM 아님</text>
+<text id="s4-43" x="788" y="476.88" font-size="20" font-weight="400" fill="#172442" text-anchor="start">SLA 위험도는 별도 규칙</text>
+<rect id="s4-44" x="370" y="538" width="350" height="145" rx="9" fill="#FFFFFF" stroke="#9A6620" stroke-width="1.5"/>
+<rect id="s4-45" x="370" y="538" width="5" height="145" rx="0" fill="#9A6620" stroke="#9A6620" stroke-width="1.5"/>
+<text id="s4-46" x="388" y="574.0" font-size="24" font-weight="700" fill="#9A6620" text-anchor="start">AISecretStore</text>
+<text id="s4-47" x="388" y="605.28" font-size="20" font-weight="400" fill="#172442" text-anchor="start">환경변수 우선</text>
+<text id="s4-48" x="388" y="632.88" font-size="20" font-weight="400" fill="#172442" text-anchor="start">safeStorage 암호문 파일</text>
+<text id="s4-49" x="388" y="660.48" font-size="20" font-weight="400" fill="#172442" text-anchor="start">저장된 Key는 상태만 반환</text>
+<rect id="s4-50" x="770" y="538" width="350" height="145" rx="9" fill="#FFFFFF" stroke="#7554A5" stroke-width="1.5"/>
+<rect id="s4-51" x="770" y="538" width="5" height="145" rx="0" fill="#7554A5" stroke="#7554A5" stroke-width="1.5"/>
+<text id="s4-52" x="788" y="574.0" font-size="24" font-weight="700" fill="#7554A5" text-anchor="start">결과 검증 · 이력</text>
+<text id="s4-53" x="788" y="603.28" font-size="18" font-weight="400" fill="#172442" text-anchor="start">비결정적 출력: JSON·Zod</text>
+<text id="s4-54" x="788" y="628.12" font-size="18" font-weight="400" fill="#172442" text-anchor="start">후보 ID · 외부 요약 수치 검사</text>
+<text id="s4-55" x="788" y="652.9599999999999" font-size="18" font-weight="400" fill="#172442" text-anchor="start">ai_runs: 선택/실제·usage·fallback</text>
+<rect id="s4-56" x="370" y="734" width="350" height="74" rx="9" fill="#FFFFFF" stroke="#087C7B" stroke-width="1.5"/>
+<rect id="s4-57" x="370" y="734" width="5" height="74" rx="0" fill="#087C7B" stroke="#087C7B" stroke-width="1.5"/>
+<text id="s4-58" x="388" y="769.0" font-size="23" font-weight="700" fill="#087C7B" text-anchor="start">암호화 자격정보 파일</text>
+<text id="s4-59" x="388" y="798.06" font-size="18" font-weight="400" fill="#172442" text-anchor="start">secrets/ai-credentials.json</text>
+<rect id="s4-60" x="770" y="734" width="350" height="74" rx="9" fill="#FFFFFF" stroke="#7554A5" stroke-width="1.5"/>
+<rect id="s4-61" x="770" y="734" width="5" height="74" rx="0" fill="#7554A5" stroke="#7554A5" stroke-width="1.5"/>
+<text id="s4-62" x="788" y="769.0" font-size="23" font-weight="700" fill="#7554A5" text-anchor="start">Ollama 별도 프로세스</text>
+<text id="s4-63" x="788" y="798.06" font-size="18" font-weight="400" fill="#172442" text-anchor="start">127.0.0.1:11434 · HTTP</text>
+<rect id="s4-64" x="1235" y="155" width="325" height="665" rx="14" fill="#F4F0FA" stroke="#7554A5" stroke-width="1.5"/>
+<text id="s4-65" x="1253" y="188" font-size="23" font-weight="700" fill="#7554A5" text-anchor="start">인터넷 서비스</text>
+<rect id="s4-66" x="1260" y="246" width="275" height="109" rx="9" fill="#FFFFFF" stroke="#7554A5" stroke-width="1.5"/>
+<rect id="s4-67" x="1260" y="246" width="5" height="109" rx="0" fill="#7554A5" stroke="#7554A5" stroke-width="1.5"/>
+<text id="s4-68" x="1278" y="283.0" font-size="25" font-weight="700" fill="#7554A5" text-anchor="start">OpenAI 서비스</text>
+<text id="s4-69" x="1278" y="314.5" font-size="20" font-weight="400" fill="#172442" text-anchor="start">공식 SDK · Responses</text>
+<rect id="s4-70" x="1260" y="414" width="275" height="109" rx="9" fill="#FFFFFF" stroke="#7554A5" stroke-width="1.5"/>
+<rect id="s4-71" x="1260" y="414" width="5" height="109" rx="0" fill="#7554A5" stroke="#7554A5" stroke-width="1.5"/>
+<text id="s4-72" x="1278" y="451.0" font-size="25" font-weight="700" fill="#7554A5" text-anchor="start">Anthropic 서비스</text>
+<text id="s4-73" x="1278" y="482.5" font-size="20" font-weight="400" fill="#172442" text-anchor="start">공식 SDK · Messages</text>
+<text id="s4-74" x="1260" y="693" font-size="18" font-weight="400" fill="#7554A5" text-anchor="start">선택 Provider 한 곳만 요청</text>
+<text id="s4-75" x="1260" y="724" font-size="18" font-weight="400" fill="#7554A5" text-anchor="start">전체 DB·첨부 원문 자동 수집 없음</text>
+<text id="s4-76" x="1260" y="755" font-size="18" font-weight="400" fill="#7554A5" text-anchor="start">실제 외부 응답은 미검증</text>
+<path id="s4-77" d="M 304,290 L 370,290" fill="none" stroke="#7554A5" stroke-width="2.4" stroke-linejoin="round"/>
+<polygon points="370,290 360.8691105968769,294.0776045305957 360.8691105968769,285.9223954694043" fill="#7554A5"/>
+<text id="s4-78" x="64" y="434" font-size="18" font-weight="400" fill="#7554A5" text-anchor="start">분석 요청</text>
+<path id="s4-79" d="M 545,333 L 545,382" fill="none" stroke="#7554A5" stroke-width="2.4" stroke-linejoin="round"/>
+<polygon points="545,382 540.9223954694043,372.8691105968769 549.0776045305957,372.8691105968769" fill="#7554A5"/>
+<text id="s4-80" x="373" y="362" font-size="18" font-weight="400" fill="#7554A5" text-anchor="start">선택·계약</text>
+<path id="s4-81" d="M 720,418 L 744,418 L 744,290 L 770,290" fill="none" stroke="#9A6620" stroke-width="2.4" stroke-linejoin="round"/>
+<polygon points="770,290 760.8691105968769,294.0776045305957 760.8691105968769,285.9223954694043" fill="#9A6620"/>
+<text id="s4-82" x="771" y="358" font-size="18" font-weight="400" fill="#9A6620" text-anchor="start">최소화·마스킹</text>
+<path id="s4-83" d="M 720,455 L 770,455" fill="none" stroke="#7554A5" stroke-width="2.4" stroke-linejoin="round" stroke-dasharray="8 6"/>
+<polygon points="770,455 760.8691105968769,459.0776045305957 760.8691105968769,450.9223954694043" fill="#7554A5"/>
+<path id="s4-84" d="M 1120,290 L 1260,290" fill="none" stroke="#7554A5" stroke-width="2.4" stroke-linejoin="round" stroke-dasharray="8 6"/>
+<polygon points="1260,290 1250.869110596877,294.0776045305957 1250.869110596877,285.9223954694043" fill="#7554A5"/>
+<text id="s4-85" x="1138" y="279" font-size="18" font-weight="400" fill="#7554A5" text-anchor="start">HTTPS</text>
+<path id="s4-86" d="M 1120,312 L 1180,312 L 1180,469 L 1260,469" fill="none" stroke="#7554A5" stroke-width="2.4" stroke-linejoin="round" stroke-dasharray="8 6"/>
+<polygon points="1260,469 1250.869110596877,473.0776045305957 1250.869110596877,464.9223954694043" fill="#7554A5"/>
+<path id="s4-87" d="M 1120,321 L 1168,321 L 1168,776 L 1120,776" fill="none" stroke="#7554A5" stroke-width="2.4" stroke-linejoin="round" stroke-dasharray="8 6"/>
+<polygon points="1120,776 1129.130889403123,771.9223954694043 1129.130889403123,780.0776045305957" fill="#7554A5"/>
+<path id="s4-88" d="M 945,487 L 945,538" fill="none" stroke="#7554A5" stroke-width="2.4" stroke-linejoin="round"/>
+<polygon points="945,538 940.9223954694043,528.8691105968769 949.0776045305957,528.8691105968769" fill="#7554A5"/>
+<path id="s4-89" d="M 1235,610 L 1120,610" fill="none" stroke="#7554A5" stroke-width="2.4" stroke-linejoin="round" stroke-dasharray="8 6"/>
+<polygon points="1120,610 1129.130889403123,605.9223954694043 1129.130889403123,614.0776045305957" fill="#7554A5"/>
+<text id="s4-90" x="1133" y="596" font-size="18" font-weight="400" fill="#7554A5" text-anchor="start">JSON 응답</text>
+<path id="s4-91" d="M 770,640 L 741,640 L 741,710 L 184,710 L 184,700" fill="none" stroke="#7554A5" stroke-width="2.4" stroke-linejoin="round"/>
+<polygon points="184,700 188.0776045305957,709.1308894031231 179.9223954694043,709.1308894031231" fill="#7554A5"/>
+<path id="s4-92" d="M 545,683 L 545,734" fill="none" stroke="#9A6620" stroke-width="2.4" stroke-linejoin="round"/>
+<polygon points="545,734 540.9223954694043,724.8691105968769 549.0776045305957,724.8691105968769" fill="#9A6620"/>
+<path id="s4-93" d="M 370,318 L 350,318 L 350,610 L 370,610" fill="none" stroke="#9A6620" stroke-width="2.4" stroke-linejoin="round" stroke-dasharray="8 6"/>
+<polygon points="370,610 360.8691105968769,614.0776045305957 360.8691105968769,605.9223954694043" fill="#9A6620"/>
+<text id="s4-94" x="357" y="523" font-size="17" font-weight="400" fill="#9A6620" text-anchor="start">자격정보 조회</text>
+<path id="s4-95" d="M 304,639 L 340,639" fill="none" stroke="#336AC1" stroke-width="2.4" stroke-linejoin="round"/>
+<polygon points="340,639 330.8691105968769,643.0776045305957 330.8691105968769,634.9223954694043" fill="#336AC1"/>
+<text id="s4-96" x="70" y="772" font-size="19" font-weight="400" fill="#336AC1" text-anchor="start">별도 IPC → Main 업무 반영</text>
+<text id="s4-97" x="56" y="842" font-size="17" font-weight="400" fill="#58677F" text-anchor="start">시도당 5~30초 · 조건부 최대 2회 재시도 후 LOCAL fallback / 총 요청시간 상한 아님 · 전송 flag는 코드상 기록값</text>
+</g></svg>

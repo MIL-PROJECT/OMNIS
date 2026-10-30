@@ -1,0 +1,2130 @@
+[
+  {
+    "file": "통합_역할별_사용자매뉴얼.pdf",
+    "outlineCount": 108,
+    "mismatches": [],
+    "outlines": [
+      {
+        "title": "목차",
+        "page": 2,
+        "headingMatches": true
+      },
+      {
+        "title": "1. 처음 사용하는 사람을 위한 안내",
+        "page": 5,
+        "headingMatches": true
+      },
+      {
+        "title": "시작 전 준비와 저장 확인 습관",
+        "page": 6,
+        "headingMatches": true
+      },
+      {
+        "title": "2. 실제 역할별 권한과 업무 범위",
+        "page": 7,
+        "headingMatches": true
+      },
+      {
+        "title": "3. 역할별 실무 안내",
+        "page": 9,
+        "headingMatches": true
+      },
+      {
+        "title": "관리자 | 책임과 빠른 시작",
+        "page": 10,
+        "headingMatches": true
+      },
+      {
+        "title": "관리자 | 하루 흐름과 실수 예방",
+        "page": 11,
+        "headingMatches": true
+      },
+      {
+        "title": "관리자 | 실습과 완료 기준",
+        "page": 12,
+        "headingMatches": true
+      },
+      {
+        "title": "관리자 | 한 장 업무 요약",
+        "page": 13,
+        "headingMatches": true
+      },
+      {
+        "title": "운용요원 | 책임과 빠른 시작",
+        "page": 14,
+        "headingMatches": true
+      },
+      {
+        "title": "운용요원 | 하루 흐름과 실수 예방",
+        "page": 15,
+        "headingMatches": true
+      },
+      {
+        "title": "운용요원 | 실습과 완료 기준",
+        "page": 16,
+        "headingMatches": true
+      },
+      {
+        "title": "운용요원 | 한 장 업무 요약",
+        "page": 17,
+        "headingMatches": true
+      },
+      {
+        "title": "정비요원 | 책임과 빠른 시작",
+        "page": 18,
+        "headingMatches": true
+      },
+      {
+        "title": "정비요원 | 하루 흐름과 실수 예방",
+        "page": 19,
+        "headingMatches": true
+      },
+      {
+        "title": "정비요원 | 실습과 완료 기준",
+        "page": 20,
+        "headingMatches": true
+      },
+      {
+        "title": "정비요원 | 한 장 업무 요약",
+        "page": 21,
+        "headingMatches": true
+      },
+      {
+        "title": "일반 사용자 | 책임과 빠른 시작",
+        "page": 22,
+        "headingMatches": true
+      },
+      {
+        "title": "일반 사용자 | 하루 흐름과 실수 예방",
+        "page": 23,
+        "headingMatches": true
+      },
+      {
+        "title": "일반 사용자 | 실습과 완료 기준",
+        "page": 24,
+        "headingMatches": true
+      },
+      {
+        "title": "일반 사용자 | 한 장 업무 요약",
+        "page": 25,
+        "headingMatches": true
+      },
+      {
+        "title": "조회전용 | 책임과 빠른 시작",
+        "page": 26,
+        "headingMatches": true
+      },
+      {
+        "title": "조회전용 | 하루 흐름과 실수 예방",
+        "page": 27,
+        "headingMatches": true
+      },
+      {
+        "title": "조회전용 | 실습과 완료 기준",
+        "page": 28,
+        "headingMatches": true
+      },
+      {
+        "title": "조회전용 | 한 장 업무 요약",
+        "page": 29,
+        "headingMatches": true
+      },
+      {
+        "title": "4. 화면을 따라 하는 업무별 상세 절차",
+        "page": 30,
+        "headingMatches": true
+      },
+      {
+        "title": "C01 프로그램 시작·로그인·로그아웃",
+        "page": 31,
+        "headingMatches": true
+      },
+      {
+        "title": "C01 화면과 완료 확인",
+        "page": 32,
+        "headingMatches": true
+      },
+      {
+        "title": "C02 사용자 등록 신청과 승인 기다리기",
+        "page": 33,
+        "headingMatches": true
+      },
+      {
+        "title": "C02 화면과 완료 확인",
+        "page": 34,
+        "headingMatches": true
+      },
+      {
+        "title": "C03 메뉴·검색·필터·상세 화면 사용",
+        "page": 35,
+        "headingMatches": true
+      },
+      {
+        "title": "C03 화면과 완료 확인",
+        "page": 36,
+        "headingMatches": true
+      },
+      {
+        "title": "C04 통합상황판 읽기",
+        "page": 37,
+        "headingMatches": true
+      },
+      {
+        "title": "C04 화면과 완료 확인",
+        "page": 38,
+        "headingMatches": true
+      },
+      {
+        "title": "C05 첨부자료 추가·열기·삭제",
+        "page": 39,
+        "headingMatches": true
+      },
+      {
+        "title": "C05 화면과 완료 확인",
+        "page": 40,
+        "headingMatches": true
+      },
+      {
+        "title": "C06 AI 지원 화면에서 분석·유사 사례·요약 보기",
+        "page": 41,
+        "headingMatches": true
+      },
+      {
+        "title": "C06 화면과 완료 확인",
+        "page": 42,
+        "headingMatches": true
+      },
+      {
+        "title": "C07 일일·주간 보고서 조회와 파일 저장",
+        "page": 43,
+        "headingMatches": true
+      },
+      {
+        "title": "C07 화면과 완료 확인",
+        "page": 44,
+        "headingMatches": true
+      },
+      {
+        "title": "C08 조회전용의 AI 참고 정보 읽기",
+        "page": 45,
+        "headingMatches": true
+      },
+      {
+        "title": "C08 화면과 완료 확인",
+        "page": 46,
+        "headingMatches": true
+      },
+      {
+        "title": "T01 체계 등록과 기본정보 수정",
+        "page": 47,
+        "headingMatches": true
+      },
+      {
+        "title": "T01 화면과 완료 확인",
+        "page": 48,
+        "headingMatches": true
+      },
+      {
+        "title": "T02 체계 상태 변경과 이력 확인",
+        "page": 49,
+        "headingMatches": true
+      },
+      {
+        "title": "T02 화면과 완료 확인",
+        "page": 50,
+        "headingMatches": true
+      },
+      {
+        "title": "T03 일반 고장 신규 접수",
+        "page": 51,
+        "headingMatches": true
+      },
+      {
+        "title": "T03 화면과 완료 확인",
+        "page": 52,
+        "headingMatches": true
+      },
+      {
+        "title": "T04 긴급 선조치 후 사후 접수",
+        "page": 53,
+        "headingMatches": true
+      },
+      {
+        "title": "T04 화면과 완료 확인",
+        "page": 54,
+        "headingMatches": true
+      },
+      {
+        "title": "T05 접수 내용 수정과 변경 확인",
+        "page": 55,
+        "headingMatches": true
+      },
+      {
+        "title": "T05 화면과 완료 확인",
+        "page": 56,
+        "headingMatches": true
+      },
+      {
+        "title": "T06 AI 분류 추천 검토와 반영",
+        "page": 57,
+        "headingMatches": true
+      },
+      {
+        "title": "T06 화면과 완료 확인",
+        "page": 58,
+        "headingMatches": true
+      },
+      {
+        "title": "T07 분류와 정비반·담당자 배정",
+        "page": 59,
+        "headingMatches": true
+      },
+      {
+        "title": "T07 화면과 완료 확인",
+        "page": 60,
+        "headingMatches": true
+      },
+      {
+        "title": "T08 원격조치·현장출동·보류 기록",
+        "page": 61,
+        "headingMatches": true
+      },
+      {
+        "title": "T08 화면과 완료 확인",
+        "page": 62,
+        "headingMatches": true
+      },
+      {
+        "title": "T09 고장 조치완료 기록",
+        "page": 63,
+        "headingMatches": true
+      },
+      {
+        "title": "T09 화면과 완료 확인",
+        "page": 64,
+        "headingMatches": true
+      },
+      {
+        "title": "T10 검증과 사용자 확인 후 종결",
+        "page": 65,
+        "headingMatches": true
+      },
+      {
+        "title": "T10 화면과 완료 확인",
+        "page": 66,
+        "headingMatches": true
+      },
+      {
+        "title": "T11 정비 작업 등록과 고장 연계",
+        "page": 67,
+        "headingMatches": true
+      },
+      {
+        "title": "T11 화면과 완료 확인",
+        "page": 68,
+        "headingMatches": true
+      },
+      {
+        "title": "T12 정비 진행·보류·완료 결과 저장",
+        "page": 69,
+        "headingMatches": true
+      },
+      {
+        "title": "T12 화면과 완료 확인",
+        "page": 70,
+        "headingMatches": true
+      },
+      {
+        "title": "T13 정비 캘린더로 일정 확인·변경",
+        "page": 71,
+        "headingMatches": true
+      },
+      {
+        "title": "T13 화면과 완료 확인",
+        "page": 72,
+        "headingMatches": true
+      },
+      {
+        "title": "T14 상황경보 등록·확인·종료",
+        "page": 73,
+        "headingMatches": true
+      },
+      {
+        "title": "T14 화면과 완료 확인",
+        "page": 74,
+        "headingMatches": true
+      },
+      {
+        "title": "T15 08:30·16:00 작업판 입력",
+        "page": 75,
+        "headingMatches": true
+      },
+      {
+        "title": "T15 화면과 완료 확인",
+        "page": 76,
+        "headingMatches": true
+      },
+      {
+        "title": "T16 마감 전 정합성 문제 확인",
+        "page": 77,
+        "headingMatches": true
+      },
+      {
+        "title": "T16 화면과 완료 확인",
+        "page": 78,
+        "headingMatches": true
+      },
+      {
+        "title": "T17 일일 마감과 예외 마감",
+        "page": 79,
+        "headingMatches": true
+      },
+      {
+        "title": "T17 화면과 완료 확인",
+        "page": 80,
+        "headingMatches": true
+      },
+      {
+        "title": "T18 인수인계 초안 작성·저장·확정",
+        "page": 81,
+        "headingMatches": true
+      },
+      {
+        "title": "T18 화면과 완료 확인",
+        "page": 82,
+        "headingMatches": true
+      },
+      {
+        "title": "T19 근무 편성 등록·수정·삭제",
+        "page": 83,
+        "headingMatches": true
+      },
+      {
+        "title": "T19 화면과 완료 확인",
+        "page": 84,
+        "headingMatches": true
+      },
+      {
+        "title": "T20 지시사항 등록·수정·이행 상태 관리",
+        "page": 85,
+        "headingMatches": true
+      },
+      {
+        "title": "T20 화면과 완료 확인",
+        "page": 86,
+        "headingMatches": true
+      },
+      {
+        "title": "T21 지시사항 읽음 확인",
+        "page": 87,
+        "headingMatches": true
+      },
+      {
+        "title": "T21 화면과 완료 확인",
+        "page": 88,
+        "headingMatches": true
+      },
+      {
+        "title": "A01 신청 정보 검토와 계정 승인·반려",
+        "page": 89,
+        "headingMatches": true
+      },
+      {
+        "title": "A01 화면과 완료 확인",
+        "page": 90,
+        "headingMatches": true
+      },
+      {
+        "title": "A02 시스템 정보와 AI 설정 확인",
+        "page": 91,
+        "headingMatches": true
+      },
+      {
+        "title": "A02 화면과 완료 확인",
+        "page": 92,
+        "headingMatches": true
+      },
+      {
+        "title": "A03 운영 기준시간과 SLA 변경",
+        "page": 93,
+        "headingMatches": true
+      },
+      {
+        "title": "A03 화면과 완료 확인",
+        "page": 94,
+        "headingMatches": true
+      },
+      {
+        "title": "A04 DB·첨부자료 백업과 데이터 위치 확인",
+        "page": 95,
+        "headingMatches": true
+      },
+      {
+        "title": "A04 화면과 완료 확인",
+        "page": 96,
+        "headingMatches": true
+      },
+      {
+        "title": "A05 긴급 알림 확인과 감사 로그 검토",
+        "page": 97,
+        "headingMatches": true
+      },
+      {
+        "title": "A05 화면과 완료 확인",
+        "page": 98,
+        "headingMatches": true
+      },
+      {
+        "title": "A06 평가 시나리오 준비와 시연 초기화",
+        "page": 99,
+        "headingMatches": true
+      },
+      {
+        "title": "A06 화면과 완료 확인",
+        "page": 100,
+        "headingMatches": true
+      },
+      {
+        "title": "A07 전체 Demo 데이터 초기화",
+        "page": 101,
+        "headingMatches": true
+      },
+      {
+        "title": "A07 화면과 완료 확인",
+        "page": 102,
+        "headingMatches": true
+      },
+      {
+        "title": "5. 한 건의 업무를 여러 역할이 이어받기",
+        "page": 103,
+        "headingMatches": true
+      },
+      {
+        "title": "업무 흐름을 한눈에 보기",
+        "page": 104,
+        "headingMatches": true
+      },
+      {
+        "title": "계획·실적·마감·인수인계 시나리오",
+        "page": 105,
+        "headingMatches": true
+      },
+      {
+        "title": "6. 문제 해결과 자주 묻는 질문",
+        "page": 106,
+        "headingMatches": true
+      },
+      {
+        "title": "관리자에게 전달할 오류 기록",
+        "page": 108,
+        "headingMatches": true
+      },
+      {
+        "title": "7. 알려진 제한과 검증하지 않은 범위",
+        "page": 109,
+        "headingMatches": true
+      },
+      {
+        "title": "8. 용어집과 업무별 찾아보기",
+        "page": 111,
+        "headingMatches": true
+      },
+      {
+        "title": "업무별 바로 가기",
+        "page": 112,
+        "headingMatches": true
+      },
+      {
+        "title": "화면·버튼으로 찾기",
+        "page": 114,
+        "headingMatches": true
+      },
+      {
+        "title": "문서 확인 기준과 재검토 안내",
+        "page": 116,
+        "headingMatches": true
+      }
+    ],
+    "allTasksPresent": true
+  },
+  {
+    "file": "관리자_ADMIN_사용자매뉴얼.pdf",
+    "outlineCount": 90,
+    "mismatches": [],
+    "outlines": [
+      {
+        "title": "목차",
+        "page": 2,
+        "headingMatches": true
+      },
+      {
+        "title": "1. 처음 사용하는 사람을 위한 안내",
+        "page": 5,
+        "headingMatches": true
+      },
+      {
+        "title": "시작 전 준비와 저장 확인 습관",
+        "page": 6,
+        "headingMatches": true
+      },
+      {
+        "title": "2. 실제 역할별 권한과 업무 범위",
+        "page": 7,
+        "headingMatches": true
+      },
+      {
+        "title": "3. 역할별 실무 안내",
+        "page": 9,
+        "headingMatches": true
+      },
+      {
+        "title": "관리자 | 책임과 빠른 시작",
+        "page": 10,
+        "headingMatches": true
+      },
+      {
+        "title": "관리자 | 하루 흐름과 실수 예방",
+        "page": 11,
+        "headingMatches": true
+      },
+      {
+        "title": "관리자 | 실습과 완료 기준",
+        "page": 12,
+        "headingMatches": true
+      },
+      {
+        "title": "관리자 | 한 장 업무 요약",
+        "page": 13,
+        "headingMatches": true
+      },
+      {
+        "title": "4. 화면을 따라 하는 업무별 상세 절차",
+        "page": 14,
+        "headingMatches": true
+      },
+      {
+        "title": "C01 프로그램 시작·로그인·로그아웃",
+        "page": 15,
+        "headingMatches": true
+      },
+      {
+        "title": "C01 화면과 완료 확인",
+        "page": 16,
+        "headingMatches": true
+      },
+      {
+        "title": "C02 사용자 등록 신청과 승인 기다리기",
+        "page": 17,
+        "headingMatches": true
+      },
+      {
+        "title": "C02 화면과 완료 확인",
+        "page": 18,
+        "headingMatches": true
+      },
+      {
+        "title": "C03 메뉴·검색·필터·상세 화면 사용",
+        "page": 19,
+        "headingMatches": true
+      },
+      {
+        "title": "C03 화면과 완료 확인",
+        "page": 20,
+        "headingMatches": true
+      },
+      {
+        "title": "C04 통합상황판 읽기",
+        "page": 21,
+        "headingMatches": true
+      },
+      {
+        "title": "C04 화면과 완료 확인",
+        "page": 22,
+        "headingMatches": true
+      },
+      {
+        "title": "C05 첨부자료 추가·열기·삭제",
+        "page": 23,
+        "headingMatches": true
+      },
+      {
+        "title": "C05 화면과 완료 확인",
+        "page": 24,
+        "headingMatches": true
+      },
+      {
+        "title": "C06 AI 지원 화면에서 분석·유사 사례·요약 보기",
+        "page": 25,
+        "headingMatches": true
+      },
+      {
+        "title": "C06 화면과 완료 확인",
+        "page": 26,
+        "headingMatches": true
+      },
+      {
+        "title": "C07 일일·주간 보고서 조회와 파일 저장",
+        "page": 27,
+        "headingMatches": true
+      },
+      {
+        "title": "C07 화면과 완료 확인",
+        "page": 28,
+        "headingMatches": true
+      },
+      {
+        "title": "T01 체계 등록과 기본정보 수정",
+        "page": 29,
+        "headingMatches": true
+      },
+      {
+        "title": "T01 화면과 완료 확인",
+        "page": 30,
+        "headingMatches": true
+      },
+      {
+        "title": "T02 체계 상태 변경과 이력 확인",
+        "page": 31,
+        "headingMatches": true
+      },
+      {
+        "title": "T02 화면과 완료 확인",
+        "page": 32,
+        "headingMatches": true
+      },
+      {
+        "title": "T03 일반 고장 신규 접수",
+        "page": 33,
+        "headingMatches": true
+      },
+      {
+        "title": "T03 화면과 완료 확인",
+        "page": 34,
+        "headingMatches": true
+      },
+      {
+        "title": "T04 긴급 선조치 후 사후 접수",
+        "page": 35,
+        "headingMatches": true
+      },
+      {
+        "title": "T04 화면과 완료 확인",
+        "page": 36,
+        "headingMatches": true
+      },
+      {
+        "title": "T05 접수 내용 수정과 변경 확인",
+        "page": 37,
+        "headingMatches": true
+      },
+      {
+        "title": "T05 화면과 완료 확인",
+        "page": 38,
+        "headingMatches": true
+      },
+      {
+        "title": "T06 AI 분류 추천 검토와 반영",
+        "page": 39,
+        "headingMatches": true
+      },
+      {
+        "title": "T06 화면과 완료 확인",
+        "page": 40,
+        "headingMatches": true
+      },
+      {
+        "title": "T07 분류와 정비반·담당자 배정",
+        "page": 41,
+        "headingMatches": true
+      },
+      {
+        "title": "T07 화면과 완료 확인",
+        "page": 42,
+        "headingMatches": true
+      },
+      {
+        "title": "T08 원격조치·현장출동·보류 기록",
+        "page": 43,
+        "headingMatches": true
+      },
+      {
+        "title": "T08 화면과 완료 확인",
+        "page": 44,
+        "headingMatches": true
+      },
+      {
+        "title": "T09 고장 조치완료 기록",
+        "page": 45,
+        "headingMatches": true
+      },
+      {
+        "title": "T09 화면과 완료 확인",
+        "page": 46,
+        "headingMatches": true
+      },
+      {
+        "title": "T10 검증과 사용자 확인 후 종결",
+        "page": 47,
+        "headingMatches": true
+      },
+      {
+        "title": "T10 화면과 완료 확인",
+        "page": 48,
+        "headingMatches": true
+      },
+      {
+        "title": "T11 정비 작업 등록과 고장 연계",
+        "page": 49,
+        "headingMatches": true
+      },
+      {
+        "title": "T11 화면과 완료 확인",
+        "page": 50,
+        "headingMatches": true
+      },
+      {
+        "title": "T12 정비 진행·보류·완료 결과 저장",
+        "page": 51,
+        "headingMatches": true
+      },
+      {
+        "title": "T12 화면과 완료 확인",
+        "page": 52,
+        "headingMatches": true
+      },
+      {
+        "title": "T13 정비 캘린더로 일정 확인·변경",
+        "page": 53,
+        "headingMatches": true
+      },
+      {
+        "title": "T13 화면과 완료 확인",
+        "page": 54,
+        "headingMatches": true
+      },
+      {
+        "title": "T14 상황경보 등록·확인·종료",
+        "page": 55,
+        "headingMatches": true
+      },
+      {
+        "title": "T14 화면과 완료 확인",
+        "page": 56,
+        "headingMatches": true
+      },
+      {
+        "title": "T15 08:30·16:00 작업판 입력",
+        "page": 57,
+        "headingMatches": true
+      },
+      {
+        "title": "T15 화면과 완료 확인",
+        "page": 58,
+        "headingMatches": true
+      },
+      {
+        "title": "T16 마감 전 정합성 문제 확인",
+        "page": 59,
+        "headingMatches": true
+      },
+      {
+        "title": "T16 화면과 완료 확인",
+        "page": 60,
+        "headingMatches": true
+      },
+      {
+        "title": "T17 일일 마감과 예외 마감",
+        "page": 61,
+        "headingMatches": true
+      },
+      {
+        "title": "T17 화면과 완료 확인",
+        "page": 62,
+        "headingMatches": true
+      },
+      {
+        "title": "T18 인수인계 초안 작성·저장·확정",
+        "page": 63,
+        "headingMatches": true
+      },
+      {
+        "title": "T18 화면과 완료 확인",
+        "page": 64,
+        "headingMatches": true
+      },
+      {
+        "title": "T19 근무 편성 등록·수정·삭제",
+        "page": 65,
+        "headingMatches": true
+      },
+      {
+        "title": "T19 화면과 완료 확인",
+        "page": 66,
+        "headingMatches": true
+      },
+      {
+        "title": "T20 지시사항 등록·수정·이행 상태 관리",
+        "page": 67,
+        "headingMatches": true
+      },
+      {
+        "title": "T20 화면과 완료 확인",
+        "page": 68,
+        "headingMatches": true
+      },
+      {
+        "title": "T21 지시사항 읽음 확인",
+        "page": 69,
+        "headingMatches": true
+      },
+      {
+        "title": "T21 화면과 완료 확인",
+        "page": 70,
+        "headingMatches": true
+      },
+      {
+        "title": "A01 신청 정보 검토와 계정 승인·반려",
+        "page": 71,
+        "headingMatches": true
+      },
+      {
+        "title": "A01 화면과 완료 확인",
+        "page": 72,
+        "headingMatches": true
+      },
+      {
+        "title": "A02 시스템 정보와 AI 설정 확인",
+        "page": 73,
+        "headingMatches": true
+      },
+      {
+        "title": "A02 화면과 완료 확인",
+        "page": 74,
+        "headingMatches": true
+      },
+      {
+        "title": "A03 운영 기준시간과 SLA 변경",
+        "page": 75,
+        "headingMatches": true
+      },
+      {
+        "title": "A03 화면과 완료 확인",
+        "page": 76,
+        "headingMatches": true
+      },
+      {
+        "title": "A04 DB·첨부자료 백업과 데이터 위치 확인",
+        "page": 77,
+        "headingMatches": true
+      },
+      {
+        "title": "A04 화면과 완료 확인",
+        "page": 78,
+        "headingMatches": true
+      },
+      {
+        "title": "A05 긴급 알림 확인과 감사 로그 검토",
+        "page": 79,
+        "headingMatches": true
+      },
+      {
+        "title": "A05 화면과 완료 확인",
+        "page": 80,
+        "headingMatches": true
+      },
+      {
+        "title": "A06 평가 시나리오 준비와 시연 초기화",
+        "page": 81,
+        "headingMatches": true
+      },
+      {
+        "title": "A06 화면과 완료 확인",
+        "page": 82,
+        "headingMatches": true
+      },
+      {
+        "title": "A07 전체 Demo 데이터 초기화",
+        "page": 83,
+        "headingMatches": true
+      },
+      {
+        "title": "A07 화면과 완료 확인",
+        "page": 84,
+        "headingMatches": true
+      },
+      {
+        "title": "5. 한 건의 업무를 여러 역할이 이어받기",
+        "page": 85,
+        "headingMatches": true
+      },
+      {
+        "title": "업무 흐름을 한눈에 보기",
+        "page": 86,
+        "headingMatches": true
+      },
+      {
+        "title": "계획·실적·마감·인수인계 시나리오",
+        "page": 87,
+        "headingMatches": true
+      },
+      {
+        "title": "6. 문제 해결과 자주 묻는 질문",
+        "page": 88,
+        "headingMatches": true
+      },
+      {
+        "title": "관리자에게 전달할 오류 기록",
+        "page": 90,
+        "headingMatches": true
+      },
+      {
+        "title": "7. 알려진 제한과 검증하지 않은 범위",
+        "page": 91,
+        "headingMatches": true
+      },
+      {
+        "title": "8. 용어집과 업무별 찾아보기",
+        "page": 93,
+        "headingMatches": true
+      },
+      {
+        "title": "업무별 바로 가기",
+        "page": 94,
+        "headingMatches": true
+      },
+      {
+        "title": "화면·버튼으로 찾기",
+        "page": 96,
+        "headingMatches": true
+      },
+      {
+        "title": "문서 확인 기준과 재검토 안내",
+        "page": 98,
+        "headingMatches": true
+      }
+    ],
+    "allTasksPresent": true
+  },
+  {
+    "file": "운용요원_OPERATOR_사용자매뉴얼.pdf",
+    "outlineCount": 68,
+    "mismatches": [],
+    "outlines": [
+      {
+        "title": "목차",
+        "page": 2,
+        "headingMatches": true
+      },
+      {
+        "title": "1. 처음 사용하는 사람을 위한 안내",
+        "page": 4,
+        "headingMatches": true
+      },
+      {
+        "title": "시작 전 준비와 저장 확인 습관",
+        "page": 5,
+        "headingMatches": true
+      },
+      {
+        "title": "2. 실제 역할별 권한과 업무 범위",
+        "page": 6,
+        "headingMatches": true
+      },
+      {
+        "title": "3. 역할별 실무 안내",
+        "page": 8,
+        "headingMatches": true
+      },
+      {
+        "title": "운용요원 | 책임과 빠른 시작",
+        "page": 9,
+        "headingMatches": true
+      },
+      {
+        "title": "운용요원 | 하루 흐름과 실수 예방",
+        "page": 10,
+        "headingMatches": true
+      },
+      {
+        "title": "운용요원 | 실습과 완료 기준",
+        "page": 11,
+        "headingMatches": true
+      },
+      {
+        "title": "운용요원 | 한 장 업무 요약",
+        "page": 12,
+        "headingMatches": true
+      },
+      {
+        "title": "4. 화면을 따라 하는 업무별 상세 절차",
+        "page": 13,
+        "headingMatches": true
+      },
+      {
+        "title": "C01 프로그램 시작·로그인·로그아웃",
+        "page": 14,
+        "headingMatches": true
+      },
+      {
+        "title": "C01 화면과 완료 확인",
+        "page": 15,
+        "headingMatches": true
+      },
+      {
+        "title": "C02 사용자 등록 신청과 승인 기다리기",
+        "page": 16,
+        "headingMatches": true
+      },
+      {
+        "title": "C02 화면과 완료 확인",
+        "page": 17,
+        "headingMatches": true
+      },
+      {
+        "title": "C03 메뉴·검색·필터·상세 화면 사용",
+        "page": 18,
+        "headingMatches": true
+      },
+      {
+        "title": "C03 화면과 완료 확인",
+        "page": 19,
+        "headingMatches": true
+      },
+      {
+        "title": "C04 통합상황판 읽기",
+        "page": 20,
+        "headingMatches": true
+      },
+      {
+        "title": "C04 화면과 완료 확인",
+        "page": 21,
+        "headingMatches": true
+      },
+      {
+        "title": "C05 첨부자료 추가·열기·삭제",
+        "page": 22,
+        "headingMatches": true
+      },
+      {
+        "title": "C05 화면과 완료 확인",
+        "page": 23,
+        "headingMatches": true
+      },
+      {
+        "title": "C06 AI 지원 화면에서 분석·유사 사례·요약 보기",
+        "page": 24,
+        "headingMatches": true
+      },
+      {
+        "title": "C06 화면과 완료 확인",
+        "page": 25,
+        "headingMatches": true
+      },
+      {
+        "title": "C07 일일·주간 보고서 조회와 파일 저장",
+        "page": 26,
+        "headingMatches": true
+      },
+      {
+        "title": "C07 화면과 완료 확인",
+        "page": 27,
+        "headingMatches": true
+      },
+      {
+        "title": "T01 체계 등록과 기본정보 수정",
+        "page": 28,
+        "headingMatches": true
+      },
+      {
+        "title": "T01 화면과 완료 확인",
+        "page": 29,
+        "headingMatches": true
+      },
+      {
+        "title": "T02 체계 상태 변경과 이력 확인",
+        "page": 30,
+        "headingMatches": true
+      },
+      {
+        "title": "T02 화면과 완료 확인",
+        "page": 31,
+        "headingMatches": true
+      },
+      {
+        "title": "T03 일반 고장 신규 접수",
+        "page": 32,
+        "headingMatches": true
+      },
+      {
+        "title": "T03 화면과 완료 확인",
+        "page": 33,
+        "headingMatches": true
+      },
+      {
+        "title": "T04 긴급 선조치 후 사후 접수",
+        "page": 34,
+        "headingMatches": true
+      },
+      {
+        "title": "T04 화면과 완료 확인",
+        "page": 35,
+        "headingMatches": true
+      },
+      {
+        "title": "T05 접수 내용 수정과 변경 확인",
+        "page": 36,
+        "headingMatches": true
+      },
+      {
+        "title": "T05 화면과 완료 확인",
+        "page": 37,
+        "headingMatches": true
+      },
+      {
+        "title": "T06 AI 분류 추천 검토와 반영",
+        "page": 38,
+        "headingMatches": true
+      },
+      {
+        "title": "T06 화면과 완료 확인",
+        "page": 39,
+        "headingMatches": true
+      },
+      {
+        "title": "T07 분류와 정비반·담당자 배정",
+        "page": 40,
+        "headingMatches": true
+      },
+      {
+        "title": "T07 화면과 완료 확인",
+        "page": 41,
+        "headingMatches": true
+      },
+      {
+        "title": "T08 원격조치·현장출동·보류 기록",
+        "page": 42,
+        "headingMatches": true
+      },
+      {
+        "title": "T08 화면과 완료 확인",
+        "page": 43,
+        "headingMatches": true
+      },
+      {
+        "title": "T09 고장 조치완료 기록",
+        "page": 44,
+        "headingMatches": true
+      },
+      {
+        "title": "T09 화면과 완료 확인",
+        "page": 45,
+        "headingMatches": true
+      },
+      {
+        "title": "T10 검증과 사용자 확인 후 종결",
+        "page": 46,
+        "headingMatches": true
+      },
+      {
+        "title": "T10 화면과 완료 확인",
+        "page": 47,
+        "headingMatches": true
+      },
+      {
+        "title": "T13 정비 캘린더로 일정 확인·변경",
+        "page": 48,
+        "headingMatches": true
+      },
+      {
+        "title": "T13 화면과 완료 확인",
+        "page": 49,
+        "headingMatches": true
+      },
+      {
+        "title": "T14 상황경보 등록·확인·종료",
+        "page": 50,
+        "headingMatches": true
+      },
+      {
+        "title": "T14 화면과 완료 확인",
+        "page": 51,
+        "headingMatches": true
+      },
+      {
+        "title": "T16 마감 전 정합성 문제 확인",
+        "page": 52,
+        "headingMatches": true
+      },
+      {
+        "title": "T16 화면과 완료 확인",
+        "page": 53,
+        "headingMatches": true
+      },
+      {
+        "title": "T18 인수인계 초안 작성·저장·확정",
+        "page": 54,
+        "headingMatches": true
+      },
+      {
+        "title": "T18 화면과 완료 확인",
+        "page": 55,
+        "headingMatches": true
+      },
+      {
+        "title": "T19 근무 편성 등록·수정·삭제",
+        "page": 56,
+        "headingMatches": true
+      },
+      {
+        "title": "T19 화면과 완료 확인",
+        "page": 57,
+        "headingMatches": true
+      },
+      {
+        "title": "T20 지시사항 등록·수정·이행 상태 관리",
+        "page": 58,
+        "headingMatches": true
+      },
+      {
+        "title": "T20 화면과 완료 확인",
+        "page": 59,
+        "headingMatches": true
+      },
+      {
+        "title": "T21 지시사항 읽음 확인",
+        "page": 60,
+        "headingMatches": true
+      },
+      {
+        "title": "T21 화면과 완료 확인",
+        "page": 61,
+        "headingMatches": true
+      },
+      {
+        "title": "5. 한 건의 업무를 여러 역할이 이어받기",
+        "page": 62,
+        "headingMatches": true
+      },
+      {
+        "title": "업무 흐름을 한눈에 보기",
+        "page": 63,
+        "headingMatches": true
+      },
+      {
+        "title": "계획·실적·마감·인수인계 시나리오",
+        "page": 64,
+        "headingMatches": true
+      },
+      {
+        "title": "6. 문제 해결과 자주 묻는 질문",
+        "page": 65,
+        "headingMatches": true
+      },
+      {
+        "title": "관리자에게 전달할 오류 기록",
+        "page": 67,
+        "headingMatches": true
+      },
+      {
+        "title": "7. 알려진 제한과 검증하지 않은 범위",
+        "page": 68,
+        "headingMatches": true
+      },
+      {
+        "title": "8. 용어집과 업무별 찾아보기",
+        "page": 70,
+        "headingMatches": true
+      },
+      {
+        "title": "업무별 바로 가기",
+        "page": 71,
+        "headingMatches": true
+      },
+      {
+        "title": "화면·버튼으로 찾기",
+        "page": 72,
+        "headingMatches": true
+      },
+      {
+        "title": "문서 확인 기준과 재검토 안내",
+        "page": 73,
+        "headingMatches": true
+      }
+    ],
+    "allTasksPresent": true
+  },
+  {
+    "file": "정비요원_MAINTAINER_사용자매뉴얼.pdf",
+    "outlineCount": 54,
+    "mismatches": [],
+    "outlines": [
+      {
+        "title": "목차",
+        "page": 2,
+        "headingMatches": true
+      },
+      {
+        "title": "1. 처음 사용하는 사람을 위한 안내",
+        "page": 4,
+        "headingMatches": true
+      },
+      {
+        "title": "시작 전 준비와 저장 확인 습관",
+        "page": 5,
+        "headingMatches": true
+      },
+      {
+        "title": "2. 실제 역할별 권한과 업무 범위",
+        "page": 6,
+        "headingMatches": true
+      },
+      {
+        "title": "3. 역할별 실무 안내",
+        "page": 8,
+        "headingMatches": true
+      },
+      {
+        "title": "정비요원 | 책임과 빠른 시작",
+        "page": 9,
+        "headingMatches": true
+      },
+      {
+        "title": "정비요원 | 하루 흐름과 실수 예방",
+        "page": 10,
+        "headingMatches": true
+      },
+      {
+        "title": "정비요원 | 실습과 완료 기준",
+        "page": 11,
+        "headingMatches": true
+      },
+      {
+        "title": "정비요원 | 한 장 업무 요약",
+        "page": 12,
+        "headingMatches": true
+      },
+      {
+        "title": "4. 화면을 따라 하는 업무별 상세 절차",
+        "page": 13,
+        "headingMatches": true
+      },
+      {
+        "title": "C01 프로그램 시작·로그인·로그아웃",
+        "page": 14,
+        "headingMatches": true
+      },
+      {
+        "title": "C01 화면과 완료 확인",
+        "page": 15,
+        "headingMatches": true
+      },
+      {
+        "title": "C02 사용자 등록 신청과 승인 기다리기",
+        "page": 16,
+        "headingMatches": true
+      },
+      {
+        "title": "C02 화면과 완료 확인",
+        "page": 17,
+        "headingMatches": true
+      },
+      {
+        "title": "C03 메뉴·검색·필터·상세 화면 사용",
+        "page": 18,
+        "headingMatches": true
+      },
+      {
+        "title": "C03 화면과 완료 확인",
+        "page": 19,
+        "headingMatches": true
+      },
+      {
+        "title": "C04 통합상황판 읽기",
+        "page": 20,
+        "headingMatches": true
+      },
+      {
+        "title": "C04 화면과 완료 확인",
+        "page": 21,
+        "headingMatches": true
+      },
+      {
+        "title": "C05 첨부자료 추가·열기·삭제",
+        "page": 22,
+        "headingMatches": true
+      },
+      {
+        "title": "C05 화면과 완료 확인",
+        "page": 23,
+        "headingMatches": true
+      },
+      {
+        "title": "C06 AI 지원 화면에서 분석·유사 사례·요약 보기",
+        "page": 24,
+        "headingMatches": true
+      },
+      {
+        "title": "C06 화면과 완료 확인",
+        "page": 25,
+        "headingMatches": true
+      },
+      {
+        "title": "C07 일일·주간 보고서 조회와 파일 저장",
+        "page": 26,
+        "headingMatches": true
+      },
+      {
+        "title": "C07 화면과 완료 확인",
+        "page": 27,
+        "headingMatches": true
+      },
+      {
+        "title": "T08 원격조치·현장출동·보류 기록",
+        "page": 28,
+        "headingMatches": true
+      },
+      {
+        "title": "T08 화면과 완료 확인",
+        "page": 29,
+        "headingMatches": true
+      },
+      {
+        "title": "T09 고장 조치완료 기록",
+        "page": 30,
+        "headingMatches": true
+      },
+      {
+        "title": "T09 화면과 완료 확인",
+        "page": 31,
+        "headingMatches": true
+      },
+      {
+        "title": "T10 검증과 사용자 확인 후 종결",
+        "page": 32,
+        "headingMatches": true
+      },
+      {
+        "title": "T10 화면과 완료 확인",
+        "page": 33,
+        "headingMatches": true
+      },
+      {
+        "title": "T11 정비 작업 등록과 고장 연계",
+        "page": 34,
+        "headingMatches": true
+      },
+      {
+        "title": "T11 화면과 완료 확인",
+        "page": 35,
+        "headingMatches": true
+      },
+      {
+        "title": "T12 정비 진행·보류·완료 결과 저장",
+        "page": 36,
+        "headingMatches": true
+      },
+      {
+        "title": "T12 화면과 완료 확인",
+        "page": 37,
+        "headingMatches": true
+      },
+      {
+        "title": "T13 정비 캘린더로 일정 확인·변경",
+        "page": 38,
+        "headingMatches": true
+      },
+      {
+        "title": "T13 화면과 완료 확인",
+        "page": 39,
+        "headingMatches": true
+      },
+      {
+        "title": "T15 08:30·16:00 작업판 입력",
+        "page": 40,
+        "headingMatches": true
+      },
+      {
+        "title": "T15 화면과 완료 확인",
+        "page": 41,
+        "headingMatches": true
+      },
+      {
+        "title": "T16 마감 전 정합성 문제 확인",
+        "page": 42,
+        "headingMatches": true
+      },
+      {
+        "title": "T16 화면과 완료 확인",
+        "page": 43,
+        "headingMatches": true
+      },
+      {
+        "title": "T18 인수인계 초안 작성·저장·확정",
+        "page": 44,
+        "headingMatches": true
+      },
+      {
+        "title": "T18 화면과 완료 확인",
+        "page": 45,
+        "headingMatches": true
+      },
+      {
+        "title": "T21 지시사항 읽음 확인",
+        "page": 46,
+        "headingMatches": true
+      },
+      {
+        "title": "T21 화면과 완료 확인",
+        "page": 47,
+        "headingMatches": true
+      },
+      {
+        "title": "5. 한 건의 업무를 여러 역할이 이어받기",
+        "page": 48,
+        "headingMatches": true
+      },
+      {
+        "title": "업무 흐름을 한눈에 보기",
+        "page": 49,
+        "headingMatches": true
+      },
+      {
+        "title": "계획·실적·마감·인수인계 시나리오",
+        "page": 50,
+        "headingMatches": true
+      },
+      {
+        "title": "6. 문제 해결과 자주 묻는 질문",
+        "page": 51,
+        "headingMatches": true
+      },
+      {
+        "title": "관리자에게 전달할 오류 기록",
+        "page": 53,
+        "headingMatches": true
+      },
+      {
+        "title": "7. 알려진 제한과 검증하지 않은 범위",
+        "page": 54,
+        "headingMatches": true
+      },
+      {
+        "title": "8. 용어집과 업무별 찾아보기",
+        "page": 56,
+        "headingMatches": true
+      },
+      {
+        "title": "업무별 바로 가기",
+        "page": 57,
+        "headingMatches": true
+      },
+      {
+        "title": "화면·버튼으로 찾기",
+        "page": 58,
+        "headingMatches": true
+      },
+      {
+        "title": "문서 확인 기준과 재검토 안내",
+        "page": 59,
+        "headingMatches": true
+      }
+    ],
+    "allTasksPresent": true
+  },
+  {
+    "file": "일반 사용자_USER_사용자매뉴얼.pdf",
+    "outlineCount": 56,
+    "mismatches": [],
+    "outlines": [
+      {
+        "title": "목차",
+        "page": 2,
+        "headingMatches": true
+      },
+      {
+        "title": "1. 처음 사용하는 사람을 위한 안내",
+        "page": 4,
+        "headingMatches": true
+      },
+      {
+        "title": "시작 전 준비와 저장 확인 습관",
+        "page": 5,
+        "headingMatches": true
+      },
+      {
+        "title": "2. 실제 역할별 권한과 업무 범위",
+        "page": 6,
+        "headingMatches": true
+      },
+      {
+        "title": "3. 역할별 실무 안내",
+        "page": 8,
+        "headingMatches": true
+      },
+      {
+        "title": "일반 사용자 | 책임과 빠른 시작",
+        "page": 9,
+        "headingMatches": true
+      },
+      {
+        "title": "일반 사용자 | 하루 흐름과 실수 예방",
+        "page": 10,
+        "headingMatches": true
+      },
+      {
+        "title": "일반 사용자 | 실습과 완료 기준",
+        "page": 11,
+        "headingMatches": true
+      },
+      {
+        "title": "일반 사용자 | 한 장 업무 요약",
+        "page": 12,
+        "headingMatches": true
+      },
+      {
+        "title": "4. 화면을 따라 하는 업무별 상세 절차",
+        "page": 13,
+        "headingMatches": true
+      },
+      {
+        "title": "C01 프로그램 시작·로그인·로그아웃",
+        "page": 14,
+        "headingMatches": true
+      },
+      {
+        "title": "C01 화면과 완료 확인",
+        "page": 15,
+        "headingMatches": true
+      },
+      {
+        "title": "C02 사용자 등록 신청과 승인 기다리기",
+        "page": 16,
+        "headingMatches": true
+      },
+      {
+        "title": "C02 화면과 완료 확인",
+        "page": 17,
+        "headingMatches": true
+      },
+      {
+        "title": "C03 메뉴·검색·필터·상세 화면 사용",
+        "page": 18,
+        "headingMatches": true
+      },
+      {
+        "title": "C03 화면과 완료 확인",
+        "page": 19,
+        "headingMatches": true
+      },
+      {
+        "title": "C04 통합상황판 읽기",
+        "page": 20,
+        "headingMatches": true
+      },
+      {
+        "title": "C04 화면과 완료 확인",
+        "page": 21,
+        "headingMatches": true
+      },
+      {
+        "title": "C05 첨부자료 추가·열기·삭제",
+        "page": 22,
+        "headingMatches": true
+      },
+      {
+        "title": "C05 화면과 완료 확인",
+        "page": 23,
+        "headingMatches": true
+      },
+      {
+        "title": "C06 AI 지원 화면에서 분석·유사 사례·요약 보기",
+        "page": 24,
+        "headingMatches": true
+      },
+      {
+        "title": "C06 화면과 완료 확인",
+        "page": 25,
+        "headingMatches": true
+      },
+      {
+        "title": "C07 일일·주간 보고서 조회와 파일 저장",
+        "page": 26,
+        "headingMatches": true
+      },
+      {
+        "title": "C07 화면과 완료 확인",
+        "page": 27,
+        "headingMatches": true
+      },
+      {
+        "title": "T01 체계 등록과 기본정보 수정",
+        "page": 28,
+        "headingMatches": true
+      },
+      {
+        "title": "T01 화면과 완료 확인",
+        "page": 29,
+        "headingMatches": true
+      },
+      {
+        "title": "T02 체계 상태 변경과 이력 확인",
+        "page": 30,
+        "headingMatches": true
+      },
+      {
+        "title": "T02 화면과 완료 확인",
+        "page": 31,
+        "headingMatches": true
+      },
+      {
+        "title": "T03 일반 고장 신규 접수",
+        "page": 32,
+        "headingMatches": true
+      },
+      {
+        "title": "T03 화면과 완료 확인",
+        "page": 33,
+        "headingMatches": true
+      },
+      {
+        "title": "T04 긴급 선조치 후 사후 접수",
+        "page": 34,
+        "headingMatches": true
+      },
+      {
+        "title": "T04 화면과 완료 확인",
+        "page": 35,
+        "headingMatches": true
+      },
+      {
+        "title": "T05 접수 내용 수정과 변경 확인",
+        "page": 36,
+        "headingMatches": true
+      },
+      {
+        "title": "T05 화면과 완료 확인",
+        "page": 37,
+        "headingMatches": true
+      },
+      {
+        "title": "T10 검증과 사용자 확인 후 종결",
+        "page": 38,
+        "headingMatches": true
+      },
+      {
+        "title": "T10 화면과 완료 확인",
+        "page": 39,
+        "headingMatches": true
+      },
+      {
+        "title": "T13 정비 캘린더로 일정 확인·변경",
+        "page": 40,
+        "headingMatches": true
+      },
+      {
+        "title": "T13 화면과 완료 확인",
+        "page": 41,
+        "headingMatches": true
+      },
+      {
+        "title": "T16 마감 전 정합성 문제 확인",
+        "page": 42,
+        "headingMatches": true
+      },
+      {
+        "title": "T16 화면과 완료 확인",
+        "page": 43,
+        "headingMatches": true
+      },
+      {
+        "title": "T18 인수인계 초안 작성·저장·확정",
+        "page": 44,
+        "headingMatches": true
+      },
+      {
+        "title": "T18 화면과 완료 확인",
+        "page": 45,
+        "headingMatches": true
+      },
+      {
+        "title": "T19 근무 편성 등록·수정·삭제",
+        "page": 46,
+        "headingMatches": true
+      },
+      {
+        "title": "T19 화면과 완료 확인",
+        "page": 47,
+        "headingMatches": true
+      },
+      {
+        "title": "T21 지시사항 읽음 확인",
+        "page": 48,
+        "headingMatches": true
+      },
+      {
+        "title": "T21 화면과 완료 확인",
+        "page": 49,
+        "headingMatches": true
+      },
+      {
+        "title": "5. 한 건의 업무를 여러 역할이 이어받기",
+        "page": 50,
+        "headingMatches": true
+      },
+      {
+        "title": "업무 흐름을 한눈에 보기",
+        "page": 51,
+        "headingMatches": true
+      },
+      {
+        "title": "계획·실적·마감·인수인계 시나리오",
+        "page": 52,
+        "headingMatches": true
+      },
+      {
+        "title": "6. 문제 해결과 자주 묻는 질문",
+        "page": 53,
+        "headingMatches": true
+      },
+      {
+        "title": "관리자에게 전달할 오류 기록",
+        "page": 55,
+        "headingMatches": true
+      },
+      {
+        "title": "7. 알려진 제한과 검증하지 않은 범위",
+        "page": 56,
+        "headingMatches": true
+      },
+      {
+        "title": "8. 용어집과 업무별 찾아보기",
+        "page": 58,
+        "headingMatches": true
+      },
+      {
+        "title": "업무별 바로 가기",
+        "page": 59,
+        "headingMatches": true
+      },
+      {
+        "title": "화면·버튼으로 찾기",
+        "page": 60,
+        "headingMatches": true
+      },
+      {
+        "title": "문서 확인 기준과 재검토 안내",
+        "page": 61,
+        "headingMatches": true
+      }
+    ],
+    "allTasksPresent": true
+  },
+  {
+    "file": "조회전용_VIEWER_사용자매뉴얼.pdf",
+    "outlineCount": 40,
+    "mismatches": [],
+    "outlines": [
+      {
+        "title": "목차",
+        "page": 2,
+        "headingMatches": true
+      },
+      {
+        "title": "1. 처음 사용하는 사람을 위한 안내",
+        "page": 4,
+        "headingMatches": true
+      },
+      {
+        "title": "시작 전 준비와 저장 확인 습관",
+        "page": 5,
+        "headingMatches": true
+      },
+      {
+        "title": "2. 실제 역할별 권한과 업무 범위",
+        "page": 6,
+        "headingMatches": true
+      },
+      {
+        "title": "3. 역할별 실무 안내",
+        "page": 8,
+        "headingMatches": true
+      },
+      {
+        "title": "조회전용 | 책임과 빠른 시작",
+        "page": 9,
+        "headingMatches": true
+      },
+      {
+        "title": "조회전용 | 하루 흐름과 실수 예방",
+        "page": 10,
+        "headingMatches": true
+      },
+      {
+        "title": "조회전용 | 실습과 완료 기준",
+        "page": 11,
+        "headingMatches": true
+      },
+      {
+        "title": "조회전용 | 한 장 업무 요약",
+        "page": 12,
+        "headingMatches": true
+      },
+      {
+        "title": "4. 화면을 따라 하는 업무별 상세 절차",
+        "page": 13,
+        "headingMatches": true
+      },
+      {
+        "title": "C01 프로그램 시작·로그인·로그아웃",
+        "page": 14,
+        "headingMatches": true
+      },
+      {
+        "title": "C01 화면과 완료 확인",
+        "page": 15,
+        "headingMatches": true
+      },
+      {
+        "title": "C02 사용자 등록 신청과 승인 기다리기",
+        "page": 16,
+        "headingMatches": true
+      },
+      {
+        "title": "C02 화면과 완료 확인",
+        "page": 17,
+        "headingMatches": true
+      },
+      {
+        "title": "C03 메뉴·검색·필터·상세 화면 사용",
+        "page": 18,
+        "headingMatches": true
+      },
+      {
+        "title": "C03 화면과 완료 확인",
+        "page": 19,
+        "headingMatches": true
+      },
+      {
+        "title": "C04 통합상황판 읽기",
+        "page": 20,
+        "headingMatches": true
+      },
+      {
+        "title": "C04 화면과 완료 확인",
+        "page": 21,
+        "headingMatches": true
+      },
+      {
+        "title": "C05 첨부자료 추가·열기·삭제",
+        "page": 22,
+        "headingMatches": true
+      },
+      {
+        "title": "C05 화면과 완료 확인",
+        "page": 23,
+        "headingMatches": true
+      },
+      {
+        "title": "C07 일일·주간 보고서 조회와 파일 저장",
+        "page": 24,
+        "headingMatches": true
+      },
+      {
+        "title": "C07 화면과 완료 확인",
+        "page": 25,
+        "headingMatches": true
+      },
+      {
+        "title": "C08 조회전용의 AI 참고 정보 읽기",
+        "page": 26,
+        "headingMatches": true
+      },
+      {
+        "title": "C08 화면과 완료 확인",
+        "page": 27,
+        "headingMatches": true
+      },
+      {
+        "title": "T13 정비 캘린더로 일정 확인·변경",
+        "page": 28,
+        "headingMatches": true
+      },
+      {
+        "title": "T13 화면과 완료 확인",
+        "page": 29,
+        "headingMatches": true
+      },
+      {
+        "title": "T16 마감 전 정합성 문제 확인",
+        "page": 30,
+        "headingMatches": true
+      },
+      {
+        "title": "T16 화면과 완료 확인",
+        "page": 31,
+        "headingMatches": true
+      },
+      {
+        "title": "T21 지시사항 읽음 확인",
+        "page": 32,
+        "headingMatches": true
+      },
+      {
+        "title": "T21 화면과 완료 확인",
+        "page": 33,
+        "headingMatches": true
+      },
+      {
+        "title": "5. 한 건의 업무를 여러 역할이 이어받기",
+        "page": 34,
+        "headingMatches": true
+      },
+      {
+        "title": "업무 흐름을 한눈에 보기",
+        "page": 35,
+        "headingMatches": true
+      },
+      {
+        "title": "계획·실적·마감·인수인계 시나리오",
+        "page": 36,
+        "headingMatches": true
+      },
+      {
+        "title": "6. 문제 해결과 자주 묻는 질문",
+        "page": 37,
+        "headingMatches": true
+      },
+      {
+        "title": "관리자에게 전달할 오류 기록",
+        "page": 39,
+        "headingMatches": true
+      },
+      {
+        "title": "7. 알려진 제한과 검증하지 않은 범위",
+        "page": 40,
+        "headingMatches": true
+      },
+      {
+        "title": "8. 용어집과 업무별 찾아보기",
+        "page": 42,
+        "headingMatches": true
+      },
+      {
+        "title": "업무별 바로 가기",
+        "page": 43,
+        "headingMatches": true
+      },
+      {
+        "title": "화면·버튼으로 찾기",
+        "page": 44,
+        "headingMatches": true
+      },
+      {
+        "title": "문서 확인 기준과 재검토 안내",
+        "page": 45,
+        "headingMatches": true
+      }
+    ],
+    "allTasksPresent": true
+  }
+]

@@ -1,0 +1,38 @@
+{
+  "source": "resources/db/omnis-seed.db",
+  "mode": "ro",
+  "queryResults": [
+    {
+      "name": "incidents_join_systems",
+      "sql": "SELECT count(*) FROM incidents i JOIN communication_systems s ON s.id=i.system_id",
+      "count": 52
+    },
+    {
+      "name": "maintenance_linked_incidents",
+      "sql": "SELECT count(*) FROM maintenance_tasks m JOIN incidents i ON i.id=m.incident_id",
+      "count": 0
+    },
+    {
+      "name": "mapped_action_departments",
+      "sql": "SELECT count(*) FROM team_organizations o JOIN maintenance_teams t ON t.id=o.team_id JOIN organization_units u ON u.id=o.unit_id",
+      "count": 22
+    },
+    {
+      "name": "fictional_roster_members",
+      "sql": "SELECT count(*) FROM organization_members m JOIN users u ON u.id=m.user_id WHERE m.is_demo=1",
+      "count": 220
+    },
+    {
+      "name": "recurring_generated_occurrences",
+      "sql": "SELECT count(*) FROM recurring_occurrences r JOIN maintenance_tasks m ON m.id=r.task_id",
+      "count": 0
+    },
+    {
+      "name": "ai_record_rows",
+      "sql": "SELECT count(*) FROM ai_runs",
+      "count": 0
+    }
+  ],
+  "seedForeignKeyViolationCount": 0,
+  "columnShapeDifferences": []
+}

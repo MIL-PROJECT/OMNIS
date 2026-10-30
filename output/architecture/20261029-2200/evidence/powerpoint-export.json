@@ -1,0 +1,33 @@
+{
+  "shapeCounts": [
+    {
+      "slide": 1,
+      "shapes": 98
+    },
+    {
+      "slide": 2,
+      "shapes": 66
+    },
+    {
+      "slide": 3,
+      "shapes": 75
+    },
+    {
+      "slide": 4,
+      "shapes": 108
+    },
+    {
+      "slide": 5,
+      "shapes": 70
+    },
+    {
+      "slide": 6,
+      "shapes": 77
+    }
+  ],
+  "exportedAt": "2026-10-29T22:33:02.2094414+09:00",
+  "application": "Microsoft PowerPoint COM",
+  "opened": "C:\\Users\\admin\\alex\\alex_study\\military_project\\output\\architecture\\20261029-2200\\OMNIS_시스템아키텍처_발표자료.pptx",
+  "slides": 6,
+  "exported": "C:\\Users\\admin\\alex\\alex_study\\military_project\\output\\architecture\\20261029-2200\\OMNIS_시스템아키텍처_발표자료.pdf"
+}

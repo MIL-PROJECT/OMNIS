@@ -1,3 +1,6 @@
+import MyWork from './MyWork'
+import ManualsManagement from './ManualsManagement'
+import MenuBookRounded from '@mui/icons-material/MenuBookRounded'
 import { useEffect, useState } from 'react'
 import { HashRouter, Navigate, NavLink, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 import { Box, Button, IconButton, InputAdornment, Paper, TextField, Tooltip, Typography } from '@mui/material'
@@ -183,7 +186,7 @@ function Login({ onLogin }: { onLogin: (u: PublicUser) => void }) {
       <Box className="login-points">
         {features.map(([Icon, title, desc]) => <Box className="pt" key={title}><span><Icon /></span><Box><strong>{title}</strong><small>{desc}</small></Box></Box>)}
       </Box>
-      <span className="login-foot">가상 시연 데이터 · 오프라인 환경 · v1.0.0</span>
+      <span className="login-foot">가상 시연 데이터 · 오프라인 환경 · OMNIS Desktop</span>
     </Box>
     <Box className="login-panel">
       <Box className="login-form" component="form" onSubmit={e => { e.preventDefault(); submit() }}>
@@ -236,7 +239,7 @@ function Shell({ user, onLogout }: { user: PublicUser; onLogout: () => void }) {
   useEffect(loadPending, [location.pathname])
   const admin = user.role === 'ADMIN'
   const groups = navGroups.map(g => ({ ...g, items: g.items.filter(i => admin || !i.adminOnly) })).filter(g => g.items.length)
-  const current = location.pathname === dashboardNav.to ? { ...dashboardNav, group:null, groupTo:null } : navGroups.flatMap(g => g.items.map(i => ({ ...i, group:g.title, groupTo:g.to }))).find(i => i.to === location.pathname)
+  const current = location.pathname==='/manuals'?{text:'사용자 매뉴얼',group:null,groupTo:null}:location.pathname === dashboardNav.to ? { ...dashboardNav, group:null, groupTo:null } : navGroups.flatMap(g => g.items.map(i => ({ ...i, group:g.title, groupTo:g.to }))).find(i => i.to === location.pathname)
   return <Box className="app">
     <aside className="sidebar">
       <Box className="sb-brand">
@@ -253,7 +256,8 @@ function Shell({ user, onLogout }: { user: PublicUser; onLogout: () => void }) {
         </Box>)}
       </nav>
       <Box className="sb-foot">
-        <Box className="sb-sys"><span><i className="dot tone-green" />로컬 DB 연결됨</span><span><i className="dot tone-sky" />AI · Local Rule</span></Box>
+        <NavLink to="/manuals" className="sb-manual-link"><MenuBookRounded/><span>사용자 매뉴얼</span></NavLink>
+        <Box className="sb-sys"><span><i className="dot tone-green" />로컬 DB 연결됨</span><span><i className="dot tone-sky" />AI · 업무지원</span></Box>
         <Box className="sb-user">
           <Avatar name={user.display_name} size={36} />
           <Box sx={{ minWidth: 0, flex: 1 }}><strong>{user.display_name}</strong><span>{user.rank_name ? `${user.rank_name} · ` : ''}{roleText[user.role] ?? user.role}</span></Box>
@@ -271,13 +275,14 @@ function Shell({ user, onLogout }: { user: PublicUser; onLogout: () => void }) {
       </header>
       <main>
         <Routes>
-          <Route path="/" element={<Dashboard />} />
+          <Route path="/" element={<Dashboard user={user} />} />
           <Route path="/operations" element={<Operations user={user} />} />
           <Route path="/incidents" element={<Incidents user={user} />} />
           <Route path="/maintenance" element={<Maintenance user={user} />} />
           <Route path="/control" element={<ControlCenterManagement user={user} />} />
           <Route path="/duty" element={<Duty user={user} />} />
           <Route path="/ai" element={<Ai />} />
+          <Route path="/manuals" element={<ManualsManagement user={user}/>} />
           <Route path="/reports" element={<Reports />} />
           <Route path="/signups" element={admin ? <SignupRequests onChange={loadPending} /> : <Navigate to="/" replace />} />
           <Route path="/settings" element={admin ? <Settings user={user} /> : <Navigate to="/" replace />} />
@@ -295,7 +300,8 @@ const chipCol = (field: string, headerName: string, width: number, tone?: (v: un
 // 상황판 목록 행 높이(px) — style.css의 .dash 규칙과 맞춘다
 const GRID_ROW = 36, GRID_HEAD = 36, NOTICE_ROW = 42
 
-function Dashboard() {
+function Dashboard({ user }: { user: PublicUser }) {
+  const location = useLocation()
   const navigate = useNavigate()
   const [data, setData] = useState<Row | null>(null)
   const [detail, setDetail] = useState<DetailTarget | null>(null)
@@ -304,6 +310,7 @@ function Dashboard() {
   const open = (kind: DetailTarget['kind']) => ({ row }: { row: Row }) => setDetail({ kind, row })
   const load = () => call<Row>('dashboard:getSummary').then(d => { setData(d); setLoadedAt(new Date().toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit', hour12: false })) })
   useEffect(() => { load() }, [])
+  if(new URLSearchParams(location.search).get('view')==='mine')return <MyWork user={user}/>
   if (!data) return <Typography color="text.secondary">불러오는 중...</Typography>
   const sys = countBy(data.allSystems, 'status')
   const ms: Record<string, number> = Object.fromEntries(data.maintenanceStatus.map((r: Row) => [r.status, r.n]))
@@ -320,7 +327,7 @@ function Dashboard() {
   const grid = { rowHeight: GRID_ROW, columnHeaderHeight: GRID_HEAD, hideFooter: true, autoHeight: true, disableColumnMenu: true } as const
   return <div className="dash">
     <PageHeader section="운용 현황" title="통합상황판" description={`${new Date().toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' })} 기준 정보통신 운용 현황입니다.`}
-      actions={<><span className="ui-updated">{loadedAt} 갱신</span><Button variant="outlined" startIcon={<RefreshRounded />} onClick={load}>새로고침</Button></>} />
+      actions={<><Button variant="outlined" onClick={()=>navigate('/?view=mine')}>내 업무</Button><span className="ui-updated">{loadedAt} 갱신</span><Button variant="outlined" startIcon={<RefreshRounded />} onClick={load}>새로고침</Button></>} />
     <div className="metrics">{metrics.map(({ key, value, unit, icon: Icon, tone, foot, list }) => <Paper elevation={0} className={`metric clickable`} key={key} role="button" tabIndex={0} aria-label={`${key} ${value}${unit} 목록 보기`}
       onClick={() => setList(list)} onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setList(list) } }}>
       <Box className="metric-top"><span className="metric-label">{key}</span><span className={`ui-icon-tile tone-${tone}`}><Icon /></span></Box>

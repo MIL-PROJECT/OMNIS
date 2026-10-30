@@ -1,0 +1,1050 @@
+[
+  {
+    "id": "S001",
+    "path": "src/main/index.ts",
+    "lineStart": 33,
+    "lineEnd": 33,
+    "meaning": "sandbox/contextIsolation, nodeIntegration=false",
+    "snippet": "  const window = new BrowserWindow({ width: 1600, height: 950, minWidth: 1366, minHeight: 768, show: false, autoHideMenuBar: true, webPreferences: { preload: join(__dirname, '../preload/index.cjs'), contextIsolation: true, nodeIntegration: false, sandbox: true, webSecurity: true, devTools: !app.isPackaged } })"
+  },
+  {
+    "id": "S002",
+    "path": "src/main/index.ts",
+    "lineStart": 25,
+    "lineEnd": 29,
+    "meaning": "userData 경로와 기존 AFCCS 자료 조건부 복사",
+    "snippet": "const appData = app.getPath('appData')\nconst userDataPath = process.env.OMNIS_E2E_DATA ?? join(appData, 'OMNIS')\nif (!process.env.OMNIS_E2E_DATA) migrateLegacyData(join(appData, 'AFCCS'), userDataPath)\nmkdirSync(userDataPath, { recursive: true })\napp.setPath('userData', userDataPath)"
+  },
+  {
+    "id": "S003",
+    "path": "src/main/index.ts",
+    "lineStart": 47,
+    "lineEnd": 54,
+    "meaning": "DB 준비→IPC 등록→창 생성→날짜 marker 조건부 백업",
+    "snippet": "  app.whenReady().then(() => {\n    log.initialize()\n    try { openDb(); registerIpc() } catch (error) { log.error('Startup failed', error); throw error }\n    createWindow()\n    const lastBackup = koreaDate()\n    const marker = join(app.getPath('userData'), `backup-${lastBackup}.marker`)\n    import('node:fs').then(async fs => { if (!fs.existsSync(marker)) { try { await backup(); fs.writeFileSync(marker, '') } catch (error) { log.error('Backup failed', error) } } })\n  })"
+  },
+  {
+    "id": "S004",
+    "path": "src/main/index.ts",
+    "lineStart": 39,
+    "lineEnd": 40,
+    "meaning": "개발 Vite URL 또는 로컬 HTML",
+    "snippet": "  if (process.env.ELECTRON_RENDERER_URL) window.loadURL(process.env.ELECTRON_RENDERER_URL)\n  else window.loadFile(join(__dirname, '../renderer/index.html'))"
+  },
+  {
+    "id": "S005",
+    "path": "src/main/ipc/registerIpc.ts",
+    "lineStart": 9,
+    "lineEnd": 18,
+    "meaning": "mainFrame→Zod parse→run→Result",
+    "snippet": "    ipcMain.handle(channel, async (event, payload: unknown): Promise<Result<unknown>> => {\n      try {\n        if (!event.senderFrame || event.senderFrame !== event.sender.mainFrame) throw new Error('허용되지 않은 프레임입니다.')\n        const parsed = schemas[channel].parse(payload ?? {}) as Record<string, unknown>\n        return { ok: true, data: await run(channel, parsed) }\n      } catch (error) {\n        log.error(`IPC ${channel}`, error instanceof Error ? error.message : 'Unknown error')\n        // 입력 검증 오류는 첫 번째 항목의 안내 문구만 화면에 보낸다\n        if (error instanceof ZodError) return { ok: false, error: { code: 'INVALID_INPUT', message: error.issues[0]?.message ?? '입력값이 올바르지 않습니다.' } }\n        return { ok: false, error: { code: 'REQUEST_FAILED', message: error instanceof Error ? error.message : '요청에 실패했습니다.' } }"
+  },
+  {
+    "id": "S006",
+    "path": "src/preload/index.ts",
+    "lineStart": 4,
+    "lineEnd": 15,
+    "meaning": "window.omnis와 ipcRenderer.invoke",
+    "snippet": "const invoke = (channel: Channel, payload?: Record<string, unknown>) => ipcRenderer.invoke(channel, payload ?? {})\nconst api: OmnisApi = {\n  invoke,\n  auth: { login: p => invoke('auth:login', p), logout: () => invoke('auth:logout'), me: () => invoke('auth:me') },\n  dashboard: { getSummary: () => invoke('dashboard:getSummary') },\n  operations: { list: p => invoke('operations:list', p), updateStatus: p => invoke('operations:updateStatus', p), getHistory: p => invoke('operations:getHistory', p) },\n  incidents: { list: p => invoke('incidents:list', p), get: p => invoke('incidents:get', p), create: p => invoke('incidents:create', p), updateStatus: p => invoke('incidents:updateStatus', p), assign: p => invoke('incidents:assign', p), getEvents: p => invoke('incidents:getEvents', p) },\n  maintenance: { list: p => invoke('maintenance:list', p), create: p => invoke('maintenance:create', p), updateStatus: p => invoke('maintenance:updateStatus', p) },\n  ai: { triageIncident: p => invoke('ai:triageIncident', p), dailySummary: () => invoke('ai:dailySummary'), similarIncidents: p => invoke('ai:similarIncidents', p), maintenanceRecommendations: () => invoke('ai:maintenanceRecommendations') },\n  sy"
+  },
+  {
+    "id": "S007",
+    "path": "src/shared/contracts.ts",
+    "lineStart": 9,
+    "lineEnd": 9,
+    "meaning": "실제 역할 5종: OPERATOR도 존재",
+    "snippet": "export const roleSchema = z.enum(['ADMIN', 'OPERATOR', 'MAINTAINER', 'VIEWER', 'USER'])"
+  },
+  {
+    "id": "S008",
+    "path": "src/shared/contracts.ts",
+    "lineStart": 112,
+    "lineEnd": 112,
+    "meaning": "loopback HTTP 허용; timeout 5~30초",
+    "snippet": "  'system:setAiSettings': z.object({ provider: aiProviderSchema, ollamaEndpoint: z.url().refine(v => { const u = new URL(v); return u.protocol === 'http:' && ['127.0.0.1','localhost'].includes(u.hostname) && !u.username && !u.password && u.pathname === '/' }, '로컬 HTTP 주소만 허용됩니다.'), ollamaModel: z.string().regex(/^[a-zA-Z0-9_.:-]{1,80}$/), openaiModel:z.string().regex(/^[a-zA-Z0-9_.:-]{1,80}$/), anthropicModel:z.string().regex(/^[a-zA-Z0-9_.:-]{1,80}$/), externalAiEnabled:z.boolean(), externalConsent:z.boolean(), timeoutSeconds:z.number().int().min(5).max(30), dailyRequestLimit:z.number().int().min(1).max(1000) }),"
+  },
+  {
+    "id": "S009",
+    "path": "src/main/auth/SessionManager.ts",
+    "lineStart": 2,
+    "lineEnd": 3,
+    "meaning": "PublicUser Main 메모리 세션; DB 테이블 없음",
+    "snippet": "let current: PublicUser | null = null\nexport const session = { get: (): PublicUser | null => current, set: (user: PublicUser | null): void => { current = user } }"
+  },
+  {
+    "id": "S010",
+    "path": "src/main/services/AppService.ts",
+    "lineStart": 54,
+    "lineEnd": 70,
+    "meaning": "scrypt 검증 후 Main 세션 저장",
+    "snippet": "  if (channel === 'auth:login') {\n    const row = one(db, 'SELECT * FROM users WHERE username=? AND active=1', p.username)\n    if (!row) {\n      // 등록 신청만 한 계정: 비밀번호가 맞을 때만 승인 대기·반려 상태를 알려준다\n      const request = one(db, \"SELECT * FROM signup_requests WHERE username=? AND status IN ('PENDING','REJECTED') ORDER BY created_at DESC LIMIT 1\", p.username)\n      if (request && passwordMatches(p.password, request.password_hash, request.password_salt)) {\n        if (request.status === 'PENDING') throw new Error('관리자 승인 대기 중인 계정입니다. 승인 후 로그인할 수 있습니다.')\n        throw new Error(`사용자 등록 신청이 반려되었습니다. 사유: ${request.reject_reason ?? '-'}`)\n      }\n      throw new Error('아이디 또는 비밀번호가 올바르지 않습니다.')\n    }\n    if (!passwordMatches(p.password, row.password_hash, row.password_salt)) throw new Error('아이디 또는 비밀번호가 올바르지 않습니다.')\n    const user = { id: String(row.id), username: String(row.username), display_name: String(row.display_name), rank_name: row.rank_name as string | null, unit_name: row.unit_name as string | null, role: row.role as PublicUser['role'] }\n    session.set(user); return user\n  }\n  if (channel === 'auth:logout') { session.set(null); return true }\n  if (channel === 'auth:me') return sessio"
+  },
+  {
+    "id": "S011",
+    "path": "src/main/services/AppService.ts",
+    "lineStart": 35,
+    "lineEnd": 36,
+    "meaning": "로그인·역할 검사",
+    "snippet": "const requireUser = (): PublicUser => { const user = session.get(); if (!user) throw new Error('로그인이 필요합니다.'); return user }\nconst permit = (...roles: string[]): PublicUser => { const user = requireUser(); if (!roles.includes(user.role)) throw new Error('권한이 없습니다.'); return user }"
+  },
+  {
+    "id": "S012",
+    "path": "src/main/services/AppService.ts",
+    "lineStart": 90,
+    "lineEnd": 92,
+    "meaning": "Main 내부 업무 모듈 dispatcher",
+    "snippet": "  if (usabilityChannels.has(channel)) return runUsability(db,channel,p,requireUser())\n  if (attachmentChannels.has(channel)) return runAttachmentChannel(db,channel,p,requireUser())\n  if (operationalChannels.has(channel)) return runOperationalChannel(db,channel,p,requireUser(),attachmentRoot())"
+  },
+  {
+    "id": "S013",
+    "path": "src/main/services/AppService.ts",
+    "lineStart": 94,
+    "lineEnd": 107,
+    "meaning": "ADMIN 가입 승인과 사용자 생성",
+    "snippet": "  if (channel === 'admin:approveSignup') {\n    const admin = permit('ADMIN')\n    return db.transaction(() => {\n      const request = one(db, 'SELECT * FROM signup_requests WHERE id=?', p.id)\n      if (!request) throw new Error('신청을 찾을 수 없습니다.')\n      if (request.status !== 'PENDING') throw new Error('이미 처리된 신청입니다.')\n      if (one(db, 'SELECT id FROM users WHERE username=?', request.username)) throw new Error('같은 아이디의 사용자가 이미 있습니다.')\n      if (one(db, 'SELECT id FROM users WHERE service_no=?', request.service_no)) throw new Error('같은 군번의 사용자가 이미 있습니다.')\n      const userId = randomUUID(), date = now()\n      db.prepare('INSERT INTO users (id,username,display_name,rank_name,unit_name,role,password_hash,password_salt,active,created_at,updated_at,service_no) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)').run(userId, request.username, request.display_name, request.rank_name, request.unit_name, p.role, request.password_hash, request.password_salt, 1, date, date, request.service_no)\n      // 비밀번호 해시는 사용자 계정으로 옮겼으므로 신청 기록에서는 지운다\n      db.prepare(\"UPDATE signup_requests SET status='APPROVED',approved_role=?,user_id=?,reviewed_by=?,reviewed_at=?,password_hash='',password_salt='' WHERE id=?\").run(p.role, u"
+  },
+  {
+    "id": "S014",
+    "path": "src/main/services/AppService.ts",
+    "lineStart": 126,
+    "lineEnd": 126,
+    "meaning": "체계와 운용 이력 SQL transaction",
+    "snippet": "  if (channel === 'operations:create') { permit('ADMIN','OPERATOR','USER'); return db.transaction(() => { const id = randomUUID(), date = now(); const order = Number(one(db,'SELECT COALESCE(max(display_order),0)+1 n FROM communication_systems')?.n ?? 1); db.prepare('INSERT INTO communication_systems VALUES (?,?,?,?,?,?,?,?,?,?)').run(id,p.code,p.name,p.category,p.status,p.uptimePct,0,p.remarks ?? null,order,date); db.prepare('INSERT INTO communication_status_history VALUES (?,?,?,?,?)').run(randomUUID(),id,p.status,p.uptimePct,date); audit(db,'CREATE','communication_systems',id,null,p); return { id } })() }"
+  },
+  {
+    "id": "S015",
+    "path": "src/main/services/AppService.ts",
+    "lineStart": 133,
+    "lineEnd": 133,
+    "meaning": "USER 본인 접수 필터",
+    "snippet": "  if (channel === 'incidents:list') { const user=requireUser(); return all(db, \"SELECT i.*, c.name system_name,t.name team_name FROM incidents i LEFT JOIN communication_systems c ON c.id=i.system_id LEFT JOIN maintenance_teams t ON t.id=i.team_id WHERE (? IS NULL OR i.title LIKE ? OR i.ticket_no LIKE ?) AND (? IS NULL OR i.status=?) AND (? IS NULL OR i.severity=?) AND (? IS NULL OR date(i.reported_at,'+9 hours')>=?) AND (? IS NULL OR date(i.reported_at,'+9 hours')<=?) AND (? IS NULL OR i.assigned_to=?) AND (? IS NULL OR i.reported_by=?) ORDER BY i.reported_at DESC\", p.search ? `%${p.search}%` : null, `%${p.search ?? ''}%`, `%${p.search ?? ''}%`, p.status ?? null, p.status ?? null, p.severity ?? null, p.severity ?? null, p.reportedFrom ?? null, p.reportedFrom ?? null, p.reportedTo ?? null, p.reportedTo ?? null, p.assignedTo ?? null, p.assignedTo ?? null, user.role === 'USER' ? user.id : null, user.role === 'USER' ? user.id : null) }"
+  },
+  {
+    "id": "S016",
+    "path": "src/main/services/AppService.ts",
+    "lineStart": 137,
+    "lineEnd": 138,
+    "meaning": "접수·SLA·event·audit·intake snapshot 저장",
+    "snippet": "  if (channel === 'incidents:create') { const user = permit('ADMIN','OPERATOR','USER'); return db.transaction(() => { const id = randomUUID(), date = now(), no = ticket(db, 'incidents', 'ticket_no', 'INC'); const slaMinutes = Number(setting(db,p.severity === 'URGENT' ? 'sla_urgent_minutes' : 'sla_normal_minutes',p.severity === 'URGENT' ? '60' : '480')); const slaDue = new Date(Date.now()+slaMinutes*60000).toISOString(); db.prepare(`INSERT INTO incidents (id,ticket_no,title,category,system_id,severity,status,description,reported_by,department,reported_at,created_at,updated_at,intake_source,reporter_name,equipment_name,service_impact,occurred_at,desired_resolution_at,emergency_preaction,emergency_reason,actual_action_started_at,sla_due_at)\n      VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`).run(id, no, p.title, p.category, p.systemId ?? null, p.severity, 'RECEIVED', p.description, user.id, p.department ?? null, date, date, date, p.intakeSource, p.reporterName ?? null, p.equipmentName ?? null, p.serviceImpact ?? null, p.occurredAt ?? date, p.desiredResolutionAt ?? null, p.emergencyPreaction ? 1 : 0, p.emergencyReason ?? null, p.actualActionStartedAt ?? null, slaDue); db.pre"
+  },
+  {
+    "id": "S017",
+    "path": "src/main/services/AppService.ts",
+    "lineStart": 140,
+    "lineEnd": 140,
+    "meaning": "담당·상태전이·결과·사용자 확인 검사",
+    "snippet": "  if (channel === 'incidents:updateStatus') { const user = permit('ADMIN','OPERATOR','MAINTAINER','USER'); return db.transaction(() => { const before = one(db, 'SELECT * FROM incidents WHERE id=?', p.id); if (!before) throw new Error('접수 건을 찾을 수 없습니다.'); if (user.role === 'USER' && (before.reported_by !== user.id || p.status !== 'CLOSED')) throw new Error('권한이 없습니다.'); if (user.role === 'MAINTAINER' && before.assigned_to !== user.id && !one(db,'SELECT id FROM team_members WHERE team_id=? AND user_id=? AND available=1',before.team_id,user.id)) throw new Error('배정된 작업만 처리할 수 있습니다.'); assertTransition(incidentTransitions, String(before.status), String(p.status)); if (p.status === 'RESOLVED' && (!String(p.cause ?? '').trim() || !String(p.actionSummary ?? '').trim())) throw new Error('조치완료 처리에는 장애 원인과 조치결과가 필요합니다.'); if (p.status === 'CLOSED' && !before.user_confirmed && !p.userConfirmed) throw new Error('종결하려면 사용자 확인이 필요합니다.'); const date = now(); const mode = p.status === 'REMOTE_IN_PROGRESS' ? 'REMOTE' : p.status === 'ON_SITE_IN_PROGRESS' ? 'ON_SITE' : p.resolutionMode ?? before.resolution_mode; db.prepare(`UPDATE incidents SET status=?,updated_at=?,started_at=CASE WHEN ? IN ('IN_PRO"
+  },
+  {
+    "id": "S018",
+    "path": "src/main/services/AppService.ts",
+    "lineStart": 143,
+    "lineEnd": 143,
+    "meaning": "ADMIN/OPERATOR 검토 후 업무·AI 이력 반영",
+    "snippet": "  if (channel === 'incidents:applyAi') { const user=permit('ADMIN','OPERATOR'); return db.transaction(() => { const before=one(db,'SELECT * FROM incidents WHERE id=?',p.id); if(!before) throw new Error('접수 건을 찾을 수 없습니다.'); const team=p.teamId ? one(db,'SELECT name FROM maintenance_teams WHERE id=? AND available=1',p.teamId) : undefined; if(p.teamId&&!team)throw new Error('가용 조치부서를 찾을 수 없습니다.'); db.prepare('UPDATE incidents SET category=?,severity=?,team_id=COALESCE(?,team_id),ai_category=?,ai_priority=?,ai_confidence=?,ai_rationale=?,ai_recommended_team=?,updated_at=? WHERE id=?').run(p.category,p.severity,p.teamId ?? null,p.category,p.severity,p.confidence,p.rationale,p.teamId ?? null,now(),p.id); if(p.runId) db.prepare('UPDATE ai_runs SET applied=1,entity_type=\\'incident\\',entity_id=? WHERE id=?').run(p.id,p.runId); db.prepare('INSERT INTO incident_events (id,incident_id,event_type,from_status,to_status,note,actor_id,created_at,metadata_json) VALUES (?,?,?,?,?,?,?,?,?)').run(randomUUID(),p.id,'AI_APPLIED',before.status,before.status,'AI 분류 검토 후 반영',user.id,now(),JSON.stringify({ confidence:p.confidence,teamId:p.teamId })); audit(db,'APPLY_AI','incidents',String(p.id),before,{ cat"
+  },
+  {
+    "id": "S019",
+    "path": "src/main/services/IncidentAssignmentService.ts",
+    "lineStart": 7,
+    "lineEnd": 79,
+    "meaning": "조치부서/담당 소속 검사와 요청부서 보존",
+    "snippet": "export function assignIncidentTeam(\n  db: Database.Database,\n  user: PublicUser,\n  input: unknown\n): boolean {\n  if (!['ADMIN', 'OPERATOR'].includes(user.role))\n    throw new Error('권한이 없습니다.')\n  const p = schemas['incidents:assignTeam'].parse(input)\n  return db.transaction(() => {\n    const before = db\n      .prepare('SELECT * FROM incidents WHERE id=?')\n      .get(p.id) as Record<string, unknown> | undefined\n    if (!before) throw new Error('접수 건을 찾을 수 없습니다.')\n    const team = p.teamId\n      ? (db\n          .prepare('SELECT * FROM maintenance_teams WHERE id=? AND available=1')\n          .get(p.teamId) as { name: string } | undefined)\n      : undefined\n    if (p.teamId && !team) throw new Error('가용 조치부서를 찾을 수 없습니다.')\n    if (\n      p.userId &&\n      !db\n        .prepare(\n          \"SELECT id FROM users WHERE id=? AND active=1 AND role IN ('ADMIN','OPERATOR','MAINTAINER')\"\n        )\n        .get(p.userId)\n    )\n      throw new Error('유효한 조치 담당자를 선택하십시오.')\n    const date = new Date().toISOString()\n    const nextStatus =\n      team && before.status === 'TRIAGED'\n        ? 'ASSIGNED'\n        : !team && before.status === 'ASSIGNED'\n          ? 'TRIAGED'\n          : before.status\n    co"
+  },
+  {
+    "id": "S020",
+    "path": "src/main/services/Workflow.ts",
+    "lineStart": 1,
+    "lineEnd": 19,
+    "meaning": "분류·배정·원격/현장·검증·종결 및 보류/취소",
+    "snippet": "export const incidentTransitions: Record<string, string[]> = {\n  RECEIVED: ['TRIAGED', 'CANCELED'],\n  TRIAGED: ['ASSIGNED', 'ON_HOLD', 'CANCELED'],\n  ASSIGNED: ['REMOTE_IN_PROGRESS', 'ON_SITE_IN_PROGRESS', 'PLANNED', 'IN_PROGRESS', 'ON_HOLD', 'CANCELED'],\n  PLANNED: ['REMOTE_IN_PROGRESS', 'ON_SITE_IN_PROGRESS', 'IN_PROGRESS', 'ON_HOLD', 'CANCELED'],\n  IN_PROGRESS: ['REMOTE_IN_PROGRESS', 'ON_SITE_IN_PROGRESS', 'RESOLVED', 'ON_HOLD', 'CANCELED'],\n  REMOTE_IN_PROGRESS: ['ON_SITE_IN_PROGRESS', 'RESOLVED', 'ON_HOLD', 'CANCELED'],\n  ON_SITE_IN_PROGRESS: ['RESOLVED', 'ON_HOLD', 'CANCELED'],\n  RESOLVED: ['VERIFIED', 'REMOTE_IN_PROGRESS', 'ON_SITE_IN_PROGRESS'],\n  VERIFIED: ['CLOSED', 'RESOLVED'],\n  ON_HOLD: ['ASSIGNED', 'REMOTE_IN_PROGRESS', 'ON_SITE_IN_PROGRESS', 'CANCELED'],\n  CLOSED: [], CANCELED: []\n}\nexport const maintenanceTransitions: Record<string, string[]> = {\n  PLANNED: ['IN_PROGRESS', 'CANCELED'], IN_PROGRESS: ['BLOCKED', 'COMPLETED', 'CANCELED'], BLOCKED: ['IN_PROGRESS', 'CANCELED'], COMPLETED: [], CANCELED: []\n}\nexport function assertTransition(map: Record<string, string[]>, before: string, after: string): void {\n  if (!map[before]?.includes(after)) throw new Error(`허용되지 않은 상"
+  },
+  {
+    "id": "S021",
+    "path": "src/main/services/AppService.ts",
+    "lineStart": 148,
+    "lineEnd": 148,
+    "meaning": "완료 전에 필수 체크리스트 검사",
+    "snippet": "  if (channel === 'maintenance:updateStatus') { const user = permit('ADMIN','MAINTAINER'); return db.transaction(() => { const before = one(db, 'SELECT * FROM maintenance_tasks WHERE id=?', p.id); if (!before) throw new Error('정비 작업을 찾을 수 없습니다.'); if (user.role === 'MAINTAINER' && before.assignee_id !== user.id) throw new Error('배정된 작업만 처리할 수 있습니다.'); assertTransition(maintenanceTransitions, String(before.status), String(p.status)); if(p.status==='COMPLETED')assertChecklistComplete(db,String(p.id)); const progress = p.status === 'COMPLETED' ? 100 : p.progress; const completedAt = p.status === 'COMPLETED' ? now() : null; db.prepare(`UPDATE maintenance_tasks SET status=?,progress=?,result=COALESCE(?,result),cause=COALESCE(?,cause),action_detail=COALESCE(?,action_detail),parts_used=COALESCE(?,parts_used),resolution_mode=COALESCE(?,resolution_mode),recurrence_risk=COALESCE(?,recurrence_risk),follow_up_date=COALESCE(?,follow_up_date),completed_at=COALESCE(?,completed_at),updated_at=? WHERE id=?`).run(p.status, progress, p.result ?? null, p.cause ?? null, p.actionDetail ?? null, p.partsUsed ?? null, p.resolutionMode ?? null, p.recurrenceRisk ?? null, p.followUpDate ?? null, completedAt, "
+  },
+  {
+    "id": "S022",
+    "path": "src/main/services/UsabilityService.ts",
+    "lineStart": 381,
+    "lineEnd": 381,
+    "meaning": "실용 기능 dispatcher",
+    "snippet": "export function runUsability("
+  },
+  {
+    "id": "S023",
+    "path": "src/main/services/UsabilityService.ts",
+    "lineStart": 49,
+    "lineEnd": 69,
+    "meaning": "USER 상세 차단, 정비 담당 범위",
+    "snippet": "export function taskAccess(\n  db: Database.Database,\n  user: PublicUser,\n  id: string,\n  write = false\n): Row {\n  const row = one(db, 'SELECT * FROM maintenance_tasks WHERE id=?', id)\n  if (!row) throw new Error('정비 작업을 찾을 수 없습니다.')\n  if (write) {\n    permit(user, 'ADMIN', 'MAINTAINER')\n    if (user.role !== 'ADMIN' && row.assignee_id !== user.id)\n      throw new Error('배정된 작업만 처리할 수 있습니다.')\n    if (['COMPLETED', 'CANCELED'].includes(String(row.status)))\n      throw new Error('완료·취소 작업은 수정할 수 없습니다.')\n  } else if (\n    user.role === 'USER' ||\n    (user.role === 'MAINTAINER' && row.assignee_id !== user.id)\n  )\n    throw new Error('권한이 없습니다.')\n  return row\n}"
+  },
+  {
+    "id": "S024",
+    "path": "src/main/services/UsabilityService.ts",
+    "lineStart": 447,
+    "lineEnd": 477,
+    "meaning": "기존 업무 테이블 조회·조합",
+    "snippet": "  if (channel === 'work:mine') {\n    const date = koreaDate(),\n      incidents = all(\n        db,\n        `SELECT id,ticket_no,title,status,severity,sla_due_at FROM incidents WHERE ${user.role === 'USER' ? 'reported_by' : 'assigned_to'}=? AND status NOT IN ('CLOSED','CANCELED') ORDER BY CASE severity WHEN 'URGENT' THEN 0 ELSE 1 END,reported_at`,\n        user.id\n      )\n    const tasks =\n      user.role === 'USER'\n        ? []\n        : all(\n            db,\n            \"SELECT id,task_no,title,status,scheduled_date FROM maintenance_tasks WHERE assignee_id=? AND scheduled_date<=? AND status NOT IN ('COMPLETED','CANCELED') ORDER BY scheduled_date\",\n            user.id,\n            date\n          )\n    const directives = all(\n      db,\n      `SELECT d.* FROM directives d WHERE (d.expires_at IS NULL OR julianday(d.expires_at)>julianday(?)) AND NOT EXISTS(SELECT 1 FROM directive_acknowledgements a WHERE a.directive_id=d.id AND a.user_id=?) ORDER BY CASE d.level WHEN 'URGENT' THEN 0 ELSE 1 END,d.issued_at DESC`,\n      now(),\n      user.id\n    ).filter((r) => applicableDirective(r, user))\n    return {\n      date,\n      generatedAt: now(),\n      incidentLabel:\n        user.role === 'USER' ?"
+  },
+  {
+    "id": "S025",
+    "path": "src/main/services/UsabilityService.ts",
+    "lineStart": 419,
+    "lineEnd": 431,
+    "meaning": "결정적 로컬 규칙, 외부 전송 false",
+    "snippet": "  if (channel === 'input:inspect')\n    return {\n      questions: missingQuestions(\n        {\n          description: String(p.description),\n          serviceImpact: p.serviceImpact as string | undefined,\n          occurredAt: p.occurredAt as string | undefined\n        },\n        p.answers as Intake['answers']\n      ),\n      provider: 'LOCAL',\n      externalTransmission: false\n    }"
+  },
+  {
+    "id": "S026",
+    "path": "src/main/services/UsabilityService.ts",
+    "lineStart": 218,
+    "lineEnd": 236,
+    "meaning": "체크리스트 필수·NA 사유 검사",
+    "snippet": "export function checklistProblems(check: TaskChecklist | null): string[] {\n  if (!check) return []\n  return check.items.flatMap((item) => {\n    const r = check.results.find((r) => r.id === item.id)\n    if (item.required && (!r || r.status === 'PENDING' || r.status === 'ISSUE'))\n      return [`${item.label}: 필수 점검을 정상 확인하십시오.`]\n    if (r?.status === 'NA' && (!item.allowNa || !r.note.trim()))\n      return [`${item.label}: 해당 없음 허용 여부와 사유를 확인하십시오.`]\n    if (r?.status === 'ISSUE' && !r.note.trim())\n      return [`${item.label}: 이상 조치 메모를 입력하십시오.`]\n    return []\n  })\n}\nexport function assertChecklistComplete(\n  db: Database.Database,\n  id: string\n): void {\n  const issues = checklistProblems(getChecklist(db, id))\n  if (issues.length) throw new Error(`점검 미완료: ${issues.join(' / ')}`)"
+  },
+  {
+    "id": "S027",
+    "path": "src/main/services/UsabilityService.ts",
+    "lineStart": 353,
+    "lineEnd": 378,
+    "meaning": "규칙 버전·담당·기존 회차·마감·과거 조회",
+    "snippet": "function preview(db: Database.Database, user: PublicUser, p: Row) {\n  const rule = getRule(db, user, String(p.id))\n  if (!rule.active || rule.version !== p.version)\n    throw new Error('규칙이 변경되었거나 중지되었습니다. 다시 미리보십시오.')\n  validAssignee(db, user, rule.definition.assigneeId)\n  if (rule.definition.checklistTemplateId)\n    template(db, rule.definition.checklistTemplateId, 'CHECKLIST')\n  const dates = recurrenceDates(rule.definition, String(p.from), String(p.to))\n  return {\n    rule,\n    items: dates.map((date) => ({\n      date,\n      existing: Boolean(\n        one(\n          db,\n          'SELECT 1 FROM recurring_occurrences WHERE rule_id=? AND occurrence_date=?',\n          rule.id,\n          date\n        )\n      ),\n      closed: Boolean(\n        one(db, 'SELECT id FROM daily_closures WHERE close_date=?', date)\n      ),\n      past: date < koreaDate()\n    }))\n  }"
+  },
+  {
+    "id": "S028",
+    "path": "src/main/services/UsabilityService.ts",
+    "lineStart": 596,
+    "lineEnd": 640,
+    "meaning": "재검증·중복 skip·회차 순차 생성 transaction",
+    "snippet": "  if (channel === 'recurring:generate')\n    return db.transaction(() => {\n      const { rule, items } = preview(db, user, p),\n        dates = p.dates as string[]\n      if (dates.some((d) => !items.some((i) => i.date === d)))\n        throw new Error('미리보기 범위에 없는 예정일입니다.')\n      if (items.some((i) => dates.includes(i.date) && !i.existing && i.closed))\n        throw new Error('마감된 업무일을 포함합니다.')\n      if (\n        !p.allowPast &&\n        items.some((i) => dates.includes(i.date) && !i.existing && i.past)\n      )\n        throw new Error('과거 작업 생성 확인이 필요합니다.')\n      const batchId = randomUUID(),\n        created: { id: string; task_no: string }[] = [],\n        skipped: string[] = []\n      for (const date of dates) {\n        if (\n          one(\n            db,\n            'SELECT 1 FROM recurring_occurrences WHERE rule_id=? AND occurrence_date=?',\n            rule.id,\n            date\n          )\n        ) {\n          skipped.push(date)\n          continue\n        }\n        const task = createMaintenance(db, user, {\n          ...rule.definition,\n          scheduledDate: date,\n          workKind: 'PLANNED'\n        })\n        created.push(task)\n        db.prepare(\n          'INSERT INTO recurr"
+  },
+  {
+    "id": "S029",
+    "path": "src/main/services/OperationalControlService.ts",
+    "lineStart": 35,
+    "lineEnd": 35,
+    "meaning": "상황경보·계획·정합성·마감·인수인계",
+    "snippet": "export async function runOperationalChannel(db: Database.Database, channel: Channel, p: Record<string, unknown>, user: PublicUser, attachmentRoot?: string): Promise<unknown> {"
+  },
+  {
+    "id": "S030",
+    "path": "src/main/services/OperationalControlService.ts",
+    "lineStart": 104,
+    "lineEnd": 118,
+    "meaning": "ADMIN 수동 마감·예외·집계 snapshot",
+    "snippet": "  if (channel === 'control:closeDay') {\n    permit(user,'ADMIN')\n    return db.transaction(() => {\n      if (one(db,'SELECT id FROM daily_closures WHERE close_date=?',p.date)) throw new Error('이미 마감된 날짜입니다.')\n      const issues = reconciliationPreview(db,String(p.date))\n      if (issues.length && !p.allowExceptions) throw new Error(`미해결 정합성 항목 ${issues.length}건이 있습니다. 확인 후 예외 마감하십시오.`)\n      const createdAt = now()\n      for (const issue of issues) db.prepare('INSERT INTO reconciliation_results (id,close_date,issue_type,entity_type,entity_id,description,status,exception_reason,reviewed_by,reviewed_at,created_at) VALUES (?,?,?,?,?,?,?,?,?,?,?)')\n        .run(randomUUID(),p.date,issue.issue_type,issue.entity_type,issue.entity_id,issue.description,p.allowExceptions ? 'EXCEPTION' : 'OPEN',p.allowExceptions ? '관리자 예외 마감' : null,p.allowExceptions ? user.id : null,p.allowExceptions ? createdAt : null,createdAt)\n      const plans = all(db,'SELECT * FROM maintenance_daily_plans WHERE plan_date=?',p.date)\n      const summary = { plans:plans.length,planned:plans.reduce((s,r)=>s+Number(r.planned_count),0),unplanned:plans.reduce((s,r)=>s+Number(r.unplanned_count),0),completed:plans.reduce((s,r)"
+  },
+  {
+    "id": "S031",
+    "path": "src/main/services/AppService.ts",
+    "lineStart": 151,
+    "lineEnd": 151,
+    "meaning": "다중 담당자를 개별 duty_roster 행으로 저장",
+    "snippet": "  if (channel === 'duty:create') { permit('ADMIN','OPERATOR','USER'); const assignees = p.assignees as { userId: string; position: string }[]; return db.transaction(() => assignees.map(a => { if (!one(db, 'SELECT id FROM users WHERE id=? AND active=1', a.userId)) throw new Error('사용자를 찾을 수 없습니다.'); const id = randomUUID(), row = { dutyDate: p.dutyDate, shiftType: p.shiftType, ...a }; db.prepare('INSERT INTO duty_roster (id,duty_date,shift_type,user_id,position,start_time,end_time,availability_status) VALUES (?,?,?,?,?,?,?,?)').run(id,p.dutyDate,p.shiftType,a.userId,a.position,null,null,'AVAILABLE'); audit(db,'CREATE','duty_roster',id,null,row); return { id } }))() }"
+  },
+  {
+    "id": "S032",
+    "path": "src/main/services/AppService.ts",
+    "lineStart": 161,
+    "lineEnd": 161,
+    "meaning": "지시 확인 이력",
+    "snippet": "  if (channel === 'directives:acknowledge') { const user=requireUser(); directiveAccess(db,user,String(p.id)); db.prepare('INSERT OR IGNORE INTO directive_acknowledgements (id,directive_id,user_id,acknowledged_at) VALUES (?,?,?,?)').run(randomUUID(),p.id,user.id,now()); audit(db,'ACKNOWLEDGE','directives',String(p.id),null,{ userId:user.id }); return true }"
+  },
+  {
+    "id": "S033",
+    "path": "src/main/services/OrganizationService.ts",
+    "lineStart": 7,
+    "lineEnd": 7,
+    "meaning": "조직과 조치부서 mapping",
+    "snippet": "export function listActionDepartments(db: Database.Database): unknown[] {"
+  },
+  {
+    "id": "S034",
+    "path": "src/main/database/organizationContacts.ts",
+    "lineStart": 38,
+    "lineEnd": 73,
+    "meaning": "빈 인증정보의 가상 명부 생성",
+    "snippet": "export function seedOrganizationContacts(db: Database.Database): void {\n  const units = db\n    .prepare(\n      \"SELECT id,name FROM organization_units WHERE unit_level IN ('WING','BRIGADE','GROUP') ORDER BY id\"\n    )\n    .all() as { id: string; name: string }[]\n  const date = new Date().toISOString()\n  db.transaction(() => {\n    for (const [index, unit] of units.entries())\n      for (let slot = 1; slot <= 10; slot++) {\n        if (\n          db\n            .prepare(\n              'SELECT user_id FROM organization_members WHERE unit_id=? AND demo_slot=?'\n            )\n            .get(unit.id, slot)\n        )\n          continue\n        const id = `org-demo-${unit.id}-${slot}`,\n          username = `org_demo_${unit.id.toLowerCase()}_${String(slot).padStart(2, '0')}`\n        // These are fictional assignable contacts, not sign-in accounts. Empty credentials are rejected by passwordMatches.\n        const name = surnames[slot - 1] + givenNames[index % givenNames.length]\n        db.prepare(\n          `INSERT OR IGNORE INTO users (id,username,display_name,rank_name,unit_name,role,password_hash,password_salt,active,created_at,updated_at)\n        VALUES (?,?,?,?,?,'MAINTAINER','','',1,?,?)`"
+  },
+  {
+    "id": "S035",
+    "path": "src/main/database/connection.ts",
+    "lineStart": 9,
+    "lineEnd": 22,
+    "meaning": "DB/seed 경로·최초 복사·WAL·migration·seed",
+    "snippet": "export const dbPath = (): string => join(app.getPath('userData'), 'data', 'omnis.db')\nexport const seedPath = (): string => app.isPackaged ? join(process.resourcesPath, 'db', 'omnis-seed.db') : join(process.cwd(), 'resources', 'db', 'omnis-seed.db')\nexport function openDb(): Database.Database {\n  if (db) return db\n  const path = dbPath()\n  mkdirSync(dirname(path), { recursive: true })\n  if (!existsSync(path) && existsSync(seedPath())) copyFileSync(seedPath(), path)\n  db = new Database(path)\n  db.pragma('foreign_keys = ON')\n  db.pragma('journal_mode = WAL')\n  db.pragma('synchronous = NORMAL')\n  db.pragma('busy_timeout = 5000')\n  try { migrate(db); seed(db) } catch (error) { db.close(); db = undefined; throw error }\n  return db"
+  },
+  {
+    "id": "S036",
+    "path": "src/main/database/migrate.ts",
+    "lineStart": 6,
+    "lineEnd": 6,
+    "meaning": "현재 schema 8",
+    "snippet": "export const SCHEMA_VERSION = 8"
+  },
+  {
+    "id": "S037",
+    "path": "src/main/database/migrate.ts",
+    "lineStart": 9,
+    "lineEnd": 24,
+    "meaning": "부족한 v1~v8 순차 transaction",
+    "snippet": "export function migrate(db: Database.Database): void {\n  const current = db.pragma('user_version', { simple: true }) as number\n  if (current > SCHEMA_VERSION) throw new Error('DB schema is newer than this application')\n  if (current === SCHEMA_VERSION) return\n  db.transaction(() => {\n    if (current < 1) migrateV1(db)\n    if (current < 2) migrateV2(db)\n    if (current < 3) migrateV3(db)\n    if (current < 4) migrateV4(db)\n    if (current < 5) migrateV5(db)\n    if (current < 6) migrateUsability(db)\n    if (current < 7) migrateOrganizations(db)\n    if (current < 8) migrateOrganizationContacts(db)\n    db.pragma(`user_version = ${SCHEMA_VERSION}`)\n  })()\n}"
+  },
+  {
+    "id": "S038",
+    "path": "src/main/database/seed.ts",
+    "lineStart": 49,
+    "lineEnd": 58,
+    "meaning": "seed 조건 및 가상 데이터 보충",
+    "snippet": "export function seed(db: Database.Database): void {\n  if ((db.prepare('SELECT count(*) n FROM users').get() as { n: number }).n) { ensureDemoUser(db); ensureOperationalDemoData(db); seedOrganizationDirectory(db); seedOrganizationContacts(db); return }\n  db.transaction(() => {\n    const insertUser = db.prepare('INSERT INTO users (id,username,display_name,rank_name,unit_name,role,password_hash,password_salt,active,created_at,updated_at,service_no) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)')\n    const names = ['김정보', '이통신', '박운용', '최정비', '정지원', '한관제', '서네트', '오보안', '유장비', '강당직']\n    const ids: string[] = []\n    names.forEach((name, i) => {\n      const id = randomUUID(), salt = randomBytes(16).toString('hex')\n      ids.push(id)\n      insertUser.run(id, i === 0 ? demoCredentials.username : `demo_${i}`, name, i < 5 ? '대위' : '중위', '가상 정보통신대', i === 0 ? 'ADMIN' : i < 4 ? 'OPERATOR' : i < 8 ? 'MAINTAINER' : 'VIEWER', scryptSync(i === 0 ? demoCredentials.password : 'Demo!2026', salt, 64).toString('hex'), salt, 1, day(), day(), `15-${70000000 + i}`)"
+  },
+  {
+    "id": "S039",
+    "path": "src/main/repositories/DashboardRepository.ts",
+    "lineStart": 10,
+    "lineEnd": 37,
+    "meaning": "Drizzle count와 직접 SQL 혼용",
+    "snippet": "  constructor(private db: Database.Database) { this.orm = drizzle(db,{ schema }) }\n  summary(): Record<string, unknown> {\n    const today = koreaDate(), now = new Date().toISOString()\n    // 상세 팝업에서 체계명·담당자명을 보여주기 위한 공통 조인\n    const incidentSql = `SELECT i.*, s.name system_name, r.display_name reporter_name, a.display_name assignee_name FROM incidents i\n      LEFT JOIN communication_systems s ON s.id = i.system_id LEFT JOIN users r ON r.id = i.reported_by LEFT JOIN users a ON a.id = i.assigned_to`\n    const maintenanceSql = `SELECT m.*, s.name system_name, u.display_name assignee_name FROM maintenance_tasks m\n      LEFT JOIN communication_systems s ON s.id = m.system_id LEFT JOIN users u ON u.id = m.assignee_id\n      WHERE m.status IN ('IN_PROGRESS','BLOCKED','PLANNED') ORDER BY CASE m.status WHEN 'IN_PROGRESS' THEN 0 WHEN 'BLOCKED' THEN 1 ELSE 2 END, m.scheduled_date`\n    const allSystems = this.db.prepare('SELECT * FROM communication_systems ORDER BY display_order').all() as Row[]\n    const systems = allSystems.slice(0, 8)\n    const recentIncidents = this.db.prepare(`${incidentSql} ORDER BY i.reported_at DESC LIMIT 30`).all() as Row[]\n    const urgentIncidents = this.db.prepare(`"
+  },
+  {
+    "id": "S040",
+    "path": "src/main/database/migrate.ts",
+    "lineStart": 74,
+    "lineEnd": 86,
+    "meaning": "v1~v5 실제 SQL DDL",
+    "snippet": "    CREATE TABLE IF NOT EXISTS users (id TEXT PRIMARY KEY, username TEXT UNIQUE NOT NULL, display_name TEXT NOT NULL, rank_name TEXT, unit_name TEXT, role TEXT NOT NULL, password_hash TEXT NOT NULL, password_salt TEXT NOT NULL, active INTEGER NOT NULL, created_at TEXT NOT NULL, updated_at TEXT NOT NULL);\n    CREATE TABLE IF NOT EXISTS communication_systems (id TEXT PRIMARY KEY, code TEXT UNIQUE NOT NULL, name TEXT NOT NULL, category TEXT NOT NULL, status TEXT NOT NULL, uptime_pct REAL NOT NULL, today_incident_count INTEGER NOT NULL DEFAULT 0, remarks TEXT, display_order INTEGER NOT NULL, updated_at TEXT NOT NULL);\n    CREATE TABLE IF NOT EXISTS communication_status_history (id TEXT PRIMARY KEY, system_id TEXT NOT NULL REFERENCES communication_systems(id), status TEXT NOT NULL, uptime_pct REAL NOT NULL, recorded_at TEXT NOT NULL);\n    CREATE TABLE IF NOT EXISTS incidents (id TEXT PRIMARY KEY, ticket_no TEXT UNIQUE NOT NULL, title TEXT NOT NULL, category TEXT NOT NULL, system_id TEXT REFERENCES communication_systems(id), severity TEXT NOT NULL, status TEXT NOT NULL, description TEXT NOT NULL, reported_by TEXT NOT NULL REFERENCES users(id), assigned_to TEXT REFERENCES users(id), depar"
+  },
+  {
+    "id": "S041",
+    "path": "src/main/database/usabilityMigration.ts",
+    "lineStart": 9,
+    "lineEnd": 14,
+    "meaning": "snapshot·체크리스트·반복 실제 FK",
+    "snippet": "    CREATE TABLE work_templates(id TEXT PRIMARY KEY,kind TEXT NOT NULL CHECK(kind IN ('INCIDENT','CHECKLIST')),version INTEGER NOT NULL DEFAULT 1,active INTEGER NOT NULL DEFAULT 1,definition_json TEXT NOT NULL,updated_at TEXT NOT NULL);\n    CREATE TABLE incident_intakes(incident_id TEXT PRIMARY KEY REFERENCES incidents(id) ON DELETE CASCADE,template_id TEXT REFERENCES work_templates(id),template_version INTEGER,questions_json TEXT NOT NULL,answers_json TEXT NOT NULL,updated_at TEXT NOT NULL);\n    CREATE TABLE task_checklists(task_id TEXT PRIMARY KEY REFERENCES maintenance_tasks(id) ON DELETE CASCADE,template_id TEXT NOT NULL REFERENCES work_templates(id),template_version INTEGER NOT NULL,title TEXT NOT NULL,items_json TEXT NOT NULL,results_json TEXT NOT NULL DEFAULT '[]',revision INTEGER NOT NULL DEFAULT 1,updated_at TEXT NOT NULL);\n    CREATE TABLE recurring_rules(id TEXT PRIMARY KEY,version INTEGER NOT NULL DEFAULT 1,active INTEGER NOT NULL DEFAULT 1,deleted INTEGER NOT NULL DEFAULT 0,definition_json TEXT NOT NULL,created_by TEXT NOT NULL REFERENCES users(id),updated_at TEXT NOT NULL);\n    CREATE TABLE recurring_occurrences(rule_id TEXT NOT NULL REFERENCES recurring_rules(id),occ"
+  },
+  {
+    "id": "S042",
+    "path": "src/main/database/organizationMigration.ts",
+    "lineStart": 5,
+    "lineEnd": 13,
+    "meaning": "조직/조치부서 FK",
+    "snippet": "  db.exec(`CREATE TABLE IF NOT EXISTS organization_units (\n    id TEXT PRIMARY KEY, name TEXT NOT NULL UNIQUE, unit_level TEXT NOT NULL,\n    source_url TEXT NOT NULL DEFAULT '', source_date TEXT, created_at TEXT NOT NULL\n  );\n  CREATE TABLE IF NOT EXISTS team_organizations (\n    team_id TEXT PRIMARY KEY REFERENCES maintenance_teams(id),\n    unit_id TEXT NOT NULL REFERENCES organization_units(id), department_name TEXT NOT NULL,\n    source_url TEXT, source_date TEXT, provenance TEXT NOT NULL,\n    note TEXT NOT NULL DEFAULT '', UNIQUE(unit_id,department_name)"
+  },
+  {
+    "id": "S043",
+    "path": "src/main/database/organizationContacts.ts",
+    "lineStart": 4,
+    "lineEnd": 8,
+    "meaning": "명부 PK/FK 및 unique 부대/slot",
+    "snippet": "  db.exec(`CREATE TABLE IF NOT EXISTS organization_members (\n    user_id TEXT PRIMARY KEY REFERENCES users(id),\n    unit_id TEXT NOT NULL REFERENCES organization_units(id),\n    demo_slot INTEGER NOT NULL CHECK(demo_slot BETWEEN 1 AND 10),\n    is_demo INTEGER NOT NULL DEFAULT 1, UNIQUE(unit_id,demo_slot)"
+  },
+  {
+    "id": "S044",
+    "path": "src/main/services/AttachmentService.ts",
+    "lineStart": 9,
+    "lineEnd": 9,
+    "meaning": "native dialog→파일·metadata 저장",
+    "snippet": "export async function runAttachmentChannel(db: Database.Database, channel: Channel, p: Record<string,unknown>, user: PublicUser): Promise<unknown> {"
+  },
+  {
+    "id": "S045",
+    "path": "src/main/services/AttachmentStore.ts",
+    "lineStart": 93,
+    "lineEnd": 93,
+    "meaning": "원본 복사·해시·DB metadata·실패시 복사본 정리",
+    "snippet": "export function storeAttachmentPaths(db: Database.Database, user: PublicUser, input: { entityType:AttachmentEntity; entityId:string; category:AttachmentCategory; note?:string }, sourcePaths: string[], root: string): Row[] {"
+  },
+  {
+    "id": "S046",
+    "path": "src/main/services/AppService.ts",
+    "lineStart": 195,
+    "lineEnd": 195,
+    "meaning": "DB backup + 첨부 복사, 최신 10개 보존",
+    "snippet": "export async function backup(db = openDb()): Promise<string> { const dir = join(app.getPath('userData'), 'backups'), stamp=now().replaceAll(/[-:T]/g, '').slice(0,14); mkdirSync(dir, { recursive: true }); const file = join(dir, `omnis-${stamp}.db`), sourceAttachments=attachmentRoot(), attachmentBackup=join(dir,`omnis-${stamp}-attachments`); await db.backup(file); if (existsSync(sourceAttachments)) cpSync(sourceAttachments,attachmentBackup,{recursive:true}); const files = readdirSync(dir).filter(n => /^omnis-\\d+\\.db$/.test(n)).sort().reverse(); files.slice(10).forEach(n => { unlinkSync(join(dir,n)); rmSync(join(dir,n.replace(/\\.db$/,'-attachments')),{recursive:true,force:true}) }); audit(db, 'BACKUP', 'database', file, null, { path: file,attachments:existsSync(attachmentBackup) ? attachmentBackup : null }); return file }"
+  },
+  {
+    "id": "S047",
+    "path": "src/main/services/AppService.ts",
+    "lineStart": 164,
+    "lineEnd": 164,
+    "meaning": "전체 업무 CSV를 로컬 저장",
+    "snippet": "  if (channel === 'reports:exportCsv') { const rows = p.kind === 'incidents' ? all(db, 'SELECT ticket_no,title,severity,status,reported_at FROM incidents') : all(db, 'SELECT task_no,title,status,scheduled_date,progress FROM maintenance_tasks'); const save = await dialog.showSaveDialog({ defaultPath: `${p.kind}-${koreaDate()}.csv`, filters: [{ name: 'CSV', extensions: ['csv'] }] }); if (save.canceled || !save.filePath) return null; const { writeFileSync } = await import('node:fs'); const keys = Object.keys(rows[0] ?? {}); const escape = (v: unknown) => `\"${String(v ?? '').replaceAll('\"', '\"\"')}\"`; writeFileSync(save.filePath, '\\uFEFF' + [keys.join(','), ...rows.map(r => keys.map(k => escape(r[k])).join(','))].join('\\r\\n')); return save.filePath }"
+  },
+  {
+    "id": "S048",
+    "path": "src/main/services/AppService.ts",
+    "lineStart": 172,
+    "lineEnd": 177,
+    "meaning": "당일 고장 SQL→HTML→printToPDF→저장",
+    "snippet": "  if (channel === 'reports:exportPdf') {\n    const rows = all(db,'SELECT ticket_no,title,severity,status FROM incidents WHERE substr(reported_at,1,10)=? ORDER BY reported_at',p.date)\n    const escape = (v: unknown) => String(v ?? '').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('\"','&quot;')\n    const html = `<html><meta charset=\"utf-8\"><style>body{font:12px sans-serif;padding:24px}table{border-collapse:collapse;width:100%}td,th{border:1px solid #aaa;padding:6px;text-align:left}</style><h1>OMNIS 일일 고장 현황</h1><p>${escape(p.date)} · 가상 시연 데이터</p><table><tr><th>접수번호</th><th>제목</th><th>중요도</th><th>상태</th></tr>${rows.map(r => `<tr><td>${escape(r.ticket_no)}</td><td>${escape(r.title)}</td><td>${escape(r.severity)}</td><td>${escape(r.status)}</td></tr>`).join('')}</table></html>`\n    const win = new BrowserWindow({ show: false, webPreferences: { sandbox: true, nodeIntegration: false, contextIsolation: true } })\n    try { await win.loadURL(`data:text/html;charset=utf-8,${encodeURIComponent(html)}`); const pdf = await win.webContents.printToPDF({ printBackground: true }); const chosen = await dialog.showSaveDialog({ defaultPath: `omnis-daily-${p.date}.pdf"
+  },
+  {
+    "id": "S049",
+    "path": "src/main/services/AppService.ts",
+    "lineStart": 162,
+    "lineEnd": 163,
+    "meaning": "일별 상태/주별 날짜 건수",
+    "snippet": "  if (channel === 'reports:daily') return { date: p.date, incidents: all(db, \"SELECT status,count(*) n FROM incidents WHERE date(reported_at,'+9 hours')=? GROUP BY status\", p.date), maintenance: all(db, 'SELECT status,count(*) n FROM maintenance_tasks WHERE scheduled_date=? GROUP BY status', p.date) }\n  if (channel === 'reports:weekly') { const end = new Date(`${p.startDate}T00:00:00Z`); end.setUTCDate(end.getUTCDate()+7); const endDate = end.toISOString().slice(0,10); return { startDate: p.startDate, endDate, incidents: all(db,\"SELECT date(reported_at,'+9 hours') day,count(*) n FROM incidents WHERE date(reported_at,'+9 hours')>=? AND date(reported_at,'+9 hours')<? GROUP BY day ORDER BY day\",p.startDate,endDate), maintenance: all(db,'SELECT scheduled_date day,count(*) n FROM maintenance_tasks WHERE scheduled_date>=? AND scheduled_date<? GROUP BY day ORDER BY day',p.startDate,endDate) } }"
+  },
+  {
+    "id": "S050",
+    "path": "src/main/services/ManualService.ts",
+    "lineStart": 64,
+    "lineEnd": 86,
+    "meaning": "번들 PDF 검증 후 선택 경로 복사",
+    "snippet": "export async function saveManual(\n  root: string,\n  role: string,\n  choosePath: (filename: string) => Promise<string | undefined>\n): Promise<{ canceled: boolean; filename?: string }> {\n  const entry = entryFor(role),\n    source = await sourceFor(root, role)\n  const chosen = await choosePath(entry.filename)\n  if (!chosen) return { canceled: true }\n  const destination = chosen.toLowerCase().endsWith('.pdf')\n    ? chosen\n    : `${chosen}.pdf`\n  if (resolve(destination) === resolve(source))\n    throw new Error('앱에 포함된 원본 대신 다른 저장 위치를 선택해 주세요.')\n  try {\n    await copyFile(source, destination)\n  } catch {\n    throw new Error(\n      '매뉴얼 저장에 실패했습니다. 저장 위치와 권한을 확인해 주세요.'\n    )\n  }\n  return { canceled: false, filename: entry.filename }\n}"
+  },
+  {
+    "id": "S051",
+    "path": "src/main/services/AppService.ts",
+    "lineStart": 49,
+    "lineEnd": 49,
+    "meaning": "요청 시 Factory/Orchestrator 생성",
+    "snippet": "const aiRuntime = (db:Database.Database,user:PublicUser,overrideProvider?:AIProviderName) => { const settings={...aiSettings(db),provider:overrideProvider??aiSettings(db).provider}; const factory=new AIProviderFactory(settings,secretStore(),e2eAIClients()),selected=factory.create(); const orchestrator=new AIOrchestrator(factory.local,{timeoutMs:settings.timeoutSeconds*1000,record:r=>recordAiRun(db,user,r)}); return {settings,selected,local:factory.local,orchestrator} }"
+  },
+  {
+    "id": "S052",
+    "path": "src/main/services/AppService.ts",
+    "lineStart": 46,
+    "lineEnd": 46,
+    "meaning": "선택/실제 Provider, model, tokens, latency, fallback, 전송 flag",
+    "snippet": "const recordAiRun = (db:Database.Database,user:PublicUser,record:AIRunRecord):void => { const id=randomUUID(),result=record.result,created=now(),confidence=typeof (result.data as {confidence?:unknown})?.confidence==='number'?(result.data as {confidence:number}).confidence:null; db.prepare(`INSERT INTO ai_runs (id,feature,provider,model,prompt_version,input_summary,output_json,confidence,latency_ms,status,fallback_used,user_modified,applied,entity_type,entity_id,created_by,created_at,request_id,input_tokens,output_tokens,error_code,external_transmission,output_schema_version,selected_provider) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`).run(id,record.feature,result.metadata.provider,result.metadata.model,result.metadata.promptVersion,record.inputSummary.slice(0,100),JSON.stringify(result.data),confidence,result.metadata.latencyMs,result.fallbackUsed?'FALLBACK':'SUCCESS',result.fallbackUsed?1:0,0,0,record.entityType,record.entityId,user.id,created,result.metadata.requestId,result.metadata.inputTokens,result.metadata.outputTokens,result.errorCode,result.metadata.externalTransmission?1:0,result.metadata.promptVersion,record.selectedProvider); result.runId=id }"
+  },
+  {
+    "id": "S053",
+    "path": "src/main/services/AppService.ts",
+    "lineStart": 43,
+    "lineEnd": 44,
+    "meaning": "KST 외부전송 flag 행 수 한도",
+    "snippet": "const externalRequestCount = (db:Database.Database):number => Number(one(db,\"SELECT count(*) n FROM ai_runs WHERE external_transmission=1 AND date(created_at,'+9 hours')=?\",koreaDate())?.n??0)\nconst guardExternalLimit = (db:Database.Database,provider:AIProvider,limit:number):void => { if(provider.external)assertDailyRequestLimit(externalRequestCount(db),limit) }"
+  },
+  {
+    "id": "S054",
+    "path": "src/main/services/AppService.ts",
+    "lineStart": 165,
+    "lineEnd": 165,
+    "meaning": "권한→입력 조합→한도→Orchestrator→이력",
+    "snippet": "  if (channel === 'ai:triageIncident') { const user=permit('ADMIN','OPERATOR','MAINTAINER','USER'); if(p.incidentId&&user.role==='USER'&&!one(db,'SELECT id FROM incidents WHERE id=? AND reported_by=?',p.incidentId,user.id))throw new Error('권한이 없습니다.'); p={...p,description:analysisDescription(String(p.description),(p.answers as IntakeAnswer[]|undefined)??[],p.incidentId?getIntake(db,String(p.incidentId))?.questions:undefined)}; const runtime=aiRuntime(db,user),call=()=>{guardExternalLimit(db,runtime.selected,runtime.settings.dailyRequestLimit);return runtime.selected.triageIncident(String(p.title),String(p.description),String(p.serviceImpact??''))}; const result=await runtime.orchestrator.execute('incident_triage',runtime.selected,call,()=>runtime.local.triageIncident(String(p.title),String(p.description),String(p.serviceImpact??'')),{inputSummary:String(p.title),entityType:p.incidentId?'incident':undefined,entityId:p.incidentId?String(p.incidentId):undefined}); db.prepare('INSERT INTO ai_interactions VALUES (?,?,?,?,?,?,?,?)').run(randomUUID(),result.metadata.provider,'triage',String(p.title).slice(0,100),JSON.stringify(result.data),(result.data as {confidence:number}).confidence,r"
+  },
+  {
+    "id": "S055",
+    "path": "src/main/services/AppService.ts",
+    "lineStart": 168,
+    "lineEnd": 168,
+    "meaning": "DB 집계 입력만 일일 요약에 제공",
+    "snippet": "  if (channel === 'ai:dailySummary') { const user=permit('ADMIN','OPERATOR','MAINTAINER','VIEWER'),runtime=aiRuntime(db,user),status=dailyStatus(db),call=()=>{guardExternalLimit(db,runtime.selected,runtime.settings.dailyRequestLimit);return runtime.selected.summarizeDailyStatus(status)}; const result=await runtime.orchestrator.execute('daily_summary',runtime.selected,call,()=>runtime.local.summarizeDailyStatus(status),{inputSummary:'집계된 일일 운영현황'}); return {...aiView(result),label:'AI 추천'} }"
+  },
+  {
+    "id": "S056",
+    "path": "src/main/services/AppService.ts",
+    "lineStart": 166,
+    "lineEnd": 166,
+    "meaning": "SLA/작업량/평균 조치시간의 결정적 위험도",
+    "snippet": "  if (channel === 'ai:slaRisk') { const user=requireUser(), incident=one(db,`SELECT i.*,t.average_resolution_minutes,t.name team_name FROM incidents i LEFT JOIN maintenance_teams t ON t.id=i.team_id WHERE i.id=?`,p.incidentId); if(!incident) throw new Error('접수 건을 찾을 수 없습니다.'); if (user.role === 'USER' && incident.reported_by !== user.id) throw new Error('권한이 없습니다.'); const due=incident.sla_due_at ? new Date(String(incident.sla_due_at)).getTime() : Date.now()+8*3600000, remaining=Math.round((due-Date.now())/60000), workload=incident.team_id ? Number(one(db,\"SELECT count(*) n FROM incidents WHERE team_id=? AND status NOT IN ('CLOSED','CANCELED')\",incident.team_id)?.n ?? 0) : 0, average=Number(incident.average_resolution_minutes ?? (incident.severity === 'URGENT' ? 60 : 240)), risk=remaining <= 0 || average*(1+workload*.15)>remaining ? 'HIGH' : average>remaining*.7 ? 'MEDIUM' : 'LOW'; const recommendation=risk === 'HIGH' ? '즉시 진행상태를 확인하고 가용 정비반 재배정을 검토하십시오.' : risk === 'MEDIUM' ? '담당자에게 예상 완료시각을 확인하십시오.' : '현재 배정과 조치계획을 유지하십시오.'; return { label:'AI 추천',provider:'Local Rule',risk,remainingMinutes:remaining,estimatedMinutes:Math.round(average*(1+workload*.15)),workload,teamName:inciden"
+  },
+  {
+    "id": "S057",
+    "path": "src/main/ai/AIProviderFactory.ts",
+    "lineStart": 16,
+    "lineEnd": 25,
+    "meaning": "Provider 선택·외부 활성화/동의/credential",
+    "snippet": "  create():AIProvider {\n    const s=this.settings\n    if(s.provider==='LOCAL')return this.local\n    if(s.provider==='OLLAMA')return new OllamaProvider(s.ollamaEndpoint,s.ollamaModel,s.timeoutSeconds*1000)\n    if(!s.externalAiEnabled||!s.externalAiConsentAt)return new UnavailableProvider(s.provider,s.provider==='OPENAI'?s.openaiModel:s.anthropicModel,'EXTERNAL_DISABLED','외부 AI 사용 활성화와 전송 동의를 선택한 뒤 AI 설정 저장을 완료해 주세요.')\n    const credential=this.secrets.getCredential(s.provider)\n    if(!credential)return new UnavailableProvider(s.provider,s.provider==='OPENAI'?s.openaiModel:s.anthropicModel,'CREDENTIAL_MISSING',`${s.provider==='OPENAI'?'OpenAI':'Anthropic'} API Key가 설정되지 않았습니다.`)\n    return s.provider==='OPENAI'?new OpenAIProvider(credential.value,s.openaiModel,s.timeoutSeconds*1000,this.clients.openai):new AnthropicProvider(credential.value,s.anthropicModel,s.timeoutSeconds*1000,this.clients.anthropic)\n  }\n}"
+  },
+  {
+    "id": "S058",
+    "path": "src/main/ai/AIOrchestrator.ts",
+    "lineStart": 13,
+    "lineEnd": 27,
+    "meaning": "시도당 timeout·조건부 retry 최대2회·LOCAL fallback",
+    "snippet": "  async execute<T>(feature:AIRunFeature,selected:AIProvider,primary:()=>Promise<ProviderResponse<T>>,fallback:()=>Promise<ProviderResponse<T>>,context:{inputSummary:string;entityType?:string;entityId?:string}):Promise<AIExecution<T>> {\n    let error:AIProviderError|null=null\n    const started=Date.now()\n    if(selected.name==='LOCAL') { const response=await primary(); return this.finish(feature,selected.name,{...response,fallbackUsed:false,selectedProvider:selected.name,errorCode:null},context) }\n    for(let attempt=0;attempt<=this.maxRetries;attempt++){\n      try{const response=await this.withTimeout(primary()); return this.finish(feature,selected.name,{...response,fallbackUsed:false,selectedProvider:selected.name,errorCode:null},context)}\n      catch(cause){error=safeProviderError(cause); if(!error.retryable||attempt===this.maxRetries)break; const base=error.retryAfterMs??Math.min(4000,250*2**attempt); await this.sleep(base+Math.floor(Math.random()*100))}\n    }\n    const localResponse=await fallback()\n    localResponse.metadata.latencyMs=Date.now()-started\n    localResponse.metadata.externalTransmission=selected.external&&!['CREDENTIAL_MISSING','EXTERNAL_DISABLED','DAILY_LIMIT']."
+  },
+  {
+    "id": "S059",
+    "path": "src/main/ai/AIProvider.ts",
+    "lineStart": 14,
+    "lineEnd": 22,
+    "meaning": "업무 기능 Provider 계약",
+    "snippet": "export interface AIProvider {\n  readonly name: AIProviderName\n  readonly model: string\n  readonly external: boolean\n  triageIncident(title: string, description: string, serviceImpact?: string): Promise<ProviderResponse<Triage>>\n  summarizeDailyStatus(status: DailyStatus): Promise<ProviderResponse<{ summary: string }>>\n  recommendMaintenance(candidates: MaintenanceCandidate[]): Promise<ProviderResponse<MaintenanceCandidate[]>>\n  findSimilarIncidents(title: string, candidates: IncidentMatch[]): Promise<ProviderResponse<IncidentMatch[]>>\n}"
+  },
+  {
+    "id": "S060",
+    "path": "src/main/ai/PromptCatalog.ts",
+    "lineStart": 77,
+    "lineEnd": 77,
+    "meaning": "기능별 version·system·JSON schema·token 제한",
+    "snippet": "export const promptCatalog = {"
+  },
+  {
+    "id": "S061",
+    "path": "src/main/ai/ExternalDataGuard.ts",
+    "lineStart": 4,
+    "lineEnd": 10,
+    "meaning": "패턴 마스킹·길이·후보 개수·허용 ID",
+    "snippet": "const patterns = [/\\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}\\b/gi,/\\b0\\d{1,2}[-\\s]?\\d{3,4}[-\\s]?\\d{4}\\b/g,/\\b\\d{2}-\\d{5,8}\\b/g,/\\bBearer\\s+[A-Za-z0-9._~+/=-]+/gi,/\\b(?:sk|api|key)[-_][A-Za-z0-9_-]{12,}\\b/gi,/\\b(?:password|passwd|비밀번호|token|secret|api[_ -]?key)\\s*[:=]\\s*[^\\s,;]+/gi,/(?:[A-Za-z]:\\\\|\\\\\\\\)[^\\r\\n<>:\"|?*]+/g,/\\/(?:Users|home|var|tmp)\\/[^\\s]+/g]\nexport function redactExternalText(value:string,maxLength:number):string { let output=value.slice(0,maxLength); for(const pattern of patterns) output=output.replace(pattern,MASK); return output }\nexport function externalTriageInput(title:string,description:string,serviceImpact=''):Record<string,string> { return { title:redactExternalText(title,200),description:redactExternalText(description,1000),serviceImpact:redactExternalText(serviceImpact,500) } }\nexport function externalDailyInput(status:DailyStatus):DailyStatus { return {...status,majorAlerts:status.majorAlerts.slice(0,10).map(v=>redactExternalText(v,160))} }\nexport function externalIncidentCandidates(title:string,candidates:IncidentMatch[]):{title:string;candidates:Array<{id:string;title:string;status:string}>} { return {title:redactExternalText(title,200),candidates:candidat"
+  },
+  {
+    "id": "S062",
+    "path": "src/main/ai/AIUsagePolicy.ts",
+    "lineStart": 2,
+    "lineEnd": 2,
+    "meaning": "일일 외부 요청 한도",
+    "snippet": "export function assertDailyRequestLimit(current:number,limit:number):void { if(current>=limit)throw new AIProviderError('DAILY_LIMIT','일일 외부 AI 요청 한도에 도달했습니다.') }"
+  },
+  {
+    "id": "S063",
+    "path": "src/main/ai/AISecretStore.ts",
+    "lineStart": 10,
+    "lineEnd": 22,
+    "meaning": "환경변수 우선·safeStorage 암호문·상태 반환",
+    "snippet": "export class AISecretStore {\n  readonly filePath:string\n  constructor(userDataPath:string,private encryption:EncryptionAdapter,private env:NodeJS.ProcessEnv=process.env){this.filePath=join(userDataPath,'secrets','ai-credentials.json')}\n  private read():SecretFile { if(!existsSync(this.filePath))return {version:1,credentials:{}}; try{const value=JSON.parse(readFileSync(this.filePath,'utf8')) as SecretFile; return value.version===1&&value.credentials?value:{version:1,credentials:{}}}catch{return {version:1,credentials:{}}} }\n  private write(value:SecretFile):void { mkdirSync(dirname(this.filePath),{recursive:true}); const temp=`${this.filePath}.tmp`; writeFileSync(temp,JSON.stringify(value),{encoding:'utf8',mode:0o600}); try{renameSync(temp,this.filePath)}catch{copyFileSync(temp,this.filePath);unlinkSync(temp)} }\n  private envName(provider:CredentialProvider):'OPENAI_API_KEY'|'ANTHROPIC_API_KEY' { return provider==='OPENAI'?'OPENAI_API_KEY':'ANTHROPIC_API_KEY' }\n  getCredential(provider:CredentialProvider):{value:string;source:Exclude<CredentialSource,'none'>}|null { const envValue=this.env[this.envName(provider)]?.trim(); if(envValue)return {value:envValue,source:'environment'}; con"
+  },
+  {
+    "id": "S064",
+    "path": "src/main/ai/ProviderSupport.ts",
+    "lineStart": 5,
+    "lineEnd": 7,
+    "meaning": "안전한 오류·retry 분류·출력 검증",
+    "snippet": "export function safeProviderError(error:unknown):AIProviderError { if(error instanceof AIProviderError)return error; const source=(error instanceof Error?error:new Error('Unknown provider error')) as StatusError; const status=source.status; const timeout=source.name==='AbortError'||source.code==='ETIMEDOUT'||source.code==='ECONNABORTED'; const network=!status&&(timeout||/network|fetch|socket|connect|offline/i.test(source.message)); const retryable=network||status===408||status===429||(typeof status==='number'&&status>=500); const code=timeout?'TIMEOUT':status?`HTTP_${status}`:network?'NETWORK_ERROR':'PROVIDER_ERROR'; const message=status===401||status===403?'API 인증정보 또는 접근 권한을 확인하십시오.':status===429?'외부 AI 요청 한도에 도달했습니다.':timeout?'외부 AI 응답 시간이 초과되었습니다.':network?'외부 AI 서비스에 연결할 수 없습니다.':'외부 AI 응답을 처리하지 못했습니다.'; return new AIProviderError(code,message,retryable,status,retryAfterMs(source.headers)) }\nexport function parseJson<T>(text:string,parser:{parse(value:unknown):T}):T { if(!text.trim())throw new AIProviderError('EMPTY_OUTPUT','외부 AI가 빈 응답을 반환했습니다.'); try{return parser.parse(JSON.parse(text))}catch{throw new AIProviderError('SCHEMA_VALIDATION','외부 AI 응답 형식이 유효하지 않습니다.')} }\nexport"
+  },
+  {
+    "id": "S065",
+    "path": "src/main/ai/OpenAIProvider.ts",
+    "lineStart": 16,
+    "lineEnd": 29,
+    "meaning": "SDK Responses/strict json_schema/store:false/Zod",
+    "snippet": "  private async generate<T>(definition:PromptDefinition,input:unknown,parser:{parse(value:unknown):T}):Promise<ProviderResponse<T>> {\n    const started=Date.now()\n    try {\n      const response=await this.client.responses.create({model:this.model,store:false,instructions:definition.system,input:`<business_data>${JSON.stringify(input)}</business_data>`,reasoning:{effort:'low'},max_output_tokens:definition.maxOutputTokens,text:{format:{type:'json_schema',name:definition.schemaName,strict:true,schema:definition.jsonSchema}}})\n      if(response.status==='incomplete')throw new AIProviderError('INCOMPLETE','외부 AI 응답이 완성되지 않았습니다.')\n      if(response.output?.some(item=>item.content?.some(part=>part.type==='refusal')))throw new AIProviderError('REFUSAL','외부 AI가 요청 처리를 거부했습니다.')\n      const data=parseJson(response.output_text,parser)\n      return {data,metadata:{provider:'OPENAI',model:this.model,promptVersion:definition.version,latencyMs:Date.now()-started,inputTokens:response.usage?.input_tokens??null,outputTokens:response.usage?.output_tokens??null,requestId:response._request_id??null,externalTransmission:true}}\n    } catch(error){throw safeProviderError(error)}\n  }\n  async triageIncident"
+  },
+  {
+    "id": "S066",
+    "path": "src/main/ai/AnthropicProvider.ts",
+    "lineStart": 16,
+    "lineEnd": 31,
+    "meaning": "SDK Messages/output_config/Zod",
+    "snippet": "  private async generate<T>(definition:PromptDefinition,input:unknown,parser:{parse(value:unknown):T}):Promise<ProviderResponse<T>> {\n    const started=Date.now()\n    try {\n      const response=await this.client.messages.create({model:this.model,max_tokens:definition.maxOutputTokens,system:definition.system,messages:[{role:'user',content:`<business_data>${JSON.stringify(input)}</business_data>`}],output_config:{format:{type:'json_schema',schema:definition.jsonSchema}}})\n      if(response.stop_reason==='refusal')throw new AIProviderError('REFUSAL','외부 AI가 요청 처리를 거부했습니다.')\n      if(response.stop_reason==='max_tokens'||response.stop_reason==='model_context_window_exceeded'||response.stop_reason==='pause_turn')throw new AIProviderError('INCOMPLETE','외부 AI 응답이 완성되지 않았습니다.')\n      const block=response.content.find(part=>part.type==='text')\n      if(!block?.text)throw new AIProviderError('EMPTY_OUTPUT','외부 AI가 텍스트 응답을 반환하지 않았습니다.')\n      const data=parseJson(block.text,parser)\n      return {data,metadata:{provider:'ANTHROPIC',model:this.model,promptVersion:definition.version,latencyMs:Date.now()-started,inputTokens:response.usage.input_tokens,outputTokens:response.usage.output_tokens,requ"
+  },
+  {
+    "id": "S067",
+    "path": "src/main/ai/OllamaProvider.ts",
+    "lineStart": 12,
+    "lineEnd": 24,
+    "meaning": "별도 HTTP api/generate·timeout·Zod",
+    "snippet": "  private async generate<T>(prompt:string,schema:z.ZodType<T>,promptVersion:string):Promise<ProviderResponse<T>> {\n    const started=Date.now(),controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),this.timeoutMs)\n    try {\n      const response=await fetch(`${this.endpoint}/api/generate`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:this.model,prompt,stream:false,format:'json'}),signal:controller.signal})\n      if(!response.ok)throw new AIProviderError(`HTTP_${response.status}`,'Ollama 응답 오류',response.status===408||response.status===429||response.status>=500,response.status)\n      const envelope=z.object({response:z.string(),prompt_eval_count:z.number().optional(),eval_count:z.number().optional()}).parse(await response.json())\n      return {data:parseJson(envelope.response,schema),metadata:{provider:'OLLAMA',model:this.model,promptVersion,latencyMs:Date.now()-started,inputTokens:envelope.prompt_eval_count??null,outputTokens:envelope.eval_count??null,requestId:null,externalTransmission:false}}\n    } catch(error){throw safeProviderError(error)} finally{clearTimeout(timeout)}\n  }\n  async triageIncident(title:string,descripti"
+  },
+  {
+    "id": "S068",
+    "path": "src/main/ai/LocalRuleProvider.ts",
+    "lineStart": 13,
+    "lineEnd": 13,
+    "meaning": "기본 결정적 규칙, 생성형 LLM 아님",
+    "snippet": "export class LocalRuleProvider implements AIProvider {"
+  },
+  {
+    "id": "S069",
+    "path": "src/main/services/AppService.ts",
+    "lineStart": 180,
+    "lineEnd": 184,
+    "meaning": "ADMIN 상태·설정·Key 저장/삭제·연결시험",
+    "snippet": "  if (channel === 'system:getAiSettings') { permit('ADMIN'); const settings=aiSettings(db),secrets=secretStore(); return {...settings,credentials:{OPENAI:secrets.status('OPENAI'),ANTHROPIC:secrets.status('ANTHROPIC')},lastTests:{OPENAI:{status:setting(db,'ai_test_openai_status','NOT_TESTED'),at:setting(db,'ai_test_openai_at','')||null},ANTHROPIC:{status:setting(db,'ai_test_anthropic_status','NOT_TESTED'),at:setting(db,'ai_test_anthropic_at','')||null},OLLAMA:{status:setting(db,'ai_test_ollama_status','NOT_TESTED'),at:setting(db,'ai_test_ollama_at','')||null}},fallbackPolicy:'선택 Provider 실패 시 Local Rule'} }\n  if (channel === 'system:setAiSettings') { permit('ADMIN'); const external=p.provider==='OPENAI'||p.provider==='ANTHROPIC'; if(external&&(!p.externalAiEnabled||!p.externalConsent))throw new Error('외부 AI Provider 선택 전에 외부 전송·비용·최종 검토 안내에 동의해야 합니다.'); return db.transaction(()=>{const before=aiSettings(db),consent=p.externalConsent?(before.externalAiConsentAt??now()):''; const values:[string,string][]= [['ai_provider',String(p.provider)],['ollama_endpoint',String(p.ollamaEndpoint)],['ollama_model',String(p.ollamaModel)],['openai_model',String(p.openaiModel)],['anthropic_model',Stri"
+  },
+  {
+    "id": "S070",
+    "path": "src/renderer/src/main.tsx",
+    "lineStart": 4,
+    "lineEnd": 4,
+    "meaning": "React 진입 및 Pretendard",
+    "snippet": "import 'pretendard/dist/web/variable/pretendardvariable.css'"
+  },
+  {
+    "id": "S071",
+    "path": "src/renderer/src/App.tsx",
+    "lineStart": 385,
+    "lineEnd": 385,
+    "meaning": "useState 인증 + HashRouter",
+    "snippet": "export default function App() { const [user,setUser] = useState<PublicUser | null>(null),[ready,setReady] = useState(false); useEffect(() => { call<PublicUser | null>('auth:me').then(setUser).finally(() => setReady(true)); const reset = () => setUser(null); window.addEventListener('omnis:reset',reset); return () => window.removeEventListener('omnis:reset',reset) }, []); return <ThemeProvider theme={theme}><HashRouter>{ready && (user ? <Shell user={user} onLogout={() => setUser(null)}/> : <Login onLogin={setUser}/>)}</HashRouter></ThemeProvider> }"
+  },
+  {
+    "id": "S072",
+    "path": "src/renderer/src/App.tsx",
+    "lineStart": 224,
+    "lineEnd": 228,
+    "meaning": "실제 메뉴 묶음",
+    "snippet": "const navGroups: { title: string; to: string; items: NavItem[] }[] = [\n  { title: '운용 현황', to: '/operations', items: [{ to: '/operations', text: '운영현황', icon: DnsRounded }, { to: '/incidents', text: '고장관리', icon: ReportProblemRounded }, { to: '/maintenance', text: '정비관리', icon: BuildRounded }, { to: '/control', text: '통제·일일마감', icon: FactCheckRounded }] },\n  { title: '업무 지원', to: '/duty', items: [{ to: '/duty', text: '근무/지시사항', icon: EventNoteRounded }, { to: '/ai', text: 'AI 지원', icon: SmartToyRounded }, { to: '/reports', text: '보고서/통계', icon: AssessmentRounded }] },\n  { title: '관리', to: '/settings', items: [{ to: '/signups', text: '사용자 신청현황', icon: HowToRegRounded, adminOnly: true }, { to: '/settings', text: '시스템관리', icon: SettingsRounded, adminOnly: true }] }\n]"
+  },
+  {
+    "id": "S073",
+    "path": "src/renderer/src/App.tsx",
+    "lineStart": 278,
+    "lineEnd": 290,
+    "meaning": "11개 route 및 ADMIN guard",
+    "snippet": "          <Route path=\"/\" element={<Dashboard user={user} />} />\n          <Route path=\"/operations\" element={<Operations user={user} />} />\n          <Route path=\"/incidents\" element={<Incidents user={user} />} />\n          <Route path=\"/maintenance\" element={<Maintenance user={user} />} />\n          <Route path=\"/control\" element={<ControlCenterManagement user={user} />} />\n          <Route path=\"/duty\" element={<Duty user={user} />} />\n          <Route path=\"/ai\" element={<Ai />} />\n          <Route path=\"/manuals\" element={<ManualsManagement user={user}/>} />\n          <Route path=\"/reports\" element={<Reports />} />\n          <Route path=\"/signups\" element={admin ? <SignupRequests onChange={loadPending} /> : <Navigate to=\"/\" replace />} />\n          <Route path=\"/settings\" element={admin ? <Settings user={user} /> : <Navigate to=\"/\" replace />} />\n          <Route path=\"*\" element={<Navigate to=\"/\" replace />} />\n        </Routes>"
+  },
+  {
+    "id": "S074",
+    "path": "src/renderer/src/usabilityApi.ts",
+    "lineStart": 3,
+    "lineEnd": 10,
+    "meaning": "Result 실패를 Error로 변환",
+    "snippet": "export async function invoke<T>(\n  channel: Channel,\n  payload: Record<string, unknown> = {}\n): Promise<T> {\n  const r = (await window.omnis.invoke(channel, payload)) as Result<T>\n  if (!r.ok) throw new Error(r.error.message)\n  return r.data\n}"
+  },
+  {
+    "id": "S075",
+    "path": "src/renderer/src/IncidentsManagement.tsx",
+    "lineStart": 45,
+    "lineEnd": 45,
+    "meaning": "목록 재조회 후 setRows",
+    "snippet": "  const refresh = () => call<Row[]>('incidents:list',{ search,...(severityFilter?{severity:severityFilter}:{}),...(reportedFrom?{reportedFrom}:{}),...(reportedTo?{reportedTo}:{}),...(assigneeFilter?{assignedTo:assigneeFilter}:{}) }).then(setRows)"
+  },
+  {
+    "id": "S076",
+    "path": "src/renderer/src/IncidentsManagement.tsx",
+    "lineStart": 55,
+    "lineEnd": 60,
+    "meaning": "저장/배정/상태변경 후 재조회",
+    "snippet": "  const save=()=>{if(!form)return;const{id,...raw}=form;const payload={...raw,occurredAt:toIso(raw.occurredAt),desiredResolutionAt:toIso(raw.desiredResolutionAt),actualActionStartedAt:raw.emergencyPreaction?toIso(raw.actualActionStartedAt):undefined};setBusy(true);call(id?'incidents:update':'incidents:create',id?{id,...payload}:payload).then(()=>{setForm(null);refresh()}).catch(e=>alert(e.message)).finally(()=>setBusy(false))}\n  const assignTeam=async()=>{if(!selected||assignBusy)return;if(selected.team_id&&!teamId&&!confirm('조치부서 배정을 해제하고 미지정으로 저장하시겠습니까?'))return;setAssignBusy(true);try{await call('incidents:assignTeam',{id:selected.id,teamId:teamId||null,userId:assignee||null,note:teamId?'통제 담당자 조치부서 배정':'조치부서 미지정'});await show(selected);await refresh()}catch(e){alert((e as Error).message)}finally{setAssignBusy(false)}}\n  const analyze=(answers:IntakeAnswer[]=analysisAnswers)=>{if(!selected||busy)return;const version=++analysisEpoch.current;setBusy(true);call<Row>('ai:triageIncident',{title:selected.title,description:selected.description,serviceImpact:selected.service_impact??'',systemId:selected.system_id,incidentId:selected.id,answers}).then(v=>{if(version===analysisEpoch.curre"
+  },
+  {
+    "id": "S077",
+    "path": "src/renderer/src/IncidentsManagement.tsx",
+    "lineStart": 58,
+    "lineEnd": 58,
+    "meaning": "사람 버튼→incidents:applyAi",
+    "snippet": "  const applyAi=()=>{if(!selected||!ai)return;const team=teams.find(t=>t.code===ai.recommendedTeamCode);call('incidents:applyAi',{id:selected.id,category:ai.category,severity:ai.priority,teamId:team?.id,rationale:ai.rationale,confidence:ai.confidence,runId:ai.runId}).then(()=>{setAi(null);setSelected(null);refresh()}).catch(e=>alert(e.message))}"
+  },
+  {
+    "id": "S078",
+    "path": "src/renderer/src/RecurringMaintenance.tsx",
+    "lineStart": 109,
+    "lineEnd": 109,
+    "meaning": "반복 회차 미리보기 요청",
+    "snippet": "      await invoke<Preview>('recurring:preview', {"
+  },
+  {
+    "id": "S079",
+    "path": "src/renderer/src/TaskChecklistPanel.tsx",
+    "lineStart": 42,
+    "lineEnd": 43,
+    "meaning": "체크리스트/템플릿 초기 동시조회",
+    "snippet": "      invoke<TaskChecklist | null>('checklist:get', { taskId }),\n      invoke<WorkTemplate[]>('templates:list', { kind: 'CHECKLIST' })"
+  },
+  {
+    "id": "S080",
+    "path": "src/renderer/src/InputAssist.tsx",
+    "lineStart": 18,
+    "lineEnd": 18,
+    "meaning": "Renderer 로컬 입력보완과 명시적 AI 요청 구분",
+    "snippet": "  missingQuestions,"
+  },
+  {
+    "id": "S081",
+    "path": "src/renderer/src/MyWork.tsx",
+    "lineStart": 38,
+    "lineEnd": 38,
+    "meaning": "내 업무 및 원래 업무 상세 이동",
+    "snippet": "      const v = await invoke<Mine>('work:mine')"
+  },
+  {
+    "id": "S082",
+    "path": "src/renderer/src/MaintenanceManagement.tsx",
+    "lineStart": 8,
+    "lineEnd": 8,
+    "meaning": "달력·상세·반복·체크리스트",
+    "snippet": "import FullCalendar from '@fullcalendar/react'"
+  },
+  {
+    "id": "S083",
+    "path": "src/renderer/src/ControlCenterManagement.tsx",
+    "lineStart": 26,
+    "lineEnd": 26,
+    "meaning": "화면 조작 역할 구분",
+    "snippet": "  const canControl = ['ADMIN','OPERATOR'].includes(user.role), canPlan = ['ADMIN','MAINTAINER'].includes(user.role), admin = user.role === 'ADMIN'"
+  },
+  {
+    "id": "S084",
+    "path": "src/renderer/src/DutyManagement.tsx",
+    "lineStart": 76,
+    "lineEnd": 77,
+    "meaning": "근무·지시 UI 조작 역할",
+    "snippet": "  const editable = ['ADMIN','OPERATOR','USER'].includes(user.role)\n  const canManageDirective = ['ADMIN','OPERATOR'].includes(user.role)"
+  },
+  {
+    "id": "S085",
+    "path": "src/renderer/src/OperationsManagement.tsx",
+    "lineStart": 4,
+    "lineEnd": 4,
+    "meaning": "운용 이력 차트",
+    "snippet": "import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'"
+  },
+  {
+    "id": "S086",
+    "path": "src/renderer/src/ReportsManagement.tsx",
+    "lineStart": 3,
+    "lineEnd": 3,
+    "meaning": "일/주 통계 차트",
+    "snippet": "import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'"
+  },
+  {
+    "id": "S087",
+    "path": "src/renderer/src/AiManagement.tsx",
+    "lineStart": 37,
+    "lineEnd": 37,
+    "meaning": "분류/유사고장 동시 요청; 나머지 버튼",
+    "snippet": "  const analyze = async(inputAnswers:IntakeAnswer[]=answers) => { if(busy)return;const version=epoch.current;setBusy('analysis');try{const jobs:[Promise<Row>,Promise<Row>|null]=[call<Row>('ai:triageIncident',{title,description,answers:inputAnswers}),title.length>=3?call<Row>('ai:similarIncidents',{title}):null];const [analysis,matches]=await Promise.all([jobs[0],jobs[1]]);if(version!==epoch.current)return;setResult(analysis);if(matches){setSimilar(matches.items);setSimilarMeta(matches)}}catch(e){alert((e as Error).message)}finally{setBusy('')} }"
+  },
+  {
+    "id": "S088",
+    "path": "src/renderer/src/SystemManagement.tsx",
+    "lineStart": 97,
+    "lineEnd": 97,
+    "meaning": "입력 순간 Renderer에 Key 있음, 저장된 Key 상태와 구분",
+    "snippet": "              <TextField size=\"small\" fullWidth type=\"password\" label={`${kind} API Key 저장/교체`} value={kind==='OPENAI'?openaiKey:anthropicKey} disabled={aiDisabled} onChange={e=>kind==='OPENAI'?setOpenaiKey(e.target.value):setAnthropicKey(e.target.value)} autoComplete=\"new-password\" sx={{mt:1.5}}/>"
+  },
+  {
+    "id": "S089",
+    "path": "package.json",
+    "lineStart": 3,
+    "lineEnd": 3,
+    "meaning": "소스 패키지 1.0.1, 실행중 버전 단정 없음",
+    "snippet": "  \"version\": \"1.0.1\","
+  },
+  {
+    "id": "S090",
+    "path": "package.json",
+    "lineStart": 15,
+    "lineEnd": 15,
+    "meaning": "seed build 후 electron-vite build",
+    "snippet": "    \"build\": \"pnpm db:build-seed && electron-vite build\","
+  },
+  {
+    "id": "S091",
+    "path": "electron-builder.yml",
+    "lineStart": 8,
+    "lineEnd": 17,
+    "meaning": "seed/매뉴얼 extraResources + native asarUnpack",
+    "snippet": "extraResources:\n  - from: resources/db/omnis-seed.db\n    to: db/omnis-seed.db\n  - from: resources/manuals\n    to: manuals\n    filter: [\"*.pdf\", \"README.md\"]\nasarUnpack:\n  - node_modules/better-sqlite3/**/*\nwin:\n  icon: build/icon.svg"
+  },
+  {
+    "id": "S092",
+    "path": "electron-builder.yml",
+    "lineStart": 16,
+    "lineEnd": 39,
+    "meaning": "Windows NSIS x64/macOS DMG·ZIP 설정",
+    "snippet": "win:\n  icon: build/icon.svg\n  target:\n    - target: nsis\n      arch: [x64]\nnsis:\n  oneClick: false\n  allowToChangeInstallationDirectory: true\nmac:\n  icon: build/icon.icns\n  category: public.app-category.business\n  minimumSystemVersion: \"13.0\"\n  hardenedRuntime: true\n  entitlements: build/entitlements.mac.plist\n  artifactName: \"${productName}-${version}-${os}-${arch}.${ext}\"\n  target:\n    - dmg\n    - zip\ndmg:\n  title: \"${productName} ${version}\"\n  iconSize: 96\n  window:\n    width: 540\n    height: 380"
+  },
+  {
+    "id": "S093",
+    "path": "electron.vite.config.ts",
+    "lineStart": 7,
+    "lineEnd": 11,
+    "meaning": "Main/Preload/Renderer 빌드",
+    "snippet": "export default defineConfig({\n  main: { plugins: [externalizeDepsPlugin()] },\n  preload: { plugins: [externalizeDepsPlugin()], build: { rollupOptions: { output: { format: 'cjs' } } } },\n  renderer: { plugins: [react()] }\n})"
+  },
+  {
+    "id": "S094",
+    "path": ".github/workflows/macos-build.yml",
+    "lineStart": 18,
+    "lineEnd": 29,
+    "meaning": "macOS arm64/x64 CI 설정",
+    "snippet": "  build-and-test:\n    name: macOS ${{ matrix.arch }}\n    strategy:\n      fail-fast: false\n      matrix:\n        include:\n          - arch: arm64\n            binary_arch: arm64\n            runner: macos-15\n          - arch: x64\n            binary_arch: x86_64\n            runner: macos-15-intel"
+  },
+  {
+    "id": "S095",
+    "path": ".github/workflows/macos-build.yml",
+    "lineStart": 88,
+    "lineEnd": 133,
+    "meaning": "정적/단위/E2E/패키징 검증 설정",
+    "snippet": "      - name: Static checks and tests\n        run: |\n          pnpm typecheck\n          pnpm lint\n          pnpm test\n\n      - name: Build application\n        run: pnpm build\n\n      - name: Source Electron E2E\n        run: |\n          pnpm test:e2e\n          pnpm test:e2e:roles\n          pnpm test:e2e:signup\n          pnpm test:e2e:operations\n          pnpm test:e2e:visual\n          pnpm test:e2e:external-ai\n\n      - name: Package DMG and ZIP\n        run: pnpm exec electron-builder --mac dmg zip --${{ matrix.arch }} --publish never\n\n      - name: Verify packaged application\n        shell: bash\n        run: |\n          APP_BUNDLE=\"$(find release -type d -path '*/OMNIS.app' -print -quit)\"\n          APP_EXECUTABLE=\"$APP_BUNDLE/Contents/MacOS/OMNIS\"\n          test -x \"$APP_EXECUTABLE\"\n          lipo -archs \"$APP_EXECUTABLE\" | grep -qw \"${{ matrix.binary_arch }}\"\n          OMNIS_E2E_EXE=\"$APP_EXECUTABLE\" OMNIS_E2E_PROFILE=\"tests/.tmp/packaged-${{ matrix.arch }}\" pnpm test:e2e\n          OMNIS_E2E_EXE=\"$APP_EXECUTABLE\" pnpm test:e2e:external-ai\n          if [[ -n \"${CSC_LINK:-}\" ]]; then\n            codesign --verify --deep --strict --verbose=2 \"$APP_BUNDLE\"\n          else\n            ech"
+  },
+  {
+    "id": "S096",
+    "path": "tests/e2e/electron-launch.mjs",
+    "lineStart": 12,
+    "lineEnd": 12,
+    "meaning": "격리 E2E profile",
+    "snippet": "    env: { ...process.env, OMNIS_E2E_DATA: resolve(dataDir) }"
+  },
+  {
+    "id": "S097",
+    "path": "tests/unit/external-ai.test.ts",
+    "lineStart": 1,
+    "lineEnd": 1,
+    "meaning": "mock AI 시험 소스, 이번 실행 아님",
+    "snippet": "import { describe,expect,it,vi } from 'vitest'"
+  },
+  {
+    "id": "S098",
+    "path": "tests/integration/usability.test.ts",
+    "lineStart": 1,
+    "lineEnd": 1,
+    "meaning": "실용기능 통합 시험 소스, 이번 실행 아님",
+    "snippet": "import { afterEach, beforeEach, describe, expect, it } from 'vitest'"
+  },
+  {
+    "id": "S099",
+    "path": "src/main/database/migrate.ts",
+    "lineStart": 84,
+    "lineEnd": 84,
+    "meaning": "실제 DDL: ai_interactions",
+    "snippet": "    CREATE TABLE IF NOT EXISTS ai_interactions (id TEXT PRIMARY KEY, provider TEXT NOT NULL, feature TEXT NOT NULL, input_summary TEXT NOT NULL, output_summary TEXT NOT NULL, confidence REAL, fallback_used INTEGER NOT NULL, created_at TEXT NOT NULL);"
+  },
+  {
+    "id": "S100",
+    "path": "src/main/database/migrate.ts",
+    "lineStart": 192,
+    "lineEnd": 192,
+    "meaning": "실제 DDL: ai_runs",
+    "snippet": "    CREATE TABLE IF NOT EXISTS ai_runs ("
+  },
+  {
+    "id": "S101",
+    "path": "src/main/database/migrate.ts",
+    "lineStart": 86,
+    "lineEnd": 86,
+    "meaning": "실제 DDL: app_settings",
+    "snippet": "    CREATE TABLE IF NOT EXISTS app_settings (key TEXT PRIMARY KEY, value TEXT NOT NULL, updated_at TEXT NOT NULL);"
+  },
+  {
+    "id": "S102",
+    "path": "src/main/database/migrate.ts",
+    "lineStart": 53,
+    "lineEnd": 53,
+    "meaning": "실제 DDL: attachments",
+    "snippet": "    CREATE TABLE IF NOT EXISTS attachments ("
+  },
+  {
+    "id": "S103",
+    "path": "src/main/database/migrate.ts",
+    "lineStart": 85,
+    "lineEnd": 85,
+    "meaning": "실제 DDL: audit_logs",
+    "snippet": "    CREATE TABLE IF NOT EXISTS audit_logs (id TEXT PRIMARY KEY, actor_id TEXT, action TEXT NOT NULL, entity_type TEXT NOT NULL, entity_id TEXT NOT NULL, before_json TEXT, after_json TEXT, created_at TEXT NOT NULL);"
+  },
+  {
+    "id": "S104",
+    "path": "src/main/database/migrate.ts",
+    "lineStart": 76,
+    "lineEnd": 76,
+    "meaning": "실제 DDL: communication_status_history",
+    "snippet": "    CREATE TABLE IF NOT EXISTS communication_status_history (id TEXT PRIMARY KEY, system_id TEXT NOT NULL REFERENCES communication_systems(id), status TEXT NOT NULL, uptime_pct REAL NOT NULL, recorded_at TEXT NOT NULL);"
+  },
+  {
+    "id": "S105",
+    "path": "src/main/database/migrate.ts",
+    "lineStart": 75,
+    "lineEnd": 75,
+    "meaning": "실제 DDL: communication_systems",
+    "snippet": "    CREATE TABLE IF NOT EXISTS communication_systems (id TEXT PRIMARY KEY, code TEXT UNIQUE NOT NULL, name TEXT NOT NULL, category TEXT NOT NULL, status TEXT NOT NULL, uptime_pct REAL NOT NULL, today_incident_count INTEGER NOT NULL DEFAULT 0, remarks TEXT, display_order INTEGER NOT NULL, updated_at TEXT NOT NULL);"
+  },
+  {
+    "id": "S106",
+    "path": "src/main/database/migrate.ts",
+    "lineStart": 176,
+    "lineEnd": 176,
+    "meaning": "실제 DDL: daily_closures",
+    "snippet": "    CREATE TABLE IF NOT EXISTS daily_closures ("
+  },
+  {
+    "id": "S107",
+    "path": "src/main/database/migrate.ts",
+    "lineStart": 200,
+    "lineEnd": 200,
+    "meaning": "실제 DDL: demo_scenarios",
+    "snippet": "    CREATE TABLE IF NOT EXISTS demo_scenarios ("
+  },
+  {
+    "id": "S108",
+    "path": "src/main/database/migrate.ts",
+    "lineStart": 187,
+    "lineEnd": 187,
+    "meaning": "실제 DDL: directive_acknowledgements",
+    "snippet": "    CREATE TABLE IF NOT EXISTS directive_acknowledgements ("
+  },
+  {
+    "id": "S109",
+    "path": "src/main/database/migrate.ts",
+    "lineStart": 82,
+    "lineEnd": 82,
+    "meaning": "실제 DDL: directives",
+    "snippet": "    CREATE TABLE IF NOT EXISTS directives (id TEXT PRIMARY KEY, level TEXT NOT NULL, title TEXT NOT NULL, content TEXT NOT NULL, issuer TEXT NOT NULL, issued_at TEXT NOT NULL, expires_at TEXT, pinned INTEGER NOT NULL DEFAULT 0);"
+  },
+  {
+    "id": "S110",
+    "path": "src/main/database/migrate.ts",
+    "lineStart": 81,
+    "lineEnd": 81,
+    "meaning": "실제 DDL: duty_roster",
+    "snippet": "    CREATE TABLE IF NOT EXISTS duty_roster (id TEXT PRIMARY KEY, duty_date TEXT NOT NULL, shift_type TEXT NOT NULL, user_id TEXT NOT NULL REFERENCES users(id), position TEXT NOT NULL, start_time TEXT, end_time TEXT);"
+  },
+  {
+    "id": "S111",
+    "path": "src/main/database/migrate.ts",
+    "lineStart": 181,
+    "lineEnd": 181,
+    "meaning": "실제 DDL: handover_notes",
+    "snippet": "    CREATE TABLE IF NOT EXISTS handover_notes ("
+  },
+  {
+    "id": "S112",
+    "path": "src/main/database/migrate.ts",
+    "lineStart": 78,
+    "lineEnd": 78,
+    "meaning": "실제 DDL: incident_events",
+    "snippet": "    CREATE TABLE IF NOT EXISTS incident_events (id TEXT PRIMARY KEY, incident_id TEXT NOT NULL REFERENCES incidents(id), event_type TEXT NOT NULL, from_status TEXT, to_status TEXT, note TEXT, actor_id TEXT NOT NULL REFERENCES users(id), created_at TEXT NOT NULL);"
+  },
+  {
+    "id": "S113",
+    "path": "src/main/database/usabilityMigration.ts",
+    "lineStart": 10,
+    "lineEnd": 10,
+    "meaning": "실제 DDL: incident_intakes",
+    "snippet": "    CREATE TABLE incident_intakes(incident_id TEXT PRIMARY KEY REFERENCES incidents(id) ON DELETE CASCADE,template_id TEXT REFERENCES work_templates(id),template_version INTEGER,questions_json TEXT NOT NULL,answers_json TEXT NOT NULL,updated_at TEXT NOT NULL);"
+  },
+  {
+    "id": "S114",
+    "path": "src/main/database/migrate.ts",
+    "lineStart": 77,
+    "lineEnd": 77,
+    "meaning": "실제 DDL: incidents",
+    "snippet": "    CREATE TABLE IF NOT EXISTS incidents (id TEXT PRIMARY KEY, ticket_no TEXT UNIQUE NOT NULL, title TEXT NOT NULL, category TEXT NOT NULL, system_id TEXT REFERENCES communication_systems(id), severity TEXT NOT NULL, status TEXT NOT NULL, description TEXT NOT NULL, reported_by TEXT NOT NULL REFERENCES users(id), assigned_to TEXT REFERENCES users(id), department TEXT, reported_at TEXT NOT NULL, assigned_at TEXT, started_at TEXT, resolved_at TEXT, closed_at TEXT, cause TEXT, action_summary TEXT, ai_category TEXT, ai_priority TEXT, ai_confidence REAL, created_at TEXT NOT NULL, updated_at TEXT NOT NULL);"
+  },
+  {
+    "id": "S115",
+    "path": "src/main/database/migrate.ts",
+    "lineStart": 163,
+    "lineEnd": 163,
+    "meaning": "실제 DDL: maintenance_daily_plans",
+    "snippet": "    CREATE TABLE IF NOT EXISTS maintenance_daily_plans ("
+  },
+  {
+    "id": "S116",
+    "path": "src/main/database/migrate.ts",
+    "lineStart": 80,
+    "lineEnd": 80,
+    "meaning": "실제 DDL: maintenance_events",
+    "snippet": "    CREATE TABLE IF NOT EXISTS maintenance_events (id TEXT PRIMARY KEY, task_id TEXT NOT NULL REFERENCES maintenance_tasks(id), event_type TEXT NOT NULL, note TEXT, actor_id TEXT NOT NULL REFERENCES users(id), created_at TEXT NOT NULL);"
+  },
+  {
+    "id": "S117",
+    "path": "src/main/database/migrate.ts",
+    "lineStart": 79,
+    "lineEnd": 79,
+    "meaning": "실제 DDL: maintenance_tasks",
+    "snippet": "    CREATE TABLE IF NOT EXISTS maintenance_tasks (id TEXT PRIMARY KEY, task_no TEXT UNIQUE NOT NULL, title TEXT NOT NULL, maintenance_type TEXT NOT NULL, priority TEXT NOT NULL, system_id TEXT REFERENCES communication_systems(id), status TEXT NOT NULL, department TEXT NOT NULL, assignee_id TEXT REFERENCES users(id), scheduled_date TEXT NOT NULL, due_date TEXT, started_at TEXT, completed_at TEXT, progress INTEGER NOT NULL DEFAULT 0, description TEXT, result TEXT, created_at TEXT NOT NULL, updated_at TEXT NOT NULL);"
+  },
+  {
+    "id": "S118",
+    "path": "src/main/database/migrate.ts",
+    "lineStart": 143,
+    "lineEnd": 143,
+    "meaning": "실제 DDL: maintenance_teams",
+    "snippet": "    CREATE TABLE IF NOT EXISTS maintenance_teams ("
+  },
+  {
+    "id": "S119",
+    "path": "src/main/database/migrate.ts",
+    "lineStart": 83,
+    "lineEnd": 83,
+    "meaning": "실제 DDL: notifications",
+    "snippet": "    CREATE TABLE IF NOT EXISTS notifications (id TEXT PRIMARY KEY, type TEXT NOT NULL, title TEXT NOT NULL, body TEXT NOT NULL, read_at TEXT, created_at TEXT NOT NULL);"
+  },
+  {
+    "id": "S120",
+    "path": "src/main/database/organizationContacts.ts",
+    "lineStart": 4,
+    "lineEnd": 4,
+    "meaning": "실제 DDL: organization_members",
+    "snippet": "  db.exec(`CREATE TABLE IF NOT EXISTS organization_members ("
+  },
+  {
+    "id": "S121",
+    "path": "src/main/database/organizationMigration.ts",
+    "lineStart": 5,
+    "lineEnd": 5,
+    "meaning": "실제 DDL: organization_units",
+    "snippet": "  db.exec(`CREATE TABLE IF NOT EXISTS organization_units ("
+  },
+  {
+    "id": "S122",
+    "path": "src/main/database/migrate.ts",
+    "lineStart": 170,
+    "lineEnd": 170,
+    "meaning": "실제 DDL: reconciliation_results",
+    "snippet": "    CREATE TABLE IF NOT EXISTS reconciliation_results ("
+  },
+  {
+    "id": "S123",
+    "path": "src/main/database/usabilityMigration.ts",
+    "lineStart": 13,
+    "lineEnd": 13,
+    "meaning": "실제 DDL: recurring_occurrences",
+    "snippet": "    CREATE TABLE recurring_occurrences(rule_id TEXT NOT NULL REFERENCES recurring_rules(id),occurrence_date TEXT NOT NULL,task_id TEXT REFERENCES maintenance_tasks(id) ON DELETE SET NULL,rule_version INTEGER NOT NULL,batch_id TEXT NOT NULL,created_at TEXT NOT NULL,PRIMARY KEY(rule_id,occurrence_date));"
+  },
+  {
+    "id": "S124",
+    "path": "src/main/database/usabilityMigration.ts",
+    "lineStart": 12,
+    "lineEnd": 12,
+    "meaning": "실제 DDL: recurring_rules",
+    "snippet": "    CREATE TABLE recurring_rules(id TEXT PRIMARY KEY,version INTEGER NOT NULL DEFAULT 1,active INTEGER NOT NULL DEFAULT 1,deleted INTEGER NOT NULL DEFAULT 0,definition_json TEXT NOT NULL,created_by TEXT NOT NULL REFERENCES users(id),updated_at TEXT NOT NULL);"
+  },
+  {
+    "id": "S125",
+    "path": "src/main/database/migrate.ts",
+    "lineStart": 99,
+    "lineEnd": 99,
+    "meaning": "실제 DDL: signup_requests",
+    "snippet": "    CREATE TABLE IF NOT EXISTS signup_requests (id TEXT PRIMARY KEY, service_no TEXT NOT NULL, username TEXT NOT NULL, display_name TEXT NOT NULL, rank_name TEXT NOT NULL, unit_name TEXT NOT NULL, phone TEXT, reason TEXT, password_hash TEXT NOT NULL, password_salt TEXT NOT NULL, status TEXT NOT NULL, approved_role TEXT, user_id TEXT REFERENCES users(id), reviewed_by TEXT REFERENCES users(id), reviewed_at TEXT, reject_reason TEXT, created_at TEXT NOT NULL);"
+  },
+  {
+    "id": "S126",
+    "path": "src/main/database/migrate.ts",
+    "lineStart": 154,
+    "lineEnd": 154,
+    "meaning": "실제 DDL: situation_alerts",
+    "snippet": "    CREATE TABLE IF NOT EXISTS situation_alerts ("
+  },
+  {
+    "id": "S127",
+    "path": "src/main/database/usabilityMigration.ts",
+    "lineStart": 11,
+    "lineEnd": 11,
+    "meaning": "실제 DDL: task_checklists",
+    "snippet": "    CREATE TABLE task_checklists(task_id TEXT PRIMARY KEY REFERENCES maintenance_tasks(id) ON DELETE CASCADE,template_id TEXT NOT NULL REFERENCES work_templates(id),template_version INTEGER NOT NULL,title TEXT NOT NULL,items_json TEXT NOT NULL,results_json TEXT NOT NULL DEFAULT '[]',revision INTEGER NOT NULL DEFAULT 1,updated_at TEXT NOT NULL);"
+  },
+  {
+    "id": "S128",
+    "path": "src/main/database/migrate.ts",
+    "lineStart": 149,
+    "lineEnd": 149,
+    "meaning": "실제 DDL: team_members",
+    "snippet": "    CREATE TABLE IF NOT EXISTS team_members ("
+  },
+  {
+    "id": "S129",
+    "path": "src/main/database/organizationMigration.ts",
+    "lineStart": 9,
+    "lineEnd": 9,
+    "meaning": "실제 DDL: team_organizations",
+    "snippet": "  CREATE TABLE IF NOT EXISTS team_organizations ("
+  },
+  {
+    "id": "S130",
+    "path": "src/main/database/migrate.ts",
+    "lineStart": 74,
+    "lineEnd": 74,
+    "meaning": "실제 DDL: users",
+    "snippet": "    CREATE TABLE IF NOT EXISTS users (id TEXT PRIMARY KEY, username TEXT UNIQUE NOT NULL, display_name TEXT NOT NULL, rank_name TEXT, unit_name TEXT, role TEXT NOT NULL, password_hash TEXT NOT NULL, password_salt TEXT NOT NULL, active INTEGER NOT NULL, created_at TEXT NOT NULL, updated_at TEXT NOT NULL);"
+  },
+  {
+    "id": "S131",
+    "path": "src/main/database/usabilityMigration.ts",
+    "lineStart": 9,
+    "lineEnd": 9,
+    "meaning": "실제 DDL: work_templates",
+    "snippet": "    CREATE TABLE work_templates(id TEXT PRIMARY KEY,kind TEXT NOT NULL CHECK(kind IN ('INCIDENT','CHECKLIST')),version INTEGER NOT NULL DEFAULT 1,active INTEGER NOT NULL DEFAULT 1,definition_json TEXT NOT NULL,updated_at TEXT NOT NULL);"
+  }
+]

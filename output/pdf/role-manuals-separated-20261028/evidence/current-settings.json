@@ -1,0 +1,79 @@
+{
+  "screens": [
+    {
+      "id": "current-settings-info",
+      "caption": "시스템 정보",
+      "role": "ADMIN",
+      "file": "screenshots/current-settings-info.png",
+      "boxes": []
+    },
+    {
+      "id": "current-settings-sla",
+      "caption": "운영 기준시간 · SLA",
+      "role": "ADMIN",
+      "file": "screenshots/current-settings-sla.png",
+      "boxes": []
+    },
+    {
+      "id": "current-settings-data",
+      "caption": "데이터 관리",
+      "role": "ADMIN",
+      "file": "screenshots/current-settings-data.png",
+      "boxes": []
+    }
+  ],
+  "results": [
+    {
+      "id": "NEW-OPERATOR-SETTINGS-DENY",
+      "role": "OPERATOR",
+      "level": "내부 호출·자동화 테스트 확인",
+      "status": "통과",
+      "result": {
+        "ok": false,
+        "error": {
+          "code": "REQUEST_FAILED",
+          "message": "권한이 없습니다."
+        }
+      }
+    },
+    {
+      "id": "NEW-MAINTAINER-SETTINGS-DENY",
+      "role": "MAINTAINER",
+      "level": "내부 호출·자동화 테스트 확인",
+      "status": "통과",
+      "result": {
+        "ok": false,
+        "error": {
+          "code": "REQUEST_FAILED",
+          "message": "권한이 없습니다."
+        }
+      }
+    },
+    {
+      "id": "NEW-USER-SETTINGS-DENY",
+      "role": "USER",
+      "level": "내부 호출·자동화 테스트 확인",
+      "status": "통과",
+      "result": {
+        "ok": false,
+        "error": {
+          "code": "REQUEST_FAILED",
+          "message": "권한이 없습니다."
+        }
+      }
+    },
+    {
+      "id": "NEW-VIEWER-SETTINGS-DENY",
+      "role": "VIEWER",
+      "level": "내부 호출·자동화 테스트 확인",
+      "status": "통과",
+      "result": {
+        "ok": false,
+        "error": {
+          "code": "REQUEST_FAILED",
+          "message": "권한이 없습니다."
+        }
+      }
+    }
+  ]
+}
