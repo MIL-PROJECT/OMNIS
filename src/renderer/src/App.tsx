@@ -257,7 +257,6 @@ function Shell({ user, onLogout }: { user: PublicUser; onLogout: () => void }) {
       </nav>
       <Box className="sb-foot">
         <NavLink to="/manuals" className="sb-manual-link"><MenuBookRounded/><span>사용자 매뉴얼</span></NavLink>
-        <Box className="sb-sys"><span><i className="dot tone-green" />로컬 DB 연결됨</span><span><i className="dot tone-sky" />AI · 업무지원</span></Box>
         <Box className="sb-user">
           <Avatar name={user.display_name} size={36} />
           <Box sx={{ minWidth: 0, flex: 1 }}><strong>{user.display_name}</strong><span>{user.rank_name ? `${user.rank_name} · ` : ''}{roleText[user.role] ?? user.role}</span></Box>
