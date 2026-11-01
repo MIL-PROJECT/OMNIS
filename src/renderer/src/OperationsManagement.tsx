@@ -17,6 +17,7 @@ export const uptimeTone = (v: number): Tone => v >= 97 ? 'green' : v >= 95 ? 'sk
 
 export default function OperationsManagement({ user }: { user: PublicUser }) {
   const [rows,setRows] = useState<Row[]>([]), [search,setSearch] = useState(''), [filter,setFilter] = useState(''), [form,setForm] = useState<Row | null>(null), [selected,setSelected] = useState<Row | null>(null), [history,setHistory] = useState<Row[]>([]), [status,setStatus] = useState('NORMAL')
+  const canCreate = ['ADMIN','OPERATOR'].includes(user.role)
   const editable = ['ADMIN','OPERATOR','USER'].includes(user.role)
   const refresh = () => call<Row[]>('operations:list', { search }).then(setRows)
   useEffect(() => { refresh() }, [search])
@@ -34,7 +35,7 @@ export default function OperationsManagement({ user }: { user: PublicUser }) {
   ]
   return <>
     <PageHeader section="운용 현황" title="운영현황" description="정보통신체계의 운용 상태와 운용률을 확인하고 관리합니다."
-      actions={editable && <Button variant="contained" startIcon={<AddRounded />} onClick={() => setForm({ ...empty })}>체계 등록</Button>} />
+      actions={canCreate && <Button variant="contained" startIcon={<AddRounded />} onClick={() => setForm({ ...empty })}>체계 등록</Button>} />
     <Card icon={DnsRounded} tone="sky" title="정보통신체계" subtitle={`전체 ${rows.length}개${filter ? ` · ${statusText(filter)} ${shown.length}개` : ''}`} action={<SearchField value={search} onChange={setSearch} placeholder="체계명 또는 코드 검색" />}>
       <Box className="ui-toolbar"><StatusFilter total={rows.length} value={filter} onChange={setFilter} items={statuses.map(([value, label, tone]) => ({ value, label, tone, count: counts[value] ?? 0 }))} /></Box>
       <DataGrid rows={shown} columns={columns} density="compact" rowHeight={48} columnHeaderHeight={44} disableRowSelectionOnClick pageSizeOptions={[10,25,50]} initialState={{ pagination: { paginationModel: { pageSize: 10, page: 0 } } }}/>

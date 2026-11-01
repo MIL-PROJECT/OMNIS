@@ -3,6 +3,7 @@ import { z } from 'zod'
 import { usabilitySchemas } from './usabilityContracts'
 import { organizationSchemas } from './organization'
 import { intakeSchema, answerSchema } from './usability'
+import { maintenanceWorkKindSchema } from './maintenance'
 
 export const statusSchema = z.enum(['NORMAL', 'WATCH', 'INSPECTION', 'FAULT', 'OFFLINE'])
 export const incidentStatusSchema = z.enum(['RECEIVED', 'TRIAGED', 'ASSIGNED', 'PLANNED', 'IN_PROGRESS', 'REMOTE_IN_PROGRESS', 'ON_SITE_IN_PROGRESS', 'RESOLVED', 'VERIFIED', 'CLOSED', 'ON_HOLD', 'CANCELED'])
@@ -59,14 +60,17 @@ export const schemas = {
   'incidents:get': z.object({ id: z.string() }),
   'incidents:create': z.object({ title: z.string().min(3), category: z.string().min(1), severity: z.enum(['URGENT', 'NORMAL']), description: z.string().min(3), systemId: z.string().nullable().optional(), department: z.string().optional(), intakeSource: intakeSourceSchema.default('BOARD'), reporterName: z.string().max(50).optional(), equipmentName: z.string().max(100).optional(), serviceImpact: z.string().max(1000).optional(), occurredAt: z.iso.datetime().optional(), desiredResolutionAt: z.iso.datetime().optional(), emergencyPreaction: z.boolean().default(false), emergencyReason: z.string().max(1000).optional(), actualActionStartedAt: z.iso.datetime().optional(), intake:intakeSchema.optional() }).superRefine((v,ctx) => { if (v.emergencyPreaction && !v.emergencyReason?.trim()) ctx.addIssue({ code:'custom', path:['emergencyReason'], message:'긴급 선조치 사유가 필요합니다.' }); if (v.emergencyPreaction && !v.actualActionStartedAt) ctx.addIssue({ code:'custom', path:['actualActionStartedAt'], message:'실제 조치 시작시각이 필요합니다.' }) }),
   'incidents:update': z.object({ id: z.string(), title: z.string().min(3), category: z.string().min(1), severity: z.enum(['URGENT','NORMAL']), description: z.string().min(3), department: z.string().nullable().optional(), intakeSource: intakeSourceSchema.optional(), reporterName: z.string().max(50).nullable().optional(), equipmentName: z.string().max(100).nullable().optional(), serviceImpact: z.string().max(1000).nullable().optional(), desiredResolutionAt: z.iso.datetime().nullable().optional(), intake:intakeSchema.optional(), expectedUpdatedAt:z.string().optional() }),
-  'incidents:updateStatus': z.object({ id: z.string(), status: incidentStatusSchema, note: z.string().max(1000).optional(), cause: z.string().max(1000).optional(), actionSummary: z.string().max(2000).optional(), resolutionMode: resolutionModeSchema.optional(), recurrenceRisk: z.enum(['LOW','MEDIUM','HIGH']).optional(), followUpDate: z.iso.date().optional(), userConfirmed: z.boolean().optional() }),
-  'incidents:assign': z.object({ id: z.string(), userId: z.string(), department: z.string().optional() }),
-  'incidents:assignTeam': z.object({ id: z.string(), teamId: z.string().min(1).nullable(), userId: z.string().min(1).nullable().optional(), note: z.string().max(500).optional() }),
+  'incidents:updateStatus': z.object({ id: z.string(), expectedUpdatedAt: z.string().optional(), status: incidentStatusSchema, note: z.string().max(1000).optional(), cause: z.string().max(1000).optional(), actionSummary: z.string().max(2000).optional(), resolutionMode: resolutionModeSchema.optional(), recurrenceRisk: z.enum(['LOW','MEDIUM','HIGH']).optional(), followUpDate: z.iso.date().optional(), userConfirmed: z.boolean().optional() }),
+  'incidents:assign': z.object({ id: z.string(), userId: z.string(), department: z.string().optional(), expectedUpdatedAt: z.string().optional() }),
+  'incidents:assignTeam': z.object({ id: z.string(), teamId: z.string().min(1).nullable(), userId: z.string().min(1).nullable().optional(), note: z.string().max(500).optional(), resume: z.boolean().optional(), expectedUpdatedAt: z.string().optional() }),
   'incidents:applyAi': z.object({ id: z.string(), category: z.string().min(1).max(50), severity: z.enum(['URGENT','NORMAL']), teamId: z.string().optional(), rationale: z.string().min(1).max(1000), confidence: z.number().min(0).max(1), runId: z.string().optional() }),
   'incidents:getEvents': z.object({ id: z.string() }),
   'maintenance:list': z.object({ search: z.string().optional() }),
-  'maintenance:create': z.object({ title: z.string().min(3), maintenanceType: z.string().min(1), workKind: z.enum(['PLANNED','UNPLANNED']).default('PLANNED'), priority: z.enum(['NORMAL','HIGH']), department: z.string().min(1), scheduledDate: z.iso.date(), systemId: z.string().nullable().optional(), incidentId: z.string().nullable().optional(), description: z.string().max(2000).optional(), assigneeId:z.string().optional(), checklistTemplateId:z.string().nullable().optional() }),
-  'maintenance:update': z.object({ id: z.string(), title: z.string().min(3), maintenanceType: z.string().min(1), workKind: z.enum(['PLANNED','UNPLANNED']), priority: z.enum(['NORMAL','HIGH']), department: z.string().min(1), scheduledDate: z.iso.date(), incidentId: z.string().nullable().optional(), description: z.string().max(2000).optional() }),
+  'maintenance:incidentCandidates': z.object({}),
+  'maintenance:incidentContext': z.object({ incidentId: z.string().min(1) }),
+  'maintenance:createFromIncident': z.object({ incidentId: z.string().min(1), title: z.string().trim().min(3).max(200), workKind: maintenanceWorkKindSchema.default('UNPLANNED'), scheduledDate: z.iso.date(), priority: z.enum(['NORMAL','HIGH']), description: z.string().max(2000), checklistTemplateId: z.string().nullable().optional(), expectedUpdatedAt: z.string() }),
+  'maintenance:create': z.object({ title: z.string().min(3), maintenanceType: z.string().min(1), workKind: maintenanceWorkKindSchema.default('PLANNED'), priority: z.enum(['NORMAL','HIGH']), department: z.string().min(1), scheduledDate: z.iso.date(), systemId: z.string().nullable().optional(), incidentId: z.string().nullable().optional(), description: z.string().max(2000).optional(), assigneeId:z.string().optional(), checklistTemplateId:z.string().nullable().optional() }),
+  'maintenance:update': z.object({ id: z.string(), title: z.string().min(3), maintenanceType: z.string().min(1), workKind: maintenanceWorkKindSchema, priority: z.enum(['NORMAL','HIGH']), department: z.string().min(1), scheduledDate: z.iso.date(), incidentId: z.string().nullable().optional(), description: z.string().max(2000).optional() }),
   'maintenance:updateStatus': z.object({ id: z.string(), status: maintenanceStatusSchema, progress: z.number().int().min(0).max(100), result: z.string().max(2000).optional(), cause: z.string().max(1000).optional(), actionDetail: z.string().max(2000).optional(), partsUsed: z.string().max(1000).optional(), resolutionMode: resolutionModeSchema.optional(), recurrenceRisk: z.enum(['LOW','MEDIUM','HIGH']).optional(), followUpDate: z.iso.date().optional() }).superRefine((v,ctx) => { if (v.status === 'COMPLETED') { if (!v.result?.trim()) ctx.addIssue({code:'custom',path:['result'],message:'작업 결과가 필요합니다.'}); if (!v.cause?.trim()) ctx.addIssue({code:'custom',path:['cause'],message:'원인 분석이 필요합니다.'}); if (!v.actionDetail?.trim()) ctx.addIssue({code:'custom',path:['actionDetail'],message:'상세 조치내용이 필요합니다.'}); if (!v.resolutionMode) ctx.addIssue({code:'custom',path:['resolutionMode'],message:'조치 방식을 선택하십시오.'}) } }),
   'maintenance:getEvents': z.object({ id: z.string() }),
   'attachments:list': z.object({ entityType: attachmentEntitySchema, entityId: z.string().min(1) }),
@@ -118,12 +122,17 @@ export const schemas = {
   'system:setOperationsSettings': z.object({ planTime: z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/), closeTime: z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/), urgentSlaMinutes: z.number().int().min(10).max(10080), normalSlaMinutes: z.number().int().min(10).max(43200) }),
   'system:auditLogs': z.object({ limit: z.number().int().min(1).max(500).default(100) }),
   'system:notifications': z.object({}),
+  'notifications:list': z.object({}),
+  'notifications:read': z.object({ id: z.string().min(1) }),
+  'notifications:readAll': z.object({}),
   'system:markNotificationRead': z.object({ id: z.string() })
 } as const
 export type Channel = keyof typeof schemas
 
 export type PublicUser = { must_change_password?: boolean; id: string; username: string; display_name: string; role: Role; rank_name: string | null; unit_name: string | null }
 export type OmnisApi = {
+  onSituationAlertsChanged: (callback: () => void) => () => void
+  onNotificationsChanged: (callback: () => void) => () => void
   onAuthState: (callback: (code:string)=>void) => () => void
   invoke: (channel: Channel, payload?: Record<string, unknown>) => Promise<Result<unknown>>
   auth: { login: (payload: { username: string; password: string }) => Promise<Result<unknown>>; logout: () => Promise<Result<unknown>>; me: () => Promise<Result<unknown>> }

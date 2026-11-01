@@ -122,7 +122,9 @@ try {
   )
     throw new Error('Intake snapshot or original facts not preserved')
   console.log('Passed intake template and local input assistance')
-  await invoke('incidents:assign', { id: incident.id, userId: maintainer.id })
+  await invoke('incidents:updateStatus',{id:incident.id,status:'TRIAGED'})
+  const team=(await invoke('control:teams')).find(t=>t.code==='TEAM-WIRE')
+  await invoke('incidents:assignTeam',{id:incident.id,teamId:team.id,userId:maintainer.id})
 
   await page.getByRole('link', { name: '정비관리', exact: true }).click()
   await page.getByRole('button', { name: '반복 정비', exact: true }).click()

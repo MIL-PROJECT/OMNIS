@@ -36,7 +36,7 @@ describe('action organization and requesting department separation', () => {
     db.prepare(
       "UPDATE incidents SET department='가상 요청 부서',team_id=NULL,status='TRIAGED' WHERE id=?"
     ).run(row.id)
-    assignIncidentTeam(db, admin, { id: row.id, teamId: team().id })
+    assignIncidentTeam(db, admin, { id: row.id, teamId: team().id, userId: 'org-demo-W19-2' })
     expect(incident()).toMatchObject({
       department: '가상 요청 부서',
       team_id: team().id,
@@ -45,7 +45,7 @@ describe('action organization and requesting department separation', () => {
     const common = db
       .prepare("SELECT id FROM maintenance_teams WHERE code='TEAM-WIRE'")
       .get() as { id: string }
-    assignIncidentTeam(db, admin, { id: row.id, teamId: common.id })
+    assignIncidentTeam(db, admin, { id: row.id, teamId: common.id, userId: admin.id })
     expect(incident().department).toBe('가상 요청 부서')
     assignIncidentTeam(db, admin, { id: row.id, teamId: null, userId: null })
     expect(incident()).toMatchObject({
@@ -63,8 +63,9 @@ describe('action organization and requesting department separation', () => {
     ).toBeTruthy()
   })
   it('rejects unavailable or forged departments and unauthorized assignment without changes', () => {
-    const row = incident(),
-      before = JSON.stringify(row)
+    const initial = incident()
+    db.prepare("UPDATE incidents SET status='TRIAGED',assigned_to=? WHERE id=?").run(admin.id,initial.id)
+    const row = incident(), before = JSON.stringify(row)
     expect(() =>
       assignIncidentTeam(db, viewer, { id: row.id, teamId: team().id })
     ).toThrow('권한')

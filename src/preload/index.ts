@@ -4,6 +4,8 @@ import type { OmnisApi, Channel } from '../shared/contracts'
 const invoke = (channel: Channel, payload?: Record<string, unknown>) => ipcRenderer.invoke(channel, payload ?? {})
 const api: OmnisApi = {
   invoke,
+  onSituationAlertsChanged: callback => { const listener=()=>callback();ipcRenderer.on('omnis:situation-alerts-changed',listener);return ()=>{ipcRenderer.removeListener('omnis:situation-alerts-changed',listener)} },
+  onNotificationsChanged: callback => { const listener=()=>callback();ipcRenderer.on('omnis:notifications-changed',listener);return ()=>{ipcRenderer.removeListener('omnis:notifications-changed',listener)} },
   onAuthState: callback => { const listener=(_event:Electron.IpcRendererEvent,code:string)=>callback(code);ipcRenderer.on('omnis:auth-state',listener);return ()=>{ipcRenderer.removeListener('omnis:auth-state',listener)} },
   auth: { login: p => invoke('auth:login', p), logout: () => invoke('auth:logout'), me: () => invoke('auth:me') },
   dashboard: { getSummary: () => invoke('dashboard:getSummary') },

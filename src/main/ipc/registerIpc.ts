@@ -1,5 +1,5 @@
 import { AccountError } from '../auth/AccountSecurity'
-import { ipcMain } from 'electron'
+import { BrowserWindow, ipcMain } from 'electron'
 import { ZodError } from 'zod'
 import log from 'electron-log/main'
 import { schemas, type Channel, type Result } from '../../shared/contracts'
@@ -11,7 +11,12 @@ export function registerIpc(): void {
       try {
         if (!event.senderFrame || event.senderFrame !== event.sender.mainFrame) throw new Error('허용되지 않은 프레임입니다.')
         const parsed = schemas[channel].parse(payload ?? {}) as Record<string, unknown>
-        return { ok: true, data: await run(channel, parsed) }
+        const data = await run(channel, parsed)
+        if (['control:createAlert','control:updateAlert'].includes(channel))
+          for (const window of BrowserWindow.getAllWindows()) if (!window.isDestroyed()) window.webContents.send('omnis:situation-alerts-changed')
+        if (['incidents:assign','incidents:assignTeam','incidents:updateStatus','notifications:read','notifications:readAll'].includes(channel))
+          event.sender.send('omnis:notifications-changed')
+        return { ok: true, data }
       } catch (error) {
         if(error instanceof AccountError){ if(['AUTH_REQUIRED','AUTH_SESSION_REVOKED','AUTH_PASSWORD_CHANGE_REQUIRED'].includes(error.code))event.sender.send('omnis:auth-state',error.code);return {ok:false,error:{code:error.code,message:error.message}} }
         log.error(`IPC ${channel}`, error instanceof Error ? error.message : 'Unknown error')

@@ -9,8 +9,8 @@ export const permissionRules: PermissionRule[] = [
   {
     channel: 'operations:create',
     label: '운영 체계 등록',
-    roles: ['ADMIN', 'OPERATOR', 'USER'],
-    note: '체계 수정도 동일 역할, 삭제는 관리자만 가능'
+    roles: ['ADMIN', 'OPERATOR'],
+    note: '체계 코드·필수 정보 검증 후 등록'
   },
   {
     channel: 'operations:update',
@@ -40,7 +40,7 @@ export const permissionRules: PermissionRule[] = [
     channel: 'incidents:assignTeam',
     label: '조치부서·담당자 배정',
     roles: ['ADMIN', 'OPERATOR'],
-    note: '부대·담당자 정합성 검사 적용'
+    note: '분류 후 조치부서·담당자 동시 확정, 배정 상태 전환 및 소속 검사'
   },
   {
     channel: 'incidents:applyAi',
@@ -53,6 +53,18 @@ export const permissionRules: PermissionRule[] = [
     label: '정비 등록',
     roles: ['ADMIN', 'MAINTAINER'],
     note: '정비요원은 본인 작업 등 서비스의 소유권 제한 적용'
+  },
+  {
+    channel: 'maintenance:createFromIncident',
+    label: '고장 접수에서 정비 등록',
+    roles: ['ADMIN', 'MAINTAINER'],
+    note: '정비요원은 본인 배정 고장만 등록, 진행 중 정비는 기존 작업 안내'
+  },
+  {
+    channel: 'maintenance:incidentCandidates',
+    label: '정비 등록할 배정 고장 조회',
+    roles: ['ADMIN', 'MAINTAINER'],
+    note: '정비요원은 본인 배정 고장으로 제한'
   },
   {
     channel: 'maintenance:update',
