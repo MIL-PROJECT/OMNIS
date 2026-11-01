@@ -10,7 +10,7 @@ const app = await electron.launch(electronLaunchOptions({ dataDir, packagedExecu
 
 try {
   const page = await app.firstWindow()
-  await page.getByRole('button',{name:'로그인'}).click()
+  await page.getByRole('button',{name:'관리자 로그인',exact:true}).click()
   await page.getByRole('link',{name:'통제·일일마감'}).waitFor()
   const invoke = async (channel,payload={}) => {
     const result = await page.evaluate(([c,p])=>window.omnis.invoke(c,p),[channel,payload])

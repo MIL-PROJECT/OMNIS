@@ -80,6 +80,7 @@ describe('fictional unit contacts', () => {
     const row = db
       .prepare('SELECT id,department FROM incidents LIMIT 1')
       .get() as { id: string; department: string }
+    db.prepare("UPDATE incidents SET status='TRIAGED' WHERE id=?").run(row.id)
     assignIncidentTeam(db, admin, {
       id: row.id,
       teamId: 'department-W19-ict',

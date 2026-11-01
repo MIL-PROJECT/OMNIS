@@ -126,7 +126,10 @@ try {
     'OPERATOR'
   )
   await adminLogin()
-  const existingIncident = (await invoke('incidents:list'))[0]
+  const existingIncident = await invoke('incidents:create',{title:'가상 관리자 배정 보존 시험',category:'기반통신',severity:'NORMAL',description:'사용 중지 이후에도 담당자 이력을 보존하는지 확인합니다.'})
+  await invoke('incidents:updateStatus',{id:existingIncident.id,status:'TRIAGED'})
+  const assignmentTeam=(await invoke('control:teams')).find(t=>t.code==='TEAM-WIRE')
+  await invoke('incidents:assignTeam',{id:existingIncident.id,teamId:assignmentTeam.id,userId:target.id})
   await invoke('incidents:assign', {
     id: existingIncident.id,
     userId: target.id

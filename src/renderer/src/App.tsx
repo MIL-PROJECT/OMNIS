@@ -4,7 +4,10 @@ import LockResetRounded from '@mui/icons-material/LockResetRounded'
 import MyWork from './MyWork'
 import ManualsManagement from './ManualsManagement'
 import MenuBookRounded from '@mui/icons-material/MenuBookRounded'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { DashboardAlertPreview, SituationAlertPanel, type AlertPanelTarget } from './DashboardAlerts'
+import { useVisibleRefresh } from './useVisibleRefresh'
+import type { SituationAlertSummary } from '../../shared/situationAlerts'
 import { HashRouter, Navigate, NavLink, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 import { Box, Button, IconButton, InputAdornment, Paper, TextField, Tooltip, Typography } from '@mui/material'
 import PersonOutlineRounded from '@mui/icons-material/PersonOutlineRounded'
@@ -55,6 +58,7 @@ import ReportsManagement from './ReportsManagement'
 import { Avatar, BrandEmblem, Card, Meter, PageHeader, Paged, countBy, fmtDateTime, type Tone } from './ui'
 import DashboardDetail, { MetricListDialog, type DetailTarget, type ListTarget } from './DashboardDetail'
 import ControlCenterManagement from './ControlCenterManagement'
+import NotificationCenter from './NotificationCenter'
 
 type Row = Record<string, any>
 
@@ -234,10 +238,15 @@ function Shell({ user, onLogout, onUserChanged }: { user: PublicUser; onLogout: 
   const [passwordOpen,setPasswordOpen]=useState(false)
   const [now, setNow] = useState(() => new Date())
   const [urgent, setUrgent] = useState(0), [pending, setPending] = useState(0)
+  const [incidentRevision, setIncidentRevision] = useState(0)
   const location = useLocation()
   useEffect(() => { const t = setInterval(() => setNow(new Date()), 1000); return () => clearInterval(t) }, [])
-  // 메뉴 뱃지: 미종결 긴급 고장 수 (화면 이동 때마다 갱신)
-  useEffect(() => { call<Row>('dashboard:getSummary').then(d => setUrgent(Number(d.urgentCount) || 0)).catch(() => {}) }, [location.pathname])
+  // Count only visible urgent open incidents, refreshing after successful changes as well as navigation.
+  useEffect(() => {
+    let active = true
+    call<Row>('dashboard:getSummary').then(d => { if (active) setUrgent(Number(d.urgentCount) || 0) }).catch(() => { if (active) setUrgent(0) })
+    return () => { active = false }
+  }, [location.pathname, user.id, user.role, incidentRevision])
   // 관리자 메뉴 뱃지: 승인 대기 중인 사용자 등록 신청 수
   const loadPending = () => { if (user.role === 'ADMIN') call<Row[]>('admin:signupRequests').then(r => setPending(r.filter(x => x.status === 'PENDING').length)).catch(() => {}) }
   useEffect(loadPending, [location.pathname])
@@ -255,7 +264,7 @@ function Shell({ user, onLogout, onUserChanged }: { user: PublicUser; onLogout: 
         {groups.map(g => <Box key={g.title} className="sb-group">
           <span className="sb-group-title">{g.title}</span>
           {g.items.map(({ to, text, icon: Icon }) => <NavLink key={to} to={to} end={to === '/'}>
-            <Icon /><span>{text}</span>{to === '/incidents' && urgent > 0 && <b className="sb-badge" aria-hidden>{urgent}</b>}{to === '/admin' && pending > 0 && <b className="sb-badge info" aria-hidden>{pending}</b>}
+            <Icon /><span>{text}</span>{to === '/incidents' && urgent > 0 && <b className="sb-badge" title="조회 가능한 미종결 긴급 고장 수" aria-hidden>{urgent}</b>}{to === '/admin' && pending > 0 && <b className="sb-badge info" aria-hidden>{pending}</b>}
           </NavLink>)}
         </Box>)}
       </nav>
@@ -273,6 +282,7 @@ function Shell({ user, onLogout, onUserChanged }: { user: PublicUser; onLogout: 
       <header className="topbar">
         <Box className="crumbs">{current?.group&&current.groupTo?<><NavLink to={current.groupTo}>{current.group}</NavLink><ChevronRightRounded /></>:null}<strong>{current?.text ?? 'OMNIS'}</strong></Box>
         <Box className="topbar-right">
+          <NotificationCenter key={user.id} user={user}/>
           <span className="pill-offline"><CloudOffRounded />오프라인 · 가상 시연 데이터</span>
           <span className="clock"><AccessTimeRounded />{now.toLocaleDateString('ko-KR', { month: 'long', day: 'numeric', weekday: 'short' })} {now.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false })}</span>
         </Box>
@@ -281,7 +291,7 @@ function Shell({ user, onLogout, onUserChanged }: { user: PublicUser; onLogout: 
         <Routes>
           <Route path="/" element={<Dashboard user={user} />} />
           <Route path="/operations" element={<Operations user={user} />} />
-          <Route path="/incidents" element={<Incidents user={user} />} />
+          <Route path="/incidents" element={<Incidents user={user} onChanged={() => setIncidentRevision(value => value + 1)} />} />
           <Route path="/maintenance" element={<Maintenance user={user} />} />
           <Route path="/control" element={<ControlCenterManagement user={user} />} />
           <Route path="/duty" element={<Duty user={user} />} />
@@ -306,18 +316,22 @@ const chipCol = (field: string, headerName: string, width: number, tone?: (v: un
 // 상황판 목록 행 높이(px) — style.css의 .dash 규칙과 맞춘다
 const GRID_ROW = 36, GRID_HEAD = 36, NOTICE_ROW = 42
 
+const loadDashboardSummary=()=>call<Row & SituationAlertSummary>('dashboard:getSummary')
 function Dashboard({ user }: { user: PublicUser }) {
   const location = useLocation()
   const navigate = useNavigate()
-  const [data, setData] = useState<Row | null>(null)
+  const mine=new URLSearchParams(location.search).get('view')==='mine'
+  const {data,error,pending,updatedAt,refresh:load}=useVisibleRefresh(loadDashboardSummary,!mine,`${user.id}:${user.role}`)
   const [detail, setDetail] = useState<DetailTarget | null>(null)
   const [list, setList] = useState<ListTarget | null>(null)
-  const [loadedAt, setLoadedAt] = useState('')
+  const [alertPanel,setAlertPanel]=useState<AlertPanelTarget|null>(null)
+  const alertFocus=useRef<HTMLElement|null>(null),alertCount=useRef<HTMLButtonElement|null>(null)
+  const openAlertPanel=(id?:string)=>{alertFocus.current=document.activeElement as HTMLElement|null;setAlertPanel(id?{id}:{})}
+  const restoreAlertFocus=()=>{const target=alertFocus.current?.isConnected?alertFocus.current:alertCount.current;target?.focus()}
+  const loadedAt=updatedAt?.toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit',hour12:false})??''
   const open = (kind: DetailTarget['kind']) => ({ row }: { row: Row }) => setDetail({ kind, row })
-  const load = () => call<Row>('dashboard:getSummary').then(d => { setData(d); setLoadedAt(new Date().toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit', hour12: false })) })
-  useEffect(() => { load() }, [])
-  if(new URLSearchParams(location.search).get('view')==='mine')return <MyWork user={user}/>
-  if (!data) return <Typography color="text.secondary">불러오는 중...</Typography>
+  if(mine)return <MyWork user={user}/>
+  if (!data) return <Box role="status"><Typography color="text.secondary">{error?'상황판을 불러오지 못했습니다.':'불러오는 중...'}</Typography>{error&&<Button onClick={load}>다시 시도</Button>}</Box>
   const sys = countBy(data.allSystems, 'status')
   const ms: Record<string, number> = Object.fromEntries(data.maintenanceStatus.map((r: Row) => [r.status, r.n]))
   const normalRate = data.systemCount ? Math.round(data.normalCount / data.systemCount * 100) : 0
@@ -333,21 +347,24 @@ function Dashboard({ user }: { user: PublicUser }) {
   const grid = { rowHeight: GRID_ROW, columnHeaderHeight: GRID_HEAD, hideFooter: true, autoHeight: true, disableColumnMenu: true } as const
   return <div className="dash">
     <PageHeader section="운용 현황" title="통합상황판" description={`${new Date().toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' })} 기준 정보통신 운용 현황입니다.`}
-      actions={<><Button variant="outlined" onClick={()=>navigate('/?view=mine')}>내 업무</Button><span className="ui-updated">{loadedAt} 갱신</span><Button variant="outlined" startIcon={<RefreshRounded />} onClick={load}>새로고침</Button></>} />
+      actions={<><Button variant="outlined" onClick={()=>navigate('/?view=mine')}>내 업무</Button><span className={`ui-updated${error?' dashboard-refresh-error':''}`} role={error?'status':undefined}>{error?'갱신 실패':`${loadedAt} 갱신`}</span><Button variant="outlined" startIcon={<RefreshRounded />} onClick={load} aria-busy={pending}>{error?'다시 시도':'새로고침'}</Button></>} />
     <div className="metrics">{metrics.map(({ key, value, unit, icon: Icon, tone, foot, list }) => <Paper elevation={0} className={`metric clickable`} key={key} role="button" tabIndex={0} aria-label={`${key} ${value}${unit} 목록 보기`}
       onClick={() => setList(list)} onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setList(list) } }}>
       <Box className="metric-top"><span className="metric-label">{key}</span><span className={`ui-icon-tile tone-${tone}`}><Icon /></span></Box>
       <Box className="metric-value">{value}<small>{unit}</small></Box>
       <Box className="metric-foot">{foot}</Box>
     </Paper>)}</div>
-    <Paper elevation={0} className="dashboard-control-band" role="button" tabIndex={0} onClick={() => navigate('/control')} onKeyDown={e => { if (e.key === 'Enter') navigate('/control') }}>
+    <Paper elevation={0} className="dashboard-control-band">
+      <div className="dashboard-control-stats">
       <Box><span>금일 접수</span><strong>{data.todayReceived}<small>건</small></strong></Box>
       <Box><span>금일 조치완료</span><strong>{data.todayCompleted}<small>건</small></strong></Box>
-      <Box className={data.openAlertCount ? 'warn' : ''}><span>미종료 상황경보</span><strong>{data.openAlertCount}<small>건</small></strong></Box>
+      <Box className={data.openAlertCount ? 'warn' : ''}><button type="button" className="dashboard-alert-count" ref={alertCount} onClick={()=>openAlertPanel()} aria-label={`상황경보 목록 보기 ${data.openAlertCount}건`}><span>미종료 상황경보</span><strong>{data.openAlertCount}<small>건</small></strong></button></Box>
       <Box className={data.slaOverdueCount ? 'danger' : ''}><span>SLA 초과</span><strong>{data.slaOverdueCount}<small>건</small></strong></Box>
       <Box><span>계획 / 비계획</span><strong>{data.plannedCount}<small> / {data.unplannedCount}건</small></strong></Box>
       <Box><span>금일 근무</span><strong>{data.dutyCount}<small>명</small></strong></Box>
-      <Button size="small" endIcon={<ArrowForwardRounded />}>통제 화면</Button>
+      <Button size="small" endIcon={<ArrowForwardRounded />} onClick={()=>navigate('/control')}>통제 화면</Button>
+      </div>
+      <DashboardAlertPreview summary={data} onSelect={id=>openAlertPanel(id)} onList={()=>openAlertPanel()}/>
     </Paper>
     <div className="dashboard-grid">
       <Card icon={DnsRounded} tone="sky" title="정보통신 운영 현황" subtitle={`전체 ${data.systemCount}개 체계`} action={viewAll('/operations')}>
@@ -378,11 +395,12 @@ function Dashboard({ user }: { user: PublicUser }) {
     </div>
     <MetricListDialog target={list} onSelect={setDetail} onClose={() => setList(null)} />
     <DashboardDetail target={detail} label={label} onClose={() => setDetail(null)} />
+    <SituationAlertPanel target={alertPanel} user={user} onClose={()=>setAlertPanel(null)} onExited={restoreAlertFocus}/>
   </div>
 }
 
 function Operations({ user }: { user: PublicUser }) { return <OperationsManagement user={user} /> }
-function Incidents({ user }: { user: PublicUser }) { return <IncidentsManagement user={user} /> }
+function Incidents({ user, onChanged }: { user: PublicUser; onChanged?: () => void }) { return <IncidentsManagement user={user} onChanged={onChanged} /> }
 function Maintenance({ user }: { user: PublicUser }) { return <MaintenanceManagement user={user} /> }
 function Duty({ user }: { user: PublicUser }) { return <DutyManagement user={user} /> }
 function Ai() { return <AiManagement /> }

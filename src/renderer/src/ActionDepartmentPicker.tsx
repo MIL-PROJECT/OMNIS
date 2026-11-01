@@ -108,8 +108,9 @@ export default function ActionDepartmentPicker({
           <TextField
             {...params}
             label="조치부서"
-            placeholder="미지정"
-            helperText="부서를 선택한 뒤 배정 버튼을 눌러야 저장됩니다."
+            placeholder="조치부서를 선택하십시오"
+            required
+            helperText="부서와 담당자를 선택한 뒤 ‘배정 확정’을 눌러야 저장됩니다."
           />
         )}
       />
@@ -119,7 +120,7 @@ export default function ActionDepartmentPicker({
         onClick={() => onChange('')}
         sx={{ alignSelf: 'flex-end' }}
       >
-        조치부서 미지정
+        선택한 부서 지우기
       </Button>
       {selectedUnit &&
         !teams.some(

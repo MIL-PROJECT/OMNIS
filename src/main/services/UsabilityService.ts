@@ -1,4 +1,5 @@
 import { randomUUID } from 'node:crypto'
+import { maintenanceWorkKindLabel, maintenanceWorkKindSchema } from '../../shared/maintenance'
 import type Database from 'better-sqlite3'
 import type { PublicUser } from '../../shared/contracts'
 import { usabilitySchemas } from '../../shared/usabilityContracts'
@@ -253,6 +254,7 @@ export function createMaintenance(
   p: Row
 ): { id: string; task_no: string } {
   return db.transaction(() => {
+    const workKind = maintenanceWorkKindSchema.parse(p.workKind ?? 'PLANNED')
     const assignee = String(p.assigneeId ?? user.id)
     validAssignee(db, user, assignee)
     if (
@@ -265,6 +267,8 @@ export function createMaintenance(
       !one(db, 'SELECT id FROM incidents WHERE id=?', p.incidentId)
     )
       throw new Error('연계할 고장 접수를 찾을 수 없습니다.')
+    if(p.incidentId&&user.role==='MAINTAINER'&&!one(db,'SELECT id FROM incidents WHERE id=? AND assigned_to=?',p.incidentId,user.id))
+      throw new Error('본인에게 배정된 고장만 정비에 연결할 수 있습니다.')
     if (
       one(
         db,
@@ -303,13 +307,13 @@ export function createMaintenance(
       date,
       date,
       p.incidentId ?? null,
-      p.workKind ?? 'PLANNED'
+      workKind
     )
     db.prepare('INSERT INTO maintenance_events VALUES (?,?,?,?,?,?)').run(
       randomUUID(),
       id,
       'CREATED',
-      p.workKind === 'UNPLANNED' ? '비계획 작업 등록' : '계획 작업 등록',
+      `${maintenanceWorkKindLabel(workKind)} 작업 등록`,
       user.id,
       date
     )

@@ -7,18 +7,19 @@ import PictureAsPdfOutlined from '@mui/icons-material/PictureAsPdfOutlined'
 import ReportProblemRounded from '@mui/icons-material/ReportProblemRounded'
 import BuildRounded from '@mui/icons-material/BuildRounded'
 import type { Channel, Result } from '../../shared/contracts'
+import { reportStatusLabel, type ReportStatus } from '../../shared/reportLabels'
 import { Card, EmptyState, PageHeader, type Tone } from './ui'
 import { koreaDate } from '../../shared/date'
 
 type Row = Record<string, any>
 async function call<T>(channel: Channel, payload: Record<string, unknown> = {}): Promise<T> { const r = await window.omnis.invoke(channel,payload) as Result<T>; if (!r.ok) throw new Error(r.error.message); return r.data }
-const statusMeta: Record<string, [string, Tone]> = { RECEIVED:['접수','sky'],TRIAGED:['분류','lavender'],ASSIGNED:['배정','sky'],PLANNED:['계획','sky'],IN_PROGRESS:['진행','orange'],RESOLVED:['조치완료','green'],CLOSED:['종결','gray'],CANCELED:['취소','red'],BLOCKED:['보류','red'],COMPLETED:['완료','green'] }
+const statusTones: Record<ReportStatus,Tone> = { RECEIVED:'sky',TRIAGED:'lavender',ASSIGNED:'sky',PLANNED:'sky',IN_PROGRESS:'orange',REMOTE_IN_PROGRESS:'orange',ON_SITE_IN_PROGRESS:'orange',RESOLVED:'green',VERIFIED:'green',CLOSED:'gray',ON_HOLD:'red',CANCELED:'red',BLOCKED:'red',COMPLETED:'green' }
 
 // 상태별 건수를 가로 막대로 — 막대 길이는 해당 목록의 최댓값 기준
 function StatusBars({ rows }: { rows: Row[] }) {
   const max = Math.max(1, ...rows.map(r => r.n))
-  return <Box className="status-bars">{rows.map(r => { const [text, tone] = statusMeta[r.status] ?? [r.status, 'gray' as Tone]; return <Box key={r.status} className="status-bar-row">
-    <span className="sb-label"><i className={`dot tone-${tone}`} />{text}</span>
+  return <Box className="status-bars">{rows.map(r => { const text = reportStatusLabel(r.status), tone = statusTones[r.status as ReportStatus] ?? 'gray'; return <Box key={r.status} className="status-bar-row">
+    <span className="sb-label"><i className={`dot tone-${tone}`} /><span className="sb-label-text">{text}</span></span>
     <span className="sb-track"><span className={`sb-fill tone-${tone}`} style={{ width: `${r.n / max * 100}%` }} /></span>
     <b>{r.n}건</b>
   </Box> })}</Box>

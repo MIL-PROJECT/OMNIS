@@ -4,7 +4,7 @@ import { migrateUsability } from './usabilityMigration'
 import { migrateOrganizations } from './organizationMigration'
 import { migrateOrganizationContacts } from './organizationContacts'
 
-export const SCHEMA_VERSION = 9
+export const SCHEMA_VERSION = 10
 
 // 버전별 스키마 변경을 순서대로 적용한다 (기존 DB는 부족한 단계만 실행)
 export function migrate(db: Database.Database): void {
@@ -21,6 +21,21 @@ export function migrate(db: Database.Database): void {
     if (current < 7) migrateOrganizations(db)
     if (current < 8) migrateOrganizationContacts(db)
     if (current < 9) migrateAccounts(db)
+    if (current < 10) db.exec(`
+      CREATE TABLE IF NOT EXISTS user_notifications (
+        id TEXT PRIMARY KEY,
+        user_id TEXT NOT NULL REFERENCES users(id),
+        kind TEXT NOT NULL,
+        title TEXT NOT NULL,
+        body TEXT NOT NULL,
+        entity_id TEXT NOT NULL REFERENCES incidents(id) ON DELETE CASCADE,
+        created_at TEXT NOT NULL,
+        read_at TEXT,
+        superseded_at TEXT
+      );
+      CREATE INDEX IF NOT EXISTS idx_user_notifications_inbox ON user_notifications(user_id,created_at DESC);
+      CREATE INDEX IF NOT EXISTS idx_user_notifications_incident ON user_notifications(entity_id,kind);
+    `)
     db.pragma(`user_version = ${SCHEMA_VERSION}`)
   })()
 }

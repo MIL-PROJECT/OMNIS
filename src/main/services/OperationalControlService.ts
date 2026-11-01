@@ -5,6 +5,8 @@ import type Database from 'better-sqlite3'
 import type { Channel, PublicUser } from '../../shared/contracts'
 import { koreaDate } from '../../shared/date'
 import { listActionDepartments } from './OrganizationService'
+import { SituationAlertRepository } from '../repositories/SituationAlertRepository'
+import type { SituationAlertStatus } from '../../shared/situationAlerts'
 
 type Row = Record<string, unknown>
 const now = () => new Date().toISOString()
@@ -35,12 +37,13 @@ function reconciliationPreview(db: Database.Database, date: string): Row[] {
 export async function runOperationalChannel(db: Database.Database, channel: Channel, p: Record<string, unknown>, user: PublicUser, attachmentRoot?: string): Promise<unknown> {
   if (channel === 'control:overview') {
     const date = String(p.date ?? koreaDate())
+    const alertCounts = new SituationAlertRepository(db).counts()
     return {
       date,
       planTime: setting(db,'daily_plan_time','08:30'),
       closeTime: setting(db,'daily_close_time','16:00'),
-      openAlerts: Number(one(db,"SELECT count(*) n FROM situation_alerts WHERE status!='RESOLVED'")?.n ?? 0),
-      criticalAlerts: Number(one(db,"SELECT count(*) n FROM situation_alerts WHERE severity='CRITICAL' AND status!='RESOLVED'")?.n ?? 0),
+      openAlerts: alertCounts.openAlertCount,
+      criticalAlerts: alertCounts.criticalAlertCount,
       slaOverdue: Number(one(db,"SELECT count(*) n FROM incidents WHERE status NOT IN ('CLOSED','CANCELED') AND sla_due_at IS NOT NULL AND sla_due_at<?",now())?.n ?? 0),
       emergencyOpen: Number(one(db,"SELECT count(*) n FROM incidents WHERE emergency_preaction=1 AND status NOT IN ('CLOSED','CANCELED')")?.n ?? 0),
       planned: Number(one(db,'SELECT COALESCE(sum(planned_count),0) n FROM maintenance_daily_plans WHERE plan_date=?',date)?.n ?? 0),
@@ -53,9 +56,7 @@ export async function runOperationalChannel(db: Database.Database, channel: Chan
     }
   }
   if (channel === 'control:teams') return listActionDepartments(db)
-  if (channel === 'control:alerts') return all(db, `SELECT a.*,c.name system_name,creator.display_name creator_name
-      FROM situation_alerts a LEFT JOIN communication_systems c ON c.id=a.system_id LEFT JOIN users creator ON creator.id=a.created_by
-      WHERE (? IS NULL OR a.status=?) ORDER BY CASE a.severity WHEN 'CRITICAL' THEN 0 WHEN 'WARNING' THEN 1 ELSE 2 END,a.occurred_at DESC`,p.status ?? null,p.status ?? null)
+  if (channel === 'control:alerts') return new SituationAlertRepository(db).list(p.status as SituationAlertStatus|undefined)
   if (channel === 'control:createAlert') {
     permit(user,'ADMIN','OPERATOR')
     const id = randomUUID(), date = now()
