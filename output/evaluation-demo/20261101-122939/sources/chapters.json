@@ -1,0 +1,42 @@
+[
+  {
+    "number": 1,
+    "title": "문제와 목표",
+    "duration": 80
+  },
+  {
+    "number": 2,
+    "title": "기능과 대표 사례",
+    "duration": 60
+  },
+  {
+    "number": 3,
+    "title": "현재 아키텍처",
+    "duration": 180
+  },
+  {
+    "number": 4,
+    "title": "세 가지 설계 차별성",
+    "duration": 180
+  },
+  {
+    "number": 5,
+    "title": "확장성과 변경 조건",
+    "duration": 130
+  },
+  {
+    "number": 6,
+    "title": "타체계 연동 방안",
+    "duration": 130
+  },
+  {
+    "number": 7,
+    "title": "검증과 실증 계획",
+    "duration": 90
+  },
+  {
+    "number": 8,
+    "title": "로드맵과 결론",
+    "duration": 50
+  }
+]

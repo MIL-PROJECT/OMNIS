@@ -1,0 +1,10 @@
+{
+  "issue": "Incident AI analysis rejects systemId:null when the incident has no selected system",
+  "reproduced": true,
+  "environment": "fresh isolated recording profile; installed v1.1.0",
+  "uiError": "Invalid input: expected string, received null",
+  "source": "IncidentsManagement.analyze forwards system_id; ai:triageIncident schema uses string.optional()",
+  "productCodeChanged": false,
+  "filmingWorkaround": "Use a synthetic incident with an explicitly selected synthetic system",
+  "severityForPresentation": "Known edge case, disclosed in limitations/Q&A/runbook. Does not demonstrate general support for unassigned-system AI inputs."
+}

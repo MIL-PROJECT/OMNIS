@@ -1,0 +1,19 @@
+[Script Info]
+ScriptType: v4.00+
+PlayResX: 1920
+PlayResY: 1080
+WrapStyle: 2
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Caption,Pretendard,34,&H00FFFFFF,&H00FFFFFF,&H0015203F,&H0015203F,0,0,0,0,100,100,0,0,1,0,0,5,64,64,0,1
+Style: Tip,Pretendard,28,&H00D9DFEC,&H00D9DFEC,&H0015203F,&H0015203F,0,0,0,0,100,100,0,0,1,0,0,5,64,64,0,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.00,0:00:00.75,Tip,,0,0,0,,{\pos(960,1020)}평가 요청
+Dialogue: 0,0:00:00.75,0:00:01.89,Caption,,0,0,0,,{\pos(960,1020)}정리하겠습니다.
+Dialogue: 0,0:00:01.89,0:00:11.97,Caption,,0,0,0,,{\pos(960,1020)}옴니스는 로컬 환경에서 고장과 정비, 일일 통제를 연결하고, 선택형 추론의 실패에 대응하며, 사람이 검토해 반영하는 책임 경로를\N구현했습니다.
+Dialogue: 0,0:00:11.97,0:00:18.75,Caption,,0,0,0,,{\pos(960,1020)}현재 구현과 시험 결과를 확인했고, 규모 확장과 타체계 연동에 필요한 추가 개발을 제시했습니다.
+Dialogue: 0,0:00:18.75,0:00:24.25,Caption,,0,0,0,,{\pos(960,1020)}이 구조의 운용 적합성과 다음 실증의 확인 항목을 검토해 주시면 감사하겠습니다.
+Dialogue: 0,0:00:24.25,0:00:25.00,Tip,,0,0,0,,{\pos(960,1020)}평가 요청

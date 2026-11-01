@@ -1,0 +1,217 @@
+{
+  "sources": {
+    "overview": {
+      "video": "/Users/alex/Documents/mil_project/release/evaluation-demo/20261101-122939/recordings/page@3bab1bcf5b81303466a6ca26031c6b4e.webm",
+      "start": 3.8484643749999856,
+      "duration": 9.065861708,
+      "offset": 0.9478665419999857
+    },
+    "case": {
+      "video": "/Users/alex/Documents/mil_project/release/evaluation-demo/20261101-122939/recordings/page@3bab1bcf5b81303466a6ca26031c6b4e.webm",
+      "start": 17.584034499999987,
+      "duration": 7.702452666999999,
+      "offset": 0.9478665419999857
+    },
+    "ai-review": {
+      "video": "/Users/alex/Documents/mil_project/release/evaluation-demo/20261101-122939/recordings/page@3bab1bcf5b81303466a6ca26031c6b4e.webm",
+      "start": 25.289810457999987,
+      "duration": 15.905774583999996,
+      "offset": 0.9478665419999857
+    },
+    "timeline": {
+      "video": "/Users/alex/Documents/mil_project/release/evaluation-demo/20261101-122939/recordings/page@3bab1bcf5b81303466a6ca26031c6b4e.webm",
+      "start": 41.23704249999999,
+      "duration": 10.217965041999996,
+      "offset": 0.9478665419999857
+    },
+    "control": {
+      "video": "/Users/alex/Documents/mil_project/release/evaluation-demo/20261101-122939/recordings/page@3bab1bcf5b81303466a6ca26031c6b4e.webm",
+      "start": 53.85372549999998,
+      "duration": 24.330496167000007,
+      "offset": 0.9478665419999857
+    },
+    "fallback": {
+      "video": "/Users/alex/Documents/mil_project/release/evaluation-demo/20261101-122939/recordings/page@3bab1bcf5b81303466a6ca26031c6b4e.webm",
+      "start": 84.32854379199998,
+      "duration": 16.060479041000008,
+      "offset": 0.9478665419999857
+    },
+    "security": {
+      "video": "/Users/alex/Documents/mil_project/release/evaluation-demo/20261101-122939/recordings/page@3bab1bcf5b81303466a6ca26031c6b4e.webm",
+      "start": 102.79595899999998,
+      "duration": 36.558047208000005,
+      "offset": 0.9478665419999857
+    },
+    "history": {
+      "video": "/Users/alex/Documents/mil_project/release/evaluation-demo/20261101-122939/recordings/page@c3f94c58e9664dff673d23baacf82460.webm",
+      "start": 4.453057291,
+      "duration": 5.386938666999999,
+      "offset": 1.8586795
+    },
+    "control-plan": {
+      "video": "/Users/alex/Documents/mil_project/release/evaluation-demo/20261101-122939/recordings/page@01a17be5b9f85a30369f163e40a0cad7.webm",
+      "start": 2.8576410419999982,
+      "duration": 4.721448083,
+      "offset": 0.9299385829999984
+    },
+    "control-reconciliation": {
+      "video": "/Users/alex/Documents/mil_project/release/evaluation-demo/20261101-122939/recordings/page@01a17be5b9f85a30369f163e40a0cad7.webm",
+      "start": 7.579096499999998,
+      "duration": 4.392127708000001,
+      "offset": 0.9299385829999984
+    },
+    "control-handover": {
+      "video": "/Users/alex/Documents/mil_project/release/evaluation-demo/20261101-122939/recordings/page@01a17be5b9f85a30369f163e40a0cad7.webm",
+      "start": 11.971233999999997,
+      "duration": 5.094007833000001,
+      "offset": 0.9299385829999984
+    }
+  },
+  "scenes": {
+    "05": [
+      [
+        "case",
+        2,
+        5,
+        30,
+        [
+          285,
+          112,
+          850,
+          335
+        ]
+      ]
+    ],
+    "11": [
+      [
+        "ai-review",
+        7.2,
+        3.0,
+        30,
+        [
+          285,
+          399,
+          860,
+          276
+        ]
+      ]
+    ],
+    "12": [
+      [
+        "timeline",
+        2.6,
+        7.2,
+        30,
+        [
+          285,
+          276,
+          860,
+          393
+        ]
+      ]
+    ],
+    "13": [
+      [
+        "control-plan",
+        1,
+        2.4,
+        8,
+        [
+          290,
+          290,
+          1110,
+          460
+        ]
+      ],
+      [
+        "control-reconciliation",
+        1,
+        2.4,
+        11,
+        [
+          290,
+          290,
+          1110,
+          460
+        ]
+      ],
+      [
+        "control-handover",
+        1,
+        2.4,
+        11,
+        [
+          290,
+          290,
+          1110,
+          460
+        ]
+      ]
+    ],
+    "14": [
+      [
+        "fallback",
+        4,
+        9.7,
+        20,
+        [
+          285,
+          399,
+          860,
+          276
+        ]
+      ],
+      [
+        "history",
+        1,
+        3.2,
+        10,
+        [
+          510,
+          322,
+          785,
+          112
+        ]
+      ]
+    ],
+    "15": [
+      [
+        "security",
+        12,
+        4,
+        12,
+        [
+          500,
+          210,
+          450,
+          350
+        ]
+      ],
+      [
+        "security",
+        17,
+        3.1,
+        5,
+        [
+          420,
+          150,
+          600,
+          300
+        ]
+      ],
+      [
+        "security",
+        31,
+        4.8,
+        13,
+        [
+          290,
+          225,
+          1110,
+          500
+        ]
+      ]
+    ]
+  },
+  "disclosure": "Actual app recordings cropped for legibility. End frames are held for narration. No UI values are fabricated. Screen action tooltips at the raw top edge are outside these crops."
+}

@@ -1,0 +1,21 @@
+[Script Info]
+ScriptType: v4.00+
+PlayResX: 1920
+PlayResY: 1080
+WrapStyle: 2
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Caption,Pretendard,34,&H00FFFFFF,&H00FFFFFF,&H0015203F,&H0015203F,0,0,0,0,100,100,0,0,1,0,0,5,64,64,0,1
+Style: Tip,Pretendard,28,&H00D9DFEC,&H00D9DFEC,&H0015203F,&H0015203F,0,0,0,0,100,100,0,0,1,0,0,5,64,64,0,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.00,0:00:00.75,Tip,,0,0,0,,{\pos(960,1020)}확장 제안 · 미구현
+Dialogue: 0,0:00:00.75,0:00:04.53,Caption,,0,0,0,,{\pos(960,1020)}첫 단계로는 범위를 제한한 파일 교환을 제안합니다.
+Dialogue: 0,0:00:04.53,0:00:14.83,Caption,,0,0,0,,{\pos(960,1020)}외부 자료를 바로 업무 테이블에 넣지 않고, 원본과 해시를 보존한 뒤 별도 검증 영역에서 형식과 코드, 식별자와 시간대를 확인합니다.
+Dialogue: 0,0:00:14.83,0:00:23.18,Caption,,0,0,0,,{\pos(960,1020)}담당자가 미리보기와 행별 오류를 확인하고 승인하면, 적용 결과와 실행자를 감사 기록에 남기는 방식입니다.
+Dialogue: 0,0:00:23.18,0:00:26.18,Caption,,0,0,0,,{\pos(960,1020)}현재 영상의 이 흐름은 향후 설계안입니다.
+Dialogue: 0,0:00:26.18,0:00:28.85,Caption,,0,0,0,,{\pos(960,1020)}실제 구현 완료를 의미하지 않습니다.
+Dialogue: 0,0:00:28.85,0:00:34.25,Caption,,0,0,0,,{\pos(960,1020)}검증 전 자료가 업무 상태를 바꾸지 않도록 하는 것이 이 단계의 핵심입니다.
+Dialogue: 0,0:00:34.25,0:00:35.00,Tip,,0,0,0,,{\pos(960,1020)}확장 제안 · 미구현

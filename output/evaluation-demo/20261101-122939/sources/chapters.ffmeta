@@ -1,0 +1,44 @@
+;FFMETADATA1
+title=OMNIS 기술평가 발표 · 15분
+artist=OMNIS
+comment=Actual isolated app recording and explanatory diagrams. Korean synthesized narration: macOS Yuna.
+[CHAPTER]
+TIMEBASE=1/1000
+START=0
+END=80000
+title=01. 문제와 목표
+[CHAPTER]
+TIMEBASE=1/1000
+START=80000
+END=140000
+title=02. 기능과 대표 사례
+[CHAPTER]
+TIMEBASE=1/1000
+START=140000
+END=320000
+title=03. 현재 아키텍처
+[CHAPTER]
+TIMEBASE=1/1000
+START=320000
+END=500000
+title=04. 세 가지 설계 차별성
+[CHAPTER]
+TIMEBASE=1/1000
+START=500000
+END=630000
+title=05. 확장성과 변경 조건
+[CHAPTER]
+TIMEBASE=1/1000
+START=630000
+END=760000
+title=06. 타체계 연동 방안
+[CHAPTER]
+TIMEBASE=1/1000
+START=760000
+END=850000
+title=07. 검증과 실증 계획
+[CHAPTER]
+TIMEBASE=1/1000
+START=850000
+END=900000
+title=08. 로드맵과 결론

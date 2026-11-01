@@ -1,0 +1,469 @@
+{
+  "profile": "/Users/alex/Documents/mil_project/release/evaluation-demo/20261101-122939/recordings/profile-1793504113612",
+  "clips": [
+    {
+      "name": "overview",
+      "start": 2.900597833,
+      "end": 11.966459541,
+      "duration": 9.065861708
+    },
+    {
+      "name": "case",
+      "start": 16.636167958,
+      "end": 24.338620625,
+      "duration": 7.702452666999999
+    },
+    {
+      "name": "ai-review",
+      "start": 24.341943916,
+      "end": 40.2477185,
+      "duration": 15.905774583999996
+    },
+    {
+      "name": "timeline",
+      "start": 40.289175958,
+      "end": 50.507141,
+      "duration": 10.217965041999996
+    },
+    {
+      "name": "control",
+      "start": 52.905858957999996,
+      "end": 77.236355125,
+      "duration": 24.330496167000007
+    },
+    {
+      "name": "fallback",
+      "start": 83.38067724999999,
+      "end": 99.441156291,
+      "duration": 16.060479041000008
+    },
+    {
+      "name": "security",
+      "start": 101.848092458,
+      "end": 138.406139666,
+      "duration": 36.558047208000005
+    }
+  ],
+  "errors": [],
+  "dialogs": [],
+  "calls": [
+    {
+      "channel": "work:mine",
+      "ok": true
+    },
+    {
+      "channel": "operations:list",
+      "ok": true
+    },
+    {
+      "channel": "incidents:create",
+      "ok": true
+    },
+    {
+      "channel": "incidents:updateStatus",
+      "ok": true
+    },
+    {
+      "channel": "incidents:get",
+      "ok": true
+    },
+    {
+      "channel": "incidents:get",
+      "ok": true
+    },
+    {
+      "channel": "control:teams",
+      "ok": true
+    },
+    {
+      "channel": "users:list",
+      "ok": true
+    },
+    {
+      "channel": "incidents:assignTeam",
+      "ok": true
+    },
+    {
+      "channel": "incidents:updateStatus",
+      "ok": true
+    },
+    {
+      "channel": "incidents:updateStatus",
+      "ok": true
+    },
+    {
+      "channel": "incidents:updateStatus",
+      "ok": true
+    },
+    {
+      "channel": "incidents:updateStatus",
+      "ok": true
+    },
+    {
+      "channel": "incidents:updateStatus",
+      "ok": true
+    },
+    {
+      "channel": "control:reconciliation",
+      "ok": true
+    },
+    {
+      "channel": "system:getAiSettings",
+      "ok": true
+    },
+    {
+      "channel": "system:setAiSettings",
+      "ok": true
+    },
+    {
+      "channel": "ai:listRuns",
+      "ok": true
+    },
+    {
+      "channel": "system:setAiSettings",
+      "ok": true
+    },
+    {
+      "channel": "incidents:get",
+      "ok": true
+    },
+    {
+      "channel": "incidents:getEvents",
+      "ok": true
+    }
+  ],
+  "appVersion": "1.1.0",
+  "captureMethod": "Playwright Electron native recordVideo, real installed application, isolated synthetic profile",
+  "dataPreparation": "Synthetic incident and state progression use validated Main IPC; filmed review/approve/fallback/account actions use visible UI.",
+  "selectedSystem": {
+    "id": "d68c6255-f9a6-401c-bf82-a879a6d6ad41",
+    "name": "기반통신 01"
+  },
+  "incidentId": "adb5e82b-33e2-4679-905b-d7769be47995",
+  "aiReview": {
+    "before": {
+      "category": "기반통신",
+      "severity": "URGENT",
+      "team_id": null
+    },
+    "afterAnalysis": {
+      "category": "기반통신",
+      "severity": "URGENT",
+      "team_id": null
+    },
+    "unchanged": true
+  },
+  "reconciliation": [
+    {
+      "issue_type": "INCIDENT_RESULT_MISSING",
+      "entity_type": "incident",
+      "entity_id": "88c932aa-6769-45e6-a378-c82bd3d6012d",
+      "description": "INC-DEMO-0007: 조치결과가 입력되지 않았습니다.",
+      "status": "OPEN"
+    },
+    {
+      "issue_type": "INCIDENT_RESULT_MISSING",
+      "entity_type": "incident",
+      "entity_id": "9b59de37-78a0-40a1-981b-d834c3ce0c4b",
+      "description": "INC-DEMO-0014: 조치결과가 입력되지 않았습니다.",
+      "status": "OPEN"
+    },
+    {
+      "issue_type": "INCIDENT_RESULT_MISSING",
+      "entity_type": "incident",
+      "entity_id": "99158d6b-c8aa-4163-a3c1-7f6ec9935d85",
+      "description": "INC-DEMO-0021: 조치결과가 입력되지 않았습니다.",
+      "status": "OPEN"
+    },
+    {
+      "issue_type": "INCIDENT_RESULT_MISSING",
+      "entity_type": "incident",
+      "entity_id": "740e1232-269c-4367-9ddb-60485aa9e3b6",
+      "description": "INC-DEMO-0028: 조치결과가 입력되지 않았습니다.",
+      "status": "OPEN"
+    },
+    {
+      "issue_type": "INCIDENT_RESULT_MISSING",
+      "entity_type": "incident",
+      "entity_id": "6c97467d-5286-47af-9fb0-a2d98aca9cbb",
+      "description": "INC-DEMO-0035: 조치결과가 입력되지 않았습니다.",
+      "status": "OPEN"
+    },
+    {
+      "issue_type": "INCIDENT_RESULT_MISSING",
+      "entity_type": "incident",
+      "entity_id": "a25095c9-6083-4a23-8839-9a4b3bdba7cc",
+      "description": "INC-DEMO-0042: 조치결과가 입력되지 않았습니다.",
+      "status": "OPEN"
+    },
+    {
+      "issue_type": "INCIDENT_RESULT_MISSING",
+      "entity_type": "incident",
+      "entity_id": "2499ae89-1e60-4e68-8928-99f52cfa2e2e",
+      "description": "INC-DEMO-0049: 조치결과가 입력되지 않았습니다.",
+      "status": "OPEN"
+    },
+    {
+      "issue_type": "INCIDENT_RESULT_MISSING",
+      "entity_type": "incident",
+      "entity_id": "06ec675d-4c4c-4d0d-aabf-37965dce5601",
+      "description": "INC-DEMO-0006: 조치결과가 입력되지 않았습니다.",
+      "status": "OPEN"
+    },
+    {
+      "issue_type": "INCIDENT_RESULT_MISSING",
+      "entity_type": "incident",
+      "entity_id": "67579c49-3ad2-4b15-9e11-7f6dbc7e4388",
+      "description": "INC-DEMO-0013: 조치결과가 입력되지 않았습니다.",
+      "status": "OPEN"
+    },
+    {
+      "issue_type": "INCIDENT_RESULT_MISSING",
+      "entity_type": "incident",
+      "entity_id": "e795df47-5cd1-4bc3-8ded-32dcc7fbf498",
+      "description": "INC-DEMO-0020: 조치결과가 입력되지 않았습니다.",
+      "status": "OPEN"
+    },
+    {
+      "issue_type": "INCIDENT_RESULT_MISSING",
+      "entity_type": "incident",
+      "entity_id": "5ff7b01a-7e2d-43d3-9ab5-cae04a89bf28",
+      "description": "INC-DEMO-0027: 조치결과가 입력되지 않았습니다.",
+      "status": "OPEN"
+    },
+    {
+      "issue_type": "INCIDENT_RESULT_MISSING",
+      "entity_type": "incident",
+      "entity_id": "bdba69ba-6516-4f71-aa9f-4f929eb73e6b",
+      "description": "INC-DEMO-0034: 조치결과가 입력되지 않았습니다.",
+      "status": "OPEN"
+    },
+    {
+      "issue_type": "INCIDENT_RESULT_MISSING",
+      "entity_type": "incident",
+      "entity_id": "55c01be3-35ec-4d52-bb3c-88f8b3ab8320",
+      "description": "INC-DEMO-0041: 조치결과가 입력되지 않았습니다.",
+      "status": "OPEN"
+    },
+    {
+      "issue_type": "INCIDENT_RESULT_MISSING",
+      "entity_type": "incident",
+      "entity_id": "dc7526c4-d2b0-4fe8-b093-b179ecc32528",
+      "description": "INC-DEMO-0048: 조치결과가 입력되지 않았습니다.",
+      "status": "OPEN"
+    }
+  ],
+  "closedInFilm": false,
+  "aiRuns": [
+    {
+      "id": "1b2d01a0-15d5-4e8c-8dc2-710c2952eacd",
+      "feature": "incident_triage",
+      "selected_provider": "OLLAMA",
+      "provider": "LOCAL",
+      "model": "rules-v3",
+      "prompt_version": "triage-v3",
+      "confidence": 0.78,
+      "latency_ms": 868,
+      "status": "FALLBACK",
+      "fallback_used": 1,
+      "applied": 0,
+      "created_at": "2026-11-01T03:36:45.306Z",
+      "request_id": null,
+      "input_tokens": null,
+      "output_tokens": null,
+      "error_code": "NETWORK_ERROR",
+      "external_transmission": 0
+    },
+    {
+      "id": "f162f8b1-76d6-417c-a5a2-d47b58d6bba5",
+      "feature": "incident_triage",
+      "selected_provider": "LOCAL",
+      "provider": "LOCAL",
+      "model": "rules-v3",
+      "prompt_version": "triage-v3",
+      "confidence": 0.78,
+      "latency_ms": 0,
+      "status": "SUCCESS",
+      "fallback_used": 0,
+      "applied": 1,
+      "created_at": "2026-11-01T03:35:45.482Z",
+      "request_id": null,
+      "input_tokens": null,
+      "output_tokens": null,
+      "error_code": null,
+      "external_transmission": 0
+    }
+  ],
+  "fallbackEvidence": {
+    "id": "1b2d01a0-15d5-4e8c-8dc2-710c2952eacd",
+    "feature": "incident_triage",
+    "selected_provider": "OLLAMA",
+    "provider": "LOCAL",
+    "model": "rules-v3",
+    "prompt_version": "triage-v3",
+    "confidence": 0.78,
+    "latency_ms": 868,
+    "status": "FALLBACK",
+    "fallback_used": 1,
+    "applied": 0,
+    "created_at": "2026-11-01T03:36:45.306Z",
+    "request_id": null,
+    "input_tokens": null,
+    "output_tokens": null,
+    "error_code": "NETWORK_ERROR",
+    "external_transmission": 0
+  },
+  "result": {
+    "incident": {
+      "id": "adb5e82b-33e2-4679-905b-d7769be47995",
+      "ticket_no": "INC-20261101-0001",
+      "title": "가상 운용실 회선 간헐 중단",
+      "category": "전송장비",
+      "system_id": "d68c6255-f9a6-401c-bf82-a879a6d6ad41",
+      "severity": "URGENT",
+      "status": "CLOSED",
+      "description": "가상 운용실 회선이 약 5분 간격으로 중단됩니다. 다른 단말은 정상 통신을 확인했습니다.",
+      "reported_by": "1779fe4b-b6f9-4088-a2f2-23004c1a77d2",
+      "assigned_to": "c52e6976-b57b-42c1-9f16-64d4aef3c7f8",
+      "department": "가상 운용반",
+      "reported_at": "2026-11-01T03:35:17.372Z",
+      "assigned_at": "2026-11-01T03:35:54.754Z",
+      "started_at": "2026-11-01T03:35:54.757Z",
+      "resolved_at": "2026-11-01T03:35:54.761Z",
+      "closed_at": "2026-11-01T03:35:54.765Z",
+      "cause": "가상 회선 연결부 접촉 불량",
+      "action_summary": "연결부 재체결 후 가상 통신 시험 3회 정상 확인",
+      "ai_category": "전송장비",
+      "ai_priority": "URGENT",
+      "ai_confidence": 0.78,
+      "created_at": "2026-11-01T03:35:17.372Z",
+      "updated_at": "2026-11-01T03:35:54.765Z",
+      "intake_source": "PHONE",
+      "reporter_name": "가상 신고자",
+      "equipment_name": "가상 회선 단말",
+      "service_impact": "가상 운용실 단말 한 대의 자료 전송이 지연됩니다.",
+      "occurred_at": "2026-11-01T03:35:17.372Z",
+      "desired_resolution_at": null,
+      "team_id": "c3750a01-fc6f-4fd8-96c5-75b3cf0df66f",
+      "resolution_mode": "ON_SITE",
+      "emergency_preaction": 0,
+      "emergency_reason": null,
+      "actual_action_started_at": null,
+      "sla_due_at": "2026-11-01T04:35:17.373Z",
+      "verified_at": "2026-11-01T03:35:54.763Z",
+      "recurrence_risk": "LOW",
+      "follow_up_date": "2026-11-01",
+      "user_confirmed": 1,
+      "ai_rationale": "중단·불통·긴급 키워드와 서비스 영향 표현이 탐지되었습니다.",
+      "ai_recommended_team": "c3750a01-fc6f-4fd8-96c5-75b3cf0df66f",
+      "system_name": "기반통신 01",
+      "team_name": "유선정비반",
+      "assignee_name": "서네트",
+      "intake": null
+    },
+    "events": [
+      {
+        "id": "94f557ab-5279-4fc7-80e3-7f28b87f24b5",
+        "incident_id": "adb5e82b-33e2-4679-905b-d7769be47995",
+        "event_type": "CREATED",
+        "from_status": null,
+        "to_status": "RECEIVED",
+        "note": "신규 접수",
+        "actor_id": "1779fe4b-b6f9-4088-a2f2-23004c1a77d2",
+        "created_at": "2026-11-01T03:35:17.372Z",
+        "metadata_json": "{\"intakeSource\":\"PHONE\",\"emergencyPreaction\":false}"
+      },
+      {
+        "id": "e7defa79-f0a6-473f-93bd-df2997758da7",
+        "incident_id": "adb5e82b-33e2-4679-905b-d7769be47995",
+        "event_type": "STATUS_CHANGED",
+        "from_status": "RECEIVED",
+        "to_status": "TRIAGED",
+        "note": "가상 평가 사례: 신고 내용과 영향 범위 확인",
+        "actor_id": "1779fe4b-b6f9-4088-a2f2-23004c1a77d2",
+        "created_at": "2026-11-01T03:35:17.376Z",
+        "metadata_json": "{\"resolutionMode\":null}"
+      },
+      {
+        "id": "f90a34e0-4f30-4511-b589-db2d013e9635",
+        "incident_id": "adb5e82b-33e2-4679-905b-d7769be47995",
+        "event_type": "AI_APPLIED",
+        "from_status": "TRIAGED",
+        "to_status": "TRIAGED",
+        "note": "AI 분류 검토 후 반영",
+        "actor_id": "1779fe4b-b6f9-4088-a2f2-23004c1a77d2",
+        "created_at": "2026-11-01T03:35:51.526Z",
+        "metadata_json": "{\"confidence\":0.78,\"teamId\":\"c3750a01-fc6f-4fd8-96c5-75b3cf0df66f\"}"
+      },
+      {
+        "id": "2e9d63a7-6715-4a3e-a173-7233e2fd38f4",
+        "incident_id": "adb5e82b-33e2-4679-905b-d7769be47995",
+        "event_type": "TEAM_ASSIGNED",
+        "from_status": "TRIAGED",
+        "to_status": "ASSIGNED",
+        "note": "가상 평가 사례: 유선정비반 배정",
+        "actor_id": "1779fe4b-b6f9-4088-a2f2-23004c1a77d2",
+        "created_at": "2026-11-01T03:35:54.754Z",
+        "metadata_json": "{\"teamId\":\"c3750a01-fc6f-4fd8-96c5-75b3cf0df66f\",\"userId\":\"c52e6976-b57b-42c1-9f16-64d4aef3c7f8\"}"
+      },
+      {
+        "id": "7defce98-f6c7-4d6d-9fcc-67a9bd8db846",
+        "incident_id": "adb5e82b-33e2-4679-905b-d7769be47995",
+        "event_type": "STATUS_CHANGED",
+        "from_status": "ASSIGNED",
+        "to_status": "REMOTE_IN_PROGRESS",
+        "note": "가상 원격 점검: 포트 상태 및 단말 연결 확인",
+        "actor_id": "1779fe4b-b6f9-4088-a2f2-23004c1a77d2",
+        "created_at": "2026-11-01T03:35:54.757Z",
+        "metadata_json": "{\"resolutionMode\":\"REMOTE\"}"
+      },
+      {
+        "id": "dfadd487-6bfd-4702-8431-d7ebdab5db0c",
+        "incident_id": "adb5e82b-33e2-4679-905b-d7769be47995",
+        "event_type": "STATUS_CHANGED",
+        "from_status": "REMOTE_IN_PROGRESS",
+        "to_status": "ON_SITE_IN_PROGRESS",
+        "note": "가상 원격 점검 후 연결부 확인을 위해 현장 전환",
+        "actor_id": "1779fe4b-b6f9-4088-a2f2-23004c1a77d2",
+        "created_at": "2026-11-01T03:35:54.759Z",
+        "metadata_json": "{\"resolutionMode\":\"ON_SITE\"}"
+      },
+      {
+        "id": "a8803b16-f003-4c8f-82f6-d4b4cf3ebedd",
+        "incident_id": "adb5e82b-33e2-4679-905b-d7769be47995",
+        "event_type": "STATUS_CHANGED",
+        "from_status": "ON_SITE_IN_PROGRESS",
+        "to_status": "RESOLVED",
+        "note": "가상 현장 통신 시험 정상 확인",
+        "actor_id": "1779fe4b-b6f9-4088-a2f2-23004c1a77d2",
+        "created_at": "2026-11-01T03:35:54.761Z",
+        "metadata_json": "{\"resolutionMode\":\"ON_SITE\",\"cause\":\"가상 회선 연결부 접촉 불량\",\"recurrenceRisk\":\"LOW\"}"
+      },
+      {
+        "id": "6049d52b-f650-465b-9411-f3bc6af80cf8",
+        "incident_id": "adb5e82b-33e2-4679-905b-d7769be47995",
+        "event_type": "STATUS_CHANGED",
+        "from_status": "RESOLVED",
+        "to_status": "VERIFIED",
+        "note": "가상 통제 담당자 조치 결과 확인",
+        "actor_id": "1779fe4b-b6f9-4088-a2f2-23004c1a77d2",
+        "created_at": "2026-11-01T03:35:54.763Z",
+        "metadata_json": "{\"resolutionMode\":\"ON_SITE\"}"
+      },
+      {
+        "id": "7dce8712-95b6-4cba-a9ca-0e8e5e001d0f",
+        "incident_id": "adb5e82b-33e2-4679-905b-d7769be47995",
+        "event_type": "STATUS_CHANGED",
+        "from_status": "VERIFIED",
+        "to_status": "CLOSED",
+        "note": "가상 요청부서 사용자 확인 후 종결",
+        "actor_id": "1779fe4b-b6f9-4088-a2f2-23004c1a77d2",
+        "created_at": "2026-11-01T03:35:54.765Z",
+        "metadata_json": "{\"resolutionMode\":\"ON_SITE\"}"
+      }
+    ],
+    "providerAfter": "LOCAL"
+  },
+  "recordingEnd": 138.41213345800003,
+  "videoPath": "/Users/alex/Documents/mil_project/release/evaluation-demo/20261101-122939/recordings/page@3bab1bcf5b81303466a6ca26031c6b4e.webm"
+}

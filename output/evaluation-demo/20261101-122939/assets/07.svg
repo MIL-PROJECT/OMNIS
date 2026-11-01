@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080"><title>신뢰 경계는 화면 밖에 둡니다</title><desc>OMNIS 기술 평가 발표. 현재 구현</desc>
+<rect x="0" y="0" width="1920" height="1080" rx="0" fill="#F2F4F8" stroke="none" stroke-width="2"/>
+<text x="80" y="69" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="28" font-weight="700" fill="#232E6B">OMNIS</text>
+<text x="255" y="69" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="23" font-weight="500" fill="#64708A">03 / 현재 아키텍처</text>
+<rect x="1390" y="35" width="360" height="44" rx="22" fill="#E9F6F1" stroke="none" stroke-width="2"/>
+<text x="1406" y="63" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="22" font-weight="600" fill="#147F73">현재 구현</text>
+<text x="1785" y="68" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="22" font-weight="400" fill="#64708A">07 / 30</text>
+<text x="80" y="170" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="52" font-weight="700" fill="#232E6B">신뢰 경계는 화면 밖에 둡니다</text>
+<polyline points="80,210 1840,210" fill="none" stroke="#DCE2ED" stroke-width="2" stroke-linejoin="round"/>
+<rect x="80" y="288" width="568" height="390" rx="20" fill="#FFFFFF" stroke="#DCE2ED" stroke-width="2"/>
+<rect x="104" y="316" width="7" height="38" rx="3" fill="#232E6B" stroke="none" stroke-width="2"/>
+<text x="128" y="346" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="34" font-weight="700" fill="#232E6B">화면 경계</text>
+<text x="112" y="416" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="29" font-weight="400" fill="#64708A">nodeIntegration=false · sandbox=true</text>
+<rect x="676" y="288" width="568" height="390" rx="20" fill="#FFFFFF" stroke="#DCE2ED" stroke-width="2"/>
+<rect x="700" y="316" width="7" height="38" rx="3" fill="#232E6B" stroke="none" stroke-width="2"/>
+<text x="724" y="346" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="34" font-weight="700" fill="#232E6B">입력 경계</text>
+<text x="708" y="416" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="29" font-weight="400" fill="#64708A">송신 프레임 확인 · Zod 계약</text>
+<rect x="1272" y="288" width="568" height="390" rx="20" fill="#FFFFFF" stroke="#DCE2ED" stroke-width="2"/>
+<rect x="1296" y="316" width="7" height="38" rx="3" fill="#232E6B" stroke="none" stroke-width="2"/>
+<text x="1320" y="346" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="34" font-weight="700" fill="#232E6B">업무 경계</text>
+<text x="1304" y="416" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="29" font-weight="400" fill="#64708A">현재 인증 상태 · 역할 · 대상 조건</text>
+<rect x="80" y="741" width="1760" height="125" rx="20" fill="#E9F6F1" stroke="none" stroke-width="2"/>
+<text x="116" y="801" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="31" font-weight="700" fill="#147F73">신뢰 경계의 의미</text>
+<text x="116" y="846" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="28" font-weight="400" fill="#147F73">UI 표시와 Main의 실행 권한을 분리합니다. 데이터별 접근 범위는 서비스에서 확인합니다.</text>
+<text x="80" y="942" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="20" font-weight="400" fill="#64708A">registerIpc.ts · AccountSecurity.ts · 각 업무 서비스</text>
+<rect x="0" y="962" width="1920" height="118" rx="0" fill="#15203F" stroke="none" stroke-width="2"/>
+</svg>

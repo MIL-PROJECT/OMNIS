@@ -1,0 +1,48 @@
+Input #0, mov,mp4,m4a,3gp,3g2,mj2, from '/Users/alex/Documents/mil_project/release/evaluation-demo/20261101-122939/OMNIS_기술평가_시현영상_15분.mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    title           : OMNIS 기술평가 발표 · 15분
+    artist          : OMNIS
+    encoder         : Lavf61.7.100
+    comment         : Actual isolated app recording and explanatory diagrams. Korean synthesized narration: macOS Yuna.
+  Duration: 00:15:00.02, start: 0.000000, bitrate: 275 kb/s
+  Chapters:
+    Chapter #0:0: start 0.000000, end 80.000000
+      Metadata:
+        title           : 01. 문제와 목표
+    Chapter #0:1: start 80.000000, end 140.000000
+      Metadata:
+        title           : 02. 기능과 대표 사례
+    Chapter #0:2: start 140.000000, end 320.000000
+      Metadata:
+        title           : 03. 현재 아키텍처
+    Chapter #0:3: start 320.000000, end 500.000000
+      Metadata:
+        title           : 04. 세 가지 설계 차별성
+    Chapter #0:4: start 500.000000, end 630.000000
+      Metadata:
+        title           : 05. 확장성과 변경 조건
+    Chapter #0:5: start 630.000000, end 760.000000
+      Metadata:
+        title           : 06. 타체계 연동 방안
+    Chapter #0:6: start 760.000000, end 850.000000
+      Metadata:
+        title           : 07. 검증과 실증 계획
+    Chapter #0:7: start 850.000000, end 900.000000
+      Metadata:
+        title           : 08. 로드맵과 결론
+  Stream #0:0[0x1](und): Video: h264 (High) (avc1 / 0x31637661), yuv420p(progressive), 1920x1080, 108 kb/s, 30 fps, 30 tbr, 15360 tbn (default)
+      Metadata:
+        handler_name    : VideoHandler
+        vendor_id       : [0][0][0][0]
+        encoder         : Lavc61.19.100 libx264
+  Stream #0:1[0x2](und): Audio: aac (LC) (mp4a / 0x6134706D), 48000 Hz, mono, fltp, 158 kb/s (default)
+      Metadata:
+        handler_name    : SoundHandler
+        vendor_id       : [0][0][0][0]
+  Stream #0:2[0x3](eng): Data: bin_data (text / 0x74786574), 0 kb/s
+      Metadata:
+        handler_name    : SubtitleHandler
+At least one output file must be specified

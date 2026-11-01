@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080"><title>AI 확장은 공통 계약과 개별 조건을 함께 봅니다</title><desc>OMNIS 기술 평가 발표. 현재 계약 + 제공자 확장안</desc>
+<rect x="0" y="0" width="1920" height="1080" rx="0" fill="#F2F4F8" stroke="none" stroke-width="2"/>
+<text x="80" y="69" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="28" font-weight="700" fill="#232E6B">OMNIS</text>
+<text x="255" y="69" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="23" font-weight="500" fill="#64708A">05 / 확장성과 변경 조건</text>
+<rect x="1390" y="35" width="360" height="44" rx="22" fill="#E9F6F1" stroke="none" stroke-width="2"/>
+<text x="1406" y="63" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="22" font-weight="600" fill="#147F73">현재 계약 + 제공자 확장안</text>
+<text x="1785" y="68" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="22" font-weight="400" fill="#64708A">19 / 30</text>
+<text x="80" y="170" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="52" font-weight="700" fill="#232E6B">AI 확장은 공통 계약과 개별 조건을 함께 봅니다</text>
+<polyline points="80,210 1840,210" fill="none" stroke="#DCE2ED" stroke-width="2" stroke-linejoin="round"/>
+<rect x="80" y="285" width="419" height="455" rx="20" fill="#FFFFFF" stroke="#DCE2ED" stroke-width="2"/>
+<rect x="104" y="313" width="7" height="38" rx="3" fill="#232E6B" stroke="none" stroke-width="2"/>
+<text x="128" y="343" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="34" font-weight="700" fill="#232E6B">재사용</text>
+<text x="112" y="413" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="29" font-weight="400" fill="#64708A">AIProvider · 실행 제어 · 이력</text>
+<rect x="527" y="285" width="419" height="455" rx="20" fill="#FFFFFF" stroke="#DCE2ED" stroke-width="2"/>
+<rect x="551" y="313" width="7" height="38" rx="3" fill="#232E6B" stroke="none" stroke-width="2"/>
+<text x="575" y="343" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="34" font-weight="700" fill="#232E6B">추가 구현</text>
+<text x="559" y="413" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="29" font-weight="400" fill="#64708A">설정 · 인증 · 호출 · 출력 변환</text>
+<rect x="974" y="285" width="419" height="455" rx="20" fill="#FFFFFF" stroke="#DCE2ED" stroke-width="2"/>
+<rect x="998" y="313" width="7" height="38" rx="3" fill="#232E6B" stroke="none" stroke-width="2"/>
+<text x="1022" y="343" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="34" font-weight="700" fill="#232E6B">검증</text>
+<text x="1006" y="413" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="29" font-weight="400" fill="#64708A">형식 · 오류 · 후보 대조 · 비용</text>
+<rect x="1421" y="285" width="419" height="455" rx="20" fill="#FFFFFF" stroke="#DCE2ED" stroke-width="2"/>
+<rect x="1445" y="313" width="7" height="38" rx="3" fill="#232E6B" stroke="none" stroke-width="2"/>
+<text x="1469" y="343" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="34" font-weight="700" fill="#232E6B">운영 조건</text>
+<text x="1453" y="413" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="29" font-weight="400" fill="#64708A">모델 가용성 · 응답 품질 실증</text>
+<rect x="80" y="784" width="1760" height="86" rx="20" fill="#EBEFFA" stroke="none" stroke-width="2"/>
+<text x="115" y="839" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="32" font-weight="600" fill="#232E6B">새 Provider = 계약 재사용 + 공급자별 구현 + 실제 응답 검증</text>
+<text x="80" y="942" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="20" font-weight="400" fill="#64708A">AIProvider.ts · AIProviderFactory.ts · 개별 Provider 구현</text>
+<rect x="0" y="962" width="1920" height="118" rx="0" fill="#15203F" stroke="none" stroke-width="2"/>
+</svg>

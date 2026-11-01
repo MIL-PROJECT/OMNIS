@@ -1,0 +1,21 @@
+[Script Info]
+ScriptType: v4.00+
+PlayResX: 1920
+PlayResY: 1080
+WrapStyle: 2
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Caption,Pretendard,34,&H00FFFFFF,&H00FFFFFF,&H0015203F,&H0015203F,0,0,0,0,100,100,0,0,1,0,0,5,64,64,0,1
+Style: Tip,Pretendard,28,&H00D9DFEC,&H00D9DFEC,&H0015203F,&H0015203F,0,0,0,0,100,100,0,0,1,0,0,5,64,64,0,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.00,0:00:00.75,Tip,,0,0,0,,{\pos(960,1020)}현재 구현
+Dialogue: 0,0:00:00.75,0:00:04.26,Caption,,0,0,0,,{\pos(960,1020)}인공지능 경로는 기본 업무 저장과 분리되어 있습니다.
+Dialogue: 0,0:00:04.26,0:00:08.60,Caption,,0,0,0,,{\pos(960,1020)}로컬은 메인 안의 결정적 규칙이고, 생성형 언어모델은 아닙니다.
+Dialogue: 0,0:00:08.60,0:00:14.38,Caption,,0,0,0,,{\pos(960,1020)}올라마는 별도 로컬 프로세스이며, 오픈에이아이와 앤트로픽은 선택적인 외부 연결입니다.
+Dialogue: 0,0:00:14.38,0:00:19.89,Caption,,0,0,0,,{\pos(960,1020)}팩토리가 설정에 맞는 구현을 선택하고, 오케스트레이터가 실패와 이력을 관리합니다.
+Dialogue: 0,0:00:19.89,0:00:23.80,Caption,,0,0,0,,{\pos(960,1020)}외부 호출은 활성화와 동의, 자격정보 조건을 거칩니다.
+Dialogue: 0,0:00:23.80,0:00:29.25,Caption,,0,0,0,,{\pos(960,1020)}전송 최소화와 마스킹도 완전한 비식별화를 보장하는 수단으로 설명하지는 않습니다.
+Dialogue: 0,0:00:29.25,0:00:30.00,Tip,,0,0,0,,{\pos(960,1020)}현재 구현

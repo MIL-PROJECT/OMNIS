@@ -1,0 +1,21 @@
+[Script Info]
+ScriptType: v4.00+
+PlayResX: 1920
+PlayResY: 1080
+WrapStyle: 2
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Caption,Pretendard,34,&H00FFFFFF,&H00FFFFFF,&H0015203F,&H0015203F,0,0,0,0,100,100,0,0,1,0,0,5,64,64,0,1
+Style: Tip,Pretendard,28,&H00D9DFEC,&H00D9DFEC,&H0015203F,&H0015203F,0,0,0,0,100,100,0,0,1,0,0,5,64,64,0,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.00,0:00:00.75,Tip,,0,0,0,,{\pos(960,1020)}현재 한계 + 구조 확장안
+Dialogue: 0,0:00:00.75,0:00:04.35,Caption,,0,0,0,,{\pos(960,1020)}사용자와 데이터 규모의 확장은 별도로 보아야 합니다.
+Dialogue: 0,0:00:04.35,0:00:09.40,Caption,,0,0,0,,{\pos(960,1020)}현재는 한 설치 환경의 로컬 데이터베이스와 세션을 중심으로 동작합니다.
+Dialogue: 0,0:00:09.40,0:00:19.02,Caption,,0,0,0,,{\pos(960,1020)}왈 모드와 잠금 대기는 로컬 접근을 다루는 설정이며, 여러 피씨가 안전하게 같은 업무를 동시 수정하는 분산 구조를 제공하지는\N않습니다.
+Dialogue: 0,0:00:19.02,0:00:27.40,Caption,,0,0,0,,{\pos(960,1020)}여러 장비로 확장하려면 중앙 서비스와 인증, 저장소, 동시성 제어, 동기화와 장애 복구 정책이 필요합니다.
+Dialogue: 0,0:00:27.40,0:00:31.38,Caption,,0,0,0,,{\pos(960,1020)}데이터베이스 제품만 바꿔서는 이 요구가 해결되지 않습니다.
+Dialogue: 0,0:00:31.38,0:00:34.25,Caption,,0,0,0,,{\pos(960,1020)}수용 가능한 규모는 측정으로 정해야 합니다.
+Dialogue: 0,0:00:34.25,0:00:35.00,Tip,,0,0,0,,{\pos(960,1020)}현재 한계 + 구조 확장안

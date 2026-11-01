@@ -1,0 +1,21 @@
+[Script Info]
+ScriptType: v4.00+
+PlayResX: 1920
+PlayResY: 1080
+WrapStyle: 2
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Caption,Pretendard,34,&H00FFFFFF,&H00FFFFFF,&H0015203F,&H0015203F,0,0,0,0,100,100,0,0,1,0,0,5,64,64,0,1
+Style: Tip,Pretendard,28,&H00D9DFEC,&H00D9DFEC,&H0015203F,&H0015203F,0,0,0,0,100,100,0,0,1,0,0,5,64,64,0,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.00,0:00:00.75,Tip,,0,0,0,,{\pos(960,1020)}현재 구현
+Dialogue: 0,0:00:00.75,0:00:04.78,Caption,,0,0,0,,{\pos(960,1020)}실제 화면에서 로컬 규칙의 추천 결과를 확인하겠습니다.
+Dialogue: 0,0:00:04.78,0:00:09.21,Caption,,0,0,0,,{\pos(960,1020)}결과에는 분류와 추천 부서, 근거와 예상시간이 표시됩니다.
+Dialogue: 0,0:00:09.21,0:00:14.15,Caption,,0,0,0,,{\pos(960,1020)}분석 결과를 얻는 것만으로 기존 접수의 분류와 배정이 바뀌지는 않습니다.
+Dialogue: 0,0:00:14.15,0:00:19.24,Caption,,0,0,0,,{\pos(960,1020)}권한 있는 담당자가 검토 후 반영을 눌러 별도 업무 요청을 보내야 합니다.
+Dialogue: 0,0:00:19.24,0:00:24.35,Caption,,0,0,0,,{\pos(960,1020)}화면의 신뢰도 숫자는 실측 정확도나 보정된 확률로 해석하지 않습니다.
+Dialogue: 0,0:00:24.35,0:00:29.25,Caption,,0,0,0,,{\pos(960,1020)}통계적 성능 평가는 별도 평가 자료와 기준을 마련해 수행해야 합니다.
+Dialogue: 0,0:00:29.25,0:00:30.00,Tip,,0,0,0,,{\pos(960,1020)}현재 구현

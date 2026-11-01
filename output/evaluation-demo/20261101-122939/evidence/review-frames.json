@@ -1,0 +1,254 @@
+[
+  {
+    "scene": "01",
+    "seconds": 12.5,
+    "file": "/Users/alex/Documents/mil_project/release/evaluation-demo/20261101-122939/장면_미리보기/01.png",
+    "kind": "midpoint"
+  },
+  {
+    "scene": "02",
+    "seconds": 40.0,
+    "file": "/Users/alex/Documents/mil_project/release/evaluation-demo/20261101-122939/장면_미리보기/02.png",
+    "kind": "midpoint"
+  },
+  {
+    "scene": "03",
+    "seconds": 67.5,
+    "file": "/Users/alex/Documents/mil_project/release/evaluation-demo/20261101-122939/장면_미리보기/03.png",
+    "kind": "midpoint"
+  },
+  {
+    "scene": "04",
+    "seconds": 95.0,
+    "file": "/Users/alex/Documents/mil_project/release/evaluation-demo/20261101-122939/장면_미리보기/04.png",
+    "kind": "midpoint"
+  },
+  {
+    "scene": "05",
+    "seconds": 125.0,
+    "file": "/Users/alex/Documents/mil_project/release/evaluation-demo/20261101-122939/장면_미리보기/05.png",
+    "kind": "midpoint"
+  },
+  {
+    "scene": "06",
+    "seconds": 155.0,
+    "file": "/Users/alex/Documents/mil_project/release/evaluation-demo/20261101-122939/장면_미리보기/06.png",
+    "kind": "midpoint"
+  },
+  {
+    "scene": "07",
+    "seconds": 185.0,
+    "file": "/Users/alex/Documents/mil_project/release/evaluation-demo/20261101-122939/장면_미리보기/07.png",
+    "kind": "midpoint"
+  },
+  {
+    "scene": "08",
+    "seconds": 215.0,
+    "file": "/Users/alex/Documents/mil_project/release/evaluation-demo/20261101-122939/장면_미리보기/08.png",
+    "kind": "midpoint"
+  },
+  {
+    "scene": "09",
+    "seconds": 245.0,
+    "file": "/Users/alex/Documents/mil_project/release/evaluation-demo/20261101-122939/장면_미리보기/09.png",
+    "kind": "midpoint"
+  },
+  {
+    "scene": "10",
+    "seconds": 275.0,
+    "file": "/Users/alex/Documents/mil_project/release/evaluation-demo/20261101-122939/장면_미리보기/10.png",
+    "kind": "midpoint"
+  },
+  {
+    "scene": "11",
+    "seconds": 305.0,
+    "file": "/Users/alex/Documents/mil_project/release/evaluation-demo/20261101-122939/장면_미리보기/11.png",
+    "kind": "midpoint"
+  },
+  {
+    "scene": "12",
+    "seconds": 335.0,
+    "file": "/Users/alex/Documents/mil_project/release/evaluation-demo/20261101-122939/장면_미리보기/12.png",
+    "kind": "midpoint"
+  },
+  {
+    "scene": "13",
+    "seconds": 365.0,
+    "file": "/Users/alex/Documents/mil_project/release/evaluation-demo/20261101-122939/장면_미리보기/13.png",
+    "kind": "midpoint"
+  },
+  {
+    "scene": "14",
+    "seconds": 395.0,
+    "file": "/Users/alex/Documents/mil_project/release/evaluation-demo/20261101-122939/장면_미리보기/14.png",
+    "kind": "midpoint"
+  },
+  {
+    "scene": "15",
+    "seconds": 425.0,
+    "file": "/Users/alex/Documents/mil_project/release/evaluation-demo/20261101-122939/장면_미리보기/15.png",
+    "kind": "midpoint"
+  },
+  {
+    "scene": "16",
+    "seconds": 455.0,
+    "file": "/Users/alex/Documents/mil_project/release/evaluation-demo/20261101-122939/장면_미리보기/16.png",
+    "kind": "midpoint"
+  },
+  {
+    "scene": "17",
+    "seconds": 485.0,
+    "file": "/Users/alex/Documents/mil_project/release/evaluation-demo/20261101-122939/장면_미리보기/17.png",
+    "kind": "midpoint"
+  },
+  {
+    "scene": "18",
+    "seconds": 515.0,
+    "file": "/Users/alex/Documents/mil_project/release/evaluation-demo/20261101-122939/장면_미리보기/18.png",
+    "kind": "midpoint"
+  },
+  {
+    "scene": "19",
+    "seconds": 547.5,
+    "file": "/Users/alex/Documents/mil_project/release/evaluation-demo/20261101-122939/장면_미리보기/19.png",
+    "kind": "midpoint"
+  },
+  {
+    "scene": "20",
+    "seconds": 582.5,
+    "file": "/Users/alex/Documents/mil_project/release/evaluation-demo/20261101-122939/장면_미리보기/20.png",
+    "kind": "midpoint"
+  },
+  {
+    "scene": "21",
+    "seconds": 615.0,
+    "file": "/Users/alex/Documents/mil_project/release/evaluation-demo/20261101-122939/장면_미리보기/21.png",
+    "kind": "midpoint"
+  },
+  {
+    "scene": "22",
+    "seconds": 645.0,
+    "file": "/Users/alex/Documents/mil_project/release/evaluation-demo/20261101-122939/장면_미리보기/22.png",
+    "kind": "midpoint"
+  },
+  {
+    "scene": "23",
+    "seconds": 677.5,
+    "file": "/Users/alex/Documents/mil_project/release/evaluation-demo/20261101-122939/장면_미리보기/23.png",
+    "kind": "midpoint"
+  },
+  {
+    "scene": "24",
+    "seconds": 712.5,
+    "file": "/Users/alex/Documents/mil_project/release/evaluation-demo/20261101-122939/장면_미리보기/24.png",
+    "kind": "midpoint"
+  },
+  {
+    "scene": "25",
+    "seconds": 745.0,
+    "file": "/Users/alex/Documents/mil_project/release/evaluation-demo/20261101-122939/장면_미리보기/25.png",
+    "kind": "midpoint"
+  },
+  {
+    "scene": "26",
+    "seconds": 775.0,
+    "file": "/Users/alex/Documents/mil_project/release/evaluation-demo/20261101-122939/장면_미리보기/26.png",
+    "kind": "midpoint"
+  },
+  {
+    "scene": "27",
+    "seconds": 805.0,
+    "file": "/Users/alex/Documents/mil_project/release/evaluation-demo/20261101-122939/장면_미리보기/27.png",
+    "kind": "midpoint"
+  },
+  {
+    "scene": "28",
+    "seconds": 835.0,
+    "file": "/Users/alex/Documents/mil_project/release/evaluation-demo/20261101-122939/장면_미리보기/28.png",
+    "kind": "midpoint"
+  },
+  {
+    "scene": "29",
+    "seconds": 862.5,
+    "file": "/Users/alex/Documents/mil_project/release/evaluation-demo/20261101-122939/장면_미리보기/29.png",
+    "kind": "midpoint"
+  },
+  {
+    "scene": "30",
+    "seconds": 887.5,
+    "file": "/Users/alex/Documents/mil_project/release/evaluation-demo/20261101-122939/장면_미리보기/30.png",
+    "kind": "midpoint"
+  },
+  {
+    "scene": "11",
+    "seconds": 291,
+    "file": "/Users/alex/Documents/mil_project/release/evaluation-demo/20261101-122939/장면_미리보기/11-01.png",
+    "kind": "UI-cut"
+  },
+  {
+    "scene": "11",
+    "seconds": 293,
+    "file": "/Users/alex/Documents/mil_project/release/evaluation-demo/20261101-122939/장면_미리보기/11-03.png",
+    "kind": "UI-cut"
+  },
+  {
+    "scene": "12",
+    "seconds": 323,
+    "file": "/Users/alex/Documents/mil_project/release/evaluation-demo/20261101-122939/장면_미리보기/12-03.png",
+    "kind": "UI-cut"
+  },
+  {
+    "scene": "13",
+    "seconds": 353,
+    "file": "/Users/alex/Documents/mil_project/release/evaluation-demo/20261101-122939/장면_미리보기/13-03.png",
+    "kind": "UI-cut"
+  },
+  {
+    "scene": "13",
+    "seconds": 360,
+    "file": "/Users/alex/Documents/mil_project/release/evaluation-demo/20261101-122939/장면_미리보기/13-10.png",
+    "kind": "UI-cut"
+  },
+  {
+    "scene": "13",
+    "seconds": 373,
+    "file": "/Users/alex/Documents/mil_project/release/evaluation-demo/20261101-122939/장면_미리보기/13-23.png",
+    "kind": "UI-cut"
+  },
+  {
+    "scene": "14",
+    "seconds": 383,
+    "file": "/Users/alex/Documents/mil_project/release/evaluation-demo/20261101-122939/장면_미리보기/14-03.png",
+    "kind": "UI-cut"
+  },
+  {
+    "scene": "14",
+    "seconds": 394,
+    "file": "/Users/alex/Documents/mil_project/release/evaluation-demo/20261101-122939/장면_미리보기/14-14.png",
+    "kind": "UI-cut"
+  },
+  {
+    "scene": "14",
+    "seconds": 404,
+    "file": "/Users/alex/Documents/mil_project/release/evaluation-demo/20261101-122939/장면_미리보기/14-24.png",
+    "kind": "UI-cut"
+  },
+  {
+    "scene": "15",
+    "seconds": 413,
+    "file": "/Users/alex/Documents/mil_project/release/evaluation-demo/20261101-122939/장면_미리보기/15-03.png",
+    "kind": "UI-cut"
+  },
+  {
+    "scene": "15",
+    "seconds": 423,
+    "file": "/Users/alex/Documents/mil_project/release/evaluation-demo/20261101-122939/장면_미리보기/15-13.png",
+    "kind": "UI-cut"
+  },
+  {
+    "scene": "15",
+    "seconds": 433,
+    "file": "/Users/alex/Documents/mil_project/release/evaluation-demo/20261101-122939/장면_미리보기/15-23.png",
+    "kind": "UI-cut"
+  }
+]

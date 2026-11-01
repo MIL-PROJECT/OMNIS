@@ -1,0 +1,212 @@
+[
+  {
+    "scene": "01",
+    "firstActivitySeconds": 0.74,
+    "lastActivitySeconds": 24.22,
+    "duration": 25,
+    "peak": 26029
+  },
+  {
+    "scene": "02",
+    "firstActivitySeconds": 0.74,
+    "lastActivitySeconds": 29.2,
+    "duration": 30,
+    "peak": 26024
+  },
+  {
+    "scene": "03",
+    "firstActivitySeconds": 0.74,
+    "lastActivitySeconds": 24.2,
+    "duration": 25,
+    "peak": 25995
+  },
+  {
+    "scene": "04",
+    "firstActivitySeconds": 0.74,
+    "lastActivitySeconds": 29.2,
+    "duration": 30,
+    "peak": 26029
+  },
+  {
+    "scene": "05",
+    "firstActivitySeconds": 0.76,
+    "lastActivitySeconds": 29.2,
+    "duration": 30,
+    "peak": 26015
+  },
+  {
+    "scene": "06",
+    "firstActivitySeconds": 0.76,
+    "lastActivitySeconds": 29.18,
+    "duration": 30,
+    "peak": 26020
+  },
+  {
+    "scene": "07",
+    "firstActivitySeconds": 0.76,
+    "lastActivitySeconds": 29.2,
+    "duration": 30,
+    "peak": 26029
+  },
+  {
+    "scene": "08",
+    "firstActivitySeconds": 0.74,
+    "lastActivitySeconds": 29.22,
+    "duration": 30,
+    "peak": 26024
+  },
+  {
+    "scene": "09",
+    "firstActivitySeconds": 0.74,
+    "lastActivitySeconds": 29.2,
+    "duration": 30,
+    "peak": 26029
+  },
+  {
+    "scene": "10",
+    "firstActivitySeconds": 0.74,
+    "lastActivitySeconds": 29.2,
+    "duration": 30,
+    "peak": 26029
+  },
+  {
+    "scene": "11",
+    "firstActivitySeconds": 0.76,
+    "lastActivitySeconds": 29.2,
+    "duration": 30,
+    "peak": 26029
+  },
+  {
+    "scene": "12",
+    "firstActivitySeconds": 0.76,
+    "lastActivitySeconds": 29.18,
+    "duration": 30,
+    "peak": 26029
+  },
+  {
+    "scene": "13",
+    "firstActivitySeconds": 0.74,
+    "lastActivitySeconds": 29.22,
+    "duration": 30,
+    "peak": 26029
+  },
+  {
+    "scene": "14",
+    "firstActivitySeconds": 0.74,
+    "lastActivitySeconds": 29.22,
+    "duration": 30,
+    "peak": 26005
+  },
+  {
+    "scene": "15",
+    "firstActivitySeconds": 0.76,
+    "lastActivitySeconds": 29.22,
+    "duration": 30,
+    "peak": 26029
+  },
+  {
+    "scene": "16",
+    "firstActivitySeconds": 0.74,
+    "lastActivitySeconds": 29.18,
+    "duration": 30,
+    "peak": 24611
+  },
+  {
+    "scene": "17",
+    "firstActivitySeconds": 0.74,
+    "lastActivitySeconds": 29.22,
+    "duration": 30,
+    "peak": 26029
+  },
+  {
+    "scene": "18",
+    "firstActivitySeconds": 0.74,
+    "lastActivitySeconds": 29.2,
+    "duration": 30,
+    "peak": 26028
+  },
+  {
+    "scene": "19",
+    "firstActivitySeconds": 0.74,
+    "lastActivitySeconds": 34.2,
+    "duration": 35,
+    "peak": 26029
+  },
+  {
+    "scene": "20",
+    "firstActivitySeconds": 0.76,
+    "lastActivitySeconds": 34.220000000000006,
+    "duration": 35,
+    "peak": 24953
+  },
+  {
+    "scene": "21",
+    "firstActivitySeconds": 0.74,
+    "lastActivitySeconds": 29.22,
+    "duration": 30,
+    "peak": 26028
+  },
+  {
+    "scene": "22",
+    "firstActivitySeconds": 0.74,
+    "lastActivitySeconds": 29.2,
+    "duration": 30,
+    "peak": 26028
+  },
+  {
+    "scene": "23",
+    "firstActivitySeconds": 0.76,
+    "lastActivitySeconds": 34.18,
+    "duration": 35,
+    "peak": 26029
+  },
+  {
+    "scene": "24",
+    "firstActivitySeconds": 0.76,
+    "lastActivitySeconds": 34.2,
+    "duration": 35,
+    "peak": 26022
+  },
+  {
+    "scene": "25",
+    "firstActivitySeconds": 0.74,
+    "lastActivitySeconds": 29.2,
+    "duration": 30,
+    "peak": 26029
+  },
+  {
+    "scene": "26",
+    "firstActivitySeconds": 0.76,
+    "lastActivitySeconds": 29.2,
+    "duration": 30,
+    "peak": 26029
+  },
+  {
+    "scene": "27",
+    "firstActivitySeconds": 0.74,
+    "lastActivitySeconds": 29.22,
+    "duration": 30,
+    "peak": 26028
+  },
+  {
+    "scene": "28",
+    "firstActivitySeconds": 0.76,
+    "lastActivitySeconds": 29.22,
+    "duration": 30,
+    "peak": 26029
+  },
+  {
+    "scene": "29",
+    "firstActivitySeconds": 0.74,
+    "lastActivitySeconds": 24.2,
+    "duration": 25,
+    "peak": 26029
+  },
+  {
+    "scene": "30",
+    "firstActivitySeconds": 0.76,
+    "lastActivitySeconds": 24.2,
+    "duration": 25,
+    "peak": 24770
+  }
+]

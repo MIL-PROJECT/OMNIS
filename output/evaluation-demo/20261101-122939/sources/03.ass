@@ -1,0 +1,20 @@
+[Script Info]
+ScriptType: v4.00+
+PlayResX: 1920
+PlayResY: 1080
+WrapStyle: 2
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Caption,Pretendard,34,&H00FFFFFF,&H00FFFFFF,&H0015203F,&H0015203F,0,0,0,0,100,100,0,0,1,0,0,5,64,64,0,1
+Style: Tip,Pretendard,28,&H00D9DFEC,&H00D9DFEC,&H0015203F,&H0015203F,0,0,0,0,100,100,0,0,1,0,0,5,64,64,0,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.00,0:00:00.75,Tip,,0,0,0,,{\pos(960,1020)}평가 기준
+Dialogue: 0,0:00:00.75,0:00:02.72,Caption,,0,0,0,,{\pos(960,1020)}평가 기준은 세 가지입니다.
+Dialogue: 0,0:00:02.72,0:00:07.86,Caption,,0,0,0,,{\pos(960,1020)}첫째, 고장 조치와 마감 자료가 어떤 근거로 연결되는가입니다.
+Dialogue: 0,0:00:07.86,0:00:14.45,Caption,,0,0,0,,{\pos(960,1020)}둘째, 선택한 인공지능이 실패해도 기본 업무와 규칙 기반 지원을 유지하는가입니다.
+Dialogue: 0,0:00:14.45,0:00:21.21,Caption,,0,0,0,,{\pos(960,1020)}셋째, 추천과 실제 업무 반영의 책임, 외부 체계와 연결할 경계가 명확한가입니다.
+Dialogue: 0,0:00:21.21,0:00:24.25,Caption,,0,0,0,,{\pos(960,1020)}이 기준을 코드와 화면으로 확인하겠습니다.
+Dialogue: 0,0:00:24.25,0:00:25.00,Tip,,0,0,0,,{\pos(960,1020)}평가 기준

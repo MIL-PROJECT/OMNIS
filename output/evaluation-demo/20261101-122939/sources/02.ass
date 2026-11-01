@@ -1,0 +1,19 @@
+[Script Info]
+ScriptType: v4.00+
+PlayResX: 1920
+PlayResY: 1080
+WrapStyle: 2
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Caption,Pretendard,34,&H00FFFFFF,&H00FFFFFF,&H0015203F,&H0015203F,0,0,0,0,100,100,0,0,1,0,0,5,64,64,0,1
+Style: Tip,Pretendard,28,&H00D9DFEC,&H00D9DFEC,&H0015203F,&H0015203F,0,0,0,0,100,100,0,0,1,0,0,5,64,64,0,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.00,0:00:00.75,Tip,,0,0,0,,{\pos(960,1020)}문제 정의 · 운용 가정
+Dialogue: 0,0:00:00.75,0:00:08.60,Caption,,0,0,0,,{\pos(960,1020)}문제 정의는 접수 내용, 정비 조치, 일일 집계와 인수인계가 서로 다른 기록으로 관리되는 상황을 가정합니다.
+Dialogue: 0,0:00:08.60,0:00:16.63,Caption,,0,0,0,,{\pos(960,1020)}이때 접수 건의 조치는 끝났지만 정비 결과가 비어 있거나, 미완료 사유가 다음 근무에 전달되지 않을 수 있습니다.
+Dialogue: 0,0:00:16.63,0:00:19.99,Caption,,0,0,0,,{\pos(960,1020)}실제 모든 부대가 이런 상태라는 주장은 아닙니다.
+Dialogue: 0,0:00:19.99,0:00:29.25,Caption,,0,0,0,,{\pos(960,1020)}옴니스는 이런 분리 상황에서 업무 상태와 후속 기록을 함께 확인하는 방법을 구현하고, 그 효과는 현장 실증에서 측정하려 합니다.
+Dialogue: 0,0:00:29.25,0:00:30.00,Tip,,0,0,0,,{\pos(960,1020)}문제 정의 · 운용 가정

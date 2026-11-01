@@ -1,0 +1,25 @@
+{
+  "profile": "/Users/alex/Documents/mil_project/release/evaluation-demo/20261101-122939/recordings/profile-1793504113612",
+  "steps": [
+    {
+      "name": "plan",
+      "start": 1.927702459,
+      "end": 6.649150542
+    },
+    {
+      "name": "reconciliation",
+      "start": 6.649157916999999,
+      "end": 11.041285625
+    },
+    {
+      "name": "handover",
+      "start": 11.041295416999999,
+      "end": 16.13530325
+    }
+  ],
+  "errors": [],
+  "dataPreparation": "One virtual team daily plan is populated through the existing Main IPC, as manual aggregate inputs; this is not a measured result.",
+  "closed": false,
+  "recordingEnd": 16.150061417,
+  "videoPath": "/Users/alex/Documents/mil_project/release/evaluation-demo/20261101-122939/recordings/page@01a17be5b9f85a30369f163e40a0cad7.webm"
+}

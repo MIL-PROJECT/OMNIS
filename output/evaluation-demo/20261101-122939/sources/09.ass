@@ -1,0 +1,20 @@
+[Script Info]
+ScriptType: v4.00+
+PlayResX: 1920
+PlayResY: 1080
+WrapStyle: 2
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Caption,Pretendard,34,&H00FFFFFF,&H00FFFFFF,&H0015203F,&H0015203F,0,0,0,0,100,100,0,0,1,0,0,5,64,64,0,1
+Style: Tip,Pretendard,28,&H00D9DFEC,&H00D9DFEC,&H0015203F,&H0015203F,0,0,0,0,100,100,0,0,1,0,0,5,64,64,0,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.00,0:00:00.75,Tip,,0,0,0,,{\pos(960,1020)}현재 구현
+Dialogue: 0,0:00:00.75,0:00:05.16,Caption,,0,0,0,,{\pos(960,1020)}업무 데이터는 사용자 데이터 폴더의 에스큐엘라이트에 저장합니다.
+Dialogue: 0,0:00:05.16,0:00:10.22,Caption,,0,0,0,,{\pos(960,1020)}첨부자료는 파일로 보관하고, 메타데이터와 해시를 업무에 연결합니다.
+Dialogue: 0,0:00:10.22,0:00:19.44,Caption,,0,0,0,,{\pos(960,1020)}접수 질문과 작업 점검표에는 당시 항목을 보존하는 스냅샷이 있고, 업무 이벤트와 감사 기록은 서로 다른 추적 목적을 가집니다.
+Dialogue: 0,0:00:19.44,0:00:22.56,Caption,,0,0,0,,{\pos(960,1020)}에이아이 키의 암호화 저장도 별도 경로입니다.
+Dialogue: 0,0:00:22.56,0:00:29.25,Caption,,0,0,0,,{\pos(960,1020)}이 구성이 전체 데이터베이스 암호화나 로컬 관리자에 대한 감사 위변조 방지를 의미하는 것은 아닙니다.
+Dialogue: 0,0:00:29.25,0:00:30.00,Tip,,0,0,0,,{\pos(960,1020)}현재 구현

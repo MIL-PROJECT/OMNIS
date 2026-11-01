@@ -1,0 +1,13 @@
+{
+  "checks": [
+    "signup approved in administrator center",
+    "role change applied in Main, admin API bypass rejected",
+    "manual lock/unlock, disable/reactivate and sign-in restrictions",
+    "persistent login failure lock cleared in UI",
+    "temporary credential restricted to password change; new password and role work",
+    "contact management blocked; target audit history and safe before/after details",
+    "all 7 sections at 4 screen sizes, compact lists, no body overflow",
+    "restart preserved changed account and security policy"
+  ],
+  "errors": []
+}

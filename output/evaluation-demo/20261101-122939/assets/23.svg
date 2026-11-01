@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080"><title>1단계 · 검증하고 승인하는 파일 교환</title><desc>OMNIS 기술 평가 발표. 확장 제안 · 미구현</desc>
+<rect x="0" y="0" width="1920" height="1080" rx="0" fill="#F2F4F8" stroke="none" stroke-width="2"/>
+<text x="80" y="69" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="28" font-weight="700" fill="#232E6B">OMNIS</text>
+<text x="255" y="69" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="23" font-weight="500" fill="#64708A">06 / 타체계 연동 방안</text>
+<rect x="1390" y="35" width="360" height="44" rx="22" fill="#FFF3E3" stroke="none" stroke-width="2"/>
+<text x="1406" y="63" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="22" font-weight="600" fill="#A86618">확장 제안 · 미구현</text>
+<text x="1785" y="68" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="22" font-weight="400" fill="#64708A">23 / 30</text>
+<text x="80" y="170" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="52" font-weight="700" fill="#232E6B">1단계 · 검증하고 승인하는 파일 교환</text>
+<polyline points="80,210 1840,210" fill="none" stroke="#DCE2ED" stroke-width="2" stroke-linejoin="round"/>
+<rect x="80" y="337" width="313" height="275" rx="20" fill="#FFFFFF" stroke="#A86618" stroke-width="2" stroke-dasharray="12 8"/>
+<rect x="104" y="365" width="7" height="38" rx="3" fill="#A86618" stroke="none" stroke-width="2"/>
+<text x="128" y="391" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="30" font-weight="700" fill="#A86618">원본·hash 보존</text>
+<rect x="108" y="546" width="90" height="44" rx="22" fill="#FFF3E3" stroke="none" stroke-width="2"/>
+<text x="124" y="574" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="22" font-weight="600" fill="#A86618">01</text>
+<polyline points="401,476 432,476" fill="none" stroke="#A86618" stroke-width="4" stroke-linejoin="round" stroke-dasharray="12 10"/>
+<polygon points="432,476 418.8362615716444,483.19138307906303 418.8362615716444,468.80861692093697" fill="#A86618"/>
+<rect x="441" y="337" width="313" height="275" rx="20" fill="#FFFFFF" stroke="#A86618" stroke-width="2" stroke-dasharray="12 8"/>
+<rect x="465" y="365" width="7" height="38" rx="3" fill="#A86618" stroke="none" stroke-width="2"/>
+<text x="489" y="391" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="30" font-weight="700" fill="#A86618">staging 검증</text>
+<rect x="469" y="546" width="90" height="44" rx="22" fill="#FFF3E3" stroke="none" stroke-width="2"/>
+<text x="485" y="574" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="22" font-weight="600" fill="#A86618">02</text>
+<polyline points="762,476 793,476" fill="none" stroke="#A86618" stroke-width="4" stroke-linejoin="round" stroke-dasharray="12 10"/>
+<polygon points="793,476 779.8362615716444,483.19138307906303 779.8362615716444,468.80861692093697" fill="#A86618"/>
+<rect x="802" y="337" width="313" height="275" rx="20" fill="#FFFFFF" stroke="#A86618" stroke-width="2" stroke-dasharray="12 8"/>
+<rect x="826" y="365" width="7" height="38" rx="3" fill="#A86618" stroke="none" stroke-width="2"/>
+<text x="850" y="391" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="30" font-weight="700" fill="#A86618">미리보기·오류</text>
+<rect x="830" y="546" width="90" height="44" rx="22" fill="#FFF3E3" stroke="none" stroke-width="2"/>
+<text x="846" y="574" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="22" font-weight="600" fill="#A86618">03</text>
+<polyline points="1123,476 1154,476" fill="none" stroke="#A86618" stroke-width="4" stroke-linejoin="round" stroke-dasharray="12 10"/>
+<polygon points="1154,476 1140.8362615716444,483.19138307906303 1140.8362615716444,468.80861692093697" fill="#A86618"/>
+<rect x="1163" y="337" width="313" height="275" rx="20" fill="#FFFFFF" stroke="#A86618" stroke-width="2" stroke-dasharray="12 8"/>
+<rect x="1187" y="365" width="7" height="38" rx="3" fill="#A86618" stroke="none" stroke-width="2"/>
+<text x="1211" y="391" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="30" font-weight="700" fill="#A86618">담당자 승인</text>
+<rect x="1191" y="546" width="90" height="44" rx="22" fill="#FFF3E3" stroke="none" stroke-width="2"/>
+<text x="1207" y="574" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="22" font-weight="600" fill="#A86618">04</text>
+<polyline points="1484,476 1515,476" fill="none" stroke="#A86618" stroke-width="4" stroke-linejoin="round" stroke-dasharray="12 10"/>
+<polygon points="1515,476 1501.8362615716444,483.19138307906303 1501.8362615716444,468.80861692093697" fill="#A86618"/>
+<rect x="1524" y="337" width="313" height="275" rx="20" fill="#FFFFFF" stroke="#A86618" stroke-width="2" stroke-dasharray="12 8"/>
+<rect x="1548" y="365" width="7" height="38" rx="3" fill="#A86618" stroke="none" stroke-width="2"/>
+<text x="1572" y="391" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="30" font-weight="700" fill="#A86618">적용·감사</text>
+<rect x="1552" y="546" width="90" height="44" rx="22" fill="#FFF3E3" stroke="none" stroke-width="2"/>
+<text x="1568" y="574" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="22" font-weight="600" fill="#A86618">05</text>
+<rect x="80" y="732" width="1760" height="140" rx="20" fill="#FFF3E3" stroke="none" stroke-width="2"/>
+<text x="116" y="795" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="34" font-weight="700" fill="#A86618">검증 전 자료는 업무 상태를 변경하지 않습니다.</text>
+<text x="116" y="843" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="29" font-weight="400" fill="#A86618">교환 계약 · 원본 책임 · 승인 · 행별 오류 · 트랜잭션 단위</text>
+<text x="80" y="942" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="20" font-weight="400" fill="#64708A">교환 계약과 반입 검증 절차를 먼저 합의</text>
+<rect x="0" y="962" width="1920" height="118" rx="0" fill="#15203F" stroke="none" stroke-width="2"/>
+</svg>

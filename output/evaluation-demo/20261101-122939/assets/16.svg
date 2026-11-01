@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080"><title>기준이 바뀌어도 당시 업무를 해석할 수 있게</title><desc>OMNIS 기술 평가 발표. 현재 구현</desc>
+<rect x="0" y="0" width="1920" height="1080" rx="0" fill="#F2F4F8" stroke="none" stroke-width="2"/>
+<text x="80" y="69" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="28" font-weight="700" fill="#232E6B">OMNIS</text>
+<text x="255" y="69" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="23" font-weight="500" fill="#64708A">04 / 세 가지 설계 차별성</text>
+<rect x="1390" y="35" width="360" height="44" rx="22" fill="#E9F6F1" stroke="none" stroke-width="2"/>
+<text x="1406" y="63" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="22" font-weight="600" fill="#147F73">현재 구현</text>
+<text x="1785" y="68" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="22" font-weight="400" fill="#64708A">16 / 30</text>
+<text x="80" y="170" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="52" font-weight="700" fill="#232E6B">기준이 바뀌어도 당시 업무를 해석할 수 있게</text>
+<polyline points="80,210 1840,210" fill="none" stroke="#DCE2ED" stroke-width="2" stroke-linejoin="round"/>
+<rect x="80" y="282" width="750" height="210" rx="20" fill="#FFFFFF" stroke="#DCE2ED" stroke-width="2"/>
+<rect x="104" y="310" width="7" height="38" rx="3" fill="#232E6B" stroke="none" stroke-width="2"/>
+<text x="128" y="338" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="32" font-weight="700" fill="#232E6B">기준 A</text>
+<text x="112" y="410" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="29" font-weight="400" fill="#64708A">업무에 연결한 당시 질문·항목</text>
+<rect x="1090" y="282" width="750" height="210" rx="20" fill="#FFFFFF" stroke="#DCE2ED" stroke-width="2"/>
+<rect x="1114" y="310" width="7" height="38" rx="3" fill="#147F73" stroke="none" stroke-width="2"/>
+<text x="1138" y="338" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="32" font-weight="700" fill="#147F73">기존 업무 · snapshot A</text>
+<text x="1122" y="410" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="29" font-weight="400" fill="#64708A">양식 변경 후에도 당시 내용 보존</text>
+<rect x="80" y="563" width="750" height="210" rx="20" fill="#FFFFFF" stroke="#DCE2ED" stroke-width="2"/>
+<rect x="104" y="591" width="7" height="38" rx="3" fill="#232E6B" stroke="none" stroke-width="2"/>
+<text x="128" y="619" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="32" font-weight="700" fill="#232E6B">기준 B · 이후 변경</text>
+<text x="112" y="691" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="29" font-weight="400" fill="#64708A">현재 템플릿을 새 업무에 사용</text>
+<rect x="1090" y="563" width="750" height="210" rx="20" fill="#FFFFFF" stroke="#DCE2ED" stroke-width="2"/>
+<rect x="1114" y="591" width="7" height="38" rx="3" fill="#147F73" stroke="none" stroke-width="2"/>
+<text x="1138" y="619" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="32" font-weight="700" fill="#147F73">신규 업무 · snapshot B</text>
+<text x="1122" y="691" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="29" font-weight="400" fill="#64708A">과거 업무와 기준을 분리</text>
+<polyline points="850,390 1065,390" fill="none" stroke="#456BE0" stroke-width="4" stroke-linejoin="round"/>
+<polygon points="1065,390 1051.8362615716444,397.19138307906303 1051.8362615716444,382.80861692093697" fill="#456BE0"/>
+<polyline points="850,672 1065,672" fill="none" stroke="#456BE0" stroke-width="4" stroke-linejoin="round"/>
+<polygon points="1065,672 1051.8362615716444,679.191383079063 1051.8362615716444,664.808616920937" fill="#456BE0"/>
+<polyline points="453,503 453,550" fill="none" stroke="#64708A" stroke-width="3" stroke-linejoin="round" stroke-dasharray="12 10"/>
+<polygon points="453,550 445.80861692093697,536.8362615716444 460.19138307906303,536.8362615716444" fill="#64708A"/>
+<rect x="80" y="824" width="1760" height="65" rx="20" fill="#EBEFFA" stroke="none" stroke-width="2"/>
+<text x="112" y="868" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="27" font-weight="600" fill="#232E6B">반복 회차: rule_id + occurrence_date의 중복을 방지합니다. 생성은 사용자 요청으로 실행합니다.</text>
+<text x="80" y="942" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="20" font-weight="400" fill="#64708A">UsabilityService.ts · usabilityMigration.ts · 관련 자동 테스트</text>
+<rect x="0" y="962" width="1920" height="118" rx="0" fill="#15203F" stroke="none" stroke-width="2"/>
+</svg>

@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080"><title>업무 데이터와 파일의 책임을 나눕니다</title><desc>OMNIS 기술 평가 발표. 현재 구현</desc>
+<rect x="0" y="0" width="1920" height="1080" rx="0" fill="#F2F4F8" stroke="none" stroke-width="2"/>
+<text x="80" y="69" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="28" font-weight="700" fill="#232E6B">OMNIS</text>
+<text x="255" y="69" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="23" font-weight="500" fill="#64708A">03 / 현재 아키텍처</text>
+<rect x="1390" y="35" width="360" height="44" rx="22" fill="#E9F6F1" stroke="none" stroke-width="2"/>
+<text x="1406" y="63" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="22" font-weight="600" fill="#147F73">현재 구현</text>
+<text x="1785" y="68" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="22" font-weight="400" fill="#64708A">09 / 30</text>
+<text x="80" y="170" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="52" font-weight="700" fill="#232E6B">업무 데이터와 파일의 책임을 나눕니다</text>
+<polyline points="80,210 1840,210" fill="none" stroke="#DCE2ED" stroke-width="2" stroke-linejoin="round"/>
+<rect x="80" y="266" width="866" height="291" rx="20" fill="#FFFFFF" stroke="#DCE2ED" stroke-width="2"/>
+<rect x="104" y="294" width="7" height="38" rx="3" fill="#232E6B" stroke="none" stroke-width="2"/>
+<text x="128" y="324" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="34" font-weight="700" fill="#232E6B">업무 DB</text>
+<text x="112" y="394" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="29" font-weight="400" fill="#64708A">고장 · 정비 · 계획 · 계정</text>
+<rect x="974" y="266" width="866" height="291" rx="20" fill="#FFFFFF" stroke="#DCE2ED" stroke-width="2"/>
+<rect x="998" y="294" width="7" height="38" rx="3" fill="#232E6B" stroke="none" stroke-width="2"/>
+<text x="1022" y="324" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="34" font-weight="700" fill="#232E6B">당시 기준</text>
+<text x="1006" y="394" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="29" font-weight="400" fill="#64708A">질문·점검표 snapshot</text>
+<rect x="80" y="585" width="866" height="291" rx="20" fill="#FFFFFF" stroke="#DCE2ED" stroke-width="2"/>
+<rect x="104" y="613" width="7" height="38" rx="3" fill="#232E6B" stroke="none" stroke-width="2"/>
+<text x="128" y="643" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="34" font-weight="700" fill="#232E6B">로컬 파일</text>
+<text x="112" y="713" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="29" font-weight="400" fill="#64708A">첨부 원본 · hash · 백업</text>
+<rect x="974" y="585" width="866" height="291" rx="20" fill="#FFFFFF" stroke="#DCE2ED" stroke-width="2"/>
+<rect x="998" y="613" width="7" height="38" rx="3" fill="#232E6B" stroke="none" stroke-width="2"/>
+<text x="1022" y="643" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="34" font-weight="700" fill="#232E6B">별도 자격정보</text>
+<text x="1006" y="713" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="29" font-weight="400" fill="#64708A">safeStorage 암호문 · DB와 분리</text>
+<text x="80" y="942" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="20" font-weight="400" fill="#64708A">connection.ts · AttachmentService.ts · UsabilityService.ts · AISecretStore.ts</text>
+<rect x="0" y="962" width="1920" height="118" rx="0" fill="#15203F" stroke="none" stroke-width="2"/>
+</svg>

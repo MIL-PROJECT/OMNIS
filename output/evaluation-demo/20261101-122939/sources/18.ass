@@ -1,0 +1,19 @@
+[Script Info]
+ScriptType: v4.00+
+PlayResX: 1920
+PlayResY: 1080
+WrapStyle: 2
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Caption,Pretendard,34,&H00FFFFFF,&H00FFFFFF,&H0015203F,&H0015203F,0,0,0,0,100,100,0,0,1,0,0,5,64,64,0,1
+Style: Tip,Pretendard,28,&H00D9DFEC,&H00D9DFEC,&H0015203F,&H0015203F,0,0,0,0,100,100,0,0,1,0,0,5,64,64,0,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.00,0:00:00.75,Tip,,0,0,0,,{\pos(960,1020)}현재 경계 + 개선 제안
+Dialogue: 0,0:00:00.75,0:00:04.13,Caption,,0,0,0,,{\pos(960,1020)}기능 확장은 화면만 추가하는 작업으로 보지 않습니다.
+Dialogue: 0,0:00:04.13,0:00:14.80,Caption,,0,0,0,,{\pos(960,1020)}예를 들어 새 점검 업무를 넣으면 입력 계약, 아이피씨 채널, 메인 서비스의 권한과 상태 조건, 저장 구조와 이관, 화면과 테스트가 함께\N필요합니다.
+Dialogue: 0,0:00:14.80,0:00:22.36,Caption,,0,0,0,,{\pos(960,1020)}지금도 이런 구분이 있지만 중앙 앱 서비스에 많은 책임이 남아 있고, 일부 서비스는 직접 에스큐엘을 사용합니다.
+Dialogue: 0,0:00:22.36,0:00:29.25,Caption,,0,0,0,,{\pos(960,1020)}업무별 서비스와 저장소 경계를 더 정리하면 변경 영향과 검증 범위를 줄이는 데 도움이 될 것입니다.
+Dialogue: 0,0:00:29.25,0:00:30.00,Tip,,0,0,0,,{\pos(960,1020)}현재 경계 + 개선 제안

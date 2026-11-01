@@ -1,0 +1,20 @@
+[Script Info]
+ScriptType: v4.00+
+PlayResX: 1920
+PlayResY: 1080
+WrapStyle: 2
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Caption,Pretendard,34,&H00FFFFFF,&H00FFFFFF,&H0015203F,&H0015203F,0,0,0,0,100,100,0,0,1,0,0,5,64,64,0,1
+Style: Tip,Pretendard,28,&H00D9DFEC,&H00D9DFEC,&H0015203F,&H0015203F,0,0,0,0,100,100,0,0,1,0,0,5,64,64,0,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.00,0:00:00.75,Tip,,0,0,0,,{\pos(960,1020)}현재 구현
+Dialogue: 0,0:00:00.75,0:00:03.54,Caption,,0,0,0,,{\pos(960,1020)}세 번째는 반영 책임과 추적 경로입니다.
+Dialogue: 0,0:00:03.54,0:00:10.56,Caption,,0,0,0,,{\pos(960,1020)}추천은 검토를 거치고, 계정의 민감한 변경에는 사유와 관리자 재인증, 동시 수정 확인을 적용합니다.
+Dialogue: 0,0:00:10.56,0:00:16.54,Caption,,0,0,0,,{\pos(960,1020)}역할이나 잠금 상태가 바뀌면 메인은 현재 상태와 인증 버전을 기준으로 요청을 판단합니다.
+Dialogue: 0,0:00:16.54,0:00:20.66,Caption,,0,0,0,,{\pos(960,1020)}감사 화면에서는 누가 어떤 대상을 바꿨는지 살펴볼 수 있습니다.
+Dialogue: 0,0:00:20.66,0:00:29.25,Caption,,0,0,0,,{\pos(960,1020)}다만 로컬 감사 기록은 운영체제 관리자에 대해 변조 불가능한 장부가 아니므로, 중앙 보관과 보존 정책은 확장 과제로 남습니다.
+Dialogue: 0,0:00:29.25,0:00:30.00,Tip,,0,0,0,,{\pos(960,1020)}현재 구현

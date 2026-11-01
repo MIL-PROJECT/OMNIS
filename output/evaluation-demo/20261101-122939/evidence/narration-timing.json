@@ -1,0 +1,302 @@
+[
+  {
+    "scene": "01",
+    "targetSeconds": 25,
+    "nativeSpeechSeconds": 25.481678000000002,
+    "atempo": 1.0843267234042555,
+    "voiceStart": 0.75,
+    "voiceEnd": 24.249999999999996,
+    "voice": "macOS Yuna",
+    "sentenceCount": 4
+  },
+  {
+    "scene": "02",
+    "targetSeconds": 30,
+    "nativeSpeechSeconds": 28.143355999999997,
+    "atempo": 0.9874861754385964,
+    "voiceStart": 0.75,
+    "voiceEnd": 29.250000000000007,
+    "voice": "macOS Yuna",
+    "sentenceCount": 4
+  },
+  {
+    "scene": "03",
+    "targetSeconds": 25,
+    "nativeSpeechSeconds": 21.553923,
+    "atempo": 0.9171882127659575,
+    "voiceStart": 0.75,
+    "voiceEnd": 24.25,
+    "voice": "macOS Yuna",
+    "sentenceCount": 5
+  },
+  {
+    "scene": "04",
+    "targetSeconds": 30,
+    "nativeSpeechSeconds": 31.587664000000004,
+    "atempo": 1.1083390877192985,
+    "voiceStart": 0.75,
+    "voiceEnd": 29.249999999999993,
+    "voice": "macOS Yuna",
+    "sentenceCount": 5
+  },
+  {
+    "scene": "05",
+    "targetSeconds": 30,
+    "nativeSpeechSeconds": 28.304081999999998,
+    "atempo": 0.9931256842105263,
+    "voiceStart": 0.75,
+    "voiceEnd": 29.25,
+    "voice": "macOS Yuna",
+    "sentenceCount": 5
+  },
+  {
+    "scene": "06",
+    "targetSeconds": 30,
+    "nativeSpeechSeconds": 27.866576000000002,
+    "atempo": 0.9777745964912281,
+    "voiceStart": 0.75,
+    "voiceEnd": 29.25,
+    "voice": "macOS Yuna",
+    "sentenceCount": 5
+  },
+  {
+    "scene": "07",
+    "targetSeconds": 30,
+    "nativeSpeechSeconds": 28.775646,
+    "atempo": 1.0096717894736842,
+    "voiceStart": 0.75,
+    "voiceEnd": 29.25,
+    "voice": "macOS Yuna",
+    "sentenceCount": 5
+  },
+  {
+    "scene": "08",
+    "targetSeconds": 30,
+    "nativeSpeechSeconds": 30.183357,
+    "atempo": 1.0590651578947368,
+    "voiceStart": 0.75,
+    "voiceEnd": 29.250000000000007,
+    "voice": "macOS Yuna",
+    "sentenceCount": 5
+  },
+  {
+    "scene": "09",
+    "targetSeconds": 30,
+    "nativeSpeechSeconds": 28.327573,
+    "atempo": 0.9939499298245614,
+    "voiceStart": 0.75,
+    "voiceEnd": 29.249999999999996,
+    "voice": "macOS Yuna",
+    "sentenceCount": 5
+  },
+  {
+    "scene": "10",
+    "targetSeconds": 30,
+    "nativeSpeechSeconds": 30.272291,
+    "atempo": 1.062185649122807,
+    "voiceStart": 0.75,
+    "voiceEnd": 29.25,
+    "voice": "macOS Yuna",
+    "sentenceCount": 6
+  },
+  {
+    "scene": "11",
+    "targetSeconds": 30,
+    "nativeSpeechSeconds": 28.761269999999996,
+    "atempo": 1.0091673684210525,
+    "voiceStart": 0.75,
+    "voiceEnd": 29.250000000000004,
+    "voice": "macOS Yuna",
+    "sentenceCount": 6
+  },
+  {
+    "scene": "12",
+    "targetSeconds": 30,
+    "nativeSpeechSeconds": 29.009116,
+    "atempo": 1.0178637192982456,
+    "voiceStart": 0.75,
+    "voiceEnd": 29.25,
+    "voice": "macOS Yuna",
+    "sentenceCount": 5
+  },
+  {
+    "scene": "13",
+    "targetSeconds": 30,
+    "nativeSpeechSeconds": 30.001951000000002,
+    "atempo": 1.0527000350877194,
+    "voiceStart": 0.75,
+    "voiceEnd": 29.25,
+    "voice": "macOS Yuna",
+    "sentenceCount": 5
+  },
+  {
+    "scene": "14",
+    "targetSeconds": 30,
+    "nativeSpeechSeconds": 29.635509,
+    "atempo": 1.0398424210526316,
+    "voiceStart": 0.75,
+    "voiceEnd": 29.25,
+    "voice": "macOS Yuna",
+    "sentenceCount": 6
+  },
+  {
+    "scene": "15",
+    "targetSeconds": 30,
+    "nativeSpeechSeconds": 30.535601,
+    "atempo": 1.0714245964912281,
+    "voiceStart": 0.75,
+    "voiceEnd": 29.25,
+    "voice": "macOS Yuna",
+    "sentenceCount": 5
+  },
+  {
+    "scene": "16",
+    "targetSeconds": 30,
+    "nativeSpeechSeconds": 29.427528,
+    "atempo": 1.0325448421052632,
+    "voiceStart": 0.75,
+    "voiceEnd": 29.25,
+    "voice": "macOS Yuna",
+    "sentenceCount": 6
+  },
+  {
+    "scene": "17",
+    "targetSeconds": 30,
+    "nativeSpeechSeconds": 30.772652,
+    "atempo": 1.0797421754385965,
+    "voiceStart": 0.75,
+    "voiceEnd": 29.25,
+    "voice": "macOS Yuna",
+    "sentenceCount": 5
+  },
+  {
+    "scene": "18",
+    "targetSeconds": 30,
+    "nativeSpeechSeconds": 29.599728000000002,
+    "atempo": 1.038586947368421,
+    "voiceStart": 0.75,
+    "voiceEnd": 29.25,
+    "voice": "macOS Yuna",
+    "sentenceCount": 4
+  },
+  {
+    "scene": "19",
+    "targetSeconds": 35,
+    "nativeSpeechSeconds": 31.54517,
+    "atempo": 0.9416468656716418,
+    "voiceStart": 0.75,
+    "voiceEnd": 34.25,
+    "voice": "macOS Yuna",
+    "sentenceCount": 5
+  },
+  {
+    "scene": "20",
+    "targetSeconds": 35,
+    "nativeSpeechSeconds": 33.793969,
+    "atempo": 1.0087751940298506,
+    "voiceStart": 0.75,
+    "voiceEnd": 34.25000000000001,
+    "voice": "macOS Yuna",
+    "sentenceCount": 6
+  },
+  {
+    "scene": "21",
+    "targetSeconds": 30,
+    "nativeSpeechSeconds": 32.014920000000004,
+    "atempo": 1.1233305263157896,
+    "voiceStart": 0.75,
+    "voiceEnd": 29.249999999999996,
+    "voice": "macOS Yuna",
+    "sentenceCount": 5
+  },
+  {
+    "scene": "22",
+    "targetSeconds": 30,
+    "nativeSpeechSeconds": 29.907483000000003,
+    "atempo": 1.0493853684210528,
+    "voiceStart": 0.75,
+    "voiceEnd": 29.249999999999996,
+    "voice": "macOS Yuna",
+    "sentenceCount": 5
+  },
+  {
+    "scene": "23",
+    "targetSeconds": 35,
+    "nativeSpeechSeconds": 30.856916,
+    "atempo": 0.9211019701492537,
+    "voiceStart": 0.75,
+    "voiceEnd": 34.25,
+    "voice": "macOS Yuna",
+    "sentenceCount": 6
+  },
+  {
+    "scene": "24",
+    "targetSeconds": 35,
+    "nativeSpeechSeconds": 32.884716,
+    "atempo": 0.9816333134328358,
+    "voiceStart": 0.75,
+    "voiceEnd": 34.25000000000001,
+    "voice": "macOS Yuna",
+    "sentenceCount": 5
+  },
+  {
+    "scene": "25",
+    "targetSeconds": 30,
+    "nativeSpeechSeconds": 31.920725,
+    "atempo": 1.1200254385964912,
+    "voiceStart": 0.75,
+    "voiceEnd": 29.25,
+    "voice": "macOS Yuna",
+    "sentenceCount": 5
+  },
+  {
+    "scene": "26",
+    "targetSeconds": 30,
+    "nativeSpeechSeconds": 31.733924000000002,
+    "atempo": 1.1134710175438598,
+    "voiceStart": 0.75,
+    "voiceEnd": 29.249999999999996,
+    "voice": "macOS Yuna",
+    "sentenceCount": 6
+  },
+  {
+    "scene": "27",
+    "targetSeconds": 30,
+    "nativeSpeechSeconds": 28.677233,
+    "atempo": 1.006218701754386,
+    "voiceStart": 0.75,
+    "voiceEnd": 29.25,
+    "voice": "macOS Yuna",
+    "sentenceCount": 5
+  },
+  {
+    "scene": "28",
+    "targetSeconds": 30,
+    "nativeSpeechSeconds": 30.285760000000003,
+    "atempo": 1.0626582456140352,
+    "voiceStart": 0.75,
+    "voiceEnd": 29.249999999999996,
+    "voice": "macOS Yuna",
+    "sentenceCount": 5
+  },
+  {
+    "scene": "29",
+    "targetSeconds": 25,
+    "nativeSpeechSeconds": 21.971519,
+    "atempo": 0.934958255319149,
+    "voiceStart": 0.75,
+    "voiceEnd": 24.25,
+    "voice": "macOS Yuna",
+    "sentenceCount": 5
+  },
+  {
+    "scene": "30",
+    "targetSeconds": 25,
+    "nativeSpeechSeconds": 24.475420000000003,
+    "atempo": 1.0415072340425533,
+    "voiceStart": 0.75,
+    "voiceEnd": 24.25,
+    "voice": "macOS Yuna",
+    "sentenceCount": 4
+  }
+]

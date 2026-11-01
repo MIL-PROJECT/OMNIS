@@ -1,0 +1,20 @@
+[Script Info]
+ScriptType: v4.00+
+PlayResX: 1920
+PlayResY: 1080
+WrapStyle: 2
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Caption,Pretendard,34,&H00FFFFFF,&H00FFFFFF,&H0015203F,&H0015203F,0,0,0,0,100,100,0,0,1,0,0,5,64,64,0,1
+Style: Tip,Pretendard,28,&H00D9DFEC,&H00D9DFEC,&H0015203F,&H0015203F,0,0,0,0,100,100,0,0,1,0,0,5,64,64,0,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.00,0:00:00.75,Tip,,0,0,0,,{\pos(960,1020)}한계 · 추가 검증 항목
+Dialogue: 0,0:00:00.75,0:00:03.96,Caption,,0,0,0,,{\pos(960,1020)}남은 확인 항목도 구체적으로 말씀드리겠습니다.
+Dialogue: 0,0:00:03.96,0:00:11.95,Caption,,0,0,0,,{\pos(960,1020)}생성형 모델의 실제 업무 정확도와 타체계 실연동, 다중 장비의 동시성과 복구 시간에는 추가 검증이 필요합니다.
+Dialogue: 0,0:00:11.95,0:00:18.14,Caption,,0,0,0,,{\pos(960,1020)}촬영 중 체계 미지정 접수의 분석 입력 검증 문제도 재현하여 보완 항목으로 기록했습니다.
+Dialogue: 0,0:00:18.14,0:00:23.13,Caption,,0,0,0,,{\pos(960,1020)}현재 유사 사례 기능은 문서 학습이나 벡터 검색 체계로 표현하지 않습니다.
+Dialogue: 0,0:00:23.13,0:00:29.25,Caption,,0,0,0,,{\pos(960,1020)}자료 보호와 서명·공증, 조직별 보안 요구는 배포 조건에 맞춰 확인해야 합니다.
+Dialogue: 0,0:00:29.25,0:00:30.00,Tip,,0,0,0,,{\pos(960,1020)}한계 · 추가 검증 항목

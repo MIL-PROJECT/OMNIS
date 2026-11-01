@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080"><title>화면을 합치는 것에서, 기록의 연결로</title><desc>OMNIS 기술 평가 발표. 문제 정의 · 운용 가정</desc>
+<rect x="0" y="0" width="1920" height="1080" rx="0" fill="#F2F4F8" stroke="none" stroke-width="2"/>
+<text x="80" y="69" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="28" font-weight="700" fill="#232E6B">OMNIS</text>
+<text x="255" y="69" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="23" font-weight="500" fill="#64708A">01 / 문제와 목표</text>
+<rect x="1390" y="35" width="360" height="44" rx="22" fill="#E9F6F1" stroke="none" stroke-width="2"/>
+<text x="1406" y="63" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="22" font-weight="600" fill="#147F73">문제 정의 · 운용 가정</text>
+<text x="1785" y="68" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="22" font-weight="400" fill="#64708A">02 / 30</text>
+<text x="80" y="170" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="52" font-weight="700" fill="#232E6B">화면을 합치는 것에서, 기록의 연결로</text>
+<polyline points="80,210 1840,210" fill="none" stroke="#DCE2ED" stroke-width="2" stroke-linejoin="round"/>
+<rect x="80" y="300" width="550" height="300" rx="20" fill="#FFFFFF" stroke="#DCE2ED" stroke-width="2"/>
+<rect x="104" y="328" width="7" height="38" rx="3" fill="#232E6B" stroke="none" stroke-width="2"/>
+<text x="128" y="358" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="34" font-weight="700" fill="#232E6B">접수 기록</text>
+<text x="112" y="428" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="29" font-weight="400" fill="#64708A">서로 다른 기록과 확인 시점</text>
+<rect x="108" y="534" width="90" height="44" rx="22" fill="#EBEFFA" stroke="none" stroke-width="2"/>
+<text x="124" y="562" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="22" font-weight="600" fill="#232E6B">기록 1</text>
+<polyline points="640,450 670,450" fill="none" stroke="#A86618" stroke-width="4" stroke-linejoin="round" stroke-dasharray="12 10"/>
+<polygon points="670,450 656.8362615716444,457.19138307906303 656.8362615716444,442.80861692093697" fill="#A86618"/>
+<rect x="685" y="300" width="550" height="300" rx="20" fill="#FFFFFF" stroke="#DCE2ED" stroke-width="2"/>
+<rect x="709" y="328" width="7" height="38" rx="3" fill="#232E6B" stroke="none" stroke-width="2"/>
+<text x="733" y="358" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="34" font-weight="700" fill="#232E6B">조치 기록</text>
+<text x="717" y="428" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="29" font-weight="400" fill="#64708A">서로 다른 기록과 확인 시점</text>
+<rect x="713" y="534" width="90" height="44" rx="22" fill="#EBEFFA" stroke="none" stroke-width="2"/>
+<text x="729" y="562" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="22" font-weight="600" fill="#232E6B">기록 2</text>
+<polyline points="1245,450 1275,450" fill="none" stroke="#A86618" stroke-width="4" stroke-linejoin="round" stroke-dasharray="12 10"/>
+<polygon points="1275,450 1261.8362615716444,457.19138307906303 1261.8362615716444,442.80861692093697" fill="#A86618"/>
+<rect x="1290" y="300" width="550" height="300" rx="20" fill="#FFFFFF" stroke="#DCE2ED" stroke-width="2"/>
+<rect x="1314" y="328" width="7" height="38" rx="3" fill="#232E6B" stroke="none" stroke-width="2"/>
+<text x="1338" y="358" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="34" font-weight="700" fill="#232E6B">마감·인수인계</text>
+<text x="1322" y="428" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="29" font-weight="400" fill="#64708A">서로 다른 기록과 확인 시점</text>
+<rect x="1318" y="534" width="90" height="44" rx="22" fill="#EBEFFA" stroke="none" stroke-width="2"/>
+<text x="1334" y="562" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="22" font-weight="600" fill="#232E6B">기록 3</text>
+<rect x="80" y="670" width="1760" height="170" rx="20" fill="#EBEFFA" stroke="none" stroke-width="2"/>
+<text x="125" y="731" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="27" font-weight="500" fill="#64708A">연결할 대상</text>
+<text x="125" y="790" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="38" font-weight="600" fill="#232E6B">업무 상태 · 결과 · 다음 근무 확인을 연결</text>
+<text x="80" y="942" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="20" font-weight="400" fill="#64708A">운용 가정이며 특정 부대의 현황 조사 결과가 아님</text>
+<rect x="0" y="962" width="1920" height="118" rx="0" fill="#15203F" stroke="none" stroke-width="2"/>
+</svg>

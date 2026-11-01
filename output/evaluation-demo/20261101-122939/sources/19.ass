@@ -1,0 +1,20 @@
+[Script Info]
+ScriptType: v4.00+
+PlayResX: 1920
+PlayResY: 1080
+WrapStyle: 2
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Caption,Pretendard,34,&H00FFFFFF,&H00FFFFFF,&H0015203F,&H0015203F,0,0,0,0,100,100,0,0,1,0,0,5,64,64,0,1
+Style: Tip,Pretendard,28,&H00D9DFEC,&H00D9DFEC,&H0015203F,&H0015203F,0,0,0,0,100,100,0,0,1,0,0,5,64,64,0,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.00,0:00:00.75,Tip,,0,0,0,,{\pos(960,1020)}현재 계약 + 제공자 확장안
+Dialogue: 0,0:00:00.75,0:00:05.52,Caption,,0,0,0,,{\pos(960,1020)}에이아이 확장은 현재 제공자 계약을 재사용할 수 있는 영역입니다.
+Dialogue: 0,0:00:05.52,0:00:14.84,Caption,,0,0,0,,{\pos(960,1020)}새 제공자를 추가할 때는 분류와 요약 같은 업무별 반환 형식, 설정과 자격정보, 팩토리의 선택 경로를 구현해야 합니다.
+Dialogue: 0,0:00:14.84,0:00:23.17,Caption,,0,0,0,,{\pos(960,1020)}공통 실행 제어와 이력은 재사용하되, 모델마다 지원하는 출력 형식과 오류, 시간 제한은 다시 확인해야 합니다.
+Dialogue: 0,0:00:23.17,0:00:27.97,Caption,,0,0,0,,{\pos(960,1020)}모든 모델을 설정값 하나로 즉시 연결할 수 있다는 뜻은 아닙니다.
+Dialogue: 0,0:00:27.97,0:00:34.25,Caption,,0,0,0,,{\pos(960,1020)}후보 식별자 대조와 구조 검증, 실제 업무 반영 조건에 대한 회귀 시험도 필요합니다.
+Dialogue: 0,0:00:34.25,0:00:35.00,Tip,,0,0,0,,{\pos(960,1020)}현재 계약 + 제공자 확장안

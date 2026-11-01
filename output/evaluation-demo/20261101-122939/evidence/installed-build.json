@@ -1,0 +1,22 @@
+{
+  "archive": "/Applications/OMNIS.app/Contents/Resources/app.asar",
+  "installedPackageVersion": "1.1.0",
+  "files": [
+    {
+      "path": "out/main/index.js",
+      "installedSha256": "3ddb7b988bfa4abb821bbcb8a2671d382ef617d4cff39c6b88803a87a68bbb4a",
+      "sourceBuildSha256": "3ddb7b988bfa4abb821bbcb8a2671d382ef617d4cff39c6b88803a87a68bbb4a"
+    },
+    {
+      "path": "out/preload/index.cjs",
+      "installedSha256": "cab98795b4d29d34d7f43ed9b17a5782454ce4893e8c1eab7d7e4af3c10ced31",
+      "sourceBuildSha256": "cab98795b4d29d34d7f43ed9b17a5782454ce4893e8c1eab7d7e4af3c10ced31"
+    },
+    {
+      "path": "out/renderer/index.html",
+      "installedSha256": "d8b77f729563dde3341960d96ead0fac801a4ee39858947dd2487054902b1362",
+      "sourceBuildSha256": "d8b77f729563dde3341960d96ead0fac801a4ee39858947dd2487054902b1362"
+    }
+  ],
+  "allMatch": true
+}

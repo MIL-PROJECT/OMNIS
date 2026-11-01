@@ -1,0 +1,476 @@
+{
+  "video": "/Users/alex/Documents/mil_project/release/evaluation-demo/20261101-122939/OMNIS_기술평가_시현영상_15분.mp4",
+  "durationSeconds": 900.02,
+  "pcm": {
+    "channels": 1,
+    "sampleRate": 48000,
+    "sampleWidth": 2,
+    "frames": 43200000,
+    "seconds": 900.0
+  },
+  "audioLoudness": {
+    "input_i": "-16.08",
+    "input_tp": "-1.97",
+    "input_lra": "1.90",
+    "input_thresh": "-26.11",
+    "output_i": "-16.00",
+    "output_tp": "-2.00",
+    "output_lra": "1.80",
+    "output_thresh": "-26.03",
+    "normalization_type": "dynamic",
+    "target_offset": "0.00"
+  },
+  "captionCount": 153,
+  "frameCount": 27000,
+  "checks": [
+    {
+      "check": "900 seconds",
+      "passed": true,
+      "detail": 900.02
+    },
+    {
+      "check": "H264 / Full HD / 30fps",
+      "passed": true,
+      "detail": "  Stream #0:0[0x1](und): Video: h264 (High) (avc1 / 0x31637661), yuv420p(progressive), 1920x1080, 108 kb/s, 30 fps, 30 tbr, 15360 tbn (default)"
+    },
+    {
+      "check": "AAC / 48 kHz",
+      "passed": true,
+      "detail": "  Stream #0:1[0x2](und): Audio: aac (LC) (mp4a / 0x6134706D), 48000 Hz, mono, fltp, 158 kb/s (default)"
+    },
+    {
+      "check": "8 chapters",
+      "passed": true,
+      "detail": 8
+    },
+    {
+      "check": "30 scenes / 900 target seconds",
+      "passed": true,
+      "detail": 30
+    },
+    {
+      "check": "PCM voice exact 900 seconds",
+      "passed": true,
+      "detail": {
+        "channels": 1,
+        "sampleRate": 48000,
+        "sampleWidth": 2,
+        "frames": 43200000,
+        "seconds": 900.0
+      }
+    },
+    {
+      "check": "caption ordering / range",
+      "passed": true,
+      "detail": 153
+    },
+    {
+      "check": "captions <= 2 lines",
+      "passed": true,
+      "detail": 2
+    },
+    {
+      "check": "caption matches narration 01",
+      "passed": true,
+      "detail": "01"
+    },
+    {
+      "check": "caption matches narration 02",
+      "passed": true,
+      "detail": "02"
+    },
+    {
+      "check": "caption matches narration 03",
+      "passed": true,
+      "detail": "03"
+    },
+    {
+      "check": "caption matches narration 04",
+      "passed": true,
+      "detail": "04"
+    },
+    {
+      "check": "caption matches narration 05",
+      "passed": true,
+      "detail": "05"
+    },
+    {
+      "check": "caption matches narration 06",
+      "passed": true,
+      "detail": "06"
+    },
+    {
+      "check": "caption matches narration 07",
+      "passed": true,
+      "detail": "07"
+    },
+    {
+      "check": "caption matches narration 08",
+      "passed": true,
+      "detail": "08"
+    },
+    {
+      "check": "caption matches narration 09",
+      "passed": true,
+      "detail": "09"
+    },
+    {
+      "check": "caption matches narration 10",
+      "passed": true,
+      "detail": "10"
+    },
+    {
+      "check": "caption matches narration 11",
+      "passed": true,
+      "detail": "11"
+    },
+    {
+      "check": "caption matches narration 12",
+      "passed": true,
+      "detail": "12"
+    },
+    {
+      "check": "caption matches narration 13",
+      "passed": true,
+      "detail": "13"
+    },
+    {
+      "check": "caption matches narration 14",
+      "passed": true,
+      "detail": "14"
+    },
+    {
+      "check": "caption matches narration 15",
+      "passed": true,
+      "detail": "15"
+    },
+    {
+      "check": "caption matches narration 16",
+      "passed": true,
+      "detail": "16"
+    },
+    {
+      "check": "caption matches narration 17",
+      "passed": true,
+      "detail": "17"
+    },
+    {
+      "check": "caption matches narration 18",
+      "passed": true,
+      "detail": "18"
+    },
+    {
+      "check": "caption matches narration 19",
+      "passed": true,
+      "detail": "19"
+    },
+    {
+      "check": "caption matches narration 20",
+      "passed": true,
+      "detail": "20"
+    },
+    {
+      "check": "caption matches narration 21",
+      "passed": true,
+      "detail": "21"
+    },
+    {
+      "check": "caption matches narration 22",
+      "passed": true,
+      "detail": "22"
+    },
+    {
+      "check": "caption matches narration 23",
+      "passed": true,
+      "detail": "23"
+    },
+    {
+      "check": "caption matches narration 24",
+      "passed": true,
+      "detail": "24"
+    },
+    {
+      "check": "caption matches narration 25",
+      "passed": true,
+      "detail": "25"
+    },
+    {
+      "check": "caption matches narration 26",
+      "passed": true,
+      "detail": "26"
+    },
+    {
+      "check": "caption matches narration 27",
+      "passed": true,
+      "detail": "27"
+    },
+    {
+      "check": "caption matches narration 28",
+      "passed": true,
+      "detail": "28"
+    },
+    {
+      "check": "caption matches narration 29",
+      "passed": true,
+      "detail": "29"
+    },
+    {
+      "check": "caption matches narration 30",
+      "passed": true,
+      "detail": "30"
+    },
+    {
+      "check": "all speech fits scenes",
+      "passed": true,
+      "detail": {
+        "scene": "30",
+        "targetSeconds": 25,
+        "nativeSpeechSeconds": 24.475420000000003,
+        "atempo": 1.0415072340425533,
+        "voiceStart": 0.75,
+        "voiceEnd": 24.25,
+        "voice": "macOS Yuna",
+        "sentenceCount": 4
+      }
+    },
+    {
+      "check": "bounded TTS speed",
+      "passed": true,
+      "detail": [
+        0.9171882127659575,
+        1.1233305263157896
+      ]
+    },
+    {
+      "check": "slide text stays in frame",
+      "passed": true,
+      "detail": 469
+    },
+    {
+      "check": "editable SVG well formed",
+      "passed": true,
+      "detail": "assets + 도식 parsed with XML parser"
+    },
+    {
+      "check": "subtitle width fits",
+      "passed": true,
+      "detail": "34px / <=1770px"
+    },
+    {
+      "check": "no real external AI in capture",
+      "passed": true,
+      "detail": "Ollama loopback failure; provider LOCAL"
+    },
+    {
+      "check": "full-decode.log exit",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "check": "full decode no errors",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "frame-count.log exit",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "check": "27000 video frames",
+      "passed": true,
+      "detail": 27000
+    },
+    {
+      "check": "final-loudness.log exit",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "check": "voice loudness / peak",
+      "passed": true,
+      "detail": {
+        "input_i": "-16.08",
+        "input_tp": "-1.97",
+        "input_lra": "1.90",
+        "input_thresh": "-26.11",
+        "output_i": "-16.00",
+        "output_tp": "-2.00",
+        "output_lra": "1.80",
+        "output_thresh": "-26.03",
+        "normalization_type": "dynamic",
+        "target_offset": "0.00"
+      }
+    },
+    {
+      "check": "nonblank scene 01",
+      "passed": true,
+      "detail": 101.62
+    },
+    {
+      "check": "nonblank scene 02",
+      "passed": true,
+      "detail": 71.55
+    },
+    {
+      "check": "nonblank scene 03",
+      "passed": true,
+      "detail": 72.04
+    },
+    {
+      "check": "nonblank scene 04",
+      "passed": true,
+      "detail": 72.81
+    },
+    {
+      "check": "nonblank scene 05",
+      "passed": true,
+      "detail": 72.2
+    },
+    {
+      "check": "nonblank scene 06",
+      "passed": true,
+      "detail": 71.38
+    },
+    {
+      "check": "nonblank scene 07",
+      "passed": true,
+      "detail": 71.94
+    },
+    {
+      "check": "nonblank scene 08",
+      "passed": true,
+      "detail": 71.3
+    },
+    {
+      "check": "nonblank scene 09",
+      "passed": true,
+      "detail": 72.55
+    },
+    {
+      "check": "nonblank scene 10",
+      "passed": true,
+      "detail": 72.38
+    },
+    {
+      "check": "nonblank scene 11",
+      "passed": true,
+      "detail": 72.99
+    },
+    {
+      "check": "nonblank scene 12",
+      "passed": true,
+      "detail": 72.49
+    },
+    {
+      "check": "nonblank scene 13",
+      "passed": true,
+      "detail": 72.7
+    },
+    {
+      "check": "nonblank scene 14",
+      "passed": true,
+      "detail": 72.45
+    },
+    {
+      "check": "nonblank scene 15",
+      "passed": true,
+      "detail": 72.25
+    },
+    {
+      "check": "nonblank scene 16",
+      "passed": true,
+      "detail": 73.11
+    },
+    {
+      "check": "nonblank scene 17",
+      "passed": true,
+      "detail": 71.98
+    },
+    {
+      "check": "nonblank scene 18",
+      "passed": true,
+      "detail": 71.63
+    },
+    {
+      "check": "nonblank scene 19",
+      "passed": true,
+      "detail": 72.87
+    },
+    {
+      "check": "nonblank scene 20",
+      "passed": true,
+      "detail": 71.61
+    },
+    {
+      "check": "nonblank scene 21",
+      "passed": true,
+      "detail": 72.45
+    },
+    {
+      "check": "nonblank scene 22",
+      "passed": true,
+      "detail": 71.78
+    },
+    {
+      "check": "nonblank scene 23",
+      "passed": true,
+      "detail": 71.02
+    },
+    {
+      "check": "nonblank scene 24",
+      "passed": true,
+      "detail": 72.52
+    },
+    {
+      "check": "nonblank scene 25",
+      "passed": true,
+      "detail": 71.2
+    },
+    {
+      "check": "nonblank scene 26",
+      "passed": true,
+      "detail": 73.02
+    },
+    {
+      "check": "nonblank scene 27",
+      "passed": true,
+      "detail": 72.46
+    },
+    {
+      "check": "nonblank scene 28",
+      "passed": true,
+      "detail": 73.11
+    },
+    {
+      "check": "nonblank scene 29",
+      "passed": true,
+      "detail": 72.28
+    },
+    {
+      "check": "nonblank scene 30",
+      "passed": true,
+      "detail": 101.12
+    },
+    {
+      "check": "published text secret-pattern scan",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "check": "product Git clean",
+      "passed": true,
+      "detail": "ignored release output only"
+    }
+  ],
+  "allPassed": true,
+  "visualReview": "Reviewed all 30 midpoint frames, 12 UI sub-cut frames, 3 full-scene contact sheets and UI contact sheet. Checked caption separation, major text bounds, current/proposal labels and corrected UI crops.",
+  "voiceReview": "All 900 seconds decode; 153 captions match narration; every scene has leading/trailing speech margin and bounded speed. Full human listening and venue speaker check are not claimed.",
+  "sha256": {
+    "OMNIS_기술평가_시현영상_15분.mp4": "bd27e6a1dd5db89629e7df0aad2fe6b1bb1d61370e13e7f2c49a20144cb1bd09",
+    "OMNIS_평가발표_한국어음성.wav": "b8e6279cea6713212d13e8c0ee27bea96599df33b4a2d230c4217ca0832c746a",
+    "한국어_자막.srt": "d39e753e9de2676986d4152834f87e5f3a75424e3a206d1dba3fac079a74702d"
+  },
+  "screenshots": "9 screenshots from the real installed app, using isolated synthetic profile. No production profile in share bundle.",
+  "overviewDiagramBoundsPassed": true
+}

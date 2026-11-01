@@ -1,0 +1,20 @@
+[Script Info]
+ScriptType: v4.00+
+PlayResX: 1920
+PlayResY: 1080
+WrapStyle: 2
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Caption,Pretendard,34,&H00FFFFFF,&H00FFFFFF,&H0015203F,&H0015203F,0,0,0,0,100,100,0,0,1,0,0,5,64,64,0,1
+Style: Tip,Pretendard,28,&H00D9DFEC,&H00D9DFEC,&H0015203F,&H0015203F,0,0,0,0,100,100,0,0,1,0,0,5,64,64,0,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.00,0:00:00.75,Tip,,0,0,0,,{\pos(960,1020)}단계별 연동 제안 · 미구현
+Dialogue: 0,0:00:00.75,0:00:06.12,Caption,,0,0,0,,{\pos(960,1020)}파일 교환이 검증되면 메인 어댑터나 별도 연동 서비스를 통해 확장할 수 있습니다.
+Dialogue: 0,0:00:06.12,0:00:15.18,Caption,,0,0,0,,{\pos(960,1020)}이후 승인된 에이피아이 또는 이벤트 연결을 적용하되, 누가 어떤 데이터의 원본인지와 동기화 방향, 충돌과 실패 재처리를 먼저 정해야\N합니다.
+Dialogue: 0,0:00:15.18,0:00:19.44,Caption,,0,0,0,,{\pos(960,1020)}중앙 서비스가 필요하다면 인증정보와 연결 책임도 분리해야 합니다.
+Dialogue: 0,0:00:19.44,0:00:24.84,Caption,,0,0,0,,{\pos(960,1020)}이 단계에서 연결 성공, 데이터 정합성, 장애 후 중복 없는 복구를 시험합니다.
+Dialogue: 0,0:00:24.84,0:00:29.25,Caption,,0,0,0,,{\pos(960,1020)}승인되지 않은 망 연결이나 보호조치 우회는 제안 범위에 포함하지 않습니다.
+Dialogue: 0,0:00:29.25,0:00:30.00,Tip,,0,0,0,,{\pos(960,1020)}단계별 연동 제안 · 미구현

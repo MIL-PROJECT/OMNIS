@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080"><title>OMNIS 현재 시스템 구성 · v1.1.0</title><desc>OMNIS 기술 평가 발표. 현재 구현과 선택 경로</desc>
+<rect x="0" y="0" width="1920" height="1080" rx="0" fill="#F2F4F8" stroke="none" stroke-width="2"/>
+<text x="75" y="69" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="30" font-weight="700" fill="#232E6B">OMNIS</text>
+<text x="75" y="155" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="52" font-weight="700" fill="#232E6B">OMNIS 현재 시스템 구성 · v1.1.0</text>
+<text x="75" y="207" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="25" font-weight="400" fill="#64708A">실선: 기본 업무   /   청색 점선: 구현된 선택형 AI   /   황색 점선: 향후 연동 영역</text>
+<rect x="60" y="240" width="1800" height="475" rx="25" fill="#FFFFFF" stroke="#DCE2ED" stroke-width="2"/>
+<text x="90" y="276" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="25" font-weight="600" fill="#147F73">사용자 PC · 기본 업무에 별도 웹 서버 없음</text>
+<rect x="90" y="305" width="310" height="180" rx="20" fill="#FFFFFF" stroke="#DCE2ED" stroke-width="2"/>
+<rect x="114" y="333" width="7" height="38" rx="3" fill="#232E6B" stroke="none" stroke-width="2"/>
+<text x="138" y="360" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="31" font-weight="700" fill="#232E6B">Renderer</text>
+<text x="122" y="433" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="29" font-weight="400" fill="#64708A">React UI · 사용자</text>
+<text x="122" y="475" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="29" font-weight="400" fill="#64708A">입력</text>
+<rect x="440" y="305" width="310" height="180" rx="20" fill="#FFFFFF" stroke="#DCE2ED" stroke-width="2"/>
+<rect x="464" y="333" width="7" height="38" rx="3" fill="#232E6B" stroke="none" stroke-width="2"/>
+<text x="488" y="360" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="31" font-weight="700" fill="#232E6B">Preload</text>
+<text x="472" y="433" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="29" font-weight="400" fill="#64708A">contextBridge ·</text>
+<text x="472" y="475" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="29" font-weight="400" fill="#64708A">IPC</text>
+<rect x="790" y="305" width="490" height="180" rx="20" fill="#FFFFFF" stroke="#DCE2ED" stroke-width="2"/>
+<rect x="814" y="333" width="7" height="38" rx="3" fill="#232E6B" stroke="none" stroke-width="2"/>
+<text x="838" y="360" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="31" font-weight="700" fill="#232E6B">Main 업무 서비스</text>
+<text x="822" y="433" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="29" font-weight="400" fill="#64708A">인증·권한 · 입력·상태 조건 · 저장</text>
+<rect x="1320" y="305" width="470" height="180" rx="20" fill="#FFFFFF" stroke="#DCE2ED" stroke-width="2"/>
+<rect x="1344" y="333" width="7" height="38" rx="3" fill="#232E6B" stroke="none" stroke-width="2"/>
+<text x="1368" y="360" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="31" font-weight="700" fill="#232E6B">로컬 저장소</text>
+<text x="1352" y="433" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="29" font-weight="400" fill="#64708A">SQLite · 첨부 · 백업</text>
+<text x="1352" y="470" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="23" font-weight="400" fill="#64708A">DB schema 9 · AI 실행 이력</text>
+<polyline points="405,397 434,397" fill="none" stroke="#456BE0" stroke-width="3" stroke-linejoin="round"/>
+<polygon points="434,397 420.8362615716444,404.19138307906303 420.8362615716444,389.80861692093697" fill="#456BE0"/>
+<polyline points="755,397 784,397" fill="none" stroke="#456BE0" stroke-width="3" stroke-linejoin="round"/>
+<polygon points="784,397 770.8362615716444,404.19138307906303 770.8362615716444,389.80861692093697" fill="#456BE0"/>
+<polyline points="1285,397 1314,397" fill="none" stroke="#456BE0" stroke-width="3" stroke-linejoin="round"/>
+<polygon points="1314,397 1300.8362615716444,404.19138307906303 1300.8362615716444,389.80861692093697" fill="#456BE0"/>
+<rect x="790" y="530" width="490" height="145" rx="20" fill="#FFFFFF" stroke="#DCE2ED" stroke-width="2"/>
+<rect x="814" y="558" width="7" height="38" rx="3" fill="#232E6B" stroke="none" stroke-width="2"/>
+<text x="838" y="583" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="29" font-weight="700" fill="#232E6B">Main · AI 실행 제어</text>
+<text x="822" y="658" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="29" font-weight="400" fill="#64708A">Factory · Orchestrator · Provider</text>
+<rect x="1320" y="530" width="220" height="145" rx="20" fill="#EBEFFA" stroke="#456BE0" stroke-width="2" stroke-dasharray="12 8"/>
+<text x="1340" y="577" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="30" font-weight="700" fill="#232E6B">LOCAL</text>
+<text x="1340" y="627" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="22" font-weight="400" fill="#64708A">Main 내 결정 규칙</text>
+<rect x="1570" y="530" width="220" height="145" rx="20" fill="#EBEFFA" stroke="#456BE0" stroke-width="2" stroke-dasharray="12 8"/>
+<text x="1590" y="577" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="30" font-weight="700" fill="#232E6B">Ollama</text>
+<text x="1590" y="627" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="22" font-weight="400" fill="#64708A">별도 로컬 프로세스</text>
+<polyline points="1035,485 1035,529" fill="none" stroke="#456BE0" stroke-width="3" stroke-linejoin="round" stroke-dasharray="12 10"/>
+<polygon points="1035,529 1027.8086169209369,515.8362615716444 1042.1913830790631,515.8362615716444" fill="#456BE0"/>
+<polyline points="1280,605 1312,605" fill="none" stroke="#456BE0" stroke-width="3" stroke-linejoin="round" stroke-dasharray="12 10"/>
+<polygon points="1312,605 1298.8362615716444,612.191383079063 1298.8362615716444,597.808616920937" fill="#456BE0"/>
+<polyline points="1280,560 1300,560 1300,508 1680,508 1680,524" fill="none" stroke="#456BE0" stroke-width="3" stroke-linejoin="round" stroke-dasharray="12 10"/>
+<polygon points="1680,524 1672.8086169209369,510.8362615716444 1687.1913830790631,510.8362615716444" fill="#456BE0"/>
+<text x="95" y="572" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="30" font-weight="600" fill="#232E6B">선택 추론 실패 → LOCAL 복귀</text>
+<text x="95" y="620" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="30" font-weight="600" fill="#232E6B">분석과 업무 반영은 별도 요청</text>
+<text x="95" y="668" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="24" font-weight="400" fill="#64708A">현재: 단일 설치 환경 · 장비 간 실시간 공유 없음</text>
+<rect x="95" y="785" width="820" height="125" rx="20" fill="#FFF3E3" stroke="#A86618" stroke-width="2" stroke-dasharray="12 8"/>
+<text x="120" y="830" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="30" font-weight="700" fill="#A86618">타체계 연동 · 향후 설계 영역</text>
+<text x="120" y="883" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="26" font-weight="400" fill="#A86618">실연동 없음 · 데이터 계약·승인·어댑터 추가 필요</text>
+<rect x="1065" y="785" width="725" height="125" rx="20" fill="#FFFFFF" stroke="#456BE0" stroke-width="2" stroke-dasharray="12 8"/>
+<text x="1090" y="830" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="30" font-weight="700" fill="#232E6B">OpenAI / Anthropic · 선택 외부 API</text>
+<text x="1090" y="880" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="23" font-weight="400" fill="#64708A">설정·동의·자격정보 조건 · 이번 촬영에서 호출하지 않음</text>
+<polyline points="1035,675 1035,748 1425,748 1425,778" fill="none" stroke="#456BE0" stroke-width="3" stroke-linejoin="round" stroke-dasharray="12 10"/>
+<polygon points="1425,778 1417.8086169209369,764.8362615716444 1432.1913830790631,764.8362615716444" fill="#456BE0"/>
+<text x="75" y="987" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="25" font-weight="400" fill="#64708A">현재 소스: b142f1e · 설치 앱 1.1.0 · 기본 업무/선택 추론/향후 연동의 경계를 구분</text>
+<text x="75" y="1038" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="24" font-weight="400" fill="#64708A">LOCAL은 생성형 모델이 아님 · safeStorage는 자격정보 경로이며 DB 전체 암호화가 아님</text>
+</svg>

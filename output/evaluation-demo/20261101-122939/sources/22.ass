@@ -1,0 +1,20 @@
+[Script Info]
+ScriptType: v4.00+
+PlayResX: 1920
+PlayResY: 1080
+WrapStyle: 2
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Caption,Pretendard,34,&H00FFFFFF,&H00FFFFFF,&H0015203F,&H0015203F,0,0,0,0,100,100,0,0,1,0,0,5,64,64,0,1
+Style: Tip,Pretendard,28,&H00D9DFEC,&H00D9DFEC,&H0015203F,&H0015203F,0,0,0,0,100,100,0,0,1,0,0,5,64,64,0,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.00,0:00:00.75,Tip,,0,0,0,,{\pos(960,1020)}현재 경계 · 연동 미구현
+Dialogue: 0,0:00:00.75,0:00:04.44,Caption,,0,0,0,,{\pos(960,1020)}타체계 연동은 현재 구현과 제안을 분명히 나누겠습니다.
+Dialogue: 0,0:00:04.44,0:00:10.83,Caption,,0,0,0,,{\pos(960,1020)}지금 프로그램에는 보고서와 씨에스브이 내보내기가 있지만, 검증된 양방향 체계 연동은 없습니다.
+Dialogue: 0,0:00:10.83,0:00:17.08,Caption,,0,0,0,,{\pos(960,1020)}운영개념 문서의 교환 어댑터는 미리보기와 가져오기, 내보내기를 위한 인터페이스 설계입니다.
+Dialogue: 0,0:00:17.08,0:00:22.91,Caption,,0,0,0,,{\pos(960,1020)}델리스 같은 특정 체계의 실제 연결 규격과 승인된 접근 경로는 확인되지 않았습니다.
+Dialogue: 0,0:00:22.91,0:00:29.25,Caption,,0,0,0,,{\pos(960,1020)}먼저 상대 체계와 주고받을 데이터, 원본 책임과 승인 절차를 합의하는 것이 출발점입니다.
+Dialogue: 0,0:00:29.25,0:00:30.00,Tip,,0,0,0,,{\pos(960,1020)}현재 경계 · 연동 미구현

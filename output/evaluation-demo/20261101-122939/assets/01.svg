@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080"><title>운용과 정비를 하나의 책임 흐름으로</title><desc>OMNIS 기술 평가 발표. 발표 관점</desc>
+<rect x="0" y="0" width="1920" height="1080" rx="0" fill="#F2F4F8" stroke="none" stroke-width="2"/>
+<text x="80" y="69" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="28" font-weight="700" fill="#232E6B">OMNIS</text>
+<text x="255" y="69" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="23" font-weight="500" fill="#64708A">01 / 문제와 목표</text>
+<rect x="1390" y="35" width="360" height="44" rx="22" fill="#E9F6F1" stroke="none" stroke-width="2"/>
+<text x="1406" y="63" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="22" font-weight="600" fill="#147F73">발표 관점</text>
+<text x="1785" y="68" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="22" font-weight="400" fill="#64708A">01 / 30</text>
+<text x="80" y="170" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="52" font-weight="700" fill="#232E6B">운용과 정비를 하나의 책임 흐름으로</text>
+<polyline points="80,210 1840,210" fill="none" stroke="#DCE2ED" stroke-width="2" stroke-linejoin="round"/>
+<rect x="80" y="270" width="1760" height="592" rx="28" fill="#232E6B" stroke="none" stroke-width="2"/>
+<text x="140" y="423" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="102" font-weight="700" fill="#FFFFFF">OMNIS</text>
+<text x="145" y="507" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="40" font-weight="600" fill="#D7DFFB">정보통신 운용·정비 통합체계</text>
+<text x="145" y="618" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="48" font-weight="600" fill="#FFFFFF">업무를 연결하고, 판단의 근거와 책임을 남깁니다.</text>
+<text x="145" y="770" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="31" font-weight="400" fill="#B9C8F3">로컬 실행  /  선택형 AI  /  명시적 업무 반영</text>
+<text x="80" y="942" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="20" font-weight="400" fill="#64708A">v1.1.0 · SQLite schema v9 · source b142f1e</text>
+<rect x="0" y="962" width="1920" height="118" rx="0" fill="#15203F" stroke="none" stroke-width="2"/>
+</svg>

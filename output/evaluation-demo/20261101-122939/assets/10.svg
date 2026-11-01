@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080"><title>AI는 선택 가능한 처리 경로입니다</title><desc>OMNIS 기술 평가 발표. 현재 구현</desc>
+<rect x="0" y="0" width="1920" height="1080" rx="0" fill="#F2F4F8" stroke="none" stroke-width="2"/>
+<text x="80" y="69" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="28" font-weight="700" fill="#232E6B">OMNIS</text>
+<text x="255" y="69" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="23" font-weight="500" fill="#64708A">03 / 현재 아키텍처</text>
+<rect x="1390" y="35" width="360" height="44" rx="22" fill="#E9F6F1" stroke="none" stroke-width="2"/>
+<text x="1406" y="63" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="22" font-weight="600" fill="#147F73">현재 구현</text>
+<text x="1785" y="68" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="22" font-weight="400" fill="#64708A">10 / 30</text>
+<text x="80" y="170" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="52" font-weight="700" fill="#232E6B">AI는 선택 가능한 처리 경로입니다</text>
+<polyline points="80,210 1840,210" fill="none" stroke="#DCE2ED" stroke-width="2" stroke-linejoin="round"/>
+<rect x="80" y="320" width="490" height="300" rx="20" fill="#FFFFFF" stroke="#DCE2ED" stroke-width="2"/>
+<rect x="104" y="348" width="7" height="38" rx="3" fill="#232E6B" stroke="none" stroke-width="2"/>
+<text x="128" y="378" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="34" font-weight="700" fill="#232E6B">공통 제어</text>
+<text x="112" y="448" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="29" font-weight="400" fill="#64708A">Factory · Orchestrator · 실행 이력</text>
+<rect x="108" y="554" width="208.0" height="44" rx="22" fill="#EBEFFA" stroke="none" stroke-width="2"/>
+<text x="124" y="582" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="22" font-weight="600" fill="#232E6B">Main 안의 실행 제어</text>
+<rect x="950" y="260" width="890" height="145" rx="20" fill="#FFFFFF" stroke="#DCE2ED" stroke-width="2"/>
+<rect x="974" y="288" width="7" height="38" rx="3" fill="#147F73" stroke="none" stroke-width="2"/>
+<text x="998" y="313" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="29" font-weight="700" fill="#147F73">기본</text>
+<text x="982" y="388" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="29" font-weight="400" fill="#64708A">LOCAL · 결정적 규칙</text>
+<polyline points="585,470 760,470 760,333 930,333" fill="none" stroke="#147F73" stroke-width="3" stroke-linejoin="round"/>
+<polygon points="930,333 916.8362615716444,340.19138307906303 916.8362615716444,325.80861692093697" fill="#147F73"/>
+<rect x="950" y="438" width="890" height="145" rx="20" fill="#FFFFFF" stroke="#DCE2ED" stroke-width="2"/>
+<rect x="974" y="466" width="7" height="38" rx="3" fill="#456BE0" stroke="none" stroke-width="2"/>
+<text x="998" y="491" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="29" font-weight="700" fill="#456BE0">선택·로컬</text>
+<text x="982" y="566" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="29" font-weight="400" fill="#64708A">Ollama · loopback HTTP</text>
+<polyline points="585,470 760,470 760,511 930,511" fill="none" stroke="#456BE0" stroke-width="3" stroke-linejoin="round" stroke-dasharray="12 10"/>
+<polygon points="930,511 916.8362615716444,518.191383079063 916.8362615716444,503.80861692093697" fill="#456BE0"/>
+<rect x="950" y="616" width="890" height="145" rx="20" fill="#FFFFFF" stroke="#DCE2ED" stroke-width="2"/>
+<rect x="974" y="644" width="7" height="38" rx="3" fill="#456BE0" stroke="none" stroke-width="2"/>
+<text x="998" y="669" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="29" font-weight="700" fill="#456BE0">선택·외부</text>
+<text x="982" y="744" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="29" font-weight="400" fill="#64708A">OpenAI / Anthropic · 동의 조건</text>
+<polyline points="585,470 760,470 760,689 930,689" fill="none" stroke="#456BE0" stroke-width="3" stroke-linejoin="round" stroke-dasharray="12 10"/>
+<polygon points="930,689 916.8362615716444,696.191383079063 916.8362615716444,681.808616920937" fill="#456BE0"/>
+<rect x="80" y="750" width="161.0" height="44" rx="22" fill="#E9F6F1" stroke="none" stroke-width="2"/>
+<text x="96" y="778" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="22" font-weight="600" fill="#147F73">실선: 기본 경로</text>
+<rect x="400" y="750" width="266.0" height="44" rx="22" fill="#EBEFFA" stroke="none" stroke-width="2"/>
+<text x="416" y="778" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="22" font-weight="600" fill="#456BE0">파란 점선: 구현된 선택 경로</text>
+<text x="80" y="858" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="29" font-weight="600" fill="#232E6B">선택 Provider 실패 → LOCAL 규칙 복귀  /  실제 사용 경로와 오류를 이력으로 구분</text>
+<text x="80" y="942" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="20" font-weight="400" fill="#64708A">AIProviderFactory.ts · AIOrchestrator.ts · ExternalDataGuard.ts</text>
+<rect x="0" y="962" width="1920" height="118" rx="0" fill="#15203F" stroke="none" stroke-width="2"/>
+</svg>

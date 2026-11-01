@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080"><title>외부 체계 연동은 현재 설계 단계입니다</title><desc>OMNIS 기술 평가 발표. 현재 경계 · 연동 미구현</desc>
+<rect x="0" y="0" width="1920" height="1080" rx="0" fill="#F2F4F8" stroke="none" stroke-width="2"/>
+<text x="80" y="69" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="28" font-weight="700" fill="#232E6B">OMNIS</text>
+<text x="255" y="69" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="23" font-weight="500" fill="#64708A">06 / 타체계 연동 방안</text>
+<rect x="1390" y="35" width="360" height="44" rx="22" fill="#FFF3E3" stroke="none" stroke-width="2"/>
+<text x="1406" y="63" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="22" font-weight="600" fill="#A86618">현재 경계 · 연동 미구현</text>
+<text x="1785" y="68" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="22" font-weight="400" fill="#64708A">22 / 30</text>
+<text x="80" y="170" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="52" font-weight="700" fill="#232E6B">외부 체계 연동은 현재 설계 단계입니다</text>
+<polyline points="80,210 1840,210" fill="none" stroke="#DCE2ED" stroke-width="2" stroke-linejoin="round"/>
+<rect x="80" y="320" width="550" height="325" rx="20" fill="#FFFFFF" stroke="#DCE2ED" stroke-width="2"/>
+<rect x="104" y="348" width="7" height="38" rx="3" fill="#232E6B" stroke="none" stroke-width="2"/>
+<text x="128" y="378" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="34" font-weight="700" fill="#232E6B">구현</text>
+<text x="112" y="448" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="29" font-weight="400" fill="#64708A">보고서 · CSV 내보내기</text>
+<rect x="108" y="579" width="113.0" height="44" rx="22" fill="#EBEFFA" stroke="none" stroke-width="2"/>
+<text x="124" y="607" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="22" font-weight="600" fill="#232E6B">현재 구현</text>
+<polyline points="641,482 671,482" fill="none" stroke="#A86618" stroke-width="4" stroke-linejoin="round" stroke-dasharray="12 10"/>
+<polygon points="671,482 657.8362615716444,489.19138307906303 657.8362615716444,474.80861692093697" fill="#A86618"/>
+<rect x="685" y="320" width="550" height="325" rx="20" fill="#FFFFFF" stroke="#A86618" stroke-width="2" stroke-dasharray="12 8"/>
+<rect x="709" y="348" width="7" height="38" rx="3" fill="#A86618" stroke="none" stroke-width="2"/>
+<text x="733" y="378" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="34" font-weight="700" fill="#A86618">문서 설계</text>
+<text x="717" y="448" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="29" font-weight="400" fill="#64708A">MaintenanceExchangeAdapter</text>
+<rect x="713" y="579" width="145.0" height="44" rx="22" fill="#FFF3E3" stroke="none" stroke-width="2"/>
+<text x="729" y="607" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="22" font-weight="600" fill="#A86618">설계 / 미구현</text>
+<polyline points="1246,482 1276,482" fill="none" stroke="#A86618" stroke-width="4" stroke-linejoin="round" stroke-dasharray="12 10"/>
+<polygon points="1276,482 1262.8362615716444,489.19138307906303 1262.8362615716444,474.80861692093697" fill="#A86618"/>
+<rect x="1290" y="320" width="550" height="325" rx="20" fill="#FFFFFF" stroke="#A86618" stroke-width="2" stroke-dasharray="12 8"/>
+<rect x="1314" y="348" width="7" height="38" rx="3" fill="#A86618" stroke="none" stroke-width="2"/>
+<text x="1338" y="378" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="34" font-weight="700" fill="#A86618">미구현</text>
+<text x="1322" y="448" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="29" font-weight="400" fill="#64708A">실제 양방향 연동 · 상대 API 접속</text>
+<rect x="1318" y="579" width="145.0" height="44" rx="22" fill="#FFF3E3" stroke="none" stroke-width="2"/>
+<text x="1334" y="607" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="22" font-weight="600" fill="#A86618">설계 / 미구현</text>
+<rect x="80" y="755" width="1760" height="120" rx="20" fill="#FFF3E3" stroke="none" stroke-width="2"/>
+<text x="116" y="820" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="33" font-weight="600" fill="#A86618">상대 체계의 실제 규격·권한·망 경로를 확인한 뒤 연결합니다.</text>
+<text x="80" y="942" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="20" font-weight="400" fill="#64708A">docs/OPERATION_CONCEPT.md · 실제 외부체계 접속 없음</text>
+<rect x="0" y="962" width="1920" height="118" rx="0" fill="#15203F" stroke="none" stroke-width="2"/>
+</svg>

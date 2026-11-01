@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080"><title>여러 PC 운용에는 새로운 구조가 필요합니다</title><desc>OMNIS 기술 평가 발표. 현재 한계 + 구조 확장안</desc>
+<rect x="0" y="0" width="1920" height="1080" rx="0" fill="#F2F4F8" stroke="none" stroke-width="2"/>
+<text x="80" y="69" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="28" font-weight="700" fill="#232E6B">OMNIS</text>
+<text x="255" y="69" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="23" font-weight="500" fill="#64708A">05 / 확장성과 변경 조건</text>
+<rect x="1390" y="35" width="360" height="44" rx="22" fill="#E9F6F1" stroke="none" stroke-width="2"/>
+<text x="1406" y="63" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="22" font-weight="600" fill="#147F73">현재 한계 + 구조 확장안</text>
+<text x="1785" y="68" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="22" font-weight="400" fill="#64708A">20 / 30</text>
+<text x="80" y="170" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="52" font-weight="700" fill="#232E6B">여러 PC 운용에는 새로운 구조가 필요합니다</text>
+<polyline points="80,210 1840,210" fill="none" stroke="#DCE2ED" stroke-width="2" stroke-linejoin="round"/>
+<rect x="80" y="290" width="820" height="345" rx="20" fill="#FFFFFF" stroke="#DCE2ED" stroke-width="2"/>
+<rect x="104" y="318" width="7" height="38" rx="3" fill="#147F73" stroke="none" stroke-width="2"/>
+<text x="128" y="348" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="34" font-weight="700" fill="#147F73">현재</text>
+<text x="112" y="418" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="29" font-weight="400" fill="#64708A">단일 설치 환경 · SQLite · 로컬 세션</text>
+<rect x="108" y="569" width="113.0" height="44" rx="22" fill="#EBEFFA" stroke="none" stroke-width="2"/>
+<text x="124" y="597" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="22" font-weight="600" fill="#147F73">현재 구현</text>
+<rect x="1020" y="290" width="820" height="345" rx="20" fill="#FFFFFF" stroke="#A86618" stroke-width="2" stroke-dasharray="12 8"/>
+<rect x="1044" y="318" width="7" height="38" rx="3" fill="#A86618" stroke="none" stroke-width="2"/>
+<text x="1068" y="348" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="34" font-weight="700" fill="#A86618">추가 설계</text>
+<text x="1052" y="418" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="29" font-weight="400" fill="#64708A">중앙 서비스 · 인증 · 충돌 정책</text>
+<rect x="1048" y="569" width="113.0" height="44" rx="22" fill="#FFF3E3" stroke="none" stroke-width="2"/>
+<text x="1064" y="597" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="22" font-weight="600" fill="#A86618">추가 개발</text>
+<polyline points="920,462 1000,462" fill="none" stroke="#A86618" stroke-width="4" stroke-linejoin="round" stroke-dasharray="12 10"/>
+<polygon points="1000,462 986.8362615716444,469.19138307906303 986.8362615716444,454.80861692093697" fill="#A86618"/>
+<rect x="80" y="729" width="1760" height="140" rx="20" fill="#FFF3E3" stroke="none" stroke-width="2"/>
+<text x="116" y="791" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="32" font-weight="700" fill="#A86618">한계</text>
+<text x="116" y="839" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="30" font-weight="400" fill="#A86618">동시 쓰기 · 장비 간 상태 공유  /  사용자 수·처리량은 실측 후 판단</text>
+<text x="80" y="942" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="20" font-weight="400" fill="#64708A">동시 사용자 수·처리량·고가용성 수치 미측정</text>
+<rect x="0" y="962" width="1920" height="118" rx="0" fill="#15203F" stroke="none" stroke-width="2"/>
+</svg>

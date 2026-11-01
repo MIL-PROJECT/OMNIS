@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080"><title>대표 예시 · 정비 결과의 중복 반입을 막는 설계</title><desc>OMNIS 기술 평가 발표. 확장 제안 · 예시 계약</desc>
+<rect x="0" y="0" width="1920" height="1080" rx="0" fill="#F2F4F8" stroke="none" stroke-width="2"/>
+<text x="80" y="69" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="28" font-weight="700" fill="#232E6B">OMNIS</text>
+<text x="255" y="69" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="23" font-weight="500" fill="#64708A">06 / 타체계 연동 방안</text>
+<rect x="1390" y="35" width="360" height="44" rx="22" fill="#FFF3E3" stroke="none" stroke-width="2"/>
+<text x="1406" y="63" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="22" font-weight="600" fill="#A86618">확장 제안 · 예시 계약</text>
+<text x="1785" y="68" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="22" font-weight="400" fill="#64708A">24 / 30</text>
+<text x="80" y="170" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="52" font-weight="700" fill="#232E6B">대표 예시 · 정비 결과의 중복 반입을 막는 설계</text>
+<polyline points="80,210 1840,210" fill="none" stroke="#DCE2ED" stroke-width="2" stroke-linejoin="round"/>
+<rect x="80" y="270" width="866" height="286" rx="20" fill="#FFFFFF" stroke="#A86618" stroke-width="2" stroke-dasharray="12 8"/>
+<rect x="104" y="298" width="7" height="38" rx="3" fill="#A86618" stroke="none" stroke-width="2"/>
+<text x="128" y="328" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="34" font-weight="700" fill="#A86618">식별</text>
+<text x="112" y="398" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="29" font-weight="400" fill="#64708A">sourceSystem + externalId</text>
+<rect x="974" y="270" width="866" height="286" rx="20" fill="#FFFFFF" stroke="#A86618" stroke-width="2" stroke-dasharray="12 8"/>
+<rect x="998" y="298" width="7" height="38" rx="3" fill="#A86618" stroke="none" stroke-width="2"/>
+<text x="1022" y="328" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="34" font-weight="700" fill="#A86618">멱등 키 제안</text>
+<text x="1006" y="398" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="29" font-weight="400" fill="#64708A">식별자 + revision + operation</text>
+<rect x="80" y="584" width="866" height="286" rx="20" fill="#FFFFFF" stroke="#A86618" stroke-width="2" stroke-dasharray="12 8"/>
+<rect x="104" y="612" width="7" height="38" rx="3" fill="#A86618" stroke="none" stroke-width="2"/>
+<text x="128" y="642" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="34" font-weight="700" fill="#A86618">중복</text>
+<text x="112" y="712" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="29" font-weight="400" fill="#64708A">같은 변경 → 추가 적용 없음</text>
+<rect x="974" y="584" width="866" height="286" rx="20" fill="#FFFFFF" stroke="#A86618" stroke-width="2" stroke-dasharray="12 8"/>
+<rect x="998" y="612" width="7" height="38" rx="3" fill="#A86618" stroke="none" stroke-width="2"/>
+<text x="1022" y="642" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="34" font-weight="700" fill="#A86618">충돌·오류</text>
+<text x="1006" y="712" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="29" font-weight="400" fill="#64708A">버전 확인 · 재처리 · 감사</text>
+<text x="1200" y="842" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="23" font-weight="600" fill="#A86618">예시: EXT-M42 / rev 1</text>
+<text x="80" y="942" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="20" font-weight="400" fill="#64708A">실제 상대 체계의 필드명·코드·인증 규격은 미확정</text>
+<rect x="0" y="962" width="1920" height="118" rx="0" fill="#15203F" stroke="none" stroke-width="2"/>
+</svg>

@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080"><title>검증된 범위는 여기까지입니다</title><desc>OMNIS 기술 평가 발표. 검증 근거</desc>
+<rect x="0" y="0" width="1920" height="1080" rx="0" fill="#F2F4F8" stroke="none" stroke-width="2"/>
+<text x="80" y="69" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="28" font-weight="700" fill="#232E6B">OMNIS</text>
+<text x="255" y="69" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="23" font-weight="500" fill="#64708A">07 / 검증과 실증 계획</text>
+<rect x="1390" y="35" width="360" height="44" rx="22" fill="#E9F6F1" stroke="none" stroke-width="2"/>
+<text x="1406" y="63" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="22" font-weight="600" fill="#147F73">검증 근거</text>
+<text x="1785" y="68" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="22" font-weight="400" fill="#64708A">26 / 30</text>
+<text x="80" y="170" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="52" font-weight="700" fill="#232E6B">검증된 범위는 여기까지입니다</text>
+<polyline points="80,210 1840,210" fill="none" stroke="#DCE2ED" stroke-width="2" stroke-linejoin="round"/>
+<rect x="80" y="310" width="422" height="400" rx="20" fill="#FFFFFF" stroke="#DCE2ED" stroke-width="2"/>
+<text x="110" y="435" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="68" font-weight="700" fill="#147F73">97</text>
+<text x="110" y="540" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="31" font-weight="600" fill="#232E6B">단위·통합 테스트</text>
+<rect x="526" y="310" width="422" height="400" rx="20" fill="#FFFFFF" stroke="#DCE2ED" stroke-width="2"/>
+<text x="556" y="435" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="68" font-weight="700" fill="#147F73">8</text>
+<text x="556" y="540" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="31" font-weight="600" fill="#232E6B">격리 관리자 E2E 흐름</text>
+<rect x="972" y="310" width="422" height="400" rx="20" fill="#FFFFFF" stroke="#DCE2ED" stroke-width="2"/>
+<text x="1002" y="435" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="68" font-weight="700" fill="#147F73">7 × 4</text>
+<text x="1002" y="540" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="31" font-weight="600" fill="#232E6B">관리 영역 × 화면 크기</text>
+<rect x="1418" y="310" width="422" height="400" rx="20" fill="#FFFFFF" stroke="#DCE2ED" stroke-width="2"/>
+<text x="1448" y="409" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="40" font-weight="700" fill="#147F73">arm64 / x64</text>
+<text x="1448" y="540" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="31" font-weight="600" fill="#232E6B">PR CI 전체 성공</text>
+<rect x="80" y="769" width="1760" height="114" rx="20" fill="#E9F6F1" stroke="none" stroke-width="2"/>
+<text x="116" y="833" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="33" font-weight="600" fill="#147F73">현재 merge commit과 검증 commit의 소스 tree가 일치합니다.</text>
+<text x="80" y="942" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="20" font-weight="400" fill="#64708A">검증 head 62eaf83 · 현재 b142f1e와 소스 tree 동일 · PR #2 CI</text>
+<rect x="0" y="962" width="1920" height="118" rx="0" fill="#15203F" stroke="none" stroke-width="2"/>
+</svg>

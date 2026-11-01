@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080"><title>기술 시현과 현장 운용 사이의 확인 항목</title><desc>OMNIS 기술 평가 발표. 한계 · 추가 검증 항목</desc>
+<rect x="0" y="0" width="1920" height="1080" rx="0" fill="#F2F4F8" stroke="none" stroke-width="2"/>
+<text x="80" y="69" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="28" font-weight="700" fill="#232E6B">OMNIS</text>
+<text x="255" y="69" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="23" font-weight="500" fill="#64708A">07 / 검증과 실증 계획</text>
+<rect x="1390" y="35" width="360" height="44" rx="22" fill="#E9F6F1" stroke="none" stroke-width="2"/>
+<text x="1406" y="63" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="22" font-weight="600" fill="#147F73">한계 · 추가 검증 항목</text>
+<text x="1785" y="68" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="22" font-weight="400" fill="#64708A">27 / 30</text>
+<text x="80" y="170" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="52" font-weight="700" fill="#232E6B">기술 시현과 현장 운용 사이의 확인 항목</text>
+<polyline points="80,210 1840,210" fill="none" stroke="#DCE2ED" stroke-width="2" stroke-linejoin="round"/>
+<rect x="80" y="266" width="866" height="253" rx="20" fill="#FFFFFF" stroke="#A86618" stroke-width="2" stroke-dasharray="12 8"/>
+<rect x="104" y="294" width="7" height="38" rx="3" fill="#A86618" stroke="none" stroke-width="2"/>
+<text x="128" y="324" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="34" font-weight="700" fill="#A86618">추론 품질</text>
+<text x="112" y="394" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="29" font-weight="400" fill="#64708A">실제 업무 자료의 평가 필요</text>
+<rect x="974" y="266" width="866" height="253" rx="20" fill="#FFFFFF" stroke="#A86618" stroke-width="2" stroke-dasharray="12 8"/>
+<rect x="998" y="294" width="7" height="38" rx="3" fill="#A86618" stroke="none" stroke-width="2"/>
+<text x="1022" y="324" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="34" font-weight="700" fill="#A86618">규모·가용성</text>
+<text x="1006" y="394" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="29" font-weight="400" fill="#64708A">동시성 · 복구 시간 측정 필요</text>
+<rect x="80" y="547" width="866" height="253" rx="20" fill="#FFFFFF" stroke="#A86618" stroke-width="2" stroke-dasharray="12 8"/>
+<rect x="104" y="575" width="7" height="38" rx="3" fill="#A86618" stroke="none" stroke-width="2"/>
+<text x="128" y="605" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="34" font-weight="700" fill="#A86618">실연동</text>
+<text x="112" y="675" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="29" font-weight="400" fill="#64708A">상대 규격·승인·종단 시험 필요</text>
+<rect x="974" y="547" width="866" height="253" rx="20" fill="#FFFFFF" stroke="#A86618" stroke-width="2" stroke-dasharray="12 8"/>
+<rect x="998" y="575" width="7" height="38" rx="3" fill="#A86618" stroke="none" stroke-width="2"/>
+<text x="1022" y="605" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="34" font-weight="700" fill="#A86618">보호·배포</text>
+<text x="1006" y="675" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="29" font-weight="400" fill="#64708A">운영 정책 · 신규 환경 검증 필요</text>
+<rect x="80" y="831" width="1760" height="63" rx="20" fill="#FFF3E3" stroke="none" stroke-width="2"/>
+<text x="108" y="873" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="27" font-weight="600" fill="#A86618">추가 발견: 체계 미지정 접수의 AI 입력 검증 문제 → 보완 항목으로 기록</text>
+<text x="80" y="942" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif" font-size="20" font-weight="400" fill="#64708A">RAG·벡터 DB·분산 운용·실연동 완료를 주장하지 않음</text>
+<rect x="0" y="962" width="1920" height="118" rx="0" fill="#15203F" stroke="none" stroke-width="2"/>
+</svg>
