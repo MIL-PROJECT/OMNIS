@@ -1,6 +1,11 @@
+import { permissionRules } from '../../shared/permissions'
+import { AccountError } from '../auth/AccountSecurity'
+import { AccountSecurity } from '../auth/AccountSecurity'
+import { UserAdminService } from './UserAdminService'
+import { adminSchemas, type AdminChannel } from '../../shared/admin'
 import { usabilityChannels, runUsability, createMaintenance, getIntake, saveIntake, assertChecklistComplete, directiveAccess, taskAccess } from './UsabilityService'
 import { analysisDescription, type IntakeAnswer } from '../../shared/usability'
-import { randomBytes, randomUUID, scryptSync, timingSafeEqual } from 'node:crypto'
+import { randomBytes, randomUUID, scryptSync } from 'node:crypto'
 import { cpSync, existsSync, mkdirSync, readdirSync, rmSync, statSync, unlinkSync, copyFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { app, BrowserWindow, dialog, safeStorage, shell } from 'electron'
@@ -32,12 +37,11 @@ const now = () => new Date().toISOString()
 const all = (db: Database.Database, sql: string, ...args: unknown[]): Row[] => db.prepare(sql).all(...args) as Row[]
 const one = (db: Database.Database, sql: string, ...args: unknown[]): Row | undefined => db.prepare(sql).get(...args) as Row | undefined
 const audit = (db: Database.Database, action: string, type: string, id: string, before: unknown, after: unknown): void => { db.prepare('INSERT INTO audit_logs VALUES (?,?,?,?,?,?,?,?)').run(randomUUID(), session.get()?.id ?? null, action, type, id, before ? JSON.stringify(before) : null, after ? JSON.stringify(after) : null, now()) }
-const requireUser = (): PublicUser => { const user = session.get(); if (!user) throw new Error('로그인이 필요합니다.'); return user }
+const requireUser = (): PublicUser => new AccountSecurity(openDb()).requireUser()
 const permit = (...roles: string[]): PublicUser => { const user = requireUser(); if (!roles.includes(user.role)) throw new Error('권한이 없습니다.'); return user }
 const ticket = (db: Database.Database, table: string, column: string, prefix: string): string => { const date = koreaDate().replaceAll('-', ''); const n = (one(db, `SELECT count(*) n FROM ${table} WHERE ${column} LIKE ?`, `${prefix}-${date}-%`)?.n as number ?? 0) + 1; return `${prefix}-${date}-${String(n).padStart(4, '0')}` }
 const setting = (db: Database.Database, key: string, fallback: string): string => String(one(db,'SELECT value FROM app_settings WHERE key=?',key)?.value ?? fallback)
 const saveSetting = (db:Database.Database,key:string,value:string):void => { db.prepare('INSERT INTO app_settings(key,value,updated_at) VALUES (?,?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=excluded.updated_at').run(key,value,now()) }
-const passwordMatches = (password: unknown, hash: unknown, salt: unknown): boolean => { if (!hash || !salt) return false; const actual = scryptSync(String(password), String(salt), 64), expected = Buffer.from(String(hash), 'hex'); return actual.length === expected.length && timingSafeEqual(actual, expected) }
 const aiSettings = (db:Database.Database):AISettings => ({ provider:setting(db,'ai_provider',defaultAISettings.provider) as AIProviderName, externalAiEnabled:setting(db,'external_ai_enabled','false')==='true', ollamaEndpoint:setting(db,'ollama_endpoint',defaultAISettings.ollamaEndpoint), ollamaModel:setting(db,'ollama_model',defaultAISettings.ollamaModel), openaiModel:setting(db,'openai_model',defaultAISettings.openaiModel), anthropicModel:setting(db,'anthropic_model',defaultAISettings.anthropicModel), timeoutSeconds:Number(setting(db,'ai_timeout_seconds',String(defaultAISettings.timeoutSeconds))), dailyRequestLimit:Number(setting(db,'ai_daily_request_limit',String(defaultAISettings.dailyRequestLimit))), externalAiConsentAt:setting(db,'external_ai_consent_at','')||null })
 const secretStore = ():AISecretStore => new AISecretStore(app.getPath('userData'),safeStorage)
 const externalRequestCount = (db:Database.Database):number => Number(one(db,"SELECT count(*) n FROM ai_runs WHERE external_transmission=1 AND date(created_at,'+9 hours')=?",koreaDate())?.n??0)
@@ -51,23 +55,11 @@ const aiView = <T>(result:AIExecution<T>):T&Record<string,unknown> => ({...(resu
 
 export async function run(channel: Channel, p: Record<string, unknown>): Promise<unknown> {
   const db = openDb()
-  if (channel === 'auth:login') {
-    const row = one(db, 'SELECT * FROM users WHERE username=? AND active=1', p.username)
-    if (!row) {
-      // 등록 신청만 한 계정: 비밀번호가 맞을 때만 승인 대기·반려 상태를 알려준다
-      const request = one(db, "SELECT * FROM signup_requests WHERE username=? AND status IN ('PENDING','REJECTED') ORDER BY created_at DESC LIMIT 1", p.username)
-      if (request && passwordMatches(p.password, request.password_hash, request.password_salt)) {
-        if (request.status === 'PENDING') throw new Error('관리자 승인 대기 중인 계정입니다. 승인 후 로그인할 수 있습니다.')
-        throw new Error(`사용자 등록 신청이 반려되었습니다. 사유: ${request.reject_reason ?? '-'}`)
-      }
-      throw new Error('아이디 또는 비밀번호가 올바르지 않습니다.')
-    }
-    if (!passwordMatches(p.password, row.password_hash, row.password_salt)) throw new Error('아이디 또는 비밀번호가 올바르지 않습니다.')
-    const user = { id: String(row.id), username: String(row.username), display_name: String(row.display_name), rank_name: row.rank_name as string | null, unit_name: row.unit_name as string | null, role: row.role as PublicUser['role'] }
-    session.set(user); return user
-  }
+  const accounts = new AccountSecurity(db)
+  if (channel === 'auth:login') return accounts.login(String(p.username),String(p.password))
   if (channel === 'auth:logout') { session.set(null); return true }
-  if (channel === 'auth:me') return session.get()
+  if (channel === 'auth:me') return session.get() ? accounts.requireUser(true) : null
+  if (channel in adminSchemas) return new UserAdminService(db).run(channel as AdminChannel,p)
   if (channel === 'auth:register') {
     // 로그인 전 화면에서 호출 — 승인 전까지는 신청 테이블에만 저장
     return db.transaction(() => {
@@ -80,7 +72,9 @@ export async function run(channel: Channel, p: Record<string, unknown>): Promise
       return { id }
     })()
   }
-  requireUser()
+  const currentUser=requireUser()
+  const rule=permissionRules.find(r=>r.channel===channel)
+  if(rule&&!rule.roles.includes(currentUser.role))throw new AccountError('FORBIDDEN','권한이 없습니다.')
   if(channel.startsWith('manuals:')) {
     const root=app.isPackaged?join(process.resourcesPath,'manuals'):join(process.cwd(),'resources','manuals')
     if(channel==='manuals:list')return listManuals(root)
@@ -93,6 +87,7 @@ export async function run(channel: Channel, p: Record<string, unknown>): Promise
   if (channel === 'admin:signupRequests') { permit('ADMIN'); return all(db, "SELECT r.id,r.service_no,r.username,r.display_name,r.rank_name,r.unit_name,r.phone,r.reason,r.status,r.approved_role,r.reviewed_at,r.reject_reason,r.created_at,u.display_name reviewer_name FROM signup_requests r LEFT JOIN users u ON u.id=r.reviewed_by ORDER BY CASE r.status WHEN 'PENDING' THEN 0 ELSE 1 END, r.created_at DESC") }
   if (channel === 'admin:approveSignup') {
     const admin = permit('ADMIN')
+    if(p.role==='ADMIN') accounts.reauthenticate(String(p.adminPassword??''))
     return db.transaction(() => {
       const request = one(db, 'SELECT * FROM signup_requests WHERE id=?', p.id)
       if (!request) throw new Error('신청을 찾을 수 없습니다.')
@@ -130,7 +125,7 @@ export async function run(channel: Channel, p: Record<string, unknown>): Promise
   if (channel === 'operations:updateStatus') {
     permit('ADMIN','OPERATOR','USER'); return db.transaction(() => { const before = one(db, 'SELECT * FROM communication_systems WHERE id=?', p.id); if (!before) throw new Error('체계를 찾을 수 없습니다.'); db.prepare('UPDATE communication_systems SET status=?, remarks=COALESCE(?,remarks),updated_at=? WHERE id=?').run(p.status, p.remarks ?? null, now(), p.id); db.prepare('INSERT INTO communication_status_history VALUES (?,?,?,?,?)').run(randomUUID(), p.id, p.status, before.uptime_pct, now()); audit(db, 'UPDATE_STATUS', 'communication_systems', String(p.id), before, { status: p.status }); return true })()
   }
-  if (channel === 'incidents:list') { const user=requireUser(); return all(db, "SELECT i.*, c.name system_name,t.name team_name FROM incidents i LEFT JOIN communication_systems c ON c.id=i.system_id LEFT JOIN maintenance_teams t ON t.id=i.team_id WHERE (? IS NULL OR i.title LIKE ? OR i.ticket_no LIKE ?) AND (? IS NULL OR i.status=?) AND (? IS NULL OR i.severity=?) AND (? IS NULL OR date(i.reported_at,'+9 hours')>=?) AND (? IS NULL OR date(i.reported_at,'+9 hours')<=?) AND (? IS NULL OR i.assigned_to=?) AND (? IS NULL OR i.reported_by=?) ORDER BY i.reported_at DESC", p.search ? `%${p.search}%` : null, `%${p.search ?? ''}%`, `%${p.search ?? ''}%`, p.status ?? null, p.status ?? null, p.severity ?? null, p.severity ?? null, p.reportedFrom ?? null, p.reportedFrom ?? null, p.reportedTo ?? null, p.reportedTo ?? null, p.assignedTo ?? null, p.assignedTo ?? null, user.role === 'USER' ? user.id : null, user.role === 'USER' ? user.id : null) }
+  if (channel === 'incidents:list') { const user=requireUser(); return all(db, "SELECT i.*, c.name system_name,t.name team_name,a.display_name assignee_name FROM incidents i LEFT JOIN communication_systems c ON c.id=i.system_id LEFT JOIN maintenance_teams t ON t.id=i.team_id LEFT JOIN users a ON a.id=i.assigned_to WHERE (? IS NULL OR i.title LIKE ? OR i.ticket_no LIKE ?) AND (? IS NULL OR i.status=?) AND (? IS NULL OR i.severity=?) AND (? IS NULL OR date(i.reported_at,'+9 hours')>=?) AND (? IS NULL OR date(i.reported_at,'+9 hours')<=?) AND (? IS NULL OR i.assigned_to=?) AND (? IS NULL OR i.reported_by=?) ORDER BY i.reported_at DESC", p.search ? `%${p.search}%` : null, `%${p.search ?? ''}%`, `%${p.search ?? ''}%`, p.status ?? null, p.status ?? null, p.severity ?? null, p.severity ?? null, p.reportedFrom ?? null, p.reportedFrom ?? null, p.reportedTo ?? null, p.reportedTo ?? null, p.assignedTo ?? null, p.assignedTo ?? null, user.role === 'USER' ? user.id : null, user.role === 'USER' ? user.id : null) }
   if (channel === 'incidents:get') { const user=requireUser(); const row=one(db, `SELECT i.*,c.name system_name,t.name team_name,u.display_name assignee_name
     FROM incidents i LEFT JOIN communication_systems c ON c.id=i.system_id LEFT JOIN maintenance_teams t ON t.id=i.team_id LEFT JOIN users u ON u.id=i.assigned_to WHERE i.id=?`, p.id); if (user.role === 'USER' && row?.reported_by !== user.id) throw new Error('권한이 없습니다.'); return row ? {...row,intake:getIntake(db,String(p.id))} : null }
   if (channel === 'incidents:getEvents') { const user=requireUser(); const incident=one(db,'SELECT reported_by FROM incidents WHERE id=?',p.id); if (user.role === 'USER' && incident?.reported_by !== user.id) throw new Error('권한이 없습니다.'); return all(db, 'SELECT * FROM incident_events WHERE incident_id=? ORDER BY created_at', p.id) }

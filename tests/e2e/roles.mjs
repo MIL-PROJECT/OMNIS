@@ -29,7 +29,7 @@ try {
   await denied('directives:create',{title:'가상 사용자 지시',content:'가상 내용입니다.',level:'GENERAL'})
   for (const [channel,payload] of [['system:getInfo',{}],['system:getAiSettings',{}],['system:backup',{}],['system:auditLogs',{limit:10}],['system:setAiSettings',{provider:'LOCAL',ollamaEndpoint:'http://127.0.0.1:11434/',ollamaModel:'gemma3',openaiModel:'gpt-6-luna',anthropicModel:'claude-haiku-5-5',externalAiEnabled:false,externalConsent:false,timeoutSeconds:15,dailyRequestLimit:50}],['system:saveAiCredential',{provider:'OPENAI',apiKey:'sk-not-allowed-example'}],['system:deleteAiCredential',{provider:'OPENAI'}],['system:testAiConnection',{provider:'OPENAI'}],['system:resetDemo',{confirm:'RESET DEMO'}],['operations:delete',{id:'does-not-matter'}],['admin:signupRequests',{}],['admin:approveSignup',{id:'x',role:'ADMIN'}],['admin:rejectSignup',{id:'x',reason:'권한 없음'}]]) await denied(channel,payload)
   if (await page.getByRole('link',{name:'시스템관리'}).count()) throw new Error('USER should not see the 시스템관리 menu')
-  if (await page.getByRole('link',{name:'사용자 신청현황'}).count()) throw new Error('USER should not see the 사용자 신청현황 menu')
+  if (await page.getByRole('link',{name:'관리자센터'}).count()) throw new Error('USER should not see the 사용자 신청현황 menu')
   await page.evaluate(() => { location.hash = '#/settings' })
   await page.getByRole('heading',{name:'통합상황판'}).waitFor()
   if (await page.getByRole('heading',{name:'시스템관리'}).count()) throw new Error('USER reached /settings directly')

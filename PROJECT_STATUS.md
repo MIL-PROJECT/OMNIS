@@ -1,5 +1,38 @@
 # Project Status
 
+## 2026-11-01 전체 작업 저장 전 검증
+
+- 작업 브랜치: `codex/admin-user-management`. 관리자센터·계정 보안·DB v9 이관·테스트 변경과 Figma 디자인 인계 문서를 함께 저장한다.
+- `pnpm typecheck`, `pnpm lint`, `pnpm test`, `pnpm build`를 재실행해 통과했다. Vitest는 12개 파일·97개 테스트다.
+- 소스 앱의 `pnpm test:e2e:admin`을 새 격리 프로필에서 통과했다. 관리자 E2E 8개 흐름과 관리자센터 7개 영역 × 4가지 화면 크기를 확인했고, 기록된 화면 오류는 0건이다.
+- 이번 저장에서는 설치 패키지 재생성·설치, 기존 전체 E2E·외부 유료 AI 호출은 다시 수행하지 않았다. 아래 과거 검증 기록은 해당 날짜와 범위의 결과다.
+- 설치 파일·DB·캐시·프로필·임시 로컬 연결 자료는 기존 Git 제외 규칙을 유지한다. Figma 편집 원본은 Figma에 있으며, Git에는 파일 링크·구성·검증 현황을 남긴다.
+
+## 2026-11-01 Figma 실무형 구성 완료
+
+- `mil_project` Figma 파일을 시작하기, UI Library, Product Screens의 3개 Page로 정리했다. 기능 Section 12개, 기존 ID를 보존한 화면 Frame 82개, Prototype Overlay 36개를 구성했다.
+- 앱 화면 77개의 Sidebar·Topbar를 공통 컴포넌트 인스턴스로 연결했다. 텍스트 편집 속성, 버튼 9개 조합, 입력란 5개 상태와 기존 상태 배지를 제공한다.
+- 입력란 434곳의 값·placeholder·색상·날짜/시간 서식과 말줄임·여러 줄 정렬, 달력 이동 아이콘 6곳, 비대칭 모서리 70곳을 보정했다.
+- 원본 82개 화면 비교와 대표 13개 화면의 최종 입력 서식 검토를 완료했다. 최종 감사에서 서체 누락·끊어진 이동 대상·화면 내부 이미지 채우기는 0건이며, 기존 화면 반응 1,154개를 유지했다. 브라우저 프로토타입 이동도 확인했다.
+- 파일·프로토타입 링크, 편집 방식, 표현 차이와 로컬 복구 자료는 [Figma 디자인 및 인계 현황](docs/FIGMA_DESIGN.md)에 기록했다. Figma 원본은 Figma에 저장하며, 기존 Git 제외 대상인 `release/`의 로컬 캡처·프로필·임시 연결 정보는 추적하지 않는다.
+
+## 2026-10-31 관리자센터·계정 보안 1.1.0
+
+- 작업 브랜치: `codex/admin-user-management`. 기존 사이드바·운영통제·고장관리 UI 수정을 유지한다.
+- 관리자센터 7개 영역: 관리 현황, 사용자 관리, 등록 승인, 역할·접속 보안, 감사 기록, 조직·업무 설정, 시스템·데이터. 기존 신청현황·시스템관리 경로와 화면을 유지·재사용한다.
+- 실제 로그인 계정과 가상 업무 담당자 220명을 분리한다. 사용자 검색·정렬·상태 필터·페이지 이동, 기본 정보·역할 변경, 수동 잠금·해제, 사용 중지·재활성화, 자동 잠금 해제, 비밀번호 초기화를 구현했다.
+- Main에서 매 요청의 현재 계정 상태·역할·인증 버전을 검사한다. 자기 계정 제한·마지막 정상 관리자 제한을 방지하며, 민감한 변경은 사유·관리자 비밀번호·동시 수정 버전을 확인한다.
+- 기본 연속 5회 실패 시 15분 자동 잠금(횟수 3~10회·시간 1~60분 정책), 임시 비밀번호 일회성 표시·첫 변경 강제, 본인 비밀번호 변경, 인증 상태 UI 갱신을 구현했다. 실패 횟수·잠금·정책은 재시작 후에도 유지된다.
+- 기존 감사 기록에 인증·권한·계정·정책 변경과 실패 결과를 추가하고 기간·수행자·대상·작업·결과 검색 및 변경 전후 상세를 제공한다. 새 사용자 조회·감사 응답에는 비밀번호·해시·salt·임시 비밀번호를 포함하지 않는다.
+- DB v8→v9는 계정 보안·정책 테이블과 인덱스를 추가한다. Drizzle 정의를 갱신했고, seed는 기존 계정 변경을 덮어쓰지 않는다. 사용 중지 계정의 과거 고장 담당자 이름도 유지한다.
+- `pnpm typecheck`, `pnpm lint`, `pnpm test`, `pnpm build` 통과. Vitest 12개 파일·97개 테스트이며 신규 계정 보안 통합 테스트 14개를 포함한다. 마지막 정책 실패 감사 보완 후 해당 14개 테스트도 재통과했다.
+- 소스 및 최종 `/Applications/OMNIS.app`에서 관리자 E2E 8개 흐름을 격리 프로필로 통과했다. 승인·권한 적용·직접 IPC 거절·잠금·사용 중지·프로세스 재시작 후 자동 잠금 유지·최초 비밀번호 변경·가상 담당자 제한·사용자 감사 상세·정책/계정 재시작 유지를 확인했다.
+- 관리자센터 7개 영역을 1366×768 / 1440×900 / 1600×950 / 1920×1080에서 검사하고 스크린샷을 확인했다. 기존 roles, signup, operations, 업무 smoke 및 visual E2E도 통과했다.
+- Apple Silicon 앱과 `release/admin-center/OMNIS-1.1.0-mac-arm64.dmg`를 생성했고 DMG 무결성 검사를 통과했다. SHA-256: `02f0250d5a3c3f342c55d3b6b97542c94f4ea7dfdb5ffee5dfb20ced490139bb`.
+- 기존 앱을 `release/admin-center/previous-install/OMNIS.app`, 전체 userData를 `release/admin-center/user-data-before-v9/`에 보관하고 1.1.0을 설치했다. 기존 DB의 32개 테이블(감사 및 신규 보안 테이블 제외)을 전후 행 수·데이터 해시로 비교해 일치했고, v9 DB 무결성은 `ok`다. 비교 기록은 `release/admin-center/migration-preservation.json`에 있다.
+- 관리자 사용·보안 상태·migration·복구·검증 안내: [ADMIN_CENTER.md](docs/ADMIN_CENTER.md). UI 검사 결과·이미지는 `tests/.tmp/admin-users/`에 로컬 보관한다. 빌드·DB·userData 백업·검사 프로필의 Git 제외 규칙을 유지한다.
+- Apple 배포 서명·공증, Windows·Intel Mac 실행/설치는 이번 변경에서 검증하지 않았다. 사용자 정의 역할·개별 예외 권한·외부 SSO·다중 장비 세션·CSV 내보내기는 이번 범위에 추가하지 않았다.
+
 ## 2026-10-31 macOS UI 정리 및 설치 앱 반영
 
 ### 반영 내용
@@ -38,7 +71,7 @@
 ## Completed
 
 - [x] Phase 1–2: pnpm project, Electron, React 19, TypeScript strict and secure preload.
-- [x] Phase 3–4: SQLite schema v8 순방향 migration, 기존 11 demo users + 부대별 가상 담당자 220명, 38 systems, 52 incidents, 42 maintenance tasks, 기존 공통 정비반 3종 + 실제 부대별 조치조직 디렉터리, 상황경보, 일일 작업계획, 첨부자료 메타데이터, AI 실행 사용량 메타데이터.
+- [x] Phase 3–4: SQLite schema v9 순방향 migration, 기존 11 demo users + 부대별 가상 담당자 220명, 38 systems, 52 incidents, 42 maintenance tasks, 기존 공통 정비반 3종 + 실제 부대별 조치조직 디렉터리, 상황경보, 일일 작업계획, 첨부자료 메타데이터, AI 실행 사용량 메타데이터.
 - [x] Phase 5–6: local scrypt login, role checks, Zod validated IPC and restricted contextBridge.
 - [x] Phase 7–11: dashboard; operations CRUD/status/history; incident create/edit/assignment/workflow/events; maintenance create/edit/workflow/events/calendar; duty and directive CRUD.
 - [x] Phase 12: offline Local Rule, optional local Ollama provider, structured output validation and fallback; triage, summary, similar incident and maintenance recommendations.

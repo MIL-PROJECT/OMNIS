@@ -1,3 +1,4 @@
+import { adminSchemas } from './admin'
 import { z } from 'zod'
 import { usabilitySchemas } from './usabilityContracts'
 import { organizationSchemas } from './organization'
@@ -35,16 +36,17 @@ export const signupSchema = z.object({
 export type Result<T> = { ok: true; data: T } | { ok: false; error: { code: string; message: string } }
 
 export const schemas = {
+  ...adminSchemas,
   ...usabilitySchemas,
   ...organizationSchemas,
   'manuals:list': z.object({}),
   'manuals:open': z.object({role:roleSchema}),
   'manuals:save': z.object({role:roleSchema}),
-  'auth:login': z.object({ username: z.string().min(1), password: z.string().min(1) }),
+  'auth:login': z.object({ username: z.string().min(1).max(100), password: z.string().min(1).max(128) }),
   'auth:logout': z.object({}), 'auth:me': z.object({}),
   'auth:register': signupSchema,
   'admin:signupRequests': z.object({}),
-  'admin:approveSignup': z.object({ id: z.string(), role: roleSchema }),
+  'admin:approveSignup': z.object({ id: z.string(), role: roleSchema, adminPassword:z.string().max(128).optional() }),
   'admin:rejectSignup': z.object({ id: z.string(), reason: z.string().trim().min(2, '반려 사유를 2자 이상 입력하십시오.').max(300, '반려 사유는 300자 이하로 입력하십시오.') }),
   'dashboard:getSummary': z.object({}),
   'operations:list': z.object({ search: z.string().optional(), status: statusSchema.optional() }),
@@ -120,8 +122,9 @@ export const schemas = {
 } as const
 export type Channel = keyof typeof schemas
 
-export type PublicUser = { id: string; username: string; display_name: string; role: Role; rank_name: string | null; unit_name: string | null }
+export type PublicUser = { must_change_password?: boolean; id: string; username: string; display_name: string; role: Role; rank_name: string | null; unit_name: string | null }
 export type OmnisApi = {
+  onAuthState: (callback: (code:string)=>void) => () => void
   invoke: (channel: Channel, payload?: Record<string, unknown>) => Promise<Result<unknown>>
   auth: { login: (payload: { username: string; password: string }) => Promise<Result<unknown>>; logout: () => Promise<Result<unknown>>; me: () => Promise<Result<unknown>> }
   dashboard: { getSummary: () => Promise<Result<unknown>> }

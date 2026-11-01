@@ -1,3 +1,4 @@
+import { ensureAccountRecords } from './accountMigration'
 import Database from 'better-sqlite3'
 import { app } from 'electron'
 import { existsSync, mkdirSync, copyFileSync } from 'node:fs'
@@ -18,7 +19,7 @@ export function openDb(): Database.Database {
   db.pragma('journal_mode = WAL')
   db.pragma('synchronous = NORMAL')
   db.pragma('busy_timeout = 5000')
-  try { migrate(db); seed(db) } catch (error) { db.close(); db = undefined; throw error }
+  try { migrate(db); seed(db); ensureAccountRecords(db) } catch (error) { db.close(); db = undefined; throw error }
   return db
 }
 export function closeDb(): void { db?.close(); db = undefined }

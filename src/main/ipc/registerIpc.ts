@@ -1,3 +1,4 @@
+import { AccountError } from '../auth/AccountSecurity'
 import { ipcMain } from 'electron'
 import { ZodError } from 'zod'
 import log from 'electron-log/main'
@@ -12,6 +13,7 @@ export function registerIpc(): void {
         const parsed = schemas[channel].parse(payload ?? {}) as Record<string, unknown>
         return { ok: true, data: await run(channel, parsed) }
       } catch (error) {
+        if(error instanceof AccountError){ if(['AUTH_REQUIRED','AUTH_SESSION_REVOKED','AUTH_PASSWORD_CHANGE_REQUIRED'].includes(error.code))event.sender.send('omnis:auth-state',error.code);return {ok:false,error:{code:error.code,message:error.message}} }
         log.error(`IPC ${channel}`, error instanceof Error ? error.message : 'Unknown error')
         // 입력 검증 오류는 첫 번째 항목의 안내 문구만 화면에 보낸다
         if (error instanceof ZodError) return { ok: false, error: { code: 'INVALID_INPUT', message: error.issues[0]?.message ?? '입력값이 올바르지 않습니다.' } }
