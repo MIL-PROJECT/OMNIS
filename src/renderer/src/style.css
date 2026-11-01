@@ -710,3 +710,54 @@ main:has(> .dash) { min-height: 0; display: flex; flex-direction: column; paddin
   .sb-group { margin-top: 10px; }
   .sb-nav a { height: 38px; }
 }
+
+/* 관리자센터: 공통 카드·표를 유지하면서 작은 창에서도 작업 버튼까지 표시한다. */
+.admin-center-nav { margin-bottom:18px;background:var(--canvas);border:1px solid var(--hairline);border-radius:16px;padding:4px 8px; }
+.admin-center-nav .MuiTab-root { min-height:44px;min-width:90px;font-size:13px;padding:10px 12px; }
+.admin-center-nav .Mui-selected { font-weight:700;color:var(--primary); }
+.admin-center-content { min-width:0; }
+.admin-summary-grid { display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px; }
+.admin-summary-card { border:1px solid var(--hairline);border-radius:18px;background:var(--canvas);box-shadow:var(--shadow-xs);padding:20px;text-align:left;color:var(--ink);cursor:pointer;font:inherit; }
+.admin-summary-card:hover { border-color:var(--navy-line);background:var(--navy-tint); }
+.admin-summary-card:focus-visible { outline:2px solid var(--primary);outline-offset:3px; }
+.admin-summary-card>span { display:block;font-size:12px;color:var(--slate);line-height:1.5; }
+.admin-summary-card strong { display:block;font-size:28px;color:var(--primary);margin:8px 0; }
+.admin-summary-card small { margin-left:5px;font-size:12px;color:var(--steel);font-weight:500; }
+.admin-filters { display:flex;flex-wrap:wrap;align-items:center;gap:12px;padding:18px 22px;border-bottom:1px solid var(--hairline-soft); }
+.admin-filters .MuiFormControl-root { min-width:130px;flex:1;max-width:250px; }
+.admin-grid .MuiDataGrid-cell,.admin-grid .MuiDataGrid-columnHeader { padding-left:8px!important;padding-right:8px!important; }
+.admin-grid .MuiDataGrid-cellEmpty { padding:0!important; }
+.admin-grid .MuiDataGrid-cell { display:flex;align-items:center;line-height:1.4; }
+.admin-grid .MuiDataGrid-cell .MuiButton-root { min-width:0;padding:3px 6px; }
+.admin-ellipsis { min-width:0;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block; }
+.admin-state-list { display:flex;gap:4px;align-items:center;flex-wrap:wrap;max-width:100%;padding:4px 2px; }
+.admin-state-list .status-pill { height:22px;padding-left:7px;padding-right:7px;gap:5px;font-size:11px; }
+.admin-detail-list { display:grid;gap:10px;margin:0 0 18px; }
+.admin-detail-list>div { display:grid;grid-template-columns:120px minmax(0,1fr);gap:14px;font-size:13px;line-height:1.5; }
+.admin-detail-list dt { color:var(--steel); }
+.admin-detail-list dd { margin:0;overflow-wrap:anywhere; }
+.admin-user-identity,.admin-user-actions { display:flex;flex-wrap:wrap;gap:8px;align-items:center; }
+.admin-user-identity { justify-content:space-between; }
+.admin-temporary { user-select:all;overflow-wrap:anywhere;font-family:monospace!important;font-size:20px!important;padding:18px;background:var(--navy-tint);border-radius:12px; }
+.admin-audit-compare { display:grid;grid-template-columns:1fr 1fr;gap:16px; }
+.admin-audit-compare section { min-width:0; }
+.admin-audit-compare h3 { font-size:13px; }
+.admin-audit-compare pre { white-space:pre-wrap;overflow-wrap:anywhere;background:var(--surface);padding:14px;border-radius:12px;font-size:12px;line-height:1.6; }
+.admin-policy-fields { display:flex;flex-wrap:wrap;align-items:flex-start;gap:16px; }
+.admin-policy-fields .MuiFormControl-root { flex:1;min-width:180px; }
+.admin-policy-fields>.MuiButton-root { margin-top:3px; }
+.admin-permission-wrap { padding:0 10px 10px; }
+.admin-permission-table { width:100%;table-layout:fixed;border-collapse:collapse;font-size:12px; }
+.admin-permission-table th,.admin-permission-table td { padding:12px 6px;border-bottom:1px solid var(--hairline-soft);text-align:center;line-height:1.5;overflow-wrap:anywhere; }
+.admin-permission-table thead { background:var(--band);color:var(--band-ink); }
+.admin-permission-table th:first-child { width:19%;text-align:left; }
+.admin-permission-table th:last-child { width:29%; }
+.admin-permission-table td:last-child { text-align:left;color:var(--slate); }
+.admin-recent { padding:4px 22px 16px; }
+.admin-recent>div { display:flex;justify-content:space-between;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--hairline-soft); }
+.admin-recent strong { display:block;font-size:13px; }
+.admin-recent small { display:block;margin-top:5px;color:var(--steel);font-size:12px; }
+.admin-recent time { font-size:12px;color:var(--steel);white-space:nowrap; }
+.auth-notice { position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:1500;background:var(--navy-tint);border:1px solid var(--navy-line);padding:12px 20px;border-radius:12px;font-size:13px;box-shadow:var(--shadow-card); }
+@media(max-width:1200px){.admin-summary-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:1050px){.admin-summary-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.admin-audit-compare{grid-template-columns:1fr}}

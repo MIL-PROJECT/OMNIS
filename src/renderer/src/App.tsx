@@ -1,3 +1,6 @@
+import AdminCenter from './AdminCenter'
+import PasswordChange from './PasswordChange'
+import LockResetRounded from '@mui/icons-material/LockResetRounded'
 import MyWork from './MyWork'
 import ManualsManagement from './ManualsManagement'
 import MenuBookRounded from '@mui/icons-material/MenuBookRounded'
@@ -224,10 +227,11 @@ const dashboardNav: NavItem = { to: '/', text: '통합상황판', icon: Dashboar
 const navGroups: { title: string; to: string; items: NavItem[] }[] = [
   { title: '운용 현황', to: '/operations', items: [{ to: '/operations', text: '운영현황', icon: DnsRounded }, { to: '/incidents', text: '고장관리', icon: ReportProblemRounded }, { to: '/maintenance', text: '정비관리', icon: BuildRounded }, { to: '/control', text: '통제·일일마감', icon: FactCheckRounded }] },
   { title: '업무 지원', to: '/duty', items: [{ to: '/duty', text: '근무/지시사항', icon: EventNoteRounded }, { to: '/ai', text: 'AI 지원', icon: SmartToyRounded }, { to: '/reports', text: '보고서/통계', icon: AssessmentRounded }] },
-  { title: '관리', to: '/settings', items: [{ to: '/signups', text: '사용자 신청현황', icon: HowToRegRounded, adminOnly: true }, { to: '/settings', text: '시스템관리', icon: SettingsRounded, adminOnly: true }] }
+  { title: '관리', to: '/settings', items: [{ to: '/admin', text: '관리자센터', icon: HowToRegRounded, adminOnly: true }, { to: '/settings', text: '시스템관리', icon: SettingsRounded, adminOnly: true }] }
 ]
 
-function Shell({ user, onLogout }: { user: PublicUser; onLogout: () => void }) {
+function Shell({ user, onLogout, onUserChanged }: { user: PublicUser; onLogout: () => void; onUserChanged:(user:PublicUser)=>void }) {
+  const [passwordOpen,setPasswordOpen]=useState(false)
   const [now, setNow] = useState(() => new Date())
   const [urgent, setUrgent] = useState(0), [pending, setPending] = useState(0)
   const location = useLocation()
@@ -239,7 +243,7 @@ function Shell({ user, onLogout }: { user: PublicUser; onLogout: () => void }) {
   useEffect(loadPending, [location.pathname])
   const admin = user.role === 'ADMIN'
   const groups = navGroups.map(g => ({ ...g, items: g.items.filter(i => admin || !i.adminOnly) })).filter(g => g.items.length)
-  const current = location.pathname==='/manuals'?{text:'사용자 매뉴얼',group:null,groupTo:null}:location.pathname === dashboardNav.to ? { ...dashboardNav, group:null, groupTo:null } : navGroups.flatMap(g => g.items.map(i => ({ ...i, group:g.title, groupTo:g.to }))).find(i => i.to === location.pathname)
+  const current = location.pathname==='/admin'?{text:'관리자센터',group:'관리',groupTo:'/admin'}:location.pathname==='/manuals'?{text:'사용자 매뉴얼',group:null,groupTo:null}:location.pathname === dashboardNav.to ? { ...dashboardNav, group:null, groupTo:null } : navGroups.flatMap(g => g.items.map(i => ({ ...i, group:g.title, groupTo:g.to }))).find(i => i.to === location.pathname)
   return <Box className="app">
     <aside className="sidebar">
       <Box className="sb-brand">
@@ -251,7 +255,7 @@ function Shell({ user, onLogout }: { user: PublicUser; onLogout: () => void }) {
         {groups.map(g => <Box key={g.title} className="sb-group">
           <span className="sb-group-title">{g.title}</span>
           {g.items.map(({ to, text, icon: Icon }) => <NavLink key={to} to={to} end={to === '/'}>
-            <Icon /><span>{text}</span>{to === '/incidents' && urgent > 0 && <b className="sb-badge" aria-hidden>{urgent}</b>}{to === '/signups' && pending > 0 && <b className="sb-badge info" aria-hidden>{pending}</b>}
+            <Icon /><span>{text}</span>{to === '/incidents' && urgent > 0 && <b className="sb-badge" aria-hidden>{urgent}</b>}{to === '/admin' && pending > 0 && <b className="sb-badge info" aria-hidden>{pending}</b>}
           </NavLink>)}
         </Box>)}
       </nav>
@@ -260,6 +264,7 @@ function Shell({ user, onLogout }: { user: PublicUser; onLogout: () => void }) {
         <Box className="sb-user">
           <Avatar name={user.display_name} size={36} />
           <Box sx={{ minWidth: 0, flex: 1 }}><strong>{user.display_name}</strong><span>{user.rank_name ? `${user.rank_name} · ` : ''}{roleText[user.role] ?? user.role}</span></Box>
+          <Tooltip title="비밀번호 변경"><IconButton size="small" aria-label="비밀번호 변경" onClick={()=>setPasswordOpen(true)}><LockResetRounded fontSize="small"/></IconButton></Tooltip>
           <Tooltip title="로그아웃"><IconButton size="small" aria-label="로그아웃" onClick={() => call('auth:logout').then(onLogout)}><LogoutRounded fontSize="small" /></IconButton></Tooltip>
         </Box>
       </Box>
@@ -284,11 +289,13 @@ function Shell({ user, onLogout }: { user: PublicUser; onLogout: () => void }) {
           <Route path="/manuals" element={<ManualsManagement user={user}/>} />
           <Route path="/reports" element={<Reports />} />
           <Route path="/signups" element={admin ? <SignupRequests onChange={loadPending} /> : <Navigate to="/" replace />} />
+          <Route path="/admin" element={admin ? <AdminCenter user={user}/> : <Navigate to="/" replace/>}/>
           <Route path="/settings" element={admin ? <Settings user={user} /> : <Navigate to="/" replace />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>
     </Box>
+    <PasswordChange open={passwordOpen} onClose={()=>setPasswordOpen(false)} onChanged={onUserChanged}/>
   </Box>
 }
 
@@ -381,4 +388,18 @@ function Duty({ user }: { user: PublicUser }) { return <DutyManagement user={use
 function Ai() { return <AiManagement /> }
 function Reports() { return <ReportsManagement /> }
 function Settings({ user }: { user: PublicUser }) { return <SystemManagement user={user} /> }
-export default function App() { const [user,setUser] = useState<PublicUser | null>(null),[ready,setReady] = useState(false); useEffect(() => { call<PublicUser | null>('auth:me').then(setUser).finally(() => setReady(true)); const reset = () => setUser(null); window.addEventListener('omnis:reset',reset); return () => window.removeEventListener('omnis:reset',reset) }, []); return <ThemeProvider theme={theme}><HashRouter>{ready && (user ? <Shell user={user} onLogout={() => setUser(null)}/> : <Login onLogin={setUser}/>)}</HashRouter></ThemeProvider> }
+export default function App() {
+  const [user,setUser]=useState<PublicUser|null>(null),[ready,setReady]=useState(false),[authNotice,setAuthNotice]=useState('')
+  useEffect(()=>{
+    let active=true
+    const sync=()=>call<PublicUser|null>('auth:me').then(value=>{if(active)setUser(value)}).catch(()=>{if(active)setUser(null)}).finally(()=>{if(active)setReady(true)})
+    void sync()
+    const reset=()=>setUser(null)
+    const stop=window.omnis.onAuthState(code=>{if(code==='AUTH_PASSWORD_CHANGE_REQUIRED')void sync();else {setUser(null);setAuthNotice('계정 상태 또는 권한이 변경되었습니다. 다시 로그인하십시오.')}})
+    const timer=setInterval(sync,15000)
+    window.addEventListener('omnis:reset',reset);window.addEventListener('focus',sync)
+    return()=>{active=false;stop();clearInterval(timer);window.removeEventListener('omnis:reset',reset);window.removeEventListener('focus',sync)}
+  },[])
+  const logout=()=>call('auth:logout').finally(()=>setUser(null))
+  return <ThemeProvider theme={theme}><HashRouter>{ready&&(user?(user.must_change_password?<PasswordChange open forced onClose={()=>{}} onChanged={setUser} onLogout={logout}/>:<Shell user={user} onLogout={()=>setUser(null)} onUserChanged={setUser}/>):<>{authNotice&&<Box className="auth-notice" role="status">{authNotice}</Box>}<Login onLogin={value=>{setUser(value);setAuthNotice('')}}/></>)}</HashRouter></ThemeProvider>
+}

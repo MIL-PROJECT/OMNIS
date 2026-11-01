@@ -27,7 +27,7 @@ const columns: GridColDef[] = [
 ]
 const bytes = (n: number) => n >= 1048576 ? `${(n / 1048576).toFixed(1)} MB` : `${Math.round(n / 1024)} KB`
 
-export default function SystemManagement({ user }: { user: PublicUser }) {
+export default function SystemManagement({ user, embedded=false }: { user: PublicUser; embedded?:boolean }) {
   const [info,setInfo] = useState<Row | null>(null),[audit,setAudit] = useState<Row[]>([]),[notifications,setNotifications] = useState<Row[]>([]),[tab,setTab] = useState(0),[step,setStep] = useState(0)
   const [provider,setProvider] = useState('LOCAL'),[endpoint,setEndpoint] = useState('http://127.0.0.1:11434'),[ollamaModel,setOllamaModel] = useState('gemma3'),[openaiModel,setOpenaiModel]=useState('gpt-6-luna'),[anthropicModel,setAnthropicModel]=useState('claude-haiku-5-5')
   const [externalEnabled,setExternalEnabled]=useState(false),[externalConsent,setExternalConsent]=useState(false),[timeoutSeconds,setTimeoutSeconds]=useState(15),[dailyLimit,setDailyLimit]=useState(50),[aiConfig,setAiConfig]=useState<Row|null>(null),[openaiKey,setOpenaiKey]=useState(''),[anthropicKey,setAnthropicKey]=useState(''),[aiBusy,setAiBusy]=useState('')
@@ -62,11 +62,11 @@ export default function SystemManagement({ user }: { user: PublicUser }) {
     }catch(e){aiError(e)}finally{setAiBusy('')}
   }
   return <>
-    <PageHeader section="관리" title="시스템관리" description="시스템 정보, AI 설정, 데이터 백업과 감사 기록을 관리합니다." />
+    {!embedded&&<PageHeader section="관리" title="시스템관리" description="시스템 정보, AI 설정, 데이터 백업과 감사 기록을 관리합니다." />}
     <Tabs value={tab} onChange={(_,v) => setTab(v)} className="page-tabs">
       <Tab label="정보"/>
       <Tab label="알림" icon={unread ? <span className="tab-count">{unread}</span> : undefined} iconPosition="end"/>
-      {admin && <Tab label="감사 로그"/>}{admin&&<Tab label="업무 템플릿"/>}{admin&&<Tab label="조치부서"/>}
+      {admin&&!embedded && <Tab label="감사 로그"/>}{admin&&!embedded&&<Tab label="업무 템플릿"/>}{admin&&!embedded&&<Tab label="조치부서"/>}
     </Tabs>
 
     {admin&&tab===3&&<TemplateManagement/>}

@@ -1,6 +1,6 @@
 {
   "name": "omnis-desktop",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "OMNIS (Operations & Maintenance Network Integrated System) offline demo desktop application",
   "author": "OMNIS Demo Team",
   "private": true,
@@ -42,7 +42,8 @@
     "test:e2e:usability": "node tests/e2e/usability.mjs",
     "test:e2e:organizations": "node tests/e2e/organizations.mjs",
     "test:e2e:duty-units": "node tests/e2e/duty-units.mjs",
-    "test:e2e:manuals": "node tests/e2e/manuals.mjs"
+    "test:e2e:manuals": "node tests/e2e/manuals.mjs",
+    "test:e2e:admin": "node tests/e2e/admin-users.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^1.3.0",

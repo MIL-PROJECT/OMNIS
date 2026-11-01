@@ -49,8 +49,9 @@ try {
 
   // 관리자: 한 명 승인(운용요원), 한 명 반려
   await loginAs('관리자', 'demo_admin', 'Demo!2026')
-  await page.getByRole('link', { name: '사용자 신청현황' }).click()
-  await page.getByRole('heading', { name: '사용자 신청현황' }).waitFor()
+  await page.getByRole('link', { name: '관리자센터', exact:true }).click()
+  await page.getByRole('tab', {name:'등록 승인',exact:true}).click()
+  await page.getByRole('heading', {name:'등록 신청 목록',exact:true}).waitFor()
   const row = id => page.getByRole('row').filter({ hasText: id })
   await row(applicants[0].id).getByRole('button', { name: '승인' }).click()
   await page.getByRole('combobox', { name: '권한' }).click(); await page.getByRole('option', { name: /운용요원/ }).click()
