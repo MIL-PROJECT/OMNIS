@@ -23,3 +23,6 @@ afccs-*.db
 /output/pdf/**/evidence/*profile*/
 __pycache__/
 *.py[cod]
+
+# Temporary presentation renderings, source copies and local runtime links.
+/output/presentations/**/.build/

@@ -14,13 +14,18 @@ extraResources:
 asarUnpack:
   - node_modules/better-sqlite3/**/*
 win:
-  icon: build/icon.svg
+  icon: build/icon.ico
+  artifactName: "${productName}-${version}-windows-${arch}-setup.${ext}"
   target:
     - target: nsis
       arch: [x64]
 nsis:
   oneClick: false
   allowToChangeInstallationDirectory: true
+  perMachine: false
+  deleteAppDataOnUninstall: false
+  installerLanguages: [ko_KR, en_US]
+  language: "1042"
 mac:
   icon: build/icon.icns
   category: public.app-category.business

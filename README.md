@@ -3,7 +3,7 @@
 **OMNIS** — Operations & Maintenance Network Integrated System
 
 
-최신 Windows 수정본은 **1.0.1** (`release/ai-connection-fix/OMNIS Setup 1.0.1.exe`)입니다. 체크 후에도 EXTERNAL_DISABLED가 표시되던 저장 흐름을 수정했습니다. 키 저장 시 입력값 유지, 미저장 상태 표시, 명시적인 **저장 후 연결 시험**, 저장 실패/미동의 시 외부 시험 차단을 제공합니다. 기존 설치 앱을 닫고 업데이트한 뒤 시스템 정보에서 1.0.1을 확인하십시오. 데이터·암호화 키 경로는 유지됩니다. 사용법은 [외부 AI 안내](docs/EXTERNAL_AI.md)를 참고하십시오.
+Windows 설치 파일은 [Windows installer 빌드](https://github.com/alex50027319/military_project/actions/workflows/windows-build.yml)의 성공한 실행에서 `omnis-windows-x64` 아티팩트를 내려받습니다. `OMNIS-<버전>-windows-x64-setup.exe`를 실행하여 설치합니다. 현재 버전은 `package.json`과 앱의 시스템 정보에서 확인할 수 있습니다. Windows 10/11 x64용이며 기존 사용자 DB와 AI 설정은 업데이트 시 유지합니다. 자세한 빌드·설치·검증 절차는 [Windows 배포 안내](docs/WINDOWS_DISTRIBUTION.md)를 참고하십시오.
 
 Windows와 macOS용 오프라인 시연 앱입니다. 모든 기본 데이터는 가상 데이터입니다. 실제 군 운용 자료를 입력하지 마십시오.
 

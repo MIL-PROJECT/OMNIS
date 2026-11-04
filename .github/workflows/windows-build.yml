@@ -1,0 +1,92 @@
+name: Windows installer
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: windows-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  installer:
+    runs-on: windows-latest
+    timeout-minutes: 40
+    env:
+      CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+        with:
+          version: 11
+          run_install: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: pnpm
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Static checks and unit tests
+        run: |
+          pnpm typecheck
+          pnpm lint
+          pnpm test
+      - name: Build renderer, main process and seed database
+        run: pnpm build
+      - name: Package Windows x64 installer
+        run: pnpm exec electron-builder --win nsis --x64 --publish never
+      - name: Install EXE into a path containing spaces and Korean characters
+        shell: pwsh
+        run: |
+          $installer = (Get-ChildItem release/*-windows-x64-setup.exe | Select-Object -First 1).FullName
+          if (-not $installer) { throw 'NSIS installer missing' }
+          $installDir = Join-Path $env:LOCALAPPDATA 'OMNIS 설치 검증'
+          $process = Start-Process -FilePath $installer -ArgumentList "/S /D=$installDir" -PassThru -Wait
+          if ($process.ExitCode -ne 0) { throw "Installer failed: $($process.ExitCode)" }
+          $executable = Join-Path $installDir 'OMNIS.exe'
+          if (-not (Test-Path $executable)) { throw 'Installed executable missing' }
+          foreach ($resource in @('db/omnis-seed.db', 'manuals/ADMIN.pdf', 'manuals/OPERATOR.pdf', 'manuals/MAINTAINER.pdf', 'manuals/USER.pdf', 'manuals/VIEWER.pdf')) {
+            if (-not (Test-Path (Join-Path "$installDir/resources" $resource))) { throw "Installed resource missing: $resource" }
+          }
+          "OMNIS_E2E_EXE=$executable" >> $env:GITHUB_ENV
+          "OMNIS_E2E_PROFILE=$env:RUNNER_TEMP/OMNIS 사용자 검증" >> $env:GITHUB_ENV
+      - name: Test installed application (login, CRUD, persistence, PDF, backup, reset)
+        run: pnpm test:e2e
+      - name: Test installed application roles and latest maintenance classifications
+        run: |
+          pnpm test:e2e:roles
+          pnpm test:e2e:maintenance-kinds
+          pnpm test:e2e:dashboard-alerts
+      - name: Create SHA256 checksum
+        shell: pwsh
+        run: |
+          Get-ChildItem release/*-windows-x64-setup.exe | ForEach-Object {
+            $hash = (Get-FileHash $_.FullName -Algorithm SHA256).Hash.ToLower()
+            "$hash  $($_.Name)"
+          } | Set-Content release/SHA256-windows-x64.txt -Encoding ascii
+      - name: Upload installer
+        uses: actions/upload-artifact@v7
+        with:
+          name: omnis-windows-x64
+          path: |
+            release/*-windows-x64-setup.exe
+            release/SHA256-windows-x64.txt
+          if-no-files-found: error
+          retention-days: 30
+      - name: Upload verification evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: omnis-windows-verification
+          path: |
+            tests/.tmp/**/*.png
+            tests/.tmp/**/result.json
+            tests/.tmp/**/evidence.json
+          if-no-files-found: ignore
+          retention-days: 14
