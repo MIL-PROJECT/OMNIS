@@ -3,7 +3,9 @@
 **OMNIS** — Operations & Maintenance Network Integrated System
 
 
-Windows 설치 파일은 [Windows installer 빌드](https://github.com/alex50027319/military_project/actions/workflows/windows-build.yml)의 성공한 실행에서 `omnis-windows-x64` 아티팩트를 내려받습니다. `OMNIS-<버전>-windows-x64-setup.exe`를 실행하여 설치합니다. 현재 버전은 `package.json`과 앱의 시스템 정보에서 확인할 수 있습니다. Windows 10/11 x64용이며 기존 사용자 DB와 AI 설정은 업데이트 시 유지합니다. 자세한 빌드·설치·검증 절차는 [Windows 배포 안내](docs/WINDOWS_DISTRIBUTION.md)를 참고하십시오.
+팀 공동 개발 저장소는 [MIL-PROJECT/OMNIS](https://github.com/MIL-PROJECT/OMNIS)입니다. 접근 권한이 있는 구성원끼리 소스와 문서·발표자료를 공유합니다. 기존 개인 저장소도 보존합니다. 저장소 구성과 개발 환경을 받는 방법은 [팀 저장소 안내](docs/TEAM_REPOSITORY.md)를 참고하십시오.
+
+Windows 설치 파일은 [v1.1.11 Releases](https://github.com/MIL-PROJECT/OMNIS/releases/tag/v1.1.11)에서 EXE와 체크섬·검증 ZIP을 내려받습니다. 자동 빌드 결과는 [Windows installer 빌드](https://github.com/alex50027319/military_project/actions/workflows/windows-build.yml)의 성공한 실행에서 `omnis-windows-x64` 아티팩트로도 제공합니다. `OMNIS-<버전>-windows-x64-setup.exe`를 실행하여 설치합니다. 현재 버전은 `package.json`과 앱의 시스템 정보에서 확인할 수 있습니다. Windows 10/11 x64용이며 기존 사용자 DB와 AI 설정은 업데이트 시 유지합니다. 자세한 빌드·설치·검증 절차는 [Windows 배포 안내](docs/WINDOWS_DISTRIBUTION.md)를 참고하십시오.
 
 Windows와 macOS용 오프라인 시연 앱입니다. 모든 기본 데이터는 가상 데이터입니다. 실제 군 운용 자료를 입력하지 마십시오.
 

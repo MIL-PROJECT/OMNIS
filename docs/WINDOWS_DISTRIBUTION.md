@@ -36,4 +36,8 @@ E2E는 `OMNIS_E2E_DATA`로 격리된 가상 프로필을 사용하며 실제 사
 
 ## 2026-11-04 검증 및 전달본
 
-Windows 설치·기능 검증은 통과했으며, Actions 저장 용량 한도로 설치 파일 업로드만 실패했습니다. 동일 소스의 로컬 EXE는 `release/OMNIS-1.1.10-windows-x64-setup.exe`에 보관합니다. 검증 범위·체크섬·빌드 차이는 [검증 기록](WINDOWS_VALIDATION_20261104.md)을 참고하십시오.
+현재 전달본은 `release/OMNIS-1.1.11-windows-x64-setup.exe`입니다. Windows 150% 배율에서 최초 창이 작업 영역을 벗어나던 문제를 수정하고 실제 설치했습니다. SHA-256은 `e13deb40835ed8e873b16688d7d5cf5c36cce2143538f0d38f27dc01b2a87d34`이며 서명은 없습니다. 99개 화면 상태·387개 크기 조합, 100%·125%·150% 앱 배율 재현, 단위·통합 테스트 160개와 설치본 업무 회귀 검사 3종을 통과했습니다.
+
+현재 PC에는 `%LOCALAPPDATA%\Programs\OMNIS\OMNIS.exe`로 설치했습니다. 원본 사용자 DB의 설치·검증 전후 SHA-256이 일치합니다. 최신 기록은 [화면·배율 검증 보고서](WINDOWS_UI_VALIDATION_20261104.md), 체크섬은 `release/SHA256-windows-x64.txt`를 참고하십시오. 1.1.10 설치본 E2E 13종과 DB 업그레이드 검증 기록은 [이전 로컬 보고서](../release/windows-validation-20261104-local/WINDOWS_LOCAL_VALIDATION.md)에 보존합니다. `release/`는 Git에 포함하지 않습니다.
+
+기존 Windows CI 검증 및 Mac 교차 빌드 전달본의 이력은 [검증 기록](WINDOWS_VALIDATION_20261104.md)에 별도로 보존합니다. CI의 설치 파일 업로드 실패는 Actions 저장 용량 한도 때문이며, 이번 로컬 검증·설치 파일 생성과 구분합니다.
