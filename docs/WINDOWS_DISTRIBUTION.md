@@ -33,3 +33,7 @@ pnpm dist:win
 5. EXE와 SHA256을 `omnis-windows-x64` 아티팩트에 저장.
 
 E2E는 `OMNIS_E2E_DATA`로 격리된 가상 프로필을 사용하며 실제 사용자의 DB를 변경하지 않습니다. CI 검증은 설치본의 주요 업무 흐름에 대한 자동 검증이며 개별 기관 PC의 보안 정책, 백신, 실제 외부 연동에 대한 현장 검증을 대체하지 않습니다.
+
+## 2026-11-04 검증 및 전달본
+
+Windows 설치·기능 검증은 통과했으며, Actions 저장 용량 한도로 설치 파일 업로드만 실패했습니다. 동일 소스의 로컬 EXE는 `release/OMNIS-1.1.10-windows-x64-setup.exe`에 보관합니다. 검증 범위·체크섬·빌드 차이는 [검증 기록](WINDOWS_VALIDATION_20261104.md)을 참고하십시오.
