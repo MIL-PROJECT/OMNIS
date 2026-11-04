@@ -9,3 +9,7 @@ docs/ai-prompts/v4/*.txt text eol=lf
 
 # Keep spreadsheet-compatible CSV CRLF while checking genuine whitespace errors.
 /output/evaluation-demo/**/*.csv whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+
+# Preserve the original Windows CRLF in generated JSON evidence.
+/output/final-prep-plan/**/*.json whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+/output/pdf/final-prep-summary-20261104/*.json whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

@@ -1,0 +1,24 @@
+{
+  "docx": "C:\\Users\\admin\\alex\\alex_study\\military_project\\output\\final-prep-plan\\20261104\\OMNIS_본선준비_3일_실행계획.docx",
+  "sha256": "77a01410851a901e4424ebd64f04bb4f473f0e25d0ee9b9243e042494bc28646",
+  "pages": 13,
+  "all_13_pages_visually_reviewed": true,
+  "zip_crc_ok": true,
+  "all_21_work_items_present": true,
+  "no_overlap": true,
+  "daily_minutes": {
+    "A1": 180,
+    "B1": 180,
+    "C1": 180,
+    "A2": 180,
+    "B2": 180,
+    "C2": 180,
+    "A3": 180,
+    "B3": 180,
+    "C3": 180
+  },
+  "planned_person_hours": 22.5,
+  "reserve_person_hours": 4.5,
+  "renderer": "Microsoft Word PDF export and Poppler PNG",
+  "program_tests_rerun": false
+}
